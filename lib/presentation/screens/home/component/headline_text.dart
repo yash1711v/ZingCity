@@ -28,11 +28,15 @@ class HeadlineText extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onTap,
-            child: const CustomTextStyle(
-              text: 'See All',
-              fontSize: 16.0,
-              color: Color(0xFF7E8BA0),
-            ),
+            child: const Text('See All',
+                  style: TextStyle(
+                    color: Color(0xFF30469A),
+                    fontSize: 18,
+                    fontFamily: 'DM Sans',
+                    fontWeight: FontWeight.w300,
+                    height: 0,
+                  ),
+                )
           ),
         ],
       ),

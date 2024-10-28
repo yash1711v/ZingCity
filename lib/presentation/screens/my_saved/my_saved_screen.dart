@@ -16,15 +16,18 @@ import '../../widget/page_refresh.dart';
 import '../home/component/single_property_card_view.dart';
 
 class MySavedScreen extends StatefulWidget {
-  const MySavedScreen({super.key});
+  final TabController? tabController;
+  const MySavedScreen({super.key,  this.tabController});
 
   @override
   State<MySavedScreen> createState() => _MySavedScreenState();
 }
 
-class _MySavedScreenState extends State<MySavedScreen> {
+class _MySavedScreenState extends State<MySavedScreen>{
+
   @override
   void initState() {
+
     Future.microtask(
         () => context.read<WishlistCubit>().getWishListProperties());
     super.initState();
@@ -53,21 +56,12 @@ class _MySavedScreenState extends State<MySavedScreen> {
           },
           builder: (context, state) {
             // final wishlist = state.wishlistState;
-            if (state is WishListLoading) {
-              return const LoadingWidget();
-            } else if (state is WishListError) {
-              if (state.statusCode == 503) {
-                return WishlistLoadedWidget(wishlist: wishlistCubit.wishlist);
-              } else if (state.statusCode == 401) {
-                return _buildLoginButton(context);
-              } else {
-                return FetchErrorText(text: state.message);
-              }
-            } else if (state is WishListLoaded) {
-              return WishlistLoadedWidget(
-                  wishlist: state.wishlist.properties!.data!);
-            }
-            return WishlistLoadedWidget(wishlist: wishlistCubit.wishlist);
+
+            return TabBarView(
+                controller: widget.tabController,
+                children: const [
+
+                ]);
             // return const Center(
             //     child: CustomTextStyle(text: 'Something went wrong'));
           },

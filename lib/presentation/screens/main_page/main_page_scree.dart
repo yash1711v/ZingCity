@@ -39,17 +39,19 @@ class MainPageScreen extends StatefulWidget {
   State<MainPageScreen> createState() => _MainPageScreenState();
 }
 
-class _MainPageScreenState extends State<MainPageScreen> {
+class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStateMixin {
   final _homeController = MainController();
+  late TabController _tabController;
   late List<Widget> screenList;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     screenList = [
       const HomeScreen(),
       //const MyDealsScreen(),
-      const MySavedScreen(),
+      MySavedScreen(tabController: _tabController,),
       const DashboardScreen(),
       const AllSettingScreen(),
       // const OrderScreen(),
@@ -86,7 +88,7 @@ class _MainPageScreenState extends State<MainPageScreen> {
       },
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: const Size(360, 154.16),
+            preferredSize: const Size(360, 300),
             child: StreamBuilder<int>(
                 initialData: 0,
                 stream: _homeController.naveListener.stream,
@@ -94,7 +96,7 @@ class _MainPageScreenState extends State<MainPageScreen> {
                   int item = snapshot.data ?? 0;
                 return Container(
                   width: 360,
-                  height: 154.16,
+                  height: item == 0?200:240,
                   decoration: const BoxDecoration(
                     color: Color(0xFFE7EBF4),
                     boxShadow: [
@@ -124,8 +126,8 @@ class _MainPageScreenState extends State<MainPageScreen> {
                               decoration: ShapeDecoration(
                                 color: const Color(0xFF30469A),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                shadows: [
-                                  const BoxShadow(
+                                shadows: const [
+                                  BoxShadow(
                                     color: Color(0x19000000),
                                     blurRadius: 8,
                                     offset: Offset(0, 0),
@@ -168,18 +170,46 @@ class _MainPageScreenState extends State<MainPageScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10,),
-                      Visibility(
-                          visible: item == 0,
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Search for properties',
+                      const SizedBox(height: 35,),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Search',
+                            prefixIcon: Icon(Icons.search),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                       Visibility(
+                         visible: item != 0,
+                         child: TabBar(
+                           indicatorSize: TabBarIndicatorSize.tab,
+                           dividerColor: Colors.transparent,
+                           indicatorWeight: 3,
+                          controller: _tabController,
+                          unselectedLabelColor: Colors.grey,
+                          labelColor: Color(0xFF30469A),
+                          tabs: const [
+                            Text(
+                              'Residential',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w500,
+                                height: 0,
                               ),
-
-                            ),
-                          ),)
+                            ) ,  Text(
+                              'Commercial',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w500,
+                                height: 0,
+                              ),
+                            )
+                          ],),
+                       )
                     ],
                   ),
                 );

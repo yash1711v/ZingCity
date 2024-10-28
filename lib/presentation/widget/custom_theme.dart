@@ -7,7 +7,7 @@ class CustomTheme {
   static final theme = ThemeData(
     scaffoldBackgroundColor: scaffoldBackground,
     // scaffoldBackgroundColor: const Color(0xFFEDEDED),
-    appBarTheme: const AppBarTheme(elevation: 0.0, shadowColor: transparent,scrolledUnderElevation: 0.0),
+    appBarTheme: const AppBarTheme(elevation: 0.0, shadowColor: transparent,scrolledUnderElevation: 0.0,  color: Color(0xFFE7EBF4),),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       // selectedLabelStyle: TextStyle(color: primaryColor),
       elevation: 3,
