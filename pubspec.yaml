@@ -51,6 +51,7 @@ dependencies:
       url: https://github.com/Mythar/flutter_font_awesome_web_names
       ref: master
   file_picker: ^8.0.6
+  bottom_bar: ^2.0.3
 
 dev_dependencies:
   flutter_test:

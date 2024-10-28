@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,74 +15,54 @@ class MyBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = MainController();
     return Container(
-      height: Platform.isAndroid ? 80 : 110,
-      decoration: const BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
+        width: 324,
+        height: 60,
+        decoration: ShapeDecoration(
+          color: const Color(0x3330469A),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
         ),
-      ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         child: StreamBuilder(
-          initialData: 0,
-          stream: controller.naveListener.stream,
-          builder: (_, AsyncSnapshot<int> index) {
-            int selectedIndex = index.data ?? 0;
-            return BottomNavigationBar(
-              showUnselectedLabels: true,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.white,
-              selectedLabelStyle:
-                  const TextStyle(fontSize: 14, color: blackColor),
-              unselectedLabelStyle:
-                  const TextStyle(fontSize: 14, color: grayColor),
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  tooltip: 'Home',
-                  icon: _navIcon(KImages.home),
-                  activeIcon: _navIcon(KImages.homeActive),
-                  label: "Home",
-                ),
-                // BottomNavigationBarItem(
-                //   tooltip: 'My Deals',
-                //   icon: _navIcon(KImages.myDeal),
-                //   activeIcon: _navIcon(KImages.myDealActive),
-                //   label: 'My Deals',
-                // ),
-                BottomNavigationBarItem(
-                  tooltip: "Saved",
-                  icon: _navIcon(KImages.saved),
-                  activeIcon: _navIcon(KImages.savedActive),
-                  label: 'Saved',
-                ),
-                BottomNavigationBarItem(
-                  tooltip: "Dashboard",
-                  icon: _navIcon(KImages.dashboard),
-                  activeIcon: _navIcon(KImages.dashboardActive),
-                  label: 'Dashboard',
-                ),
-                BottomNavigationBarItem(
-                  tooltip: 'Setting',
-                  activeIcon: _navIcon(KImages.settingActive),
-                  icon: _navIcon(KImages.setting),
-                  label: 'Setting',
-                ),
-              ],
-              // type: BottomNavigationBarType.fixed,
-              currentIndex: selectedIndex,
-              onTap: (int index) {
-                controller.naveListener.sink.add(index);
-              },
-            );
-          },
-        ),
-      ),
+            stream: controller.naveListener.stream,
+            builder: (_, AsyncSnapshot<int> index) {
+              int selectedIndex = index.data ?? 0;
+              return BottomBar(
+                showActiveBackgroundColor: false,
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                selectedIndex: selectedIndex,
+                onTap: (int index) {
+                  controller.naveListener.sink.add(index);
+                },
+                items: const <BottomBarItem>[
+                  BottomBarItem(
+                    icon: ImageIcon(AssetImage("assets/images/solar_home-2-outline.png")),
+                    title: Text('Home'),
+                    activeColor: Color(0xfff30469A),
+                  ),
+                  BottomBarItem(
+                    icon: ImageIcon(AssetImage("assets/images/eventIcon.png")),
+                    title: Text('RENT'),
+                    activeColor: Color(0xfff30469A),
+                  ),
+                  BottomBarItem(
+                    icon: ImageIcon(AssetImage("assets/images/iconamoon_profile-light.png")),
+                    title: Text('BUY'),
+                    activeColor: Color(0xfff30469A),
+                  ),
+                  BottomBarItem(
+                    icon: ImageIcon(AssetImage("assets/images/ph_heart.png")),
+                    title: Text('Settings'),
+                    activeColor: Color(0xfff30469A),
+                  ),
+                ],
+              );
+            })
     );
   }
 
-  Widget _navIcon(String path) => Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: SvgPicture.asset(path));
+  Widget _navIcon(String path) =>
+      Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: SvgPicture.asset(path));
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '/presentation/utils/utils.dart';
@@ -22,16 +23,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final String subTitle =
-      "I am happy to see you again\nContinue when you left off by login in";
-  bool isShow = true;
-
-  void showPassword() {
-    setState(() {
-      isShow = !isShow;
-    });
-  }
-
   final spacer = const SizedBox(height: 20.0);
 
   @override
@@ -75,195 +66,226 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
       child: Scaffold(
-        body: SingleChildScrollView(
-          // physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          child: SizedBox(
-            height: size.height,
-            width: size.width,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CustomImage(
-                  path: RemoteUrls.imageUrl(appSetting.loginBgImage) ??
-                      KImages.loginBackgroundImage,
-                  fit: BoxFit.cover,
+        body: Column(
+          children: [
+            Container(
+              width: size.width,
+              height: 800,
+              decoration: const ShapeDecoration(
+                color: Color(0xFFE3EFF8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(300),
+                    bottomRight: Radius.circular(300),
+                  ),
                 ),
-                Positioned.fill(
-                  top: size.height * 0.14,
-                  // left: size.width * 0.05,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 100),
+                  Image.asset(
+                    "assets/Yash/images/ZingCityLogo.png",
+                    width: 74.2,
+                    height: 51.91,
+                  ),
+                  const SizedBox(height: 35),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Row(
                       children: [
-                        const CustomTextStyle(
-                          text: 'Welcome Back!',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24.0,
-                          color: whiteColor,
-                        ),
-                        const SizedBox(height: 5.0),
-                        CustomTextStyle(
-                          text: subTitle,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0,
-                          height: 1.8,
-                          color: whiteColor,
-                        ),
-                        SizedBox(height: size.height * 0.04),
-                        BlocBuilder<LoginBloc, LoginModelState>(
-                          builder: (context, state) {
-                            final login = state.state;
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  initialValue: state.text,
-                                  onChanged: (value) => loginBloc
-                                      .add(LoginEvenEmailOrPhone(value)),
-                                  decoration: InputDecoration(
-                                    prefixIcon:
-                                        credentialIcon(KImages.emailIcon),
-                                    hintText: 'your email address',
-                                  ),
-                                ),
-                                if (login is LoginStateFormInvalid) ...[
-                                  if (login.error.email.isNotEmpty)
-                                    ErrorText(text: login.error.email.first)
-                                ]
-                              ],
-                            );
-                          },
-                        ),
-                        spacer,
-                        BlocBuilder<LoginBloc, LoginModelState>(
-                          builder: (context, state) {
-                            final login = state.state;
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextFormField(
-                                  keyboardType: TextInputType.visiblePassword,
-                                  initialValue: state.password,
-                                  onChanged: (value) =>
-                                      loginBloc.add(LoginEventPassword(value)),
-                                  decoration: InputDecoration(
-                                    prefixIcon:
-                                        credentialIcon(KImages.lockIcon),
-                                    hintText: 'your password',
-                                    suffixIcon: IconButton(
-                                      splashRadius: 20.0,
-                                      onPressed: showPassword,
-                                      icon: Icon(
-                                        isShow
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                        color: grayColor,
-                                        size: 20.0,
-                                      ),
-                                    ),
-                                  ),
-                                  obscureText: isShow,
-                                ),
-                                if (state.text.isNotEmpty)
-                                  if (login is LoginStateFormInvalid) ...[
-                                    if (login.error.password.isNotEmpty)
-                                      ErrorText(
-                                          text: login.error.password.first)
-                                  ]
-                              ],
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const SizedBox(),
-                            GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, RouteNames.forgotPasswordScreen),
-                              child: Text(
-                                'Forgot Password?',
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w500,
-                                    color: whiteColor,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 15.0),
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 14.0),
-                        BlocBuilder<LoginBloc, LoginModelState>(
-                          buildWhen: (previous, current) =>
-                              previous.state != current.state,
-                          builder: (context, state) {
-                            if (state.state is LoginStateLoading) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            }
-                            return PrimaryButton(
-                              onPressed: () {
-                                Utils.closeKeyBoard(context);
-                                loginBloc.add(const LoginEventSubmit());
-                              },
-                              text: 'Login',
-                              borderRadiusSize: 5.0,
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const CustomTextStyle(
-                              text: "Don't have an account? ",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17.0,
-                              color: whiteColor,
-                            ),
-                            GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, RouteNames.signUpScreen),
-                              child: const CustomTextStyle(
-                                text: 'Sign Up',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17.0,
-                                color: yellowColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20.0),
-                        Center(
-                          child: TextButton(
-                            onPressed: () => Navigator.pushNamed(
-                                context, RouteNames.mainPageScreen),
-                            child: const CustomTextStyle(
-                              textAlign: TextAlign.center,
-                              text: "Guest Login",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20.0,
-                              color: greenColor,
-                              decoration: TextDecoration.underline,
-                            ),
+                        Text(
+                          'Enter your Phone Number',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.6000000238418579),
+                            fontSize: 22,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w700,
+                            height: 0,
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: size.height * 0.03,
-                  right: size.width * 0.05,
-                  child: Utils.defaultIcon(context),
-                ),
-              ],
+                  const SizedBox(height: 17),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "You'll get a verification code from us.",
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.4000000059604645),
+                            fontSize: 13,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w400,
+                            height: 0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 17),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: BlocBuilder<LoginBloc, LoginModelState>(
+                      builder: (context, state) {
+                        final login = state.state;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              keyboardType: TextInputType.number,
+                              initialValue: state.text,
+                              onChanged: (value) =>
+                                  loginBloc.add(LoginEvenEmailOrPhone(value)),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black
+                                        .withOpacity(0.10000000149011612),
+                                  ),
+                                ),
+                                prefixIcon: SizedBox(
+                                  width: 40.0,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10.0),
+                                        child: Text(
+                                          '+91',
+                                          style: TextStyle(
+                                            color: Colors.black
+                                                .withOpacity(0.4000000059604645),
+                                            fontSize: 15,
+                                            fontFamily: 'DM Sans',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                hintText: 'Number',
+                              ),
+                            ),
+                            if (login is LoginStateFormInvalid) ...[
+                              if (login.error.email.isNotEmpty &&
+                                  login.error.email.length < 10)
+                                ErrorText(text: login.error.email.first)
+                            ]
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 17),
+                  SvgPicture.asset(
+                    "assets/Yash/images/orImage.svg",
+                    height: 22,
+                    width: 0,
+                  ),
+                  const SizedBox(height: 47),
+                  Container(
+                    width: 324,
+                    height: 55,
+                    decoration: ShapeDecoration(
+                      color: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(width: 1, color: Color(0xFF398BCB)),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                        elevation: MaterialStateProperty.all(0.0),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                      ),
+                        onPressed: () {},
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/Yash/images/mailIcon.png", width: 35, height: 35,),
+                            const SizedBox(width: 15),
+                            const Text(
+                              'Login with Gmail',
+                              style: TextStyle(
+                                color: Color(0xFF398BCB),
+                                fontSize: 15,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0,
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
+                  const SizedBox(height: 27),
+                  SizedBox(
+                    width: 400,
+                    height: 48,
+                    child: PrimaryButton(
+                      text: 'Send Otp',
+                      onPressed: () {
+                        // loginBloc.add(const LoginEventSubmit());
+                        Navigator.pushReplacementNamed(
+                            context, RouteNames.verificationScreen,arguments: false);
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
+            Spacer(),
+            SizedBox(
+              width: 324,
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'You accept our ',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6000000238418579),
+                        fontSize: 13,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Terms & Conditions & Privacy Policy',
+                      style: TextStyle(
+                        color: Color(0xFF398BCB),
+                        fontSize: 13,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w400,
+                        decoration: TextDecoration.underline,
+                        height: 0,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' by clicking the login button.',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6000000238418579),
+                        fontSize: 13,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 25),
+          ],
         ),
       ),
     );

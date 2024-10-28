@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:real_estate/logic/cubit/forgot_password/forgot_password_cubit.dart';
+import 'package:real_estate/presentation/screens/main_page/main_page_scree.dart';
 import 'package:real_estate/presentation/widget/custom_test_style.dart';
 
+import '../../widget/primary_button.dart';
+import '../main_page/main_page_scree.dart';
+import '../main_page/main_page_scree.dart';
 import '/presentation/router/route_names.dart';
 import '../../../../presentation/utils/constraints.dart';
 import '../../../../presentation/utils/k_images.dart';
@@ -49,121 +54,273 @@ class _VerificationScreenState extends State<VerificationScreen> {
     // print('forgotEmail ${forgotCubit.emailController.text}');
     // print('code ${forgotCubit.codeController.text}');
     return Scaffold(
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: MultiBlocListener(
-          listeners: [
-            BlocListener<SignUpBloc, SignUpModelState>(
-                listener: (context, state) {
-              final code = state.state;
-              if (code is SignUpStateLoading) {
-                Utils.loadingDialog(context);
-              } else {
-                Utils.closeDialog(context);
-                if (code is SignUpStateFormError) {
-                  Utils.errorSnackBar(context, code.errorMsg);
-                } else if (code is AccountActivateSuccess) {
-                  Utils.showSnackBar(context, code.msg);
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, RouteNames.loginScreen, (route) => false);
-                  bloc.pinController.clear();
-                  //bloc.add(const SignUpEventFormDataClear());
-                } else if (code is ResendCodeState) {
-                  Utils.showSnackBar(context, code.message);
-                  setState(() => finishTime = true);
-                }
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<SignUpBloc, SignUpModelState>(
+              listener: (context, state) {
+            final code = state.state;
+            if (code is SignUpStateLoading) {
+              Utils.loadingDialog(context);
+            } else {
+              Utils.closeDialog(context);
+              if (code is SignUpStateFormError) {
+                Utils.errorSnackBar(context, code.errorMsg);
+              } else if (code is AccountActivateSuccess) {
+                Utils.showSnackBar(context, code.msg);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RouteNames.loginScreen, (route) => false);
+                bloc.pinController.clear();
+                //bloc.add(const SignUpEventFormDataClear());
+              } else if (code is ResendCodeState) {
+                Utils.showSnackBar(context, code.message);
+                setState(() => finishTime = true);
               }
-            }),
-            BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
-                listener: (context, state) {
-              if (state is ForgotPasswordStateLoading) {
-                Utils.loadingDialog(context);
-              } else {
-                Utils.closeDialog(context);
-                if (state is VerifyingForgotPasswordCodeLoaded) {
-                  Navigator.pushNamed(context, RouteNames.updatePasswordScreen);
-                }
+            }
+          }),
+          BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
+              listener: (context, state) {
+            if (state is ForgotPasswordStateLoading) {
+              Utils.loadingDialog(context);
+            } else {
+              Utils.closeDialog(context);
+              if (state is VerifyingForgotPasswordCodeLoaded) {
+                Navigator.pushNamed(context, RouteNames.updatePasswordScreen);
               }
-            })
-          ],
-          child: SizedBox(
-            height: size.height,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                const CustomImage(
-                    path: KImages.verifyBackgroundImage, fit: BoxFit.cover),
-                Positioned.fill(
-                  top: size.height * 0.14,
-                  // left: size.width * 0.05,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            }
+          })
+        ],
+        child:
+        Column(
+          children: [
+            Container(
+              width: size.width,
+              height: 800,
+              decoration: const ShapeDecoration(
+                color: Color(0xFFE3EFF8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(300),
+                    bottomRight: Radius.circular(300),
+                  ),
+                ),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 100),
+                  Image.asset(
+                    "assets/Yash/images/ZingCityLogo.png",
+                    width: 74.2,
+                    height: 51.91,
+                  ),
+                  const SizedBox(height: 35),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Row(
                       children: [
-                        const CustomTextStyle(
-                            text: 'Verification Code',
-                            fontSize: 24.0,
+                        Text(
+                          'Verify OTP',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.6000000238418579),
+                            fontSize: 22,
+                            fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w700,
-                            color: whiteColor),
-                        SizedBox(height: size.height * 0.04),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Pinput(
-                            controller: bloc.pinController,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            defaultPinTheme: PinTheme(
-                                height: 45.0.h,
-                                width: 45.0.h,
-                                margin: const EdgeInsets.only(right: 12.0),
-                                decoration: BoxDecoration(
-                                  color: whiteColor,
-                                  borderRadius: borderRadius,
-                                ),
-                                textStyle: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24.0,
-                                  color: blackColor,
-                                )),
-                            onCompleted: (v) {
-                              if (widget.isVerification) {
-                                // print('new user create');
-                                bloc.add(AccountActivateCodeSubmit(v));
-                              } else {
-                                print('forgot password');
-                                forgotCubit.codeController.text = v;
-                                forgotCubit.verifyForgotPasswordCode();
-                              }
-                            },
-                            length: 6,
+                            height: 0,
                           ),
-                        ),
-                        Utils.verticalSpace(20),
-                        /* BlocBuilder<SignUpBloc, SignUpModelState>(
-                        builder: (context, state) {
-                          if (state.state is SignUpStateLoading) {
-                            return const CircularProgressIndicator();
-                          }
-                          // return _buildContinueBtn();
-                        },
-                      ),*/
-                        const SizedBox(height: 10.0),
-                        widget.isVerification
-                            ? verificationWidget()
-                            : const SizedBox(),
+                        )
                       ],
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: size.height * 0.03,
-                  right: size.width * 0.05,
-                  child: Utils.defaultIcon(context),
-                )
-              ],
+                  const SizedBox(height: 17),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 324,
+                          child: Text(
+                            'We have sent a verification code to your number *********01',
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.4000000059604645),
+                              fontSize: 13,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 17),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16,right: 16),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Pinput(
+                        controller: bloc.pinController,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        defaultPinTheme: PinTheme(
+                            width: 80.90,
+                            height: 59.36,
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: borderRadius,
+                            ),
+                            textStyle: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 24.0,
+                              color: blackColor,
+                            )),
+                        onCompleted: (v) {
+                          // if (widget.isVerification) {
+                          //   // print('new user create');
+                          //   bloc.add(AccountActivateCodeSubmit(v));
+                          // } else {
+                          //   forgotCubit.codeController.text = v;
+                          //   forgotCubit.verifyForgotPasswordCode();
+                          // }
+                        },
+                        length: 6,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 27),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Didn’t receive an OTP?',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.4000000059604645),
+                            fontSize: 13,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w400,
+                            height: 0,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        GestureDetector(
+                          onTap: (){},
+                          child: const Text(
+                            'Resend',
+                            style: TextStyle(
+                              color: Color(0xFF30469A),
+                              fontSize: 13,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                              height: 0,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 31),
+                  SizedBox(
+                    width: 400,
+                    height: 48,
+                    child: PrimaryButton(
+                      text: 'Send Otp',
+                      onPressed: () {
+                        // if (widget.isVerification) {
+                        //   // print('new user create');
+                        //   bloc.add(AccountActivateCodeSubmit(v));
+                        // } else {
+                        //   print('forgot password');
+                        //   forgotCubit.codeController.text = v;
+                        //   forgotCubit.verifyForgotPasswordCode();
+                        // }
+                        // loginBloc.add(const LoginEventSubmit());
+                        Navigator.pushReplacementNamed(
+                            context, RouteNames.mainPageScreen);
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
+          ],
         ),
+        // SizedBox(
+        //   height: size.height,
+        //   child: Stack(
+        //     fit: StackFit.expand,
+        //     children: [
+        //       const CustomImage(
+        //           path: KImages.verifyBackgroundImage, fit: BoxFit.cover),
+        //       Positioned.fill(
+        //         top: size.height * 0.14,
+        //         // left: size.width * 0.05,
+        //         child: Padding(
+        //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        //           child: Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               const CustomTextStyle(
+        //                   text: 'Verification Code',
+        //                   fontSize: 24.0,
+        //                   fontWeight: FontWeight.w700,
+        //                   color: whiteColor),
+        //               SizedBox(height: size.height * 0.04),
+        //               Align(
+        //                 alignment: Alignment.center,
+        //                 child: Pinput(
+        //                   controller: bloc.pinController,
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   defaultPinTheme: PinTheme(
+        //                       height: 45.0.h,
+        //                       width: 45.0.h,
+        //                       margin: const EdgeInsets.only(right: 12.0),
+        //                       decoration: BoxDecoration(
+        //                         color: whiteColor,
+        //                         borderRadius: borderRadius,
+        //                       ),
+        //                       textStyle: GoogleFonts.poppins(
+        //                         fontWeight: FontWeight.w700,
+        //                         fontSize: 24.0,
+        //                         color: blackColor,
+        //                       )),
+        //                   onCompleted: (v) {
+        //                     if (widget.isVerification) {
+        //                       // print('new user create');
+        //                       bloc.add(AccountActivateCodeSubmit(v));
+        //                     } else {
+        //                       print('forgot password');
+        //                       forgotCubit.codeController.text = v;
+        //                       forgotCubit.verifyForgotPasswordCode();
+        //                     }
+        //                   },
+        //                   length: 6,
+        //                 ),
+        //               ),
+        //               Utils.verticalSpace(20),
+        //               /* BlocBuilder<SignUpBloc, SignUpModelState>(
+        //               builder: (context, state) {
+        //                 if (state.state is SignUpStateLoading) {
+        //                   return const CircularProgressIndicator();
+        //                 }
+        //                 // return _buildContinueBtn();
+        //               },
+        //             ),*/
+        //               const SizedBox(height: 10.0),
+        //               widget.isVerification
+        //                   ? verificationWidget()
+        //                   : const SizedBox(),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //       Positioned(
+        //         bottom: size.height * 0.03,
+        //         right: size.width * 0.05,
+        //         child: Utils.defaultIcon(context),
+        //       )
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

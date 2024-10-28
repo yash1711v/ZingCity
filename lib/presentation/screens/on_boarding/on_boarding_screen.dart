@@ -254,6 +254,48 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ],
                   )),
             ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            GestureDetector(
+              onTap: () {
+                context.read<AppSettingCubit>().cachOnBoarding();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RouteNames.loginScreen, (route) => false);
+              },
+              child: Text(
+                'Login/ Sign up',
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.5),
+                  fontSize: 18,
+                  fontFamily: 'DM Sans',
+                  fontWeight: FontWeight.w400,
+                  decoration: TextDecoration.underline,
+                  height: 0,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.01,
+            ),
+            GestureDetector(
+              onTap: (){},
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Login as Guest',
+                    style: TextStyle(
+                      color: Color(0xFF30469A),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

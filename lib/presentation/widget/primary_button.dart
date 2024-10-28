@@ -31,10 +31,9 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(borderRadiusSize);
     return ElevatedButton(
-
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(bgColor),
+        backgroundColor: MaterialStateProperty.all(Color(0xFF30469A)),
         splashFactory: NoSplash.splashFactory,
         shadowColor: MaterialStateProperty.all(transparent),
         overlayColor: MaterialStateProperty.all(transparent),

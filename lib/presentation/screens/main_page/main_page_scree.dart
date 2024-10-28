@@ -26,6 +26,7 @@ import '../../../logic/cubit/support/support_cubit.dart';
 import '../../../logic/cubit/wishlist/wishlist_cubit.dart';
 import '../all_settings/all_settings_screen.dart';
 import '../dashboard/dashboard_screen.dart';
+import '../home/component/search_field.dart';
 import '../home/home_screen.dart';
 import '../my_saved/my_saved_screen.dart';
 import 'component/bottom_navigation_bar.dart';
@@ -74,7 +75,6 @@ class _MainPageScreenState extends State<MainPageScreen> {
     context.read<CompanyCubit>().getAgencyKyc();
     context.read<CompanyCubit>().getCompanyProfile();
     context.read<OrderCubit>().getAllOrders();
-
   }
 
   @override
@@ -85,6 +85,106 @@ class _MainPageScreenState extends State<MainPageScreen> {
         return true;
       },
       child: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: const Size(360, 154.16),
+            child: StreamBuilder<int>(
+                initialData: 0,
+                stream: _homeController.naveListener.stream,
+              builder: (context, snapshot) {
+                  int item = snapshot.data ?? 0;
+                return Container(
+                  width: 360,
+                  height: 154.16,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFE7EBF4),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x1E000000),
+                        blurRadius: 8,
+                        offset: Offset(0, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50.0,left: 16,right: 16),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "assets/Yash/images/ZingCityLogo.png",
+                              width: 50.03,
+                              height: 35.01,
+                            ),
+                            const Spacer(),
+                            Container(
+                              width: 95.65,
+                              height: 30.90,
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFF30469A),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                shadows: [
+                                  const BoxShadow(
+                                    color: Color(0x19000000),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 0),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/Yash/images/post_ad_button.png"),
+                                  const SizedBox(width: 5.0),
+                                  const Text(
+                                    'Post Ad',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'DM Sans',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 10,),
+                            Container(
+                              width: 31,
+                              height: 31,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: ShapeDecoration(
+                                color: const Color(0x3330469A),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                              ),
+                              child: const Icon(Icons.person, color: Color(0xFF30469A), size: 20,),
+                            ),
+                            const SizedBox(width: 10,),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      Visibility(
+                          visible: item == 0,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Search for properties',
+                              ),
+
+                            ),
+                          ),)
+                    ],
+                  ),
+                );
+              }
+            )),
         body: StreamBuilder<int>(
           initialData: 0,
           stream: _homeController.naveListener.stream,
@@ -96,7 +196,10 @@ class _MainPageScreenState extends State<MainPageScreen> {
         bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeDataLoaded) {
-              return const MyBottomNavigationBar();
+              return const Padding(
+                padding: EdgeInsets.only(bottom: 13.0, left: 18, right: 18),
+                child: MyBottomNavigationBar(),
+              );
             } else {
               return const SizedBox.shrink();
             }
