@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import '/data/data_provider/remote_url.dart';
 import '../../../../presentation/utils/constraints.dart';
-import '../../../../presentation/widget/custom_images.dart';
 import '../../../../presentation/widget/custom_test_style.dart';
 import '../../../../presentation/widget/primary_button.dart';
 import '../../../logic/cubit/setting/app_setting_cubit.dart';
@@ -29,29 +26,236 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     //print(size.height);
     return Scaffold(
       backgroundColor: whiteColor,
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: Container(
-              width: size.width,
-              height: 400,
-              decoration: const ShapeDecoration(
-                color: Color(0x23398BCB),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(500),
-                    bottomRight: Radius.circular(500),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Container(
+                width: size.width,
+                height: 400,
+                decoration: const ShapeDecoration(
+                  color: Color(0x23398BCB),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(500),
+                      bottomRight: Radius.circular(500),
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(65.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        "assets/Yash/images/zingCityIcon.png",
+                        width: 195,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              child: Image.asset("assets/Yash/images/zingCityIcon.png",
-                width: 40,
-                height: 40,
-              ),
             ),
-          )
-        ],
+            SizedBox(
+              height: size.height * 0.01,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 151.98,
+                  height: 140.41,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          "assets/Yash/images/OnboardingImageIcon.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 25.0),
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Buy',
+                          style: TextStyle(
+                            color: Color(0xFF30469A),
+                            fontSize: 20,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 0.0),
+                          child: ImageIcon(
+                            AssetImage("assets/Yash/images/arrowIcon.png"),
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    )),
+                  ),
+                ),
+                Container(
+                  width: 151.98,
+                  height: 140.41,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          "assets/Yash/images/OnboardingImageIcon.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 25.0),
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Sell',
+                          style: TextStyle(
+                            color: Color(0xFF30469A),
+                            fontSize: 20,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 0.0),
+                          child: ImageIcon(
+                            AssetImage("assets/Yash/images/arrowIcon.png"),
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    )),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 151.98,
+                  height: 140.41,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          "assets/Yash/images/OnboardingImageIcon.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 25.0),
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Rent',
+                          style: TextStyle(
+                            color: Color(0xFF30469A),
+                            fontSize: 20,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 0.0),
+                          child: ImageIcon(
+                            AssetImage("assets/Yash/images/arrowIcon.png"),
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    )),
+                  ),
+                ),
+                Container(
+                  width: 151.98,
+                  height: 140.41,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          "assets/Yash/images/OnboardingImageIcon.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 25.0),
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Your Wish',
+                          style: TextStyle(
+                            color: Color(0xFF30469A),
+                            fontSize: 20,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 0.0),
+                          child: ImageIcon(
+                            AssetImage("assets/Yash/images/arrowIcon.png"),
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    )),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            SizedBox(
+              width: 322.98,
+              height: 74.02,
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    side: const BorderSide(color: Color(0xfff30469a), width: 3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/Yash/images/giftIcon.svg"),
+                      const SizedBox(width: 10,),
+                      const Text(
+                        'ZINGCITY Gift',
+                        style: TextStyle(
+                          color: Color(0xFF30469A),
+                          fontSize: 18,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
