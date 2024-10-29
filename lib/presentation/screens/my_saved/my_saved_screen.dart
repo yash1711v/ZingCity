@@ -57,11 +57,67 @@ class _MySavedScreenState extends State<MySavedScreen>{
           builder: (context, state) {
             // final wishlist = state.wishlistState;
 
-            return TabBarView(
-                controller: widget.tabController,
-                children: const [
-
-                ]);
+            return Column(
+              children: [
+                 Row(
+                  children: [
+                    const Text(
+                      '14 results found',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w300,
+                        height: 0,
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      width: 75.31,
+                      height: 25.82,
+                      decoration: ShapeDecoration(
+                        color: const Color(0x1930469A),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Filter',
+                            style: TextStyle(
+                              color: Color(0xFF30469A),
+                              fontSize: 14,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w300,
+                              height: 0,
+                            ),
+                          ),
+                          ImageIcon(AssetImage("assets/Yash/images/settings_filter.png",),size: 15,)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                TabBarView(
+                    controller: widget.tabController,
+                    children: const [
+                      Column(
+                        children: [
+                          Center(
+                            child: Text("Residential Property"),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Center(
+                            child: Text("Commercial Property"),
+                          )
+                        ],
+                      )
+                    ]),
+              ],
+            );
             // return const Center(
             //     child: CustomTextStyle(text: 'Something went wrong'));
           },
