@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate/logic/cubit/agency/agency_cubit.dart';
 import 'package:real_estate/logic/cubit/company/company_cubit.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
 
@@ -28,7 +27,7 @@ import '../all_settings/all_settings_screen.dart';
 import '../dashboard/dashboard_screen.dart';
 import '../home/component/search_field.dart';
 import '../home/home_screen.dart';
-import '../my_saved/my_saved_screen.dart';
+import '../rent_screen/rent_screen.dart';
 import 'component/bottom_navigation_bar.dart';
 import 'component/main_controller.dart';
 
@@ -51,9 +50,9 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
     screenList = [
       const HomeScreen(),
       //const MyDealsScreen(),
-      MySavedScreen(tabController: _tabController,),
-      const DashboardScreen(),
-      const AllSettingScreen(),
+      RentScreen(tabController: _tabController,),
+      BuyScreen(tabController: _tabController,),
+      const SavedScreen(),
       // const OrderScreen(),
       // Container(),
     ];
@@ -87,6 +86,7 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
         return true;
       },
       child: Scaffold(
+        extendBody: true,
         appBar: PreferredSize(
             preferredSize: const Size(360, 300),
             child: StreamBuilder<int>(
@@ -94,9 +94,23 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                 stream: _homeController.naveListener.stream,
               builder: (context, snapshot) {
                   int item = snapshot.data ?? 0;
+                  if(item == 2){
+                    _tabController = TabController(length: 3, vsync: this);
+                  } else {
+                    _tabController = TabController(length: 2, vsync: this);
+                  }
+                  screenList = [
+                    const HomeScreen(),
+                    //const MyDealsScreen(),
+                    RentScreen(tabController: _tabController,),
+                    BuyScreen(tabController: _tabController,),
+                    SavedScreen(),
+                    // const OrderScreen(),
+                    // Container(),
+                  ];
                 return Container(
                   width: 360,
-                  height: item == 0?200:240,
+                  height: item == 0 || item == 3?200:240,
                   decoration: const BoxDecoration(
                     color: Color(0xFFE7EBF4),
                     boxShadow: [
@@ -182,7 +196,7 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                       ),
                       Spacer(),
                        Visibility(
-                         visible: item != 0,
+                         visible: item == 1,
                          child: TabBar(
                            indicatorSize: TabBarIndicatorSize.tab,
                            dividerColor: Colors.transparent,
@@ -190,24 +204,79 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                           controller: _tabController,
                           unselectedLabelColor: Colors.grey,
                           labelColor: Color(0xFF30469A),
-                          tabs: const [
-                            Text(
-                              'Residential',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'DM Sans',
-                                fontWeight: FontWeight.w500,
-                                height: 0,
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: const Text(
+                                'Residential',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),
                               ),
-                            ) ,  Text(
-                              'Commercial',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'DM Sans',
-                                fontWeight: FontWeight.w500,
-                                height: 0,
+                            ) ,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: const Text(
+                                'Commercial',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),
                               ),
-                            )
+                            ) ,
+                          ],),
+                       ),
+                      Visibility(
+                         visible: item == 2,
+                         child: TabBar(
+                           indicatorSize: TabBarIndicatorSize.tab,
+                           dividerColor: Colors.transparent,
+                           indicatorWeight: 3,
+                          controller: _tabController,
+                          unselectedLabelColor: Colors.grey,
+                          labelColor: Color(0xFF30469A),
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: const Text(
+                                'Residential',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),
+                              ),
+                            ) ,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: const Text(
+                                'Commercial',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),
+                              ),
+                            ) ,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: const Text(
+                                'Agricultar',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),
+                              ),
+                            ) ,
                           ],),
                        )
                     ],

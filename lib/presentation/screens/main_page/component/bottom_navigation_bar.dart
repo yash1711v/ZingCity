@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../utils/constraints.dart';
 import '../../../utils/k_images.dart';
+import '../../../widget/custom_theme.dart';
 import 'main_controller.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
@@ -18,10 +19,17 @@ class MyBottomNavigationBar extends StatelessWidget {
         width: 324,
         height: 60,
         decoration: ShapeDecoration(
-          color: const Color(0x3330469A),
+          color:  CustomTheme.theme.scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
+          shadows: <BoxShadow>[
+            BoxShadow(
+              color:  Colors.black12,
+              blurRadius: 7,
+              offset: const Offset(0, 5),
+            ),
+          ],
         ),
         child: StreamBuilder(
             stream: controller.naveListener.stream,

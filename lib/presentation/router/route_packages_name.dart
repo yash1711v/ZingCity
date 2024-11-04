@@ -11,7 +11,6 @@ export '../../presentation/screens/authentication/verification_screen.dart';
 export '../../presentation/screens/home/home_screen.dart';
 export '../../presentation/screens/main_page/main_page_scree.dart';
 export '../../presentation/screens/my_deals/my_deals_screen.dart';
-export '../../presentation/screens/my_saved/my_saved_screen.dart';
 export '../../presentation/screens/on_boarding/on_boarding_screen.dart';
 export '../../presentation/screens/payment/payment_screen.dart';
 export '../../presentation/screens/premium_membership/premium_membership_screen.dart';

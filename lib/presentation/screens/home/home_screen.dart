@@ -57,8 +57,7 @@ class HomeScreen extends StatelessWidget {
                 if (state is HomeErrorState) {
                   return FetchErrorText(text: state.error);
                 }
-                debugPrint(
-                    'homeCubit.homeModel ${homeCubit.homeModel?.featuredProperty}');
+
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SingleChildScrollView(

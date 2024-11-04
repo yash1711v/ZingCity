@@ -10,14 +10,15 @@ import '../../utils/k_images.dart';
 import '../../utils/utils.dart';
 import '../../widget/custom_app_bar.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+class BuyScreen extends StatefulWidget {
+  final TabController? tabController;
+  const BuyScreen({super.key, this.tabController});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<BuyScreen> createState() => _BuyScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _BuyScreenState extends State<BuyScreen> {
   late LoginBloc loginBloc;
   late CompanyCubit cCubit;
 
@@ -30,47 +31,465 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return   Scaffold(
       backgroundColor: scaffoldBackground,
-      appBar: const CustomAppBar(title: 'Agent Dashboard', showButton: false),
-      body: Padding(
-        padding: Utils.symmetric(h: 12.0),
-        child:  Column(children: [
-         // loginBloc.userInfo!.user.ownerId == 0 ?
-          DashboardComponents(icon: KImages.companyIcon,title: "My Company",onTap: (){
-            print("agency is ${loginBloc.userInfo!.user.isAgency}");
-            if(loginBloc.userInfo!.user.isAgency == 1){
-              Navigator.pushNamed(context, RouteNames.companyScreen);
-            } else if (loginBloc.userInfo!.user.isAgency == 2){
-            Utils.showCustomDialog(
-                context,
-                barrierDismissible: true,
-                child: const SizedBox(
-              height: 150,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            const SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
                 children: [
+                  const Text(
+                    '14 results found',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w300,
+                      height: 0,
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    width: 75.31,
+                    height: 25.82,
+                    decoration: ShapeDecoration(
+                      color: const Color(0x1930469A),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Filter',
+                          style: TextStyle(
+                            color: Color(0xFF30469A),
+                            fontSize: 14,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w300,
+                            height: 0,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        ImageIcon(AssetImage("assets/Yash/images/settings_filter.png",),size: 15,)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: size.height * 5,
+              width: size.width,
+              child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                  controller: widget.tabController,
+                  children:  [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                              itemCount: 60,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 17.0),
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 16.0),
+                                    child: Container(
+                                      width: size.width,
+                                      height: 94.83,
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 94.83,
+                                            height: 94.83,
+                                            decoration: ShapeDecoration(
+                                              image: const DecorationImage(
+                                                image: AssetImage("assets/Yash/images/property_1.png"),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10,),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 5.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 13,),
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      "assets/images/iconamoon_profile-light.png",
+                                                      height: 10,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    const Text(
+                                                      'Villa',
+                                                      style: TextStyle(
+                                                        color:
+                                                        Colors.black,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                        'DM Sans',
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w300,
+                                                        height: 0,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: size.width - 250,),
+                                                    const Text(
+                                                      '₹ 80 Lac',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF30469A),
+                                                        fontSize: 14,
+                                                        fontFamily: 'DM Sans',
+                                                        fontWeight: FontWeight.w800,
+                                                        height: 0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 8,),
+                                                const Text(
+                                                  'Modern Green',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontFamily: 'DM Sans',
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                                const Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .location_on_sharp,
+                                                      size: 10,
+                                                    ),
+                                                    Text(
+                                                      'A7, 180C, Mayur Vihar, New Delhi',
+                                                      style: TextStyle(
+                                                        color:
+                                                        Colors.black,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                        'DM Sans',
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w300,
+                                                        height: 0,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
 
-                Center(child: CustomTextStyle(text: "Admin will verify your application.",fontSize: 16.0,fontWeight: FontWeight.w500,color: redColor,))
-              ],),
-            ));
-            }
-            else if (loginBloc.userInfo!.user.isAgency == 0){
-              cCubit.resetData();
-              Navigator.pushNamed(context, RouteNames.createCompanyScreen);
-            }
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                          const SizedBox(height: 20,),
+                        ],
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                              itemCount: 5,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 17.0),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: Container(
+                                    width: size.width,
+                                    height: 94.83,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0x0C398BCB),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          decoration: ShapeDecoration(
+                                            image: const DecorationImage(
+                                              image: AssetImage("assets/Yash/images/property_1.png"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10,),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 5.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 13,),
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/images/iconamoon_profile-light.png",
+                                                    height: 10,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  const Text(
+                                                    'Villa',
+                                                    style: TextStyle(
+                                                      color:
+                                                      Colors.black,
+                                                      fontSize: 12,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: size.width - 250,),
+                                                  const Text(
+                                                    '₹ 80 Lac',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF30469A),
+                                                      fontSize: 14,
+                                                      fontFamily: 'DM Sans',
+                                                      fontWeight: FontWeight.w800,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 8,),
+                                              const Text(
+                                                'Modern Green',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontFamily: 'DM Sans',
+                                                  fontWeight: FontWeight.w700,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                              const Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .start,
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .location_on_sharp,
+                                                    size: 10,
+                                                  ),
+                                                  Text(
+                                                    'A7, 180C, Mayur Vihar, New Delhi',
+                                                    style: TextStyle(
+                                                      color:
+                                                      Colors.black,
+                                                      fontSize: 12,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
 
-          },),
-              // : const SizedBox.shrink(),
-          const SizedBox(height: 12.0,),
-          DashboardComponents(icon: KImages.homeProIcon,title: "My Properties",onTap: (){
-            Navigator.pushNamed(context, RouteNames.profileScreen);
-          }),
-          const SizedBox(height: 12.0,),
-          DashboardComponents(icon: KImages.reviewIcon,title: "All Reviews",onTap: (){
-            Navigator.pushNamed(context, RouteNames.reviewScreen);
-          }),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                          const SizedBox(height: 20,),
+                        ],
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                              itemCount: 4,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 17.0),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: Container(
+                                    width: size.width,
+                                    height: 94.83,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0x0C398BCB),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          decoration: ShapeDecoration(
+                                            image: const DecorationImage(
+                                              image: AssetImage("assets/Yash/images/property_1.png"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10,),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 5.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 13,),
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/images/iconamoon_profile-light.png",
+                                                    height: 10,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  const Text(
+                                                    'Villa',
+                                                    style: TextStyle(
+                                                      color:
+                                                      Colors.black,
+                                                      fontSize: 12,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: size.width - 250,),
+                                                  const Text(
+                                                    '₹ 80 Lac',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF30469A),
+                                                      fontSize: 14,
+                                                      fontFamily: 'DM Sans',
+                                                      fontWeight: FontWeight.w800,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 8,),
+                                              const Text(
+                                                'Modern Green',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontFamily: 'DM Sans',
+                                                  fontWeight: FontWeight.w700,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                              const Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .start,
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .location_on_sharp,
+                                                    size: 10,
+                                                  ),
+                                                  Text(
+                                                    'A7, 180C, Mayur Vihar, New Delhi',
+                                                    style: TextStyle(
+                                                      color:
+                                                      Colors.black,
+                                                      fontSize: 12,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                          const SizedBox(height: 20,),
+                        ],
+                      ),
+                    ),
+                  ]),
+            ),
         ],),
       ),
     );

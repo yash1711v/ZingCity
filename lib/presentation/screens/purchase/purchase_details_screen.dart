@@ -20,26 +20,29 @@ class PurchaseDetailScreen extends StatelessWidget {
     orderCubit.getOrderDetails(orderId);
     return Scaffold(
       backgroundColor: whiteColor,
-      appBar: const CustomAppBar(title: 'Items Details'),
+      appBar: AppBar(
+      actions: [
+        IconButton(onPressed: (){}, icon: const Icon(Icons.share))
+      ],
+      ),
       body: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
-          if (state is OrderLoading) {
-            return const LoadingWidget();
-          } else if (state is OrderError) {
-            if (state.statusCode == 503) {
-              return OrderDetailLoaded(orderDetail: orderCubit.singleOrder!);
-            } else {
-              return Center(
-                  child: CustomTextStyle(text: state.message, color: redColor));
-            }
-
-            //Utils.errorSnackBar(context, state.message);
-          }
-
-          // else if (state is OrderLoaded) {
-          //   return LoadedOrderWidget(orders: state.orders.orders!);
+          // if (state is OrderLoading) {
+          //   return const LoadingWidget();
+          // } else if (state is OrderError) {
+          //   if (state.statusCode == 503) {
+          //     return OrderDetailLoaded(orderDetail: orderCubit.singleOrder!);
+          //   } else {
+          //     return Center(
+          //         child: CustomTextStyle(text: state.message, color: redColor));
+          //   }
+          //
+          //   //Utils.errorSnackBar(context, state.message);
           // }
-          return OrderDetailLoaded(orderDetail: orderCubit.singleOrder!);
+
+          return OrderDetailLoaded(orderDetail:  null
+          //orderCubit.singleOrder!
+          );
         },
       ),
     );
@@ -47,93 +50,16 @@ class PurchaseDetailScreen extends StatelessWidget {
 }
 
 class OrderDetailLoaded extends StatelessWidget {
-  const OrderDetailLoaded({super.key, required this.orderDetail});
-  final SingleOrderModel orderDetail;
+  const OrderDetailLoaded({super.key,  this.orderDetail});
+  final SingleOrderModel? orderDetail;
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<OrderCubit>().orders!.user;
-    print('type: ${orderDetail.expirationDate.runtimeType}');
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: ListView(
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        physics: const BouncingScrollPhysics(),
-        children: [
-          // const CustomImage(path: KImages.logo),
-          const SizedBox(height: 20.0),
-          _addressComponent('Name', user!.name),
-          _addressComponent('Phone', user.phone),
-          _addressComponent('Email', user.email),
-          _addressComponent('Location', user.address),
-          const SizedBox(height: 20.0),
-          _propertyComponent('Order ID', orderDetail.orderId),
-          _propertyComponent(
-              'Amount', Utils.formatPrice(context, orderDetail.planPrice)),
-          _propertyComponent('Payment', orderDetail.paymentMethod),
-          //_propertyComponent('Transaction', orderDetail.transactionId),
-          const SizedBox(height: 20.0),
-          Container(
-            width: double.infinity.w,
-            //height: 300.0,
-            margin: const EdgeInsets.symmetric(horizontal: 0.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: borderColor),
-              borderRadius: borderRadius,
-            ),
-            child: Column(
-              children: [
-                tableContent('Package', orderDetail.planName),
-                tableContent(
-                    'Price', Utils.formatPrice(context, orderDetail.planPrice)),
-                tableContent(
-                    'Purchase', Utils.formatDate(orderDetail.createdAt)),
-                tableContent(
-                    'Expire', getRemainingDay(orderDetail.expirationDate)),
-                tableContent(
-                    'Remaining day', orderDetail.orderStatus.toUpperCase()),
+    // final user = context.read<OrderCubit>().orders!.user;
+    return const Column(
+      children: [
 
-                ///start here
-                tableContent(
-                    'Property', orderDetail.numberOfProperty.toString()),
-
-                tableContent(
-                    'Feature Property',
-                    orderDetail.featuredProperty == 'enable'
-                        ? 'Available'
-                        : 'Unavailable'),
-
-                tableContent('Feature Property',
-                    orderDetail.featuredPropertyQty.toString()),
-
-                tableContent(
-                    'Top Property',
-                    orderDetail.topProperty == 'enable'
-                        ? 'Available'
-                        : 'Unavailable'),
-
-                tableContent(
-                    'Top Property', orderDetail.topPropertyQty.toString()),
-
-                tableContent(
-                    'Urgent Property',
-                    orderDetail.urgentProperty == 'enable'
-                        ? 'Available'
-                        : 'Unavailable'),
-
-                tableContent('Urgent Property',
-                    orderDetail.urgentPropertyQty.toString()),
-
-                tableContent(
-                    'Remaining day', orderDetail.orderStatus.toUpperCase()),
-                paymentContent('Payment Status', orderDetail.paymentStatus,
-                    isLast: true),
-              ],
-            ),
-          ),
-          const SizedBox(height: 40.0),
-        ],
-      ),
+      ],
     );
   }
 

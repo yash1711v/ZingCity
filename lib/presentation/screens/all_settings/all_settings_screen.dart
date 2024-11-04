@@ -20,8 +20,8 @@ import '../../widget/heading_dialog.dart';
 import '../../widget/loading_widget.dart';
 import 'component/single_elements.dart';
 
-class AllSettingScreen extends StatelessWidget {
-  const AllSettingScreen({super.key});
+class SavedScreen extends StatelessWidget {
+  const SavedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,318 +29,117 @@ class AllSettingScreen extends StatelessWidget {
     final loginBloc = context.read<LoginBloc>();
     return Scaffold(
       backgroundColor: scaffoldBackground,
-      appBar: const ProfileAppBar(),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 14.0),
-        physics: const ClampingScrollPhysics(),
-        children: [
-          const SizedBox(height: 20.0),
-          const CustomTextStyle(
-            text: 'My Profile',
-            fontWeight: FontWeight.w500,
-            fontSize: 15.0,
-            color: primaryColor,
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 20.0),
-            decoration: BoxDecoration(
-                color: whiteColor, borderRadius: BorderRadius.circular(radius)),
-            child: Column(
-              children: [
-                SingleElement(
-                  icon: KImages.settingIcon01,
-                  text: 'All Category',
-                  onTap: () => Navigator.pushNamed(
-                      context, RouteNames.allCategoryScreen),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: 500,
+          height: MediaQuery.of(context).size.height,
+          child: ListView.builder(
+            itemCount: 10,
+              itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16.0,left: 16,right: 16),
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 4.46),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                 ),
-                SingleElement(
-                  icon: KImages.shuffleIcon,
-                  text: 'Compare',
-                  onTap: () {
-                    if (loginBloc.userInfo != null &&
-                        loginBloc.userInfo!.accessToken.isNotEmpty) {
-                      Navigator.pushNamed(context, RouteNames.compareScreen);
-                    } else {
-                      Utils.showSnackBarWithLogin(context);
-                    }
-                  },
-                ),
-                // SingleElement(
-                //   icon: KImages.settingIcon03,
-                //   text: 'Edit Profile',
-                //   onTap: () {
-                //     if (loginBloc.userInfo != null &&
-                //         loginBloc.userInfo!.accessToken.isNotEmpty &&
-                //         profile.users != null) {
-                //       Navigator.pushNamed(
-                //           context, RouteNames.updateProfileScreen,
-                //           arguments: profile.users);
-                //     } else {
-                //       Utils.showSnackBarWithLogin(context);
-                //     }
-                //   },
-                // ),
-
-                SingleElement(
-                    icon: KImages.settingIcon17,
-                    text: 'Booking Request',
-                    onTap: () {
-                      if (loginBloc.userInfo != null &&
-                          loginBloc.userInfo!.accessToken.isNotEmpty &&
-                          profile.users != null) {
-                        Navigator.pushNamed(context, RouteNames.bookingReqScreen);
-                      } else {
-                        Utils.showSnackBarWithLogin(context);
-                      }
-                    }
-                  // onTap: () => contactUsDialog(context),
-                ),
-                SingleElement(
-                    icon: KImages.settingIcon16,
-                    text: 'My Booking',
-                    onTap: () {
-                      if (loginBloc.userInfo != null &&
-                          loginBloc.userInfo!.accessToken.isNotEmpty &&
-                          profile.users != null) {
-                        Navigator.pushNamed(context, RouteNames.myBookingScreen);
-                      } else {
-                        Utils.showSnackBarWithLogin(context);
-                      }
-                    }
-                  // onTap: () => contactUsDialog(context),
-                ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                  child: GestureDetector(
-                    onTap: (){
-                      final kyc = context.read<KycCubit>();
-                      if (loginBloc.userInfo != null &&
-                          loginBloc.userInfo!.accessToken.isNotEmpty &&
-                          profile.users != null) {
-                        if (kyc.kycModel != null && kyc.kycModel!.kyc != null) {
-                          Utils.showSnackBar(
-                              context,
-                              Utils.translatedText(context, 'Already submitted'),
-                              whiteColor,
-                              2000);
-                        } else {
-                          context.read<KycCubit>().clear();
-                          if(loginBloc.userInfo!.user.kycStatus== 0){
-                            Navigator.pushNamed(context, RouteNames.kycScreen);
-                          }
-
-                        }
-                      } else {
-                        Utils.showSnackBarWithLogin(context);
-                      }
-                    },
-                    child: Row(
-                      children: [
-                        const CustomImage(
-                          path: KImages.settingIcon15,
-                          width: 20.0,
-                          height: 20.0,
-                          fit: BoxFit.fill,
+                child: Column(
+                  children: [
+                    Container(
+                      width: Size.infinite.width,
+                      height: 248.99,
+                      decoration: ShapeDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage(
+                              "assets/Yash/images/properties_near_1.png"),
+                          fit: BoxFit.cover,
                         ),
-                        const SizedBox(width: 15.0),
-                        const CustomTextStyle(
-                          text: "KYC Verification",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0,
-                          color: blackColor,
-                        ),
-                        Utils.horizontalSpace(70.0),
-                       loginBloc.userInfo!.user.kycStatus== 1 ? Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: const Color(0xFF34C759).withOpacity(0.2),
-                          ),
-                          child: Padding(
-                            padding: Utils.symmetric(h: 12.0, v: 4.0),
-                            child: const CustomTextStyle(text: "Verified",color: Color(0xFF34C759,),fontSize: 16.0,),
-                          ),
-                        ): const SizedBox.shrink(),
-                      ],
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(5)),
+                      ),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.0),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Modern Green',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w700,
+                              height: 0,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.location_on_sharp,
+                            size: 10,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          Padding(
+                            padding:
+                            const EdgeInsets.only(top: 6.0),
+                            child: SizedBox(
+                              width: 141,
+                              child: Text(
+                                'A7, 180C, Mayur Vihar, New Delhi',
+                                style: TextStyle(
+                                  color: Colors.black
+                                      .withOpacity(
+                                      0.699999988079071),
+                                  fontSize: 10,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '₹ 80 Lac',
+                            style: TextStyle(
+                              color: Color(0xFF30469A),
+                              fontSize: 14,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w800,
+                              height: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 1.0,
-                  color: borderColor,
-                )
-
-              ],
-            ),
-                // SingleElement(
-                //   icon: KImages.settingIcon15,
-                //   text: 'KYC Verification',
-                //   onTap: () {
-                //     final kyc = context.read<KycCubit>();
-                //     if (loginBloc.userInfo != null &&
-                //         loginBloc.userInfo!.accessToken.isNotEmpty &&
-                //         profile.users != null) {
-                //       if (kyc.kycModel != null && kyc.kycModel!.kyc != null) {
-                //         Utils.showSnackBar(
-                //             context,
-                //             Utils.translatedText(context, 'Already submitted'),
-                //             whiteColor,
-                //             2000);
-                //       } else {
-                //         context.read<KycCubit>().clear();
-                //         Navigator.pushNamed(context, RouteNames.kycScreen);
-                //       }
-                //     } else {
-                //       Utils.showSnackBarWithLogin(context);
-                //     }
-                //   },
-                // ),
-              ],
-            ),
-          ),
-          const CustomTextStyle(
-            text: 'Settings',
-            fontWeight: FontWeight.w500,
-            fontSize: 15.0,
-            color: primaryColor,
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 20.0),
-            decoration: BoxDecoration(
-                color: whiteColor, borderRadius: BorderRadius.circular(radius)),
-            child: Column(
-              children: [
-                SingleElement(
-                    icon: KImages.settingIcon07,
-                    text: 'Support Ticket',
-                    onTap: () {
-                      if (loginBloc.userInfo != null &&
-                          loginBloc.userInfo!.accessToken.isNotEmpty &&
-                          profile.users != null) {
-                        Navigator.pushNamed(context, RouteNames.supportScreen);
-                      } else {
-                        Utils.showSnackBarWithLogin(context);
-                      }
-                    }
-                  // onTap: () => contactUsDialog(context),
-                ),
-                SingleElement(
-                  icon: KImages.settingIcon05,
-                  text: 'About us',
-                  onTap: () =>
-                      Navigator.pushNamed(context, RouteNames.aboutUsScreen),
-                ),
-                // SingleElement(
-                //   icon: KImages.settingIcon06,
-                //   text: 'Review',
-                //   onTap: () {
-                //     if (loginBloc.userInfo != null &&
-                //         loginBloc.userInfo!.accessToken.isNotEmpty &&
-                //         profile.users != null) {
-                //       Navigator.pushNamed(context, RouteNames.reviewScreen);
-                //     } else {
-                //       Utils.showSnackBarWithLogin(context);
-                //     }
-                //   },
-                // ),
-                SingleElement(
-                  icon: KImages.settingIcon07,
-                  text: 'Contact us',
-                  onTap: () =>
-                      Navigator.pushNamed(context, RouteNames.contactUsScreen),
-                  // onTap: () => contactUsDialog(context),
-                ),
-                // SingleElement(
-                //     icon: KImages.settingIcon08, text: 'Setting', onTap: () {}),
-                SingleElement(
-                  icon: KImages.settingIcon14,
-                  text: 'Purchase History',
-                  onTap: () {
-                    if (loginBloc.userInfo != null &&
-                        loginBloc.userInfo!.accessToken.isNotEmpty) {
-                      Navigator.pushNamed(context, RouteNames.purchaseScreen);
-                    } else {
-                      Utils.showSnackBarWithLogin(context);
-                    }
-                  },
-                ),
-                SingleElement(
-                  icon: KImages.settingIcon12,
-                  text: 'Terms & Conditions',
-                  onTap: () => Navigator.pushNamed(
-                      context, RouteNames.termsAndConditionScreen),
-                ),
-                SingleElement(
-                  icon: KImages.settingIcon10,
-                  text: 'Privacy Policy',
-                  onTap: () => Navigator.pushNamed(
-                      context, RouteNames.privacyPolicyScreen),
-                ),
-                SingleElement(
-                  icon: KImages.settingIcon11,
-                  text: 'FAQ',
-                  onTap: () =>
-                      Navigator.pushNamed(context, RouteNames.faqScreen),
-                ),
-                SingleElement(
-                  icon: KImages.settingIcon12,
-                  text: 'App Info',
-                  onTap: () => Utils.appInfoDialog(context),
-                ),
-                SingleElement(
-                  icon: KImages.delete,
-                  text: 'Delete Account',
-                  onTap: () {
-                    if (loginBloc.userInfo != null &&
-                        loginBloc.userInfo!.accessToken.isNotEmpty) {
-                      context.read<ProfileCubit>().clear();
-                      deleteDialog(context);
-                    } else {
-                      Utils.showSnackBarWithLogin(context);
-                    }
-                  },
-                ),
-                BlocListener<LoginBloc, LoginModelState>(
-                  listener: (context, state) {
-                    final logout = state.state;
-                    if (logout is LoginStateLogOutLoading) {
-                      Utils.loadingDialog(context);
-                    } else {
-                      Utils.closeDialog(context);
-                      if (logout is LoginStateSignOutError) {
-                        Utils.errorSnackBar(context, logout.errorMsg);
-                      } else if (logout is LoginStateLogOut) {
-                        Navigator.of(context).pop();
-                        context.read<BookingCubit>().clearComId();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RouteNames.loginScreen, (route) => false);
-                        Utils.showSnackBar(context, logout.msg);
-                      }
-                    }
-                  },
-                  child: SingleElement(
-                    icon: KImages.settingIcon13,
-                    text: 'Logout',
-                    onTap: () {
-                      if (loginBloc.userInfo != null &&
-                          loginBloc.userInfo!.accessToken.isNotEmpty) {
-                        logoutDialog(context);
-                      } else {
-                        Utils.showSnackBarWithLogin(context);
-                      }
-                    },
-                    // onTap: () => logoutDialog(context),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20.0),
-        ],
+              ),
+            );
+          }),
+        ),
       ),
     );
   }

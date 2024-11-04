@@ -2,6 +2,7 @@ import 'package:real_estate/presentation/screens/company_screen/company_screen.d
 import 'package:real_estate/presentation/screens/company_screen/components/create_agent_screen.dart';
 import 'package:real_estate/presentation/screens/company_screen/create_company_screen.dart';
 import 'package:real_estate/presentation/screens/company_screen/update_company_screen.dart';
+import 'package:real_estate/presentation/screens/rent_screen/rent_screen.dart';
 
 import '../screens/booking/booking_request_screen.dart.dart';
 import '../screens/booking/compare_screen.dart';
@@ -9,6 +10,8 @@ import '../screens/booking/create_booking_screen.dart';
 import '../screens/booking/my_booking_screen.dart';
 import '../screens/home/agent/components/agency_profile_screen.dart';
 import '../screens/kyc/kyc_screen.dart';
+import '../screens/rent_screen/rent_screen.dart';
+import '../screens/rent_screen/rent_screen.dart';
 import '../screens/support/single_support_screen.dart';
 import '../screens/support/support_screen.dart';
 import 'route_packages_name.dart';
@@ -35,8 +38,8 @@ class RouteNames {
   static const String updateProfileScreen = '/updateProfileScreen';
   static const String propertyDetailsScreen = '/propertyDetailsScreen';
   static const String myDealsScreen = '/myDealsScreen';
-  static const String mySavedScreen = '/mySavedScreen';
-  static const String allSettingScreen = '/allSettingScreen';
+  static const String rentScreen = '/RentScreen';
+  static const String savedScreen = '/SavedScreen';
   static const String choosePropertyOptionScreen =
       '/choosePropertyOptionScreen';
   static const String addNewPropertyScreen = '/addNewPropertyScreen';
@@ -178,13 +181,13 @@ class RouteNames {
         return MaterialPageRoute(
             settings: settings, builder: (_) => const MyDealsScreen());
 
-      case RouteNames.mySavedScreen:
+      case RouteNames.rentScreen:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => const MySavedScreen());
+            settings: settings, builder: (_) =>  RentScreen());
 
-      case RouteNames.allSettingScreen:
+      case RouteNames.savedScreen:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => const AllSettingScreen());
+            settings: settings, builder: (_) => const SavedScreen());
 
       // case RouteNames.addNewPropertyScreen:
       //   final slug = settings.arguments as String;
