@@ -8,6 +8,7 @@ import '../../router/route_names.dart';
 import '../../utils/constraints.dart';
 import '../../utils/k_images.dart';
 import '../../utils/utils.dart';
+import '../../widget/bottomSheet.dart';
 import '../../widget/custom_app_bar.dart';
 
 class BuyScreen extends StatefulWidget {
@@ -54,29 +55,43 @@ class _BuyScreenState extends State<BuyScreen> {
                     ),
                   ),
                   const Spacer(),
-                  Container(
-                    width: 75.31,
-                    height: 25.82,
-                    decoration: ShapeDecoration(
-                      color: const Color(0x1930469A),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Filter',
-                          style: TextStyle(
-                            color: Color(0xFF30469A),
-                            fontSize: 14,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w300,
-                            height: 0,
-                          ),
+                  GestureDetector(
+                    onTap: (){
+                      showModalBottomSheet(
+                        isDismissible: false,
+                        constraints:  BoxConstraints(
+                          minWidth:  MediaQuery.of(context).size.height * 0.8,
                         ),
-                        SizedBox(width: 10,),
-                        ImageIcon(AssetImage("assets/Yash/images/settings_filter.png",),size: 15,)
-                      ],
+                        context: context,
+                        builder: (context) {
+                          return const CustomBottomSheet();
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: 75.31,
+                      height: 25.82,
+                      decoration: ShapeDecoration(
+                        color: const Color(0x1930469A),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Filter',
+                            style: TextStyle(
+                              color: Color(0xFF30469A),
+                              fontSize: 14,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w300,
+                              height: 0,
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          ImageIcon(AssetImage("assets/Yash/images/settings_filter.png",),size: 15,)
+                        ],
+                      ),
                     ),
                   )
                 ],

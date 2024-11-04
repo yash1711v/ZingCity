@@ -43,8 +43,53 @@ class TermsAndConditionScreen extends StatelessWidget {
     final privacyCubit = context.read<PrivacyPolicyCubit>();
     privacyCubit.getTermsAndCondition();
     return Scaffold(
-      appBar: const CustomRoundedAppBar(
-        text: 'Terms & Conditions',
+      appBar: PreferredSize(
+        preferredSize: const Size(360, 116.37,),
+        child: Container(
+          width: 360,
+          height: 116.37,
+          decoration: const BoxDecoration(
+            color: Color(0xFFE7EBF4),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x1E000000),
+                blurRadius: 8,
+                offset: Offset(0, 1),
+                spreadRadius: 0,
+              )
+            ], 
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.arrow_back_ios,),
+                      Text(
+                        'Terms & Conditions',
+                        style: TextStyle(
+                          color: Color(0xFF30469A),
+                          fontSize: 18,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )
+        ),
       ),
       body: BlocBuilder<PrivacyPolicyCubit, PrivacyPolicyState>(
         builder: (context, state) {

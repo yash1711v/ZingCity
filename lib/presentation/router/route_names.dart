@@ -10,6 +10,7 @@ import '../screens/booking/create_booking_screen.dart';
 import '../screens/booking/my_booking_screen.dart';
 import '../screens/home/agent/components/agency_profile_screen.dart';
 import '../screens/kyc/kyc_screen.dart';
+import '../screens/property_create/add_property_screen.dart';
 import '../screens/rent_screen/rent_screen.dart';
 import '../screens/rent_screen/rent_screen.dart';
 import '../screens/support/single_support_screen.dart';
@@ -44,6 +45,7 @@ class RouteNames {
       '/choosePropertyOptionScreen';
   static const String addNewPropertyScreen = '/addNewPropertyScreen';
   static const String newPropertyCreateScreen = '/newPropertyCreateScreen';
+  static const String addPropertyScreen = '/addPropertyScreen';
   static const String reviewScreen = '/reviewScreen';
   static const String aboutUsScreen = '/aboutUsScreen';
   static const String paymentMethodScreen = '/paymentMethodScreen';
@@ -121,7 +123,7 @@ class RouteNames {
 
       case RouteNames.homeScreen:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => const HomeScreen());
+            settings: settings, builder: (_) =>  HomeScreen(onTap: (i ) {  },));
 
       case RouteNames.mainPageScreen:
         return MaterialPageRoute(
@@ -205,6 +207,11 @@ class RouteNames {
         return MaterialPageRoute(
             settings: settings,
             builder: (_) => NewPropertyCreateScreen(id: id));
+
+        case RouteNames.addPropertyScreen:
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AddPropertyScreen());
 
       case RouteNames.choosePropertyOptionScreen:
         return MaterialPageRoute(

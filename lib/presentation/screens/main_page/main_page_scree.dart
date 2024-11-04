@@ -23,10 +23,12 @@ import '../../../logic/cubit/profile/profile_cubit.dart';
 import '../../../logic/cubit/setting/app_setting_cubit.dart';
 import '../../../logic/cubit/support/support_cubit.dart';
 import '../../../logic/cubit/wishlist/wishlist_cubit.dart';
+import '../../router/route_names.dart';
 import '../all_settings/all_settings_screen.dart';
 import '../dashboard/dashboard_screen.dart';
 import '../home/component/search_field.dart';
 import '../home/home_screen.dart';
+import '../on_boarding/on_boarding_screen.dart';
 import '../rent_screen/rent_screen.dart';
 import 'component/bottom_navigation_bar.dart';
 import 'component/main_controller.dart';
@@ -42,13 +44,15 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
   final _homeController = MainController();
   late TabController _tabController;
   late List<Widget> screenList;
+  final controller = MainController();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     screenList = [
-      const HomeScreen(),
+       HomeScreen(onTap: (i) {
+       },),
       //const MyDealsScreen(),
       RentScreen(tabController: _tabController,),
       BuyScreen(tabController: _tabController,),
@@ -100,11 +104,13 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                     _tabController = TabController(length: 2, vsync: this);
                   }
                   screenList = [
-                    const HomeScreen(),
+                     HomeScreen(onTap: (i) {
+                       controller.naveListener.sink.add(i);
+                     },),
                     //const MyDealsScreen(),
                     RentScreen(tabController: _tabController,),
                     BuyScreen(tabController: _tabController,),
-                    SavedScreen(),
+                    const SavedScreen(),
                     // const OrderScreen(),
                     // Container(),
                   ];
@@ -134,67 +140,81 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                               height: 35.01,
                             ),
                             const Spacer(),
-                            Container(
-                              width: 95.65,
-                              height: 30.90,
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFF30469A),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x19000000),
-                                    blurRadius: 8,
-                                    offset: Offset(0, 0),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset("assets/Yash/images/post_ad_button.png"),
-                                  const SizedBox(width: 5.0),
-                                  const Text(
-                                    'Post Ad',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'DM Sans',
-                                      fontWeight: FontWeight.w400,
-                                      height: 0,
-                                    ),
-                                  )
-                                ],
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, RouteNames.addPropertyScreen);
+                              },
+                              child: Container(
+                                width: 95.65,
+                                height: 30.90,
+                                decoration: ShapeDecoration(
+                                  color: const Color(0xFF30469A),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                  shadows: const [
+                                    BoxShadow(
+                                      color: Color(0x19000000),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 0),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset("assets/Yash/images/post_ad_button.png"),
+                                    const SizedBox(width: 5.0),
+                                    const Text(
+                                      'Post Ad',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: 'DM Sans',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(width: 10,),
-                            Container(
-                              width: 31,
-                              height: 31,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: ShapeDecoration(
-                                color: const Color(0x3330469A),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(100),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, RouteNames.profileScreen);
+                              },
+                              child: Container(
+                                width: 31,
+                                height: 31,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: ShapeDecoration(
+                                  color: const Color(0x3330469A),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                 ),
+                                child: const Icon(Icons.person, color: Color(0xFF30469A), size: 20,),
                               ),
-                              child: const Icon(Icons.person, color: Color(0xFF30469A), size: 20,),
                             ),
                             const SizedBox(width: 10,),
                           ],
                         ),
                       ),
                       const SizedBox(height: 35,),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                       Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: TextField(
-                          decoration: InputDecoration(
+                          readOnly: true,
+                          onTap: () {
+                            Navigator.pushNamed(context, RouteNames.searchScreen);
+                          },
+                          decoration: const InputDecoration(
                             hintText: 'Search',
                             prefixIcon: Icon(Icons.search),
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                        Visibility(
                          visible: item == 1,
                          child: TabBar(
@@ -203,11 +223,11 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                            indicatorWeight: 3,
                           controller: _tabController,
                           unselectedLabelColor: Colors.grey,
-                          labelColor: Color(0xFF30469A),
-                          tabs: [
+                          labelColor: const Color(0xFF30469A),
+                          tabs: const [
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: const Text(
+                              padding: EdgeInsets.only(bottom: 16.0),
+                              child: Text(
                                 'Residential',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -218,8 +238,8 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                               ),
                             ) ,
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: const Text(
+                              padding: EdgeInsets.only(bottom: 16.0),
+                              child: Text(
                                 'Commercial',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -239,11 +259,11 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                            indicatorWeight: 3,
                           controller: _tabController,
                           unselectedLabelColor: Colors.grey,
-                          labelColor: Color(0xFF30469A),
-                          tabs: [
+                          labelColor: const Color(0xFF30469A),
+                          tabs: const [
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: const Text(
+                              padding: EdgeInsets.only(bottom: 16.0),
+                              child: Text(
                                 'Residential',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -254,8 +274,8 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                               ),
                             ) ,
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: const Text(
+                              padding: EdgeInsets.only(bottom: 16.0),
+                              child: Text(
                                 'Commercial',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -266,8 +286,8 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                               ),
                             ) ,
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: const Text(
+                              padding: EdgeInsets.only(bottom: 16.0),
+                              child: Text(
                                 'Agricultar',
                                 style: TextStyle(
                                   fontSize: 16,

@@ -9,6 +9,7 @@ import '../../../logic/cubit/wishlist/wishlist_cubit.dart';
 import '../../router/route_names.dart';
 import '../../utils/k_images.dart';
 import '../../utils/utils.dart';
+import '../../widget/bottomSheet.dart';
 import '../../widget/empty_widget.dart';
 import '../../widget/fetch_text_error.dart';
 import '../../widget/loading_widget.dart';
@@ -70,29 +71,43 @@ class _RentScreenState extends State<RentScreen>{
                           ),
                         ),
                         const Spacer(),
-                        Container(
-                          width: 75.31,
-                          height: 25.82,
-                          decoration: ShapeDecoration(
-                            color: const Color(0x1930469A),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Filter',
-                                style: TextStyle(
-                                  color: Color(0xFF30469A),
-                                  fontSize: 14,
-                                  fontFamily: 'DM Sans',
-                                  fontWeight: FontWeight.w300,
-                                  height: 0,
+                        GestureDetector(
+                          onTap: (){
+                            showModalBottomSheet(
+                              isDismissible: false,
+                              constraints:  BoxConstraints(
+                                minWidth:  MediaQuery.of(context).size.height * 0.8,
+                            ),
+                              context: context,
+                              builder: (context) {
+                                return CustomBottomSheet();
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: 75.31,
+                            height: 25.82,
+                            decoration: ShapeDecoration(
+                              color: const Color(0x1930469A),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Filter',
+                                  style: TextStyle(
+                                    color: Color(0xFF30469A),
+                                    fontSize: 14,
+                                    fontFamily: 'DM Sans',
+                                    fontWeight: FontWeight.w300,
+                                    height: 0,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10,),
-                              ImageIcon(AssetImage("assets/Yash/images/settings_filter.png",),size: 15,)
-                            ],
+                                SizedBox(width: 10,),
+                                ImageIcon(AssetImage("assets/Yash/images/settings_filter.png",),size: 15,)
+                              ],
+                            ),
                           ),
                         )
                       ],
