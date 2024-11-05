@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widget/custom_images.dart';
 
-const Color primaryColor = Color(0xFF7166F0);
+const Color primaryColor = Color(0xFF30469A);
 const Color blackColor = Color(0xFF111111);
 const Color grayColor = Color(0xFF7E8BA0);
 const Color whiteColor = Color(0xFFFFFFFF);

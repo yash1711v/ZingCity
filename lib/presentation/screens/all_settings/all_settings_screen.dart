@@ -30,7 +30,7 @@ class SavedScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: scaffoldBackground,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.only(left: 8.0,right: 8.0,top: 8.0),
         child: SizedBox(
           width: 500,
           height: MediaQuery.of(context).size.height,
@@ -90,7 +90,7 @@ class SavedScreen extends StatelessWidget {
                               'Modern Green',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 12,
+                                fontSize: 15,
                                 fontFamily: 'DM Sans',
                                 fontWeight: FontWeight.w700,
                                 height: 0,
@@ -108,7 +108,7 @@ class SavedScreen extends StatelessWidget {
                           children: [
                             const Icon(
                               Icons.location_on_sharp,
-                              size: 10,
+                              size: 13,
                               color: Colors.grey,
                             ),
                             const SizedBox(
@@ -125,7 +125,7 @@ class SavedScreen extends StatelessWidget {
                                     color: Colors.black
                                         .withOpacity(
                                         0.699999988079071),
-                                    fontSize: 10,
+                                    fontSize: 13,
                                     fontFamily: 'DM Sans',
                                     fontWeight: FontWeight.w400,
                                     height: 0,

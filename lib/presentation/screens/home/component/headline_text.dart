@@ -16,7 +16,7 @@ class HeadlineText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-              horizontal: isPadding ? 15.0 : 0.0, vertical: 12.0)
+              horizontal: isPadding ? 15.0 : 0.0, vertical: isPadding ?12.0:0)
           .copyWith(top: 6.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

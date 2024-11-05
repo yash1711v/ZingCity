@@ -134,7 +134,7 @@ class _RentScreenState extends State<RentScreen>{
                                           context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 16.0),
+                                      padding: const EdgeInsets.only(bottom: 8.0),
                                       child: Container(
                                         width: size.width,
                                         height: 94.83,
@@ -170,7 +170,7 @@ class _RentScreenState extends State<RentScreen>{
                                                     children: [
                                                       Image.asset(
                                                         "assets/images/iconamoon_profile-light.png",
-                                                        height: 10,
+                                                        height: 12,
                                                       ),
                                                       const SizedBox(
                                                         width: 5,
@@ -180,7 +180,7 @@ class _RentScreenState extends State<RentScreen>{
                                                         style: TextStyle(
                                                           color:
                                                           Colors.black,
-                                                          fontSize: 12,
+                                                          fontSize: 14,
                                                           fontFamily:
                                                           'DM Sans',
                                                           fontWeight:
@@ -205,12 +205,12 @@ class _RentScreenState extends State<RentScreen>{
                                                       ),
                                                     ],
                                                   ),
-                                                  const SizedBox(height: 8,),
+                                                  const SizedBox(height: 3,),
                                                   const Text(
                                                     'Modern Green',
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: 16,
                                                       fontFamily: 'DM Sans',
                                                       fontWeight: FontWeight.w700,
                                                       height: 0,
@@ -224,14 +224,14 @@ class _RentScreenState extends State<RentScreen>{
                                                       Icon(
                                                         Icons
                                                             .location_on_sharp,
-                                                        size: 10,
+                                                        size: 12,
                                                       ),
                                                       Text(
                                                         'A7, 180C, Mayur Vihar, New Delhi',
                                                         style: TextStyle(
                                                           color:
                                                           Colors.black,
-                                                          fontSize: 12,
+                                                          fontSize: 14,
                                                           fontFamily:
                                                           'DM Sans',
                                                           fontWeight:
@@ -271,7 +271,7 @@ class _RentScreenState extends State<RentScreen>{
                                               context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                                         },
                                         child: Padding(
-                                          padding: const EdgeInsets.only(bottom: 16.0),
+                                          padding: const EdgeInsets.only(bottom: 8.0),
                                           child: Container(
                                             width: size.width,
                                             height: 94.83,
@@ -307,7 +307,7 @@ class _RentScreenState extends State<RentScreen>{
                                                         children: [
                                                           Image.asset(
                                                             "assets/images/iconamoon_profile-light.png",
-                                                            height: 10,
+                                                            height: 12,
                                                           ),
                                                           const SizedBox(
                                                             width: 5,
@@ -317,7 +317,7 @@ class _RentScreenState extends State<RentScreen>{
                                                             style: TextStyle(
                                                               color:
                                                               Colors.black,
-                                                              fontSize: 12,
+                                                              fontSize: 14,
                                                               fontFamily:
                                                               'DM Sans',
                                                               fontWeight:
@@ -342,12 +342,12 @@ class _RentScreenState extends State<RentScreen>{
                                                           ),
                                                         ],
                                                       ),
-                                                      const SizedBox(height: 8,),
+                                                      const SizedBox(height: 3,),
                                                       const Text(
                                                         'Modern Green',
                                                         style: TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 14,
+                                                          fontSize: 16,
                                                           fontFamily: 'DM Sans',
                                                           fontWeight: FontWeight.w700,
                                                           height: 0,
@@ -361,14 +361,14 @@ class _RentScreenState extends State<RentScreen>{
                                                           Icon(
                                                             Icons
                                                                 .location_on_sharp,
-                                                            size: 10,
+                                                            size: 12,
                                                           ),
                                                           Text(
                                                             'A7, 180C, Mayur Vihar, New Delhi',
                                                             style: TextStyle(
                                                               color:
                                                               Colors.black,
-                                                              fontSize: 12,
+                                                              fontSize: 14,
                                                               fontFamily:
                                                               'DM Sans',
                                                               fontWeight:
@@ -389,7 +389,7 @@ class _RentScreenState extends State<RentScreen>{
                                         ),
                                       );
                                     }),
-                                SizedBox(height: 20,),
+                                const SizedBox(height: 20,),
                               ],
                             ),
                           ),

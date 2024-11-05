@@ -180,7 +180,7 @@ class _AddScreen2State extends State<AddScreen2> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 80,
             ),
           ],
         ),

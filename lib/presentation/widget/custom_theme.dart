@@ -5,6 +5,13 @@ import '../utils/constraints.dart';
 
 class CustomTheme {
   static final theme = ThemeData(
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))),
+      ),
+    ),
     scaffoldBackgroundColor: scaffoldBackground,
     // scaffoldBackgroundColor: const Color(0xFFEDEDED),
     appBarTheme: const AppBarTheme(elevation: 0.0, shadowColor: transparent,scrolledUnderElevation: 0.0,  color: Color(0xFFE7EBF4),),

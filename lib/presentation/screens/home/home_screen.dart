@@ -320,7 +320,7 @@ class HomeScreen extends StatelessWidget {
                                   },
                                   child: Container(
                                     width: 370,
-                                    height: 220,
+                                    height: 240,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white,
@@ -337,7 +337,7 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         Container(
                                           width: 500,
-                                          height: 174.69,
+                                          height: 160.69,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 const BorderRadius.only(
@@ -364,7 +364,7 @@ class HomeScreen extends StatelessWidget {
                                                 'Modern Green',
                                                 style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 12,
+                                                  fontSize: 16,
                                                   fontFamily: 'DM Sans',
                                                   fontWeight: FontWeight.w700,
                                                   height: 0,
@@ -382,7 +382,7 @@ class HomeScreen extends StatelessWidget {
                                             children: [
                                               const Icon(
                                                 Icons.location_on_sharp,
-                                                size: 10,
+                                                size: 14,
                                                 color: Colors.grey,
                                               ),
                                               const SizedBox(
@@ -394,10 +394,11 @@ class HomeScreen extends StatelessWidget {
                                                   color: Colors.black
                                                       .withOpacity(
                                                           0.699999988079071),
-                                                  fontSize: 10,
+                                                  fontSize: 14,
                                                   fontFamily: 'DM Sans',
                                                   fontWeight: FontWeight.w400,
                                                   height: 0,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
                                               const Spacer(),
@@ -426,15 +427,18 @@ class HomeScreen extends StatelessWidget {
                       ),
 
                      Container(
-                       color: Color(0x1b398bcb),
+                       color: const Color(0x1b398bcb),
                        child: Padding(
                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                          child: Column(
                            children: [
+                             const SizedBox(height: 20,),
                              HeadlineText(
+                               isPadding: false,
                                text: 'Search by Price',
                                onTap: () {},
                              ),
+                             SizedBox(height: 10,),
                              Row(
                                mainAxisAlignment: MainAxisAlignment.start,
                                children: [
@@ -570,7 +574,7 @@ class HomeScreen extends StatelessWidget {
                                                    'Modern Green',
                                                    style: TextStyle(
                                                      color: Colors.black,
-                                                     fontSize: 12,
+                                                     fontSize: 13,
                                                      fontFamily: 'DM Sans',
                                                      fontWeight: FontWeight.w700,
                                                      height: 0,
@@ -581,14 +585,14 @@ class HomeScreen extends StatelessWidget {
                                            ),
                                            Padding(
                                              padding: const EdgeInsets.symmetric(
-                                                 horizontal: 10.0),
+                                                 horizontal: 8.0),
                                              child: Row(
                                                mainAxisAlignment:
                                                MainAxisAlignment.start,
                                                children: [
                                                  const Icon(
                                                    Icons.location_on_sharp,
-                                                   size: 10,
+                                                   size: 12,
                                                    color: Colors.grey,
                                                  ),
                                                  const SizedBox(
@@ -605,7 +609,7 @@ class HomeScreen extends StatelessWidget {
                                                          color: Colors.black
                                                              .withOpacity(
                                                              0.699999988079071),
-                                                         fontSize: 10,
+                                                         fontSize: 12,
                                                          fontFamily: 'DM Sans',
                                                          fontWeight: FontWeight.w400,
                                                          height: 0,
@@ -617,7 +621,7 @@ class HomeScreen extends StatelessWidget {
                                              ),
                                            ),
                                            const Padding(
-                                             padding: EdgeInsets.only(left: 8.0),
+                                             padding: EdgeInsets.only(left: 10.0),
                                              child: Row(
                                                mainAxisAlignment:
                                                MainAxisAlignment.start,
@@ -651,9 +655,14 @@ class HomeScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         child: Column(
                           children: [
-                            HeadlineText(
-                              text: 'Newly Added',
-                              onTap: () {},
+                            const SizedBox(height: 5,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: HeadlineText(
+                                isPadding: false,
+                                text: 'Newly Added',
+                                onTap: () {},
+                              ),
                             ),
                             SizedBox(
                               width: double.infinity,
@@ -668,7 +677,7 @@ class HomeScreen extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding:
-                                          const EdgeInsets.only(top: 10.0,bottom: 14),
+                                          const EdgeInsets.only(top: 10.0,),
                                       child: GestureDetector(
                                         onTap: (){
                                           Navigator.pushNamed(
@@ -729,7 +738,7 @@ class HomeScreen extends StatelessWidget {
                                                           style: TextStyle(
                                                             color:
                                                                 Colors.black,
-                                                            fontSize: 12,
+                                                            fontSize: 14,
                                                             fontFamily:
                                                                 'DM Sans',
                                                             fontWeight:
@@ -751,14 +760,14 @@ class HomeScreen extends StatelessWidget {
                                                         Icon(
                                                           Icons
                                                               .location_on_sharp,
-                                                          size: 10,
+                                                          size: 12,
                                                         ),
                                                         Text(
                                                           'A7, 180C, Mayur Vihar, New Delhi',
                                                           style: TextStyle(
                                                             color:
                                                                 Colors.black,
-                                                            fontSize: 12,
+                                                            fontSize: 14,
                                                             fontFamily:
                                                                 'DM Sans',
                                                             fontWeight:
@@ -776,7 +785,7 @@ class HomeScreen extends StatelessWidget {
                                                       children: [
                                                         Image.asset(
                                                           "assets/images/iconamoon_profile-light.png",
-                                                          height: 10,
+                                                          height: 12,
                                                         ),
                                                         const SizedBox(
                                                           width: 5,
@@ -786,7 +795,7 @@ class HomeScreen extends StatelessWidget {
                                                           style: TextStyle(
                                                             color:
                                                                 Colors.black,
-                                                            fontSize: 12,
+                                                            fontSize: 13,
                                                             fontFamily:
                                                                 'DM Sans',
                                                             fontWeight:

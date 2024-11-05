@@ -60,7 +60,7 @@ class HorizontalCategoryView extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Container(
-                                  height: 42.08,
+                                  height: 52.08,
                                   decoration: ShapeDecoration(
                                     color: Colors.black
                                         .withOpacity(0.6000000238418579),
@@ -89,7 +89,7 @@ class HorizontalCategoryView extends StatelessWidget {
                                                 category[index].title,
                                                 style: const TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   fontFamily: 'DM Sans',
                                                   fontWeight: FontWeight.w700,
                                                   height: 0,
@@ -108,11 +108,11 @@ class HorizontalCategoryView extends StatelessWidget {
                                           children: [
                                             const Icon(
                                               Icons.location_on_sharp,
-                                              size: 10,
+                                              size: 12,
                                               color: Colors.grey,
                                             ),
                                             const SizedBox(
-                                              width: 5,
+                                              width: 7,
                                             ),
                                             SizedBox(
                                               width: 300,
@@ -122,7 +122,7 @@ class HorizontalCategoryView extends StatelessWidget {
                                                   color: Colors.white
                                                       .withOpacity(
                                                           0.699999988079071),
-                                                  fontSize: 10,
+                                                  fontSize: 12,
                                                   fontFamily: 'DM Sans',
                                                   fontWeight: FontWeight.w400,
                                                   height: 0,
