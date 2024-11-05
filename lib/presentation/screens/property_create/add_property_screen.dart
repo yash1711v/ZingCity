@@ -31,7 +31,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
             width: 360,
             height: 200,
             decoration:  BoxDecoration(
-              color:  CustomTheme.theme.scaffoldBackgroundColor,
+              color:  Color(0xFFE7EBF4),
               boxShadow: [
                 BoxShadow(
                   color: Color(0x1E000000),

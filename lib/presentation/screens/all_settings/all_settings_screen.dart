@@ -30,7 +30,7 @@ class SavedScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: scaffoldBackground,
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: SizedBox(
           width: 500,
           height: MediaQuery.of(context).size.height,
@@ -51,6 +51,14 @@ class SavedScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
+                    shadows: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 1),
+                        spreadRadius: 0,
+                      ),
+                    ],
                   ),
                   child: Column(
                     children: [

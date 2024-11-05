@@ -19,17 +19,16 @@ class MyBottomNavigationBar extends StatelessWidget {
         width: 324,
         height: 60,
         decoration: ShapeDecoration(
-          color:  CustomTheme.theme.scaffoldBackgroundColor,
+          color:  Color(0xFFE7EBF4),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
-          shadows: <BoxShadow>[
-            BoxShadow(
-              color:  Colors.black12,
-              blurRadius: 7,
-              offset: const Offset(0, 5),
-            ),
-          ],
+          shadows: [BoxShadow(
+            color: Color(0x1E000000),
+            blurRadius: 8,
+            offset: Offset(0, 1),
+            spreadRadius: 5,
+          )]
         ),
         child: StreamBuilder(
             stream: controller.naveListener.stream,

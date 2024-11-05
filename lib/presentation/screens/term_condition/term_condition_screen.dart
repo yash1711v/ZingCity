@@ -51,7 +51,7 @@ class TermsAndConditionScreen extends StatelessWidget {
           width: 360,
           height: 116.37,
           decoration: BoxDecoration(
-            color:  CustomTheme.theme.scaffoldBackgroundColor,
+            color:  Color(0xFFE7EBF4),
             boxShadow: [
               const BoxShadow(
                 color: Color(0x1E000000),
@@ -65,6 +65,7 @@ class TermsAndConditionScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 25,),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: GestureDetector(

@@ -118,11 +118,11 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                 return Container(
                   width: 360,
                   height: item == 0 || item == 3?200:240,
-                  decoration:  BoxDecoration(
-                    color:  CustomTheme.theme.scaffoldBackgroundColor,
+                  decoration:  const BoxDecoration(
+                    color:  Color(0xFFE7EBF4),
                     boxShadow: [
                       BoxShadow(
-                      color: Color(0x1E000000),
+                        color: Color(0x1E000000),
                   blurRadius: 8,
                   offset: Offset(0, 1),
                   spreadRadius: 0,
@@ -210,7 +210,11 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                             Navigator.pushNamed(context, RouteNames.searchScreen);
                           },
                           decoration: const InputDecoration(
+                            fillColor: Color(0xFFF5F5F5),
                             hintText: 'Search',
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
                             prefixIcon: Icon(Icons.search),
                           ),
                         ),
