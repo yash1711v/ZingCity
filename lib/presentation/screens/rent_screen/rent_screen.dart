@@ -128,120 +128,126 @@ class _RentScreenState extends State<RentScreen>{
                                     physics: const NeverScrollableScrollPhysics(),
                                     padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 17.0),
                                     itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 16.0),
-                                    child: Container(
-                                      width: size.width,
-                                      height: 94.83,
-                                      decoration: ShapeDecoration(
-                                        color: const Color(0x0C398BCB),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                  return GestureDetector(
+                                    onTap: (){
+                                      Navigator.pushNamed(
+                                          context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 16.0),
+                                      child: Container(
+                                        width: size.width,
+                                        height: 94.83,
+                                        decoration: ShapeDecoration(
+                                          color: const Color(0x0C398BCB),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                         ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 94.83,
-                                            height: 94.83,
-                                            decoration: ShapeDecoration(
-                                              image: const DecorationImage(
-                                                image: AssetImage("assets/Yash/images/property_1.png"),
-                                                fit: BoxFit.fill,
-                                              ),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 94.83,
+                                              height: 94.83,
+                                              decoration: ShapeDecoration(
+                                                image: const DecorationImage(
+                                                  image: AssetImage("assets/Yash/images/property_1.png"),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(width: 10,),
-                                           Padding(
-                                             padding: const EdgeInsets.only(top: 5.0),
-                                             child: Column(
-                                               crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(height: 13,),
-                                                Row(
-                                                  children: [
-                                                    Image.asset(
-                                                      "assets/images/iconamoon_profile-light.png",
-                                                      height: 10,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    const Text(
-                                                      'Villa',
-                                                      style: TextStyle(
-                                                        color:
-                                                        Colors.black,
-                                                        fontSize: 12,
-                                                        fontFamily:
-                                                        'DM Sans',
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w300,
-                                                        height: 0,
+                                            const SizedBox(width: 10,),
+                                             Padding(
+                                               padding: const EdgeInsets.only(top: 5.0),
+                                               child: Column(
+                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(height: 13,),
+                                                  Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        "assets/images/iconamoon_profile-light.png",
+                                                        height: 10,
                                                       ),
-                                                    ),
-                                                    SizedBox(width: size.width - 250,),
-                                                    const Text(
-                                                      '₹ 80 Lac',
-                                                      style: TextStyle(
-                                                        color: Color(0xFF30469A),
-                                                        fontSize: 14,
-                                                        fontFamily: 'DM Sans',
-                                                        fontWeight: FontWeight.w800,
-                                                        height: 0,
+                                                      const SizedBox(
+                                                        width: 5,
                                                       ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(height: 8,),
-                                                const Text(
-                                                  'Modern Green',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontFamily: 'DM Sans',
-                                                    fontWeight: FontWeight.w700,
-                                                    height: 0,
+                                                      const Text(
+                                                        'Villa',
+                                                        style: TextStyle(
+                                                          color:
+                                                          Colors.black,
+                                                          fontSize: 12,
+                                                          fontFamily:
+                                                          'DM Sans',
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w300,
+                                                          height: 0,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: size.width - 250,),
+                                                      const Text(
+                                                        '₹ 80 Lac',
+                                                        style: TextStyle(
+                                                          color: Color(0xFF30469A),
+                                                          fontSize: 14,
+                                                          fontFamily: 'DM Sans',
+                                                          fontWeight: FontWeight.w800,
+                                                          height: 0,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                                const Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    Icon(
-                                                      Icons
-                                                          .location_on_sharp,
-                                                      size: 10,
+                                                  const SizedBox(height: 8,),
+                                                  const Text(
+                                                    'Modern Green',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontFamily: 'DM Sans',
+                                                      fontWeight: FontWeight.w700,
+                                                      height: 0,
                                                     ),
-                                                    Text(
-                                                      'A7, 180C, Mayur Vihar, New Delhi',
-                                                      style: TextStyle(
-                                                        color:
-                                                        Colors.black,
-                                                        fontSize: 12,
-                                                        fontFamily:
-                                                        'DM Sans',
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w300,
-                                                        height: 0,
+                                                  ),
+                                                  const Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .location_on_sharp,
+                                                        size: 10,
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                            
-                                              ],
-                                                                                 ),
-                                           )
-                                        ],
+                                                      Text(
+                                                        'A7, 180C, Mayur Vihar, New Delhi',
+                                                        style: TextStyle(
+                                                          color:
+                                                          Colors.black,
+                                                          fontSize: 12,
+                                                          fontFamily:
+                                                          'DM Sans',
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w300,
+                                                          height: 0,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+
+                                                ],
+                                                                                   ),
+                                             )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );
@@ -259,120 +265,126 @@ class _RentScreenState extends State<RentScreen>{
                                     physics: const NeverScrollableScrollPhysics(),
                                     padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 17.0),
                                     itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(bottom: 16.0),
-                                        child: Container(
-                                          width: size.width,
-                                          height: 94.83,
-                                          decoration: ShapeDecoration(
-                                            color: const Color(0x0C398BCB),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: 94.83,
-                                                height: 94.83,
-                                                decoration: ShapeDecoration(
-                                                  image: const DecorationImage(
-                                                    image: AssetImage("assets/Yash/images/property_1.png"),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                ),
+                                      return GestureDetector(
+                                        onTap: (){
+                                          Navigator.pushNamed(
+                                              context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(bottom: 16.0),
+                                          child: Container(
+                                            width: size.width,
+                                            height: 94.83,
+                                            decoration: ShapeDecoration(
+                                              color: const Color(0x0C398BCB),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
-                                              const SizedBox(width: 10,),
-                                              Padding(
-                                                padding: const EdgeInsets.only(top: 5.0),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    const SizedBox(height: 13,),
-                                                    Row(
-                                                      children: [
-                                                        Image.asset(
-                                                          "assets/images/iconamoon_profile-light.png",
-                                                          height: 10,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        const Text(
-                                                          'Villa',
-                                                          style: TextStyle(
-                                                            color:
-                                                            Colors.black,
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                            'DM Sans',
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: size.width - 250,),
-                                                        const Text(
-                                                          '₹ 80 Lac',
-                                                          style: TextStyle(
-                                                            color: Color(0xFF30469A),
-                                                            fontSize: 14,
-                                                            fontFamily: 'DM Sans',
-                                                            fontWeight: FontWeight.w800,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                      ],
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: 94.83,
+                                                  height: 94.83,
+                                                  decoration: ShapeDecoration(
+                                                    image: const DecorationImage(
+                                                      image: AssetImage("assets/Yash/images/property_1.png"),
+                                                      fit: BoxFit.fill,
                                                     ),
-                                                    const SizedBox(height: 8,),
-                                                    const Text(
-                                                      'Modern Green',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14,
-                                                        fontFamily: 'DM Sans',
-                                                        fontWeight: FontWeight.w700,
-                                                        height: 0,
-                                                      ),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
                                                     ),
-                                                    const Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .location_on_sharp,
-                                                          size: 10,
-                                                        ),
-                                                        Text(
-                                                          'A7, 180C, Mayur Vihar, New Delhi',
-                                                          style: TextStyle(
-                                                            color:
-                                                            Colors.black,
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                            'DM Sans',
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w300,
-                                                            height: 0,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-
-                                                  ],
+                                                  ),
                                                 ),
-                                              )
-                                            ],
+                                                const SizedBox(width: 10,),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 5.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      const SizedBox(height: 13,),
+                                                      Row(
+                                                        children: [
+                                                          Image.asset(
+                                                            "assets/images/iconamoon_profile-light.png",
+                                                            height: 10,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          const Text(
+                                                            'Villa',
+                                                            style: TextStyle(
+                                                              color:
+                                                              Colors.black,
+                                                              fontSize: 12,
+                                                              fontFamily:
+                                                              'DM Sans',
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w300,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: size.width - 250,),
+                                                          const Text(
+                                                            '₹ 80 Lac',
+                                                            style: TextStyle(
+                                                              color: Color(0xFF30469A),
+                                                              fontSize: 14,
+                                                              fontFamily: 'DM Sans',
+                                                              fontWeight: FontWeight.w800,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(height: 8,),
+                                                      const Text(
+                                                        'Modern Green',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily: 'DM Sans',
+                                                          fontWeight: FontWeight.w700,
+                                                          height: 0,
+                                                        ),
+                                                      ),
+                                                      const Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .location_on_sharp,
+                                                            size: 10,
+                                                          ),
+                                                          Text(
+                                                            'A7, 180C, Mayur Vihar, New Delhi',
+                                                            style: TextStyle(
+                                                              color:
+                                                              Colors.black,
+                                                              fontSize: 12,
+                                                              fontFamily:
+                                                              'DM Sans',
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w300,
+                                                              height: 0,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       );

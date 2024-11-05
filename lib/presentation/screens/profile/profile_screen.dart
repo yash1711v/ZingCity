@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
 
+import '../../widget/custom_theme.dart';
 import '../home/component/agent_search.dart';
 import '/presentation/utils/utils.dart';
 import '../../../../presentation/utils/constraints.dart';
@@ -41,8 +42,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Container(
             width: 360,
             height: 240,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE7EBF4),
+            decoration:  BoxDecoration(
+              color:  CustomTheme.theme.scaffoldBackgroundColor,
               boxShadow: [
                 BoxShadow(
                   color: Color(0x1E000000),
@@ -65,39 +66,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 35.01,
                       ),
                       const Spacer(),
-                      Container(
-                        width: 95.65,
-                        height: 30.90,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF30469A),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x19000000),
-                              blurRadius: 8,
-                              offset: Offset(0, 0),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                                "assets/Yash/images/post_ad_button.png"),
-                            const SizedBox(width: 5.0),
-                            const Text(
-                              'Post Ad',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontFamily: 'DM Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            )
-                          ],
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, RouteNames.addPropertyScreen);
+                        },
+                        child: Container(
+                          width: 95.65,
+                          height: 30.90,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFF30469A),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x19000000),
+                                blurRadius: 8,
+                                offset: Offset(0, 0),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                  "assets/Yash/images/post_ad_button.png"),
+                              const SizedBox(width: 5.0),
+                              const Text(
+                                'Post Ad',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(

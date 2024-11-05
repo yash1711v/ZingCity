@@ -37,104 +37,110 @@ class SavedScreen extends StatelessWidget {
           child: ListView.builder(
             itemCount: 10,
               itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0,left: 16,right: 16),
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 4.46),
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+            return GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(
+                    context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0,left: 16,right: 16),
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 4.46),
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: Size.infinite.width,
-                      height: 248.99,
-                      decoration: ShapeDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage(
-                              "assets/Yash/images/properties_near_1.png"),
-                          fit: BoxFit.cover,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: Size.infinite.width,
+                        height: 248.99,
+                        decoration: ShapeDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage(
+                                "assets/Yash/images/properties_near_1.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(5)),
                         ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(5)),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.0),
-                      child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Modern Green',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w700,
-                              height: 0,
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.0),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Modern Green',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w700,
+                                height: 0,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.location_on_sharp,
+                              size: 10,
+                              color: Colors.grey,
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0),
-                      child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.location_on_sharp,
-                            size: 10,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(
-                            width: 2,
-                          ),
-                          Padding(
-                            padding:
-                            const EdgeInsets.only(top: 6.0),
-                            child: SizedBox(
-                              width: 141,
-                              child: Text(
-                                'A7, 180C, Mayur Vihar, New Delhi',
-                                style: TextStyle(
-                                  color: Colors.black
-                                      .withOpacity(
-                                      0.699999988079071),
-                                  fontSize: 10,
-                                  fontFamily: 'DM Sans',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 6.0),
+                              child: SizedBox(
+                                width: 141,
+                                child: Text(
+                                  'A7, 180C, Mayur Vihar, New Delhi',
+                                  style: TextStyle(
+                                    color: Colors.black
+                                        .withOpacity(
+                                        0.699999988079071),
+                                    fontSize: 10,
+                                    fontFamily: 'DM Sans',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Spacer(),
-                          Text(
-                            '₹ 80 Lac',
-                            style: TextStyle(
-                              color: Color(0xFF30469A),
-                              fontSize: 14,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w800,
-                              height: 0,
+                            Spacer(),
+                            Text(
+                              '₹ 80 Lac',
+                              style: TextStyle(
+                                color: Color(0xFF30469A),
+                                fontSize: 14,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w800,
+                                height: 0,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

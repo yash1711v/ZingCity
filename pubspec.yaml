@@ -54,6 +54,7 @@ dependencies:
   bottom_bar: ^2.0.3
   syncfusion_flutter_sliders: ^27.1.57
   chips_choice: ^3.0.1
+  smooth_page_indicator: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:

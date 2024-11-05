@@ -24,6 +24,7 @@ import '../../../logic/cubit/setting/app_setting_cubit.dart';
 import '../../../logic/cubit/support/support_cubit.dart';
 import '../../../logic/cubit/wishlist/wishlist_cubit.dart';
 import '../../router/route_names.dart';
+import '../../widget/custom_theme.dart';
 import '../all_settings/all_settings_screen.dart';
 import '../dashboard/dashboard_screen.dart';
 import '../home/component/search_field.dart';
@@ -117,16 +118,16 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
                 return Container(
                   width: 360,
                   height: item == 0 || item == 3?200:240,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFE7EBF4),
+                  decoration:  BoxDecoration(
+                    color:  CustomTheme.theme.scaffoldBackgroundColor,
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0x1E000000),
-                        blurRadius: 8,
-                        offset: Offset(0, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
+                      color: Color(0x1E000000),
+                  blurRadius: 8,
+                  offset: Offset(0, 1),
+                  spreadRadius: 0,
+                ),
+                ],
                   ),
                   child: Column(
                     children: [

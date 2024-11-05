@@ -11,6 +11,7 @@ class _AddScreen2State extends State<AddScreen2> {
   @override
   Widget build(BuildContext context) {
     return  const Scaffold(
+      backgroundColor:  Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -45,6 +46,7 @@ class _AddScreen2State extends State<AddScreen2> {
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
                  decoration: InputDecoration(
+                   fillColor: Color(0xFFF5F5F5),
                    hintText: 'Enter property name',
                    border: InputBorder.none,
                  ),
@@ -63,7 +65,7 @@ class _AddScreen2State extends State<AddScreen2> {
                     child: Text(
                       'Description',
                       style: TextStyle(
-                        color: Color(0xFF4D5454),
+                        color: Color(0xFF000000),
                         fontSize: 14,
                         fontFamily: 'Manrope',
                         fontWeight: FontWeight.w400,
@@ -82,6 +84,7 @@ class _AddScreen2State extends State<AddScreen2> {
               child: TextField(
                 maxLines: 6,
                 decoration: InputDecoration(
+                  fillColor: Color(0xFFF5F5F5),
                   hintText: 'Discribe your property',
                   border: InputBorder.none,
                 ),
@@ -129,6 +132,7 @@ class _AddScreen2State extends State<AddScreen2> {
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
                 decoration: InputDecoration(
+                  fillColor: Color(0xFFF5F5F5),
                   hintText: 'City',
                   border: InputBorder.none,
                 ),
@@ -140,7 +144,9 @@ class _AddScreen2State extends State<AddScreen2> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
+
                 decoration: InputDecoration(
+                  fillColor: Color(0xFFF5F5F5),
                   hintText: 'State',
                   border: InputBorder.none,
                 ),
@@ -153,6 +159,7 @@ class _AddScreen2State extends State<AddScreen2> {
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
                 decoration: InputDecoration(
+                  fillColor: Color(0xFFF5F5F5),
                   hintText: 'Country',
                   border: InputBorder.none,
                 ),
@@ -166,6 +173,7 @@ class _AddScreen2State extends State<AddScreen2> {
               child: TextField(
                 maxLines: 7,
                 decoration: InputDecoration(
+                  fillColor: Color(0xFFF5F5F5),
                   hintText: 'Address',
                   border: InputBorder.none,
                 ),

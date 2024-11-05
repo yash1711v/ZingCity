@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:real_estate/presentation/widget/custom_theme.dart';
 
 import '../../../../presentation/utils/constraints.dart';
 import '../../../../presentation/widget/custom_rounded_app_bar.dart';
@@ -43,15 +44,16 @@ class TermsAndConditionScreen extends StatelessWidget {
     final privacyCubit = context.read<PrivacyPolicyCubit>();
     privacyCubit.getTermsAndCondition();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size(360, 116.37,),
         child: Container(
           width: 360,
           height: 116.37,
-          decoration: const BoxDecoration(
-            color: Color(0xFFE7EBF4),
+          decoration: BoxDecoration(
+            color:  CustomTheme.theme.scaffoldBackgroundColor,
             boxShadow: [
-              BoxShadow(
+              const BoxShadow(
                 color: Color(0x1E000000),
                 blurRadius: 8,
                 offset: Offset(0, 1),

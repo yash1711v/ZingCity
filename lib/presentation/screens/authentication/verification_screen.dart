@@ -103,6 +103,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     bottomRight: Radius.circular(300),
                   ),
                 ),
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x1E000000),
+                    blurRadius: 8,
+                    offset: Offset(0, 1),
+                    spreadRadius: 0,
+                  ),
+                ],
               ),
               child: Column(
                 children: [

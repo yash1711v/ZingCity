@@ -15,6 +15,7 @@ class _ScreenOneState extends State<ScreenOne> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:  Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -89,7 +90,9 @@ class _ScreenOneState extends State<ScreenOne> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: DropdownButtonFormField<String>(
+                dropdownColor: Color(0xFFF5F5F5),
                 decoration: const InputDecoration(
+                  fillColor: Color(0xFFF5F5F5),
                   border: InputBorder.none,
                 ),
                 style: const TextStyle(
@@ -158,7 +161,7 @@ class _ScreenOneState extends State<ScreenOne> {
               itemBuilder: (context, index) {
                 return Container(
                   decoration: ShapeDecoration(
-                    color: Colors.white,
+                    color: const Color(0x0C398BCB),
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(width: 1.50, color: Color(0x80EEEEEE)),
                       borderRadius: BorderRadius.circular(10),

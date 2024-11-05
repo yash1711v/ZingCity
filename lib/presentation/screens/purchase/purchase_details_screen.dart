@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../widget/custom_theme.dart';
 import '/presentation/utils/utils.dart';
 import '../../../data/model/order/single_order_model.dart';
 import '../../../logic/cubit/order/order_cubit.dart';
@@ -28,8 +29,8 @@ class PurchaseDetailScreen extends StatelessWidget {
         child: Container(
             width: 360,
             height: 200,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE7EBF4),
+            decoration:  BoxDecoration(
+              color:  CustomTheme.theme.scaffoldBackgroundColor,
               boxShadow: [
                 BoxShadow(
                   color: Color(0x1E000000),

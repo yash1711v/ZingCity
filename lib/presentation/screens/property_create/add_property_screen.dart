@@ -1,6 +1,10 @@
+import 'package:real_estate/presentation/screens/property_create/ScreenFour.dart';
+
 import '../../../state_inject_package_names.dart';
 import '../../utils/constraints.dart';
+import '../../widget/custom_theme.dart';
 import 'add_screen2.dart';
+import 'add_screen3.dart';
 import 'add_scren1.dart';
 
 class AddPropertyScreen extends StatefulWidget {
@@ -16,6 +20,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      backgroundColor:  Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size(
           360,
@@ -24,15 +30,15 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
         child: Container(
             width: 360,
             height: 200,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE7EBF4),
+            decoration:  BoxDecoration(
+              color:  CustomTheme.theme.scaffoldBackgroundColor,
               boxShadow: [
                 BoxShadow(
                   color: Color(0x1E000000),
                   blurRadius: 8,
                   offset: Offset(0, 1),
                   spreadRadius: 0,
-                )
+                ),
               ],
             ),
             child: Column(
@@ -59,7 +65,12 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                   padding: const EdgeInsets.only(left: 16.0),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      if(pageController.page == 0){
+                        Navigator.pop(context); } else {
+                        pageController.previousPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn);
+                      }
                     },
                     child: const Row(
                       children: [
@@ -83,9 +94,14 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
               ],
             )),
       ),
-      body: PageView(controller: pageController, children: [
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: const [
         ScreenOne(),
         AddScreen2(),
+        Screen3(),
+       Screenfour(),
       ]),
       bottomNavigationBar:  Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
