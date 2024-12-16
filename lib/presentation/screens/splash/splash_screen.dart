@@ -49,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
             return SettingErrorWidget(message: state.meg);
           }
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
