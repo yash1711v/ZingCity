@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
               final profile = state.profileState;
               if (profile is ProfileUpdateLoaded) {
                 Utils.showSnackBar(context, profile.message);
-                context.read<ProfileCubit>().getAgentProfile();
+                // context.read<ProfileCubit>().getAgentProfile();
               }
               if (profile is ProfileError) {
                 if (profile.statusCode == 401) {

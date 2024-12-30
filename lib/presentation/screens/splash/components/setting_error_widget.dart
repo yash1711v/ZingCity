@@ -25,7 +25,7 @@ class SettingErrorWidget extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              context.read<AppSettingCubit>().loadWebSetting();
+              // context.read<AppSettingCubit>().loadWebSetting();
             },
             child: const Icon(
               Icons.refresh_outlined,

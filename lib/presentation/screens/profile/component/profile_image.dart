@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,21 +21,29 @@ class ProfileImages extends StatelessWidget {
     return BlocBuilder<ProfileCubit, ProfileStateModel>(
       //buildWhen: (previous, current) => previous.image != current.image,
       builder: (context, state) {
-        String defaultImage =
-            context.read<AppSettingCubit>().settingModel!.setting.defaultAvatar;
-        String profileImage = profilePicture.isNotEmpty
-            ? RemoteUrls.imageUrl(profilePicture)
-            : RemoteUrls.imageUrl(defaultImage);
+        // String defaultImage =
+        //     context.read<AppSettingCubit>().settingModel!.setting.defaultAvatar;
+        // String profileImage = profilePicture.isNotEmpty
+        //     ? RemoteUrls.imageUrl(profilePicture)
+        //     : RemoteUrls.imageUrl(defaultImage);
 
-        profileImage = state.image.isNotEmpty ? state.image : profileImage;
+        // profileImage = state.image.isNotEmpty ? state.image : profileImage;
 
         // final captureImage = state.image.isNotEmpty
         //     ?state.image: RemoteUrls.imageUrl(image);
 
         // print('userImage: ${widget.seller.user!.image}');
-        print('fileImagesss: ${state.image}');
+        // print('fileImagesss: ${state.image}');
         return Container(
+          height: 170,
+          width: 170,
           decoration: BoxDecoration(
+            image: DecorationImage(
+              image: state.image.isNotEmpty
+                  ? FileImage(File(state.image))
+                  : NetworkImage(profilePicture),
+              fit: BoxFit.cover,
+            ),
             boxShadow: [
               BoxShadow(
                 color: const Color(0xff333333).withOpacity(.18),
@@ -44,16 +54,16 @@ class ProfileImages extends StatelessWidget {
           child: Center(
             child: Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: CustomImage(
-                    path: profileImage,
-                    height: 170,
-                    width: 170,
-                    fit: BoxFit.cover,
-                    isFile: state.image.isNotEmpty,
-                  ),
-                ),
+                // ClipRRect(
+                //   borderRadius: BorderRadius.circular(100),
+                //   child: CustomImage(
+                //     path: profileImage,
+                //     height: 170,
+                //     width: 170,
+                //     fit: BoxFit.cover,
+                //     isFile: state.image.isNotEmpty,
+                //   ),
+                // ),
                 Positioned(
                   right: 10,
                   bottom: 10,
@@ -62,9 +72,12 @@ class ProfileImages extends StatelessWidget {
                       final imageSourcePath = await Utils.pickSingleImage();
                       updateCubit.imageChange(imageSourcePath!);
                     },
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       backgroundColor: primaryColor,
-                      child: Icon(
+                      // backgroundImage: updateCubit.state.image.isNotEmpty
+                      //     ? FileImage(File(updateCubit.state.image))
+                      //     : null,
+                      child: const Icon(
                         Icons.edit,
                         color: whiteColor,
                         size: 22.0,

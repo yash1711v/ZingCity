@@ -22,7 +22,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final onBoardingList = context.read<AppSettingCubit>().onBoarding;
+    // final onBoardingList = context.read<AppSettingCubit>().onBoarding;
     //print(size.height);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -261,7 +261,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  context.read<AppSettingCubit>().cachOnBoarding();
+                  // context.read<AppSettingCubit>().cachOnBoarding();
                   Navigator.pushNamedAndRemoveUntil(
                       context, RouteNames.loginScreen, (route) => false);
                 },
@@ -304,126 +304,126 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
     );
   }
-
-  Widget nextButton(Size size) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: size.width * 0.3,
-          height: 3.0,
-          margin: EdgeInsets.only(bottom: size.height * 0.03),
-          decoration: BoxDecoration(
-              color: borderWithOpacityColor,
-              borderRadius: BorderRadius.circular(5.0)),
-          child: Row(
-            children: List.generate(
-                context.read<AppSettingCubit>().onBoarding.length, (index) {
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 600),
-                width: size.width * 0.1,
-                height: 3.0,
-                decoration: BoxDecoration(
-                  color: _index == index ? blackColor : transparent,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-              );
-            }),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            final list = context.read<AppSettingCubit>().onBoarding.length - 1;
-            if (_index == list) {
-              context.read<AppSettingCubit>().cachOnBoarding();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RouteNames.loginScreen, (route) => false);
-              //print('last index');
-            } else {
-              controller.nextPage(
-                  duration: const Duration(microseconds: 500),
-                  curve: Curves.easeInOut);
-            }
-            //print(_index);
-          },
-          child: Container(
-            width: size.width * 0.5,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0)
-                .copyWith(bottom: 0.0),
-            height: size.height * 0.06,
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: borderRadius,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: CustomTextStyle(
-                    text: 'Next',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20.0,
-                    color: whiteColor,
-                  ),
-                ),
-                //const SizedBox(width: 20.0),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Container(
-                    width: size.width * 0.12,
-                    height: size.height * 0.04,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(255, 255, 255, 0.22),
-                      borderRadius: borderRadius,
-                    ),
-                    child: const Icon(
-                      Icons.arrow_right_alt_outlined,
-                      color: whiteColor,
-                      size: 22.0,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget locationEnable(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.2, vertical: size.height * 0.02),
-      child: Column(
-        children: [
-          PrimaryButton(
-            text: 'Allow Location',
-            onPressed: () {
-              context.read<AppSettingCubit>().cachOnBoarding();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RouteNames.loginScreen, (route) => false);
-            },
-            fontSize: 20.0,
-            borderRadiusSize: radius,
-            textColor: whiteColor,
-          ),
-          TextButton(
-            onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context, RouteNames.loginScreen, (route) => false),
-            child: const CustomTextStyle(
-              text: 'Skip for Now',
-              fontWeight: FontWeight.w500,
-              color: grayColor,
-              fontSize: 16.0,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  //
+  // Widget nextButton(Size size) {
+  //   return Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       Container(
+  //         width: size.width * 0.3,
+  //         height: 3.0,
+  //         margin: EdgeInsets.only(bottom: size.height * 0.03),
+  //         decoration: BoxDecoration(
+  //             color: borderWithOpacityColor,
+  //             borderRadius: BorderRadius.circular(5.0)),
+  //         child: Row(
+  //           children: List.generate(
+  //               context.read<AppSettingCubit>().onBoarding.length, (index) {
+  //             return AnimatedContainer(
+  //               duration: const Duration(milliseconds: 600),
+  //               width: size.width * 0.1,
+  //               height: 3.0,
+  //               decoration: BoxDecoration(
+  //                 color: _index == index ? blackColor : transparent,
+  //                 borderRadius: BorderRadius.circular(5.0),
+  //               ),
+  //             );
+  //           }),
+  //         ),
+  //       ),
+  //       GestureDetector(
+  //         onTap: () {
+  //           final list = context.read<AppSettingCubit>().onBoarding.length - 1;
+  //           if (_index == list) {
+  //             context.read<AppSettingCubit>().cachOnBoarding();
+  //             Navigator.pushNamedAndRemoveUntil(
+  //                 context, RouteNames.loginScreen, (route) => false);
+  //             //print('last index');
+  //           } else {
+  //             controller.nextPage(
+  //                 duration: const Duration(microseconds: 500),
+  //                 curve: Curves.easeInOut);
+  //           }
+  //           //print(_index);
+  //         },
+  //         child: Container(
+  //           width: size.width * 0.5,
+  //           alignment: Alignment.center,
+  //           margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0)
+  //               .copyWith(bottom: 0.0),
+  //           height: size.height * 0.06,
+  //           decoration: BoxDecoration(
+  //             color: primaryColor,
+  //             borderRadius: borderRadius,
+  //           ),
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               const Padding(
+  //                 padding: EdgeInsets.only(left: 20.0),
+  //                 child: CustomTextStyle(
+  //                   text: 'Next',
+  //                   fontWeight: FontWeight.w500,
+  //                   fontSize: 20.0,
+  //                   color: whiteColor,
+  //                 ),
+  //               ),
+  //               //const SizedBox(width: 20.0),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10),
+  //                 child: Container(
+  //                   width: size.width * 0.12,
+  //                   height: size.height * 0.04,
+  //                   alignment: Alignment.center,
+  //                   decoration: BoxDecoration(
+  //                     color: const Color.fromRGBO(255, 255, 255, 0.22),
+  //                     borderRadius: borderRadius,
+  //                   ),
+  //                   child: const Icon(
+  //                     Icons.arrow_right_alt_outlined,
+  //                     color: whiteColor,
+  //                     size: 22.0,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget locationEnable(Size size) {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(
+  //         horizontal: size.width * 0.2, vertical: size.height * 0.02),
+  //     child: Column(
+  //       children: [
+  //         PrimaryButton(
+  //           text: 'Allow Location',
+  //           onPressed: () {
+  //             context.read<AppSettingCubit>().cachOnBoarding();
+  //             Navigator.pushNamedAndRemoveUntil(
+  //                 context, RouteNames.loginScreen, (route) => false);
+  //           },
+  //           fontSize: 20.0,
+  //           borderRadiusSize: radius,
+  //           textColor: whiteColor,
+  //         ),
+  //         TextButton(
+  //           onPressed: () => Navigator.pushNamedAndRemoveUntil(
+  //               context, RouteNames.loginScreen, (route) => false),
+  //           child: const CustomTextStyle(
+  //             text: 'Skip for Now',
+  //             fontWeight: FontWeight.w500,
+  //             color: grayColor,
+  //             fontSize: 16.0,
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 }

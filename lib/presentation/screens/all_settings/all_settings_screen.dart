@@ -366,7 +366,7 @@ class SavedScreen extends StatelessWidget {
                     onPressed: () {
                       Utils.closeKeyBoard(context);
                       if (isNotEmpty) {
-                        loginBloc.deleteAccount();
+                        // loginBloc.deleteAccount();
                       }
                     });
               },

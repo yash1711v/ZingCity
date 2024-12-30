@@ -4,10 +4,14 @@ class LoginModelState extends Equatable {
   final String text;
   final String password;
   final LoginState state;
+  final String? time;
+  final String? timeLeft;
 
   const LoginModelState({
-    this.text = 'agent@gmail.com',
+    this.text = '+91987XXXXXXX',
     this.password = '1234',
+    this.time,
+    this.timeLeft,
     // this.text = '',
     // this.password = '',
     // this.text = 'koxopo2388@rockdian.com',
@@ -19,11 +23,15 @@ class LoginModelState extends Equatable {
     String? text,
     String? password,
     LoginState? state,
+    String? time,
+    String? timeLeft,
   }) {
     return LoginModelState(
       text: text ?? this.text,
       password: password ?? this.password,
       state: state ?? this.state,
+      time: time ?? this.time,
+      timeLeft: timeLeft ?? this.timeLeft,
     );
   }
 
@@ -54,7 +62,7 @@ class LoginModelState extends Equatable {
       'LoginModelState(username: $text, password: $password, state: $state)';
 
   @override
-  List<Object> get props => [text, password, state];
+  List<Object?> get props => [text, password, state,time,timeLeft];
 }
 
 abstract class LoginState extends Equatable {
@@ -141,3 +149,4 @@ class LoginStateLogOut extends LoginState {
   @override
   List<Object> get props => [msg, statusCode];
 }
+

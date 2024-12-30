@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../logic/bloc/login/login_cubit.dart';
 import '/presentation/utils/utils.dart';
 import '../../../../logic/bloc/login/login_bloc.dart';
 import '../../../../presentation/utils/constraints.dart';
@@ -28,13 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final loginBloc = context.read<LoginBloc>();
-    final appSetting =
-        context.read<AppSettingCubit>().settingModel!.mobileAppContent;
+    // final loginBloc = context.read<LoginBloc>();
+    // final appSetting =
+    //     context.read<AppSettingCubit>().settingModel!.mobileAppContent;
     //print(appSetting.loginBgImage);
     return MultiBlocListener(
       listeners: [
-        BlocListener<LoginBloc, LoginModelState>(
+        BlocListener<LoginCubit, LoginModelState>(
           listenWhen: (previous, current) => previous.state != current.state,
           listener: (context, state) {
             if (state.state is LoginStateError) {
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Container(
               width: size.width,
-              height: 800,
+              height: 500,
               decoration: const ShapeDecoration(
                 color: Color(0xFFE3EFF8),
                 shape: RoundedRectangleBorder(
@@ -135,17 +136,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 17),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: BlocBuilder<LoginBloc, LoginModelState>(
+                    child: BlocBuilder<LoginCubit, LoginModelState>(
                       builder: (context, state) {
                         final login = state.state;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextFormField(
+                              controller: context.read<LoginCubit>().phoneController,
                               keyboardType: TextInputType.number,
-                              initialValue: state.text,
-                              onChanged: (value) =>
-                                  loginBloc.add(LoginEvenEmailOrPhone(value)),
+                              // initialValue: state.text,
+                              onChanged: (value) {
+                                context.read<LoginCubit>().phoneController.text = value;
+                                // context.read<LoginCubit>().add(LoginEvenEmailOrPhone(value));
+                              },
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -189,65 +193,71 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 17),
-                  SvgPicture.asset(
-                    "assets/Yash/images/orImage.svg",
-                    height: 22,
-                    width: 0,
-                  ),
-                  const SizedBox(height: 47),
-                  Container(
-                    width: 324,
-                    height: 55,
-                    decoration: ShapeDecoration(
-                      color: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 1, color: Color(0xFF398BCB)),
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.all(0.0),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3),
-                          ),
-                        ),
-                      ),
-                        onPressed: () {},
-                        child:  Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset("assets/Yash/images/mailIcon.png", width: 35, height: 35,),
-                            const SizedBox(width: 15),
-                            const Text(
-                              'Login with Gmail',
-                              style: TextStyle(
-                                color: Color(0xFF398BCB),
-                                fontSize: 15,
-                                fontFamily: 'DM Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            )
-                          ],
-                        )),
-                  ),
-                  const SizedBox(height: 27),
-                  SizedBox(
-                    width: 400,
-                    height: 48,
-                    child: PrimaryButton(
-                      text: 'Send Otp',
-                      onPressed: () {
-                        // loginBloc.add(const LoginEventSubmit());
-                        Navigator.pushReplacementNamed(
-                            context, RouteNames.verificationScreen,arguments: false);
-                      },
-                    ),
-                  )
+                  // SvgPicture.asset(
+                  //   "assets/Yash/images/orImage.svg",
+                  //   height: 22,
+                  //   width: 0,
+                  // ),
+                  // const SizedBox(height: 47),
+                  // Container(
+                  //   width: 324,
+                  //   height: 55,
+                  //   decoration: ShapeDecoration(
+                  //     color: Colors.transparent,
+                  //     shape: RoundedRectangleBorder(
+                  //       side: const BorderSide(width: 1, color: Color(0xFF398BCB)),
+                  //       borderRadius: BorderRadius.circular(3),
+                  //     ),
+                  //   ),
+                  //   child: ElevatedButton(
+                  //     style: ButtonStyle(
+                  //       backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                  //       elevation: MaterialStateProperty.all(0.0),
+                  //       shape: MaterialStateProperty.all(
+                  //         RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(3),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //       onPressed: () {},
+                  //       child:  Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Image.asset("assets/Yash/images/mailIcon.png", width: 35, height: 35,),
+                  //           const SizedBox(width: 15),
+                  //           const Text(
+                  //             'Login with Gmail',
+                  //             style: TextStyle(
+                  //               color: Color(0xFF398BCB),
+                  //               fontSize: 15,
+                  //               fontFamily: 'DM Sans',
+                  //               fontWeight: FontWeight.w400,
+                  //               height: 0,
+                  //             ),
+                  //           )
+                  //         ],
+                  //       )),
+                  // ),
+
                 ],
+              ),
+            ),
+            // Spacer(),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: PrimaryButton(
+                text: 'Send Otp',
+                onPressed: () async {
+                await context.read<LoginCubit>().onPressLogin(context.read<LoginCubit>().phoneController.text).then((value){
+                   if(value){
+                     Navigator.pushReplacementNamed(
+                         context, RouteNames.verificationScreen,arguments: context.read<LoginCubit>().phoneController.text);
+                   }
+                 });
+                  // Navigator.pushReplacementNamed(
+                  //     context, RouteNames.verificationScreen,arguments: false);
+                },
               ),
             ),
             Spacer(),

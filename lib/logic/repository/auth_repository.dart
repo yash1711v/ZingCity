@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import '../../data/data_provider/local_data_source.dart';
 import '../../data/data_provider/remote_data_source.dart';
+import '../../data/data_provider/remote_url.dart';
 import '../../data/model/auth/set_password_model.dart';
 import '../../data/model/auth/user_login_response_model.dart';
 import '../../data/model/kyc/kyc_model.dart';
 import '../../presentation/error/exception.dart';
 import '../../presentation/error/failure.dart';
+import 'package:http/http.dart' as http;
 
 abstract class AuthRepository {
   Future<Either<dynamic, UserLoginResponseModel>> login(
@@ -175,5 +180,55 @@ class AuthRepositoryImp extends AuthRepository {
     } on InvalidAuthData catch (e) {
       return Left(InvalidAuthData(e.errors));
     }
+  }
+}
+
+
+class Respository {
+  final http.Client client = http.Client();
+  late Map<String, String> _mainHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+
+  void updateHeader(String? token,) {
+
+    _mainHeaders = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept' : 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    print("Api main header ================>${_mainHeaders} ");
+  }
+
+
+  dynamic login(String number) {
+    final uri = Uri.parse(RemoteUrls.userLogin);
+
+    var body = {
+      "phone": number,
+    };
+
+    log("${body} ", name: "Login  in Repository");
+    log("${_mainHeaders} ", name: "Login  in Repository");
+    var response = client.post(uri,body: jsonEncode(body), headers: _mainHeaders,);
+    // log("${response} ", name: "Login  in Repository");
+    return response;
+
+  }
+  dynamic OtpVerfy(String number,String Otp) {
+    final uri = Uri.parse(RemoteUrls.verifyOtp);
+
+    var body = {
+      "phone": number,
+      "otp": Otp
+    };
+
+    log("${body} ", name: "Login  in Repository verify otp");
+
+    var response = client.post(uri,body: body);
+    // log("${response} ", name: "Login  in Repository");
+    return response;
+
   }
 }

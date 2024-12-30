@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate/logic/bloc/signup/sign_up_cubit.dart';
+import 'package:real_estate/logic/bloc/signup/sign_up_state.dart';
 
-import '../../../../logic/bloc/signup/sign_up_bloc.dart';
 import '../../../../presentation/utils/constraints.dart';
 import '../../../../presentation/utils/k_images.dart';
 import '../../../../presentation/widget/custom_images.dart';
@@ -43,39 +44,40 @@ class _SingUpScreenState extends State<SingUpScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final bloc = context.read<SignUpBloc>();
+    final bloc = context.read<SignUpCubit>();
     final appSetting =
         context.read<AppSettingCubit>().settingModel!.mobileAppContent;
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         physics: const BouncingScrollPhysics(),
-        child: BlocListener<SignUpBloc, SignUpModelState>(
-          listenWhen: (previous, current) {
-            return previous.state != current.state;
-          },
-          listener: (context, state) {
-            final myState = state.state;
-            if (myState is SignUpStateFormError) {
-              Utils.errorSnackBar(context, myState.errorMsg);
-            }
-            // else if (state.state is SignUpStateFormError) {
-            //   final status = state.state as SignUpStateFormError;
-            //   Utils.showSnackBar(context, status.errorMsg);
-            // }
-            else if (myState is SignUpStateLoaded) {
-              final loadedData = state.state as SignUpStateLoaded;
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RouteNames.verificationScreen, (route) => false,
-                  arguments: true);
-              Utils.showSnackBar(context, loadedData.msg);
-            } else if (state.state is AccountActivateSuccess) {
-              final messageState = state.state as AccountActivateSuccess;
-              Utils.showSnackBar(context, messageState.msg);
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RouteNames.loginScreen, (route) => true);
-            }
-          },
+        child: BlocListener<SignUpCubit, SignUpState>(
+          // listenWhen: (previous, current) {
+          //   return previous.state != current.state;
+          // },
+          // listener: (context, state) {
+          //   final myState = state.state;
+          //   if (myState is SignUpStateFormError) {
+          //     Utils.errorSnackBar(context, myState.errorMsg);
+          //   }
+          //   // else if (state.state is SignUpStateFormError) {
+          //   //   final status = state.state as SignUpStateFormError;
+          //   //   Utils.showSnackBar(context, status.errorMsg);
+          //   // }
+          //   else if (myState is SignUpStateLoaded) {
+          //     final loadedData = state.state as SignUpStateLoaded;
+          //     Navigator.pushNamedAndRemoveUntil(
+          //         context, RouteNames.verificationScreen, (route) => false,
+          //         arguments: true);
+          //     Utils.showSnackBar(context, loadedData.msg);
+          //   } else if (state.state is AccountActivateSuccess) {
+          //     final messageState = state.state as AccountActivateSuccess;
+          //     Utils.showSnackBar(context, messageState.msg);
+          //     Navigator.pushNamedAndRemoveUntil(
+          //         context, RouteNames.loginScreen, (route) => true);
+          //   }
+          // },
+          listener: (BuildContext context,  state) {  },
           child: SizedBox(
             height: size.height,
             child: Stack(
@@ -109,19 +111,22 @@ class _SingUpScreenState extends State<SingUpScreen> {
                           color: whiteColor,
                         ),
                         SizedBox(height: size.height * 0.04),
-                        BlocBuilder<SignUpBloc, SignUpModelState>(
+                        BlocBuilder<SignUpCubit, SignUpState>(
                           // buildWhen: (previous, current) =>
                           //     previous.password != current.password,
                           builder: (context, state) {
-                            final s = state.state;
+                            // final s = state.state;
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextFormField(
                                   keyboardType: TextInputType.name,
-                                  initialValue: state.name,
-                                  onChanged: (value) =>
-                                      bloc.add(SignUpEventName(value)),
+                                  initialValue: "",
+
+                                  // state.name,
+                                  onChanged: (value) {
+                                      // bloc.add(SignUpEventName(value)),
+                                  },
                                   decoration: InputDecoration(
                                     prefixIcon:
                                         credentialIcon(KImages.userIcon),
@@ -129,53 +134,58 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                   ),
                                 ),
                                 //Utils.verticalSpace(6),
-                                if (s is SignUpStateLoadedError) ...[
-                                  if (s.errors.name.isNotEmpty)
-                                    ErrorText(text: s.errors.name.first),
-                                ]
+                                // if (s is SignUpStateLoadedError) ...[
+                                //   if (s.errors.name.isNotEmpty)
+                                //     ErrorText(text: s.errors.name.first),
+                                // ]
                               ],
                             );
                           },
                         ),
                         spacer,
-                        BlocBuilder<SignUpBloc, SignUpModelState>(
+                        BlocBuilder<SignUpCubit, SignUpState>(
                           builder: (context, state) {
-                            final s = state.state;
+                            // final s = state.state;
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextFormField(
                                   keyboardType: TextInputType.emailAddress,
-                                  initialValue: state.email,
-                                  onChanged: (value) =>
-                                      bloc.add(SignUpEventEmail(value)),
+                                  initialValue:  "",
+                                  // state.email,
+                                  onChanged: (value) {
+                                      // bloc.add(SignUpEventEmail(value));
+                                      },
                                   decoration: InputDecoration(
                                     prefixIcon:
                                         credentialIcon(KImages.emailIcon),
                                     hintText: 'your email address',
                                   ),
                                 ),
-                                if (state.name.isNotEmpty)
-                                  if (s is SignUpStateLoadedError) ...[
-                                    if (s.errors.email.isNotEmpty)
-                                      ErrorText(text: s.errors.email.first),
+                                // if (state.name.isNotEmpty)
+                                //   if (s is SignUpStateLoadedError) ...[
+                                //     if (s.errors.email.isNotEmpty)
+                                //       ErrorText(text: s.errors.email.first),
                                   ]
-                              ],
+                              // ],
                             );
                           },
                         ),
                         spacer,
-                        BlocBuilder<SignUpBloc, SignUpModelState>(
+                        BlocBuilder<SignUpCubit, SignUpState>(
                           builder: (context, state) {
-                            final s = state.state;
+                            // final s = state.state;
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextFormField(
                                   keyboardType: TextInputType.visiblePassword,
-                                  initialValue: state.password,
-                                  onChanged: (value) =>
-                                      bloc.add(SignUpEventPassword(value)),
+                                  initialValue:  ""
+                                  // state.password
+                                  ,
+                                  onChanged: (value) {
+                                      // bloc.add(SignUpEventPassword(value)),
+                                  },
                                   obscureText: isShow,
                                   decoration: InputDecoration(
                                       prefixIcon:
@@ -193,28 +203,32 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                         ),
                                       )),
                                 ),
-                                if (state.email.isNotEmpty &&
-                                    state.passwordConfirmation == '')
-                                  if (s is SignUpStateLoadedError) ...[
-                                    if (s.errors.password.isNotEmpty)
-                                      ErrorText(text: s.errors.password.first),
-                                  ]
+                              //   if (state.email.isNotEmpty &&
+                              //       state.passwordConfirmation == '')
+                              //     if (s is SignUpStateLoadedError) ...[
+                              //       if (s.errors.password.isNotEmpty)
+                              //         ErrorText(text: s.errors.password.first),
+                              //     ]
                               ],
                             );
                           },
                         ),
                         spacer,
-                        BlocBuilder<SignUpBloc, SignUpModelState>(
+                        BlocBuilder<SignUpCubit, SignUpState>(
                           builder: (context, state) {
-                            final s = state.state;
+                            // final s = state.state;
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextFormField(
                                   keyboardType: TextInputType.visiblePassword,
-                                  initialValue: state.passwordConfirmation,
-                                  onChanged: (value) => bloc
-                                      .add(SignUpEventPasswordConfirm(value)),
+                                  initialValue: ""
+                                  // state.passwordConfirmation
+                                  ,
+                                  onChanged: (value) {
+                                    // bloc
+                                    //     .add(SignUpEventPasswordConfirm(value))
+                                  },
                                   obscureText: isShowConfirm,
                                   decoration: InputDecoration(
                                       prefixIcon:
@@ -232,26 +246,26 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                         ),
                                       )),
                                 ),
-                                if (state.password.isNotEmpty)
-                                  if (s is SignUpStateLoadedError) ...[
-                                    if (s.errors.password.isNotEmpty)
-                                      ErrorText(text: s.errors.password.first),
-                                  ]
+                                // if (state.password.isNotEmpty)
+                                //   if (s is SignUpStateLoadedError) ...[
+                                //     if (s.errors.password.isNotEmpty)
+                                //       ErrorText(text: s.errors.password.first),
+                                //   ]
                               ],
                             );
                           },
                         ),
                         spacer,
-                        BlocBuilder<SignUpBloc, SignUpModelState>(
+                        BlocBuilder<SignUpCubit, SignUpState>(
                           builder: (context, state) {
-                            if (state.state is SignUpStateLoading) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            }
+                            // if (state.state is SignUpStateLoading) {
+                            //   return const Center(
+                            //       child: CircularProgressIndicator());
+                            // }
                             return PrimaryButton(
                               onPressed: () {
                                 Utils.closeKeyBoard(context);
-                                bloc.add(SignUpEventSubmit());
+                                // bloc.add(SignUpEventSubmit());
                               },
                               text: 'Sign Up',
                               borderRadiusSize: 5.0,

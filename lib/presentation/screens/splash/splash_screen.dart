@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:real_estate/logic/bloc/splash_screen_state.dart';
+import 'package:real_estate/presentation/router/route_packages_name.dart';
 
 import '../../../logic/bloc/login/login_bloc.dart';
+import '../../../logic/bloc/splash_screen_cubit.dart';
 import '../../../logic/cubit/profile/profile_cubit.dart';
 import '../../../logic/cubit/setting/app_setting_cubit.dart';
 import '../../router/route_names.dart';
@@ -24,30 +27,59 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final appSettinBloc = context.read<AppSettingCubit>();
-    final loginBloc = context.read<LoginBloc>();
+    // final appSettinBloc = context.read<AppSettingCubit>();
+    // final loginBloc = context.read<LoginBloc>();
     return Scaffold(
-
-      body: BlocConsumer<AppSettingCubit, AppSettingState>(
+      body: BlocConsumer<SplashScreenCubit, SplashScreenState>(
         listener: (context, state) {
-          if (state is AppSettingStateLoaded) {
-            if (loginBloc.isLogedIn) {
-              context.read<ProfileCubit>().getAgentProfile();
-              context.read<ProfileCubit>().getAgentDashboardInfo();
+          if (state.Token != null) {
+            Future.delayed(const Duration(seconds: 1), () {
               Navigator.pushReplacementNamed(
                   context, RouteNames.mainPageScreen);
-            } else if (appSettinBloc.isOnBoardingShown) {
-              Navigator.pushReplacementNamed(context, RouteNames.loginScreen);
-            } else {
+            });
+            // Navigator.pushReplacementNamed(context, RouteNames.mainPageScreen);
+          } else {
+            Future.delayed(const Duration(seconds: 1), () {
               Navigator.pushReplacementNamed(
                   context, RouteNames.onBoardingScreen);
-            }
+            });
+            // Navigator.pushReplacementNamed(
+            //     context, RouteNames.onBoardingScreen);
           }
+
+          // if (state is AppSettingStateLoaded) {
+          //   if (loginBloc.isLogedIn) {
+          //     context.read<ProfileCubit>().getAgentProfile();
+          //     context.read<ProfileCubit>().getAgentDashboardInfo();
+          //     Navigator.pushReplacementNamed(
+          //         context, RouteNames.mainPageScreen);
+          //   } else if (appSettinBloc.isOnBoardingShown) {
+          //     Navigator.pushReplacementNamed(context, RouteNames.loginScreen);
+          //   } else {
+          //     Navigator.pushReplacementNamed(
+          //         context, RouteNames.onBoardingScreen);
+          //   }
+          // }
         },
         builder: (context, state) {
-          if (state is AppSettingStateError) {
-            return SettingErrorWidget(message: state.meg);
+          // if (state is AppSettingStateError) {
+          //   return SettingErrorWidget(message: state.meg);
+          // }
+          if (state.Token != null) {
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.pushReplacementNamed(
+                  context, RouteNames.mainPageScreen);
+            });
+            // Navigator.pushReplacementNamed(context, RouteNames.mainPageScreen);
+          } else {
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.pushReplacementNamed(
+                  context, RouteNames.onBoardingScreen);
+            });
+            // Navigator.pushReplacementNamed(
+            //     context, RouteNames.onBoardingScreen);
           }
+
           return Scaffold(
             resizeToAvoidBottomInset: false,
             body: Column(
@@ -82,7 +114,6 @@ class _SplashScreenState extends State<SplashScreen> {
                         height: 154.41,
                       ),
                       const SizedBox(height: 20),
-
                       Container(
                         width: 324,
                         height: 199.59,
@@ -97,7 +128,8 @@ class _SplashScreenState extends State<SplashScreen> {
                                   'We’re thrilled to have you here! Whether you’re searching for your dream home, exploring investment opportunities, or looking for a new rental, our app is designed to make your property journey seamless and enjoyable.',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Colors.black.withOpacity(0.8500000238418579),
+                                    color: Colors.black
+                                        .withOpacity(0.8500000238418579),
                                     fontSize: 18,
                                     fontFamily: 'DM Sans',
                                     fontWeight: FontWeight.w600,
@@ -150,7 +182,8 @@ class _SplashScreenState extends State<SplashScreen> {
                                 ),
                               ),
                               TextSpan(
-                                text: ' Let’s start your property journey together!',
+                                text:
+                                    ' Let’s start your property journey together!',
                                 style: TextStyle(
                                   color: Color(0xFF30469A),
                                   fontSize: 18,

@@ -21,7 +21,8 @@ class AppSettingCubit extends Cubit<AppSettingState> {
         super(const AppSettingStateInitial()) {
     print('AppSettingStateInitial');
     init();
-    loadWebSetting();
+
+    // loadWebSetting();
   }
 
   bool get isOnBoardingShown =>
@@ -71,39 +72,39 @@ class AppSettingCubit extends Cubit<AppSettingState> {
     );
   }
 
-  Future<void> loadWebSetting() async {
-    emit(const AppSettingStateLoading());
-    final result = await _appSettingRepository.websiteSetup();
-    result.fold(
-      (failure) {
-        emit(AppSettingStateError(failure.message, failure.statusCode));
-      },
-      (value) {
-        final stateData = AppSettingStateLoaded(value);
-        onBoarding.clear();
-        onBoarding.add(OnBoardingModel(
-          image: value.mobileAppContent.onboardingOneIcon,
-          title: value.mobileAppContent.onboardingOneTitle,
-          description: value.mobileAppContent.onboardingOneDescription,
-          indicator: '',
-        ));
-
-        onBoarding.add(OnBoardingModel(
-          image: value.mobileAppContent.onboardingTwoIcon,
-          title: value.mobileAppContent.onboardingTwoTitle,
-          description: value.mobileAppContent.onboardingTwoDescription,
-          indicator: '',
-        ));
-
-        onBoarding.add(OnBoardingModel(
-          image: value.mobileAppContent.onboardingThreeIcon,
-          title: value.mobileAppContent.onboardingThreeTitle,
-          description: value.mobileAppContent.onboardingThreeDescription,
-          indicator: '',
-        ));
-        settingModel = value;
-        emit(stateData);
-      },
-    );
-  }
+  // Future<void> loadWebSetting() async {
+  //   emit(const AppSettingStateLoading());
+  //   final result = await _appSettingRepository.websiteSetup();
+  //   result.fold(
+  //     (failure) {
+  //       emit(AppSettingStateError(failure.message, failure.statusCode));
+  //     },
+  //     (value) {
+  //       final stateData = AppSettingStateLoaded(value);
+  //       onBoarding.clear();
+  //       onBoarding.add(OnBoardingModel(
+  //         image: value.mobileAppContent.onboardingOneIcon,
+  //         title: value.mobileAppContent.onboardingOneTitle,
+  //         description: value.mobileAppContent.onboardingOneDescription,
+  //         indicator: '',
+  //       ));
+  //
+  //       onBoarding.add(OnBoardingModel(
+  //         image: value.mobileAppContent.onboardingTwoIcon,
+  //         title: value.mobileAppContent.onboardingTwoTitle,
+  //         description: value.mobileAppContent.onboardingTwoDescription,
+  //         indicator: '',
+  //       ));
+  //
+  //       onBoarding.add(OnBoardingModel(
+  //         image: value.mobileAppContent.onboardingThreeIcon,
+  //         title: value.mobileAppContent.onboardingThreeTitle,
+  //         description: value.mobileAppContent.onboardingThreeDescription,
+  //         indicator: '',
+  //       ));
+  //       settingModel = value;
+  //       emit(stateData);
+  //     },
+  //   );
+  // }
 }

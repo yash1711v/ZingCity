@@ -4,7 +4,7 @@ export 'package:http/http.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 
 export '/data/data_provider/local_data_source.dart';
-export '/logic/bloc/signup/sign_up_bloc.dart';
+// export '/logic/bloc/signup/sign_up_bloc.dart';
 export '/logic/cubit/change_password/change_password_cubit.dart';
 export '/logic/cubit/create_property/cubit/update_cubit.dart';
 export '/logic/cubit/forgot_password/forgot_password_cubit.dart';

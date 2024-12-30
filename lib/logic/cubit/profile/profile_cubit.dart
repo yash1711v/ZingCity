@@ -10,23 +10,21 @@ import '../../../data/model/auth/auth_error_model.dart';
 import '../../../data/model/auth/user_profile_model.dart';
 import '../../../presentation/error/failure.dart';
 import '../../bloc/login/login_bloc.dart';
+import '../../repository/auth_repository.dart';
 import '../../repository/profile_repository.dart';
 import 'profile_state_model.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileStateModel> {
-  final ProfileRepository _profileRepository;
-  final LoginBloc _loginBloc;
+  // final ProfileRepository _profileRepository;
+  // final LoginBloc _loginBloc;
   TextEditingController amountCon = TextEditingController();
 
-  ProfileCubit({
-    required ProfileRepository profileRepository,
-    required LoginBloc loginBloc,
-  })  : _profileRepository = profileRepository,
-        _loginBloc = loginBloc,
-        super(ProfileStateModel());
+  ProfileCubit()
+      : super(ProfileStateModel());
 
+  final Respository _authRepository = Respository();
   void nameChange(String text) {
     emit(state.copyWith(name: text, profileState: const ProfileInitial()));
   }
@@ -125,75 +123,60 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
   AgentProfileModel? agentDetailModel;
   UserProfileModel? users;
 
-  Future<void> getAgentDashboardInfo() async {
-    if (_loginBloc.userInfo != null &&
-        _loginBloc.userInfo!.accessToken.isNotEmpty) {
-      emit(state.copyWith(profileState: ProfileLoading()));
-      final result = await _profileRepository
-          .getAgentDashboardInfo(_loginBloc.userInfo!.accessToken);
-      result.fold(
-          (failure) => emit(state.copyWith(
-              profileState: ProfileError(failure.message, failure.statusCode))),
-          (success) {
-        agentDetailModel = success;
-        emit(state.copyWith(profileState: ProfileLoaded(success)));
-      });
-    }
-  }
+  // Future<void> getAgentDashboardInfo() async {
+  //   if (_loginBloc.userInfo != null &&
+  //       _loginBloc.userInfo!.accessToken.isNotEmpty) {
+  //     emit(state.copyWith(profileState: ProfileLoading()));
+  //     final result = await _profileRepository
+  //         .getAgentDashboardInfo(_loginBloc.userInfo!.accessToken);
+  //     result.fold(
+  //         (failure) => emit(state.copyWith(
+  //             profileState: ProfileError(failure.message, failure.statusCode))),
+  //         (success) {
+  //       agentDetailModel = success;
+  //       emit(state.copyWith(profileState: ProfileLoaded(success)));
+  //     });
+  //   }
+  // }
 
   Future<void> updateAgentProfileInfo() async {
-    emit(state.copyWith(profileState: ProfileUpdateLoading()));
-    print('stateBody: $state');
-    final result = await _profileRepository.updateAgentProfileInfo(
-        _loginBloc.userInfo!.accessToken, state);
-    result.fold((failure) {
-      if (failure is InvalidAuthData) {
-        final errors = ProfileUpdateFormValidate(failure.errors);
-        emit(state.copyWith(profileState: errors));
-      } else {
-        final errors = ProfileUpdateError(failure.message, failure.statusCode);
-        emit(state.copyWith(profileState: errors));
-      }
-    }, (success) {
-      emit(state.copyWith(profileState: ProfileUpdateLoaded(success)));
-      //  emit(state.clear());
-    });
+
   }
 
-  Future<void> getAgentProfile() async {
-    debugPrint('called-getAgentProfile');
-    if (_loginBloc.userInfo != null &&
-        _loginBloc.userInfo!.accessToken.isNotEmpty) {
-      emit(state.copyWith(profileState: ProfileLoading()));
-      final result = await _profileRepository
-          .getAgentProfile(_loginBloc.userInfo!.accessToken);
-      result.fold((failure) {
-        final errors = ProfileError(failure.message, failure.statusCode);
-        emit(state.copyWith(profileState: errors));
-      }, (success) {
-        users = success;
-        final loaded = AgentProfileLoaded(success);
-        emit(state.copyWith(profileState: loaded));
-      });
-    }
-  }
+  // Future<void> getAgentProfile() async {
+  //   debugPrint('called-getAgentProfile');
+  //   if (_loginBloc.userInfo != null &&
+  //       _loginBloc.userInfo!.accessToken.isNotEmpty) {
+  //     emit(state.copyWith(profileState: ProfileLoading()));
+  //     final result = await _profileRepository
+  //         .getAgentProfile(_loginBloc.userInfo!.accessToken);
+  //     result.fold((failure) {
+  //       final errors = ProfileError(failure.message, failure.statusCode);
+  //       emit(state.copyWith(profileState: errors));
+  //     }, (success) {
+  //       users = success;
+  //       final loaded = AgentProfileLoaded(success);
+  //       emit(state.copyWith(profileState: loaded));
+  //     });
+  //   }
+  // }
 
-  Future<void> deleteAccount() async {
-    emit(state.copyWith(profileState: const AccountDeleting()));
-    final result = await _profileRepository.deleteAccount(
-        _loginBloc.userInfo!.accessToken, state);
-    result.fold((failure) {
-      if (failure is InvalidAuthData) {
-        final error = ProfileUpdateFormValidate(failure.errors);
-        emit(state.copyWith(profileState: error));
-      } else {
-        final error = AccountDeleteError(failure.message, failure.statusCode);
-        emit(state.copyWith(profileState: error));
-      }
-    }, (delete) {
-      emit(state.copyWith(profileState: AccountDeleted(delete)));
-    });
-  }
+  // Future<void> deleteAccount() async {
+  //   emit(state.copyWith(profileState: const AccountDeleting()));
+  //   final result = await _profileRepository.deleteAccount(
+  //       _loginBloc.userInfo!.accessToken, state);
+  //   result.fold((failure) {
+  //     if (failure is InvalidAuthData) {
+  //       final error = ProfileUpdateFormValidate(failure.errors);
+  //       emit(state.copyWith(profileState: error));
+  //     } else {
+  //       final error = AccountDeleteError(failure.message, failure.statusCode);
+  //       emit(state.copyWith(profileState: error));
+  //     }
+  //   }, (delete) {
+  //     emit(state.copyWith(profileState: AccountDeleted(delete)));
+  //   });
+  // }
 
   FutureOr<void> clear() {
     emit(state.copyWith(

@@ -1,12 +1,13 @@
 class RemoteUrls {
   // static const String rootUrl = "https://mamunuiux.com/homeco/"; //test url
   //static const String rootUrl = "https://homeco.mamunuiux.com/"; //test url
-  static const String rootUrl = "https://risuvo.com/homecoapi/"; //test url
+  static const String rootUrl = "https://lab6.invoidea.in/zingcity/"; //test url
   //static const String rootUrl = "https://casasemangola.com/"; //test url
   static const String baseUrl = '${rootUrl}api/';
   static const String homeUrl = baseUrl;
   static const String userRegister = '${baseUrl}store-register';
-  static const String userLogin = '${baseUrl}store-login';
+  static const String userLogin = '${baseUrl}send-mobile-otp';
+  static const String verifyOtp = '${baseUrl}veryfy-otp';
   static const String websiteSetup = '${baseUrl}website-setup';
 
   static String createPropertyInfoUrl(String token, String purpose) =>

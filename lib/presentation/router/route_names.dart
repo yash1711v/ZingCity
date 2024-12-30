@@ -1,3 +1,4 @@
+import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 import 'package:real_estate/presentation/screens/company_screen/company_screen.dart';
 import 'package:real_estate/presentation/screens/company_screen/components/create_agent_screen.dart';
 import 'package:real_estate/presentation/screens/company_screen/create_company_screen.dart';
@@ -92,16 +93,14 @@ class RouteNames {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case RouteNames.splashScreen:
-        return MaterialPageRoute(
-            settings: settings, builder: (_) => const SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
 
       case RouteNames.onBoardingScreen:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const OnBoardingScreen());
 
       case RouteNames.loginScreen:
-        return MaterialPageRoute(
-            settings: settings, builder: (_) => const LoginScreen());
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
 
       case RouteNames.signUpScreen:
         return MaterialPageRoute(
@@ -112,10 +111,10 @@ class RouteNames {
             settings: settings, builder: (_) => const ForgotPasswordScreen());
 
       case RouteNames.verificationScreen:
-        final isVerification = settings.arguments as bool;
+        final isVerification = settings.arguments ;
         return MaterialPageRoute(
             settings: settings,
-            builder: (_) => VerificationScreen(isVerification: isVerification));
+            builder: (_) => VerificationScreen(phoneNumber: isVerification.toString()));
 
       case RouteNames.updatePasswordScreen:
         return MaterialPageRoute(
@@ -168,7 +167,7 @@ class RouteNames {
             settings: settings, builder: (_) => const ProfileScreen());
 
       case RouteNames.updateProfileScreen:
-        final profile = settings.arguments as UserProfileModel;
+        final profile = settings.arguments as UserModel;
         return MaterialPageRoute(
             settings: settings,
             builder: (_) => UpdateProfileScreen(profile: profile));

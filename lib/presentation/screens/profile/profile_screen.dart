@@ -30,7 +30,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    Future.microtask(() => context.read<ProfileCubit>().getAgentProfile());
+    // Future.microtask(() => context.read<ProfileCubit>().getAgentProfile());
     super.initState();
   }
 

@@ -62,25 +62,25 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
       // Container(),
     ];
 
-    context.read<PrivacyPolicyCubit>().getFaqContent();
-    context.read<PrivacyPolicyCubit>().getTermsAndCondition();
-    context.read<PrivacyPolicyCubit>().getPrivacyPolicy();
-    context.read<WishlistCubit>().getWishListProperties();
-    context.read<ContactUsCubit>().getContactUs();
-    context.read<AboutUsCubit>().getAboutUs();
-    context.read<AgentCubit>().getAllAgent();
-    context.read<PricePlanCubit>().getPricePlan();
-    context.read<FilterPropertyCubit>().getAllProperty();
-    context.read<CreateInfoCubit>().getPropertyChooseInfo();
-    context.read<ProfileCubit>().getAgentProfile();
-    context.read<ProfileCubit>().getAgentDashboardInfo();
-    context.read<CreateInfoCubit>().getCreateInfo('rent');
-    context.read<SupportCubit>().getPriorityList();
-    context.read<KycCubit>().getKycInfo();
-    context.read<BookingCubit>().getCompareList();
-    context.read<CompanyCubit>().getAgencyKyc();
-    context.read<CompanyCubit>().getCompanyProfile();
-    context.read<OrderCubit>().getAllOrders();
+    // context.read<PrivacyPolicyCubit>().getFaqContent();
+    // context.read<PrivacyPolicyCubit>().getTermsAndCondition();
+    // context.read<PrivacyPolicyCubit>().getPrivacyPolicy();
+    // context.read<WishlistCubit>().getWishListProperties();
+    // context.read<ContactUsCubit>().getContactUs();
+    // context.read<AboutUsCubit>().getAboutUs();
+    // context.read<AgentCubit>().getAllAgent();
+    // context.read<PricePlanCubit>().getPricePlan();
+    // context.read<FilterPropertyCubit>().getAllProperty();
+    // context.read<CreateInfoCubit>().getPropertyChooseInfo();
+    // context.read<ProfileCubit>().getAgentProfile();
+    // context.read<ProfileCubit>().getAgentDashboardInfo();
+    // context.read<CreateInfoCubit>().getCreateInfo('rent');
+    // context.read<SupportCubit>().getPriorityList();
+    // context.read<KycCubit>().getKycInfo();
+    // context.read<BookingCubit>().getCompareList();
+    // context.read<CompanyCubit>().getAgencyKyc();
+    // context.read<CompanyCubit>().getCompanyProfile();
+    // context.read<OrderCubit>().getAllOrders();
   }
 
   @override
@@ -317,18 +317,18 @@ class _MainPageScreenState extends State<MainPageScreen> with TickerProviderStat
             return screenList[item];
           },
         ),
-        bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            if (state is HomeDataLoaded) {
-              return const Padding(
-                padding: EdgeInsets.only(bottom: 13.0, left: 18, right: 18),
-                child: MyBottomNavigationBar(),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
+        // bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(
+        //   builder: (context, state) {
+        //     if (state is HomeDataLoaded) {
+        //       return const Padding(
+        //         padding: EdgeInsets.only(bottom: 13.0, left: 18, right: 18),
+        //         child: MyBottomNavigationBar(),
+        //       );
+        //     } else {
+        //       return const SizedBox.shrink();
+        //     }
+        //   },
+        // ),
         // bottomNavigationBar: const MyBottomNavigationBar(),
       ),
     );
