@@ -12,30 +12,32 @@ class UrgentPropertyListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>().homeModel!.urgentProperty;
+    // final homeCubit = context.read<HomeCubit>().homeModel!.urgentProperty;
     // print(homeCubit.properties.length);
     // print(homeCubit.description);
     return Scaffold(
       backgroundColor: scaffoldBackground,
       appBar: CustomAppBar(
-        title: homeCubit!.title,
+        title:  ""
+        //homeCubit!.title,
       ),
-      body: ListView.builder(
-        itemCount: homeCubit.properties.length,
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0)
-            .copyWith(bottom: 40.0),
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          final item = homeCubit.properties[index];
-          return GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                    context,
-                    RouteNames.propertyDetailsScreen,
-                    arguments: item.slug,
-                  ),
-              child: SinglePropertyCardView(property: item));
-        },
-      ),
+      body: Column()
+      // ListView.builder(
+      //   itemCount: homeCubit.properties.length,
+      //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0)
+      //       .copyWith(bottom: 40.0),
+      //   physics: const BouncingScrollPhysics(),
+      //   itemBuilder: (context, index) {
+      //     final item = homeCubit.properties[index];
+      //     return GestureDetector(
+      //         onTap: () => Navigator.pushNamed(
+      //               context,
+      //               RouteNames.propertyDetailsScreen,
+      //               arguments: item.slug,
+      //             ),
+      //         child: SinglePropertyCardView(property: item));
+      //   },
+      // ),
     );
   }
 }

@@ -11,30 +11,30 @@ class RecommendedProperties extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>().homeModel!.sliderProperty;
+    // final homeCubit = context.read<HomeCubit>().homeModel!.sliderProperty;
     return Column(
       children: [
         HeadlineText(
             text: 'Recommended for You',
             onTap: () => Navigator.pushNamed(
                 context, RouteNames.allRecommendedPropertyScreen)),
-        ListView.builder(
-          itemCount: homeCubit!.length,
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0)
-              .copyWith(bottom: 40.0),
-          physics: const ClampingScrollPhysics(),
-          itemBuilder: (context, index) {
-            final item = homeCubit[index];
-            return GestureDetector(
-                onTap: () => Navigator.pushNamed(
-                      context,
-                      RouteNames.propertyDetailsScreen,
-                      arguments: item.slug,
-                    ),
-                child: SinglePropertyCardView(property: item));
-          },
-        ),
+        // ListView.builder(
+        //   itemCount: homeCubit!.length,
+        //   shrinkWrap: true,
+        //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0)
+        //       .copyWith(bottom: 40.0),
+        //   physics: const ClampingScrollPhysics(),
+        //   itemBuilder: (context, index) {
+        //     final item = homeCubit[index];
+        //     return GestureDetector(
+        //         onTap: () => Navigator.pushNamed(
+        //               context,
+        //               RouteNames.propertyDetailsScreen,
+        //               arguments: item.slug,
+        //             ),
+        //         child: SinglePropertyCardView(property: item));
+        //   },
+        // ),
       ],
     );
   }

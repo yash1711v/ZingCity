@@ -49,21 +49,22 @@ class _CompareScreenState extends State<CompareScreen> {
           bookingCubit.getCompareList();
         },
         child: BlocListener<LoginBloc, LoginModelState>(
-          listener: (context, state) {
-            final logout = state.state;
-            if (logout is LoginStateLogOutLoading) {
-              Utils.loadingDialog(context);
-            } else {
-              Utils.closeDialog(context);
-              if (logout is LoginStateSignOutError) {
-                Utils.errorSnackBar(context, logout.errorMsg);
-              } else if (logout is LoginStateLogOut) {
-                Utils.showSnackBar(context, logout.msg);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, RouteNames.loginScreen, (route) => false);
-              }
-            }
-          },
+          listener: (context, state) {},
+          // {
+          //   final logout = state.state;
+          //   if (logout is LoginStateLogOutLoading) {
+          //     Utils.loadingDialog(context);
+          //   } else {
+          //     Utils.closeDialog(context);
+          //     if (logout is LoginStateSignOutError) {
+          //       Utils.errorSnackBar(context, logout.errorMsg);
+          //     } else if (logout is LoginStateLogOut) {
+          //       Utils.showSnackBar(context, logout.msg);
+          //       Navigator.pushNamedAndRemoveUntil(
+          //           context, RouteNames.loginScreen, (route) => false);
+          //     }
+          //   }
+          // },
           child: BlocConsumer<BookingCubit, BookingModel>(
             listener: (context, service) {
               final state = service.bookState;

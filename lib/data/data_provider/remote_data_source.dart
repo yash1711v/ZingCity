@@ -259,7 +259,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
 
   @override
   Future<String> userRegister(Map<String, dynamic> userInfo) async {
-    final uri = Uri.parse(RemoteUrls.userRegister);
+    final uri = Uri.parse(RemoteUrls.userRegisterAndUpdateData);
 
     final clientMethod = client.post(
       uri,
@@ -519,38 +519,39 @@ class RemoteDataSourceImp extends RemoteDataSource {
 
 
 
-  @override
-  Future<String> updateAgentProfileInfo(
-      String token, ProfileStateModel body) async {
-    final url = Uri.parse(RemoteUrls.updateAgentProfileInfo(token));
-    final headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'X-Requested-With': 'XMLHttpRequest',
-    };
-    // final clientMethod = client.put(url, headers: headers,body: body);
-    final request = http.MultipartRequest(
-      'POST',
-      url,
-    );
-    request.fields.addAll(body.toMap());
-
-    request.headers.addAll(headers);
-    if (body.image.isNotEmpty) {
-      print('immmmmm: ${body.image}');
-      final file = await http.MultipartFile.fromPath('image', body.image);
-      request.files.add(file);
-    }
-    // final file = await http.MultipartFile.fromPath('image', body.image);
-    // request.files.add(file);
-
-    http.StreamedResponse response = await request.send();
-    final clientMethod = http.Response.fromStream(response);
-
-    final responseJsonBody =
-        await NetworkParser.callClientWithCatchException(() => clientMethod);
-    return responseJsonBody['message'] as String;
-  }
+  // @override
+  // Future<String> updateAgentProfileInfo(
+  //     String token, ProfileStateModel body) 
+  // async {
+  //   final url = Uri.parse(RemoteUrls.updateAgentProfileInfo(token));
+  //   final headers = {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/x-www-form-urlencoded',
+  //     'X-Requested-With': 'XMLHttpRequest',
+  //   };
+  //   // final clientMethod = client.put(url, headers: headers,body: body);
+  //   final request = http.MultipartRequest(
+  //     'POST',
+  //     url,
+  //   );
+  //   request.fields.addAll(body.toMap());
+  //
+  //   request.headers.addAll(headers);
+  //   if (body.image.isNotEmpty) {
+  //     print('immmmmm: ${body.image}');
+  //     final file = await http.MultipartFile.fromPath('image', body.image);
+  //     request.files.add(file);
+  //   }
+  //   // final file = await http.MultipartFile.fromPath('image', body.image);
+  //   // request.files.add(file);
+  //
+  //   http.StreamedResponse response = await request.send();
+  //   final clientMethod = http.Response.fromStream(response);
+  //
+  //   final responseJsonBody =
+  //       await NetworkParser.callClientWithCatchException(() => clientMethod);
+  //   return responseJsonBody['message'] as String;
+  // }
 
   @override
   Future getFaqContent() async {
@@ -1281,5 +1282,11 @@ class RemoteDataSourceImp extends RemoteDataSource {
     final responseJsonBody =
         await NetworkParser.callClientWithCatchException(() => clientMethod);
     return responseJsonBody;
+  }
+
+  @override
+  Future<String> updateAgentProfileInfo(String token, ProfileStateModel body) {
+    // TODO: implement updateAgentProfileInfo
+    throw UnimplementedError();
   }
 }

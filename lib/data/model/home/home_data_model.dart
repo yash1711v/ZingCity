@@ -1,138 +1,729 @@
-import 'dart:convert';
+class HomeDataModel {
+  PropertyType? propertyType;
+  List<BannerImage>? bannerImage;
+  List<PropertyFeatured>? propertyFeatured;
+  List<LatestProperties>? latestProperties;
+  List<Properties>? properties;
 
-import 'package:equatable/equatable.dart';
+  HomeDataModel(
+      {this.propertyType,
+        this.bannerImage,
+        this.propertyFeatured,
+        this.latestProperties,
+        this.properties});
 
-import '../category/home_category_model.dart';
-import '../product/property_item_model.dart';
-import 'agents_model.dart';
-import 'counter_model.dart';
-import 'fileter_prices.dart';
-import 'home_property_model.dart';
-import 'location_model.dart';
-
-class HomeDataModel extends Equatable {
-  final LocationModel location;
-  final HomeCategory category;
-  final AgentsModel agent;
-  final CounterModel counter;
-  final List<FilterPriceItem> filterPrices;
-  final HomePropertyModel? featuredProperty;
-  final HomePropertyModel? urgentProperty;
-  final List<PropertyItemModel>? sliderProperty;
-  final List<PropertyItemModel>? latestProperty;
-
-  const HomeDataModel({
-    required this.location,
-    required this.category,
-    required this.agent,
-    required this.counter,
-    required this.filterPrices,
-    required this.featuredProperty,
-    required this.sliderProperty,
-    required this.latestProperty,
-    required this.urgentProperty,
-  });
-
-  HomeDataModel copyWith({
-    LocationModel? location,
-    HomeCategory? category,
-    AgentsModel? agent,
-    CounterModel? counter,
-    List<FilterPriceItem>? filterPrices,
-    HomePropertyModel? featuredProperty,
-    HomePropertyModel? urgentProperty,
-    List<PropertyItemModel>? sliderProperty,
-    List<PropertyItemModel>? latestProperty,
-  }) {
-    return HomeDataModel(
-      location: location ?? this.location,
-      category: category ?? this.category,
-      agent: agent ?? this.agent,
-      counter: counter ?? this.counter,
-      filterPrices: filterPrices ?? this.filterPrices,
-      featuredProperty: featuredProperty ?? this.featuredProperty,
-      urgentProperty: urgentProperty ?? this.urgentProperty,
-      sliderProperty: sliderProperty ?? this.sliderProperty,
-      latestProperty: latestProperty ?? this.latestProperty,
-    );
+  HomeDataModel.fromJson(Map<String, dynamic> json) {
+    propertyType = json['property_type'] != null
+        ? new PropertyType.fromJson(json['property_type'])
+        : null;
+    if (json['banner_image '] != null) {
+      bannerImage = <BannerImage>[];
+      json['banner_image '].forEach((v) {
+        bannerImage!.add(new BannerImage.fromJson(v));
+      });
+    }
+    if (json['property_featured'] != null) {
+      propertyFeatured = <PropertyFeatured>[];
+      json['property_featured'].forEach((v) {
+        propertyFeatured!.add(new PropertyFeatured.fromJson(v));
+      });
+    }
+    if (json['latestProperties'] != null) {
+      latestProperties = <LatestProperties>[];
+      json['latestProperties'].forEach((v) {
+        latestProperties!.add(new LatestProperties.fromJson(v));
+      });
+    }
+    if (json['properties'] != null) {
+      properties = <Properties>[];
+      json['properties'].forEach((v) {
+        properties!.add(new Properties.fromJson(v));
+      });
+    }
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'location': location.toMap(),
-      'category': category.toMap(),
-      'agent': agent.toMap(),
-      'counter': counter.toMap(),
-      'filter_prices': filterPrices.map((x) => x.toMap()).toList(),
-      'featured_property': featuredProperty!.toMap(),
-      'urgent_property': urgentProperty!.toMap(),
-      'intro_content': sliderProperty!.map((e) => e.toMap()).toList(),
-      'latest_property': latestProperty!.map((e) => e.toMap()).toList(),
-    };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.propertyType != null) {
+      data['property_type'] = this.propertyType!.toJson();
+    }
+    if (this.bannerImage != null) {
+      data['banner_image '] = this.bannerImage!.map((v) => v.toJson()).toList();
+    }
+    if (this.propertyFeatured != null) {
+      data['property_featured'] =
+          this.propertyFeatured!.map((v) => v.toJson()).toList();
+    }
+    if (this.latestProperties != null) {
+      data['latestProperties'] =
+          this.latestProperties!.map((v) => v.toJson()).toList();
+    }
+    if (this.properties != null) {
+      data['properties'] = this.properties!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class PropertyType {
+  String? buy;
+  String? rent;
+
+  PropertyType({this.buy, this.rent});
+
+  PropertyType.fromJson(Map<String, dynamic> json) {
+    buy = json['buy'];
+    rent = json['rent'];
   }
 
-  factory HomeDataModel.fromMap(Map<String, dynamic> map) {
-    return HomeDataModel(
-      location: LocationModel.fromMap(map['location'] as Map<String, dynamic>),
-      category: HomeCategory.fromMap(map['category'] as Map<String, dynamic>),
-      agent: AgentsModel.fromMap(map['agent'] as Map<String, dynamic>),
-      counter: CounterModel.fromMap(map['counter'] as Map<String, dynamic>),
-      filterPrices: List<FilterPriceItem>.from(
-        (map['filter_prices'] as List<dynamic>).map<FilterPriceItem>(
-          (x) => FilterPriceItem.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      sliderProperty:
-          map['intro_content']['home1_intro']['slider_properties'] != null
-              ? List<PropertyItemModel>.from(
-                  (map['intro_content']['home1_intro']['slider_properties']
-                          as List<dynamic>)
-                      .map<PropertyItemModel>(
-                    (x) => PropertyItemModel.fromMap(x as Map<String, dynamic>),
-                  ),
-                )
-              : [],
-      latestProperty:
-      map['latest_property'] != null
-          ? List<PropertyItemModel>.from(
-        (map['latest_property']
-        as List<dynamic>)
-            .map<PropertyItemModel>(
-              (x) => PropertyItemModel.fromMap(x as Map<String, dynamic>),
-        ),
-      )
-          : [],
-      featuredProperty: map['featured_property'] != null
-          ? HomePropertyModel.fromMap(
-              map['featured_property'] as Map<String, dynamic>)
-          : null,
-      urgentProperty: map['urgent_property'] != null
-          ? HomePropertyModel.fromMap(
-              map['urgent_property'] as Map<String, dynamic>)
-          : null,
-    );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['buy'] = this.buy;
+    data['rent'] = this.rent;
+    return data;
+  }
+}
+
+class BannerImage {
+  int? id;
+  String? location;
+  int? imageType;
+  String? image;
+  Null? createdAt;
+  String? updatedAt;
+
+  BannerImage(
+      {this.id,
+        this.location,
+        this.imageType,
+        this.image,
+        this.createdAt,
+        this.updatedAt});
+
+  BannerImage.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    location = json['location'];
+    imageType = json['image_type'];
+    image = json['image'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
-  String toJson() => json.encode(toMap());
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['location'] = this.location;
+    data['image_type'] = this.imageType;
+    data['image'] = this.image;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
 
-  factory HomeDataModel.fromJson(String source) =>
-      HomeDataModel.fromMap(json.decode(source) as Map<String, dynamic>);
+class PropertyFeatured {
+  int? id;
+  int? agentId;
+  int? propertyTypeId;
+  int? stateId;
+  String? title;
+  String? slug;
+  String? purpose;
+  String? rentPeriod;
+  int? price;
+  String? thumbnailImage;
+  String? description;
+  String? videoDescription;
+  String? videoThumbnail;
+  String? videoId;
+  String? address;
+  String? addressDescription;
+  String? googleMap;
+  String? totalArea;
+  String? totalUnit;
+  String? totalBedroom;
+  String? totalBathroom;
+  String? totalGarage;
+  String? totalKitchen;
+  String? isFeatured;
+  String? isTop;
+  String? isUrgent;
+  String? status;
+  String? bhkType;
+  String? expiredDate;
+  String? seoTitle;
+  String? seoMetaDescription;
+  int? serial;
+  String? showSlider;
+  String? approveByAdmin;
+  String? createdAt;
+  String? updatedAt;
+  Null? dateFrom;
+  Null? dateTo;
+  Null? timeFrom;
+  Null? timeTo;
+  int? countryId;
+  String? lat;
+  String? lon;
+  int? possessionStatus;
+  int? cityId;
+  int? totalRating;
+  String? ratingAvarage;
 
-  @override
-  bool get stringify => true;
+  PropertyFeatured(
+      {this.id,
+        this.agentId,
+        this.propertyTypeId,
+        this.stateId,
+        this.title,
+        this.slug,
+        this.purpose,
+        this.rentPeriod,
+        this.price,
+        this.thumbnailImage,
+        this.description,
+        this.videoDescription,
+        this.videoThumbnail,
+        this.videoId,
+        this.address,
+        this.addressDescription,
+        this.googleMap,
+        this.totalArea,
+        this.totalUnit,
+        this.totalBedroom,
+        this.totalBathroom,
+        this.totalGarage,
+        this.totalKitchen,
+        this.isFeatured,
+        this.isTop,
+        this.isUrgent,
+        this.status,
+        this.bhkType,
+        this.expiredDate,
+        this.seoTitle,
+        this.seoMetaDescription,
+        this.serial,
+        this.showSlider,
+        this.approveByAdmin,
+        this.createdAt,
+        this.updatedAt,
+        this.dateFrom,
+        this.dateTo,
+        this.timeFrom,
+        this.timeTo,
+        this.countryId,
+        this.lat,
+        this.lon,
+        this.possessionStatus,
+        this.cityId,
+        this.totalRating,
+        this.ratingAvarage});
 
-  @override
-  List<Object> get props {
-    return [
-      location,
-      category,
-      agent,
-      counter,
-      filterPrices,
-      featuredProperty!,
-      urgentProperty!,
-      sliderProperty!,
-      latestProperty!
-    ];
+  PropertyFeatured.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    agentId = json['agent_id'];
+    propertyTypeId = json['property_type_id'];
+    stateId = json['state_id'];
+    title = json['title'];
+    slug = json['slug'];
+    purpose = json['purpose'];
+    rentPeriod = json['rent_period'];
+    price = json['price'];
+    thumbnailImage = json['thumbnail_image'];
+    description = json['description'];
+    videoDescription = json['video_description'];
+    videoThumbnail = json['video_thumbnail'];
+    videoId = json['video_id'];
+    address = json['address'];
+    addressDescription = json['address_description'];
+    googleMap = json['google_map'];
+    totalArea = json['total_area'];
+    totalUnit = json['total_unit'];
+    totalBedroom = json['total_bedroom'];
+    totalBathroom = json['total_bathroom'];
+    totalGarage = json['total_garage'];
+    totalKitchen = json['total_kitchen'];
+    isFeatured = json['is_featured'];
+    isTop = json['is_top'];
+    isUrgent = json['is_urgent'];
+    status = json['status'];
+    bhkType = json['bhk_type'];
+    expiredDate = json['expired_date'];
+    seoTitle = json['seo_title'];
+    seoMetaDescription = json['seo_meta_description'];
+    serial = json['serial'];
+    showSlider = json['show_slider'];
+    approveByAdmin = json['approve_by_admin'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    dateFrom = json['date_from'];
+    dateTo = json['date_to'];
+    timeFrom = json['time_from'];
+    timeTo = json['time_to'];
+    countryId = json['country_id'];
+    lat = json['lat'];
+    lon = json['lon'];
+    possessionStatus = json['possession_status'];
+    cityId = json['city_id'];
+    totalRating = json['totalRating'];
+    ratingAvarage = json['ratingAvarage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['agent_id'] = this.agentId;
+    data['property_type_id'] = this.propertyTypeId;
+    data['state_id'] = this.stateId;
+    data['title'] = this.title;
+    data['slug'] = this.slug;
+    data['purpose'] = this.purpose;
+    data['rent_period'] = this.rentPeriod;
+    data['price'] = this.price;
+    data['thumbnail_image'] = this.thumbnailImage;
+    data['description'] = this.description;
+    data['video_description'] = this.videoDescription;
+    data['video_thumbnail'] = this.videoThumbnail;
+    data['video_id'] = this.videoId;
+    data['address'] = this.address;
+    data['address_description'] = this.addressDescription;
+    data['google_map'] = this.googleMap;
+    data['total_area'] = this.totalArea;
+    data['total_unit'] = this.totalUnit;
+    data['total_bedroom'] = this.totalBedroom;
+    data['total_bathroom'] = this.totalBathroom;
+    data['total_garage'] = this.totalGarage;
+    data['total_kitchen'] = this.totalKitchen;
+    data['is_featured'] = this.isFeatured;
+    data['is_top'] = this.isTop;
+    data['is_urgent'] = this.isUrgent;
+    data['status'] = this.status;
+    data['bhk_type'] = this.bhkType;
+    data['expired_date'] = this.expiredDate;
+    data['seo_title'] = this.seoTitle;
+    data['seo_meta_description'] = this.seoMetaDescription;
+    data['serial'] = this.serial;
+    data['show_slider'] = this.showSlider;
+    data['approve_by_admin'] = this.approveByAdmin;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['date_from'] = this.dateFrom;
+    data['date_to'] = this.dateTo;
+    data['time_from'] = this.timeFrom;
+    data['time_to'] = this.timeTo;
+    data['country_id'] = this.countryId;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['possession_status'] = this.possessionStatus;
+    data['city_id'] = this.cityId;
+    data['totalRating'] = this.totalRating;
+    data['ratingAvarage'] = this.ratingAvarage;
+    return data;
+  }
+}
+
+class LatestProperties {
+  int? id;
+  int? agentId;
+  int? propertyTypeId;
+  int? stateId;
+  String? title;
+  String? slug;
+  String? purpose;
+  String? rentPeriod;
+  int? price;
+  String? thumbnailImage;
+  String? description;
+  String? videoDescription;
+  String? videoThumbnail;
+  String? videoId;
+  String? address;
+  String? addressDescription;
+  Null? googleMap;
+  String? totalArea;
+  String? totalUnit;
+  String? totalBedroom;
+  String? totalBathroom;
+  String? totalGarage;
+  String? totalKitchen;
+  String? isFeatured;
+  String? isTop;
+  String? isUrgent;
+  String? status;
+  String? bhkType;
+  Null? expiredDate;
+  String? seoTitle;
+  String? seoMetaDescription;
+  int? serial;
+  String? showSlider;
+  String? approveByAdmin;
+  String? createdAt;
+  String? updatedAt;
+  Null? dateFrom;
+  Null? dateTo;
+  Null? timeFrom;
+  Null? timeTo;
+  int? countryId;
+  String? lat;
+  String? lon;
+  int? possessionStatus;
+  int? cityId;
+  int? totalRating;
+  Null? ratingAvarage;
+
+  LatestProperties(
+      {this.id,
+        this.agentId,
+        this.propertyTypeId,
+        this.stateId,
+        this.title,
+        this.slug,
+        this.purpose,
+        this.rentPeriod,
+        this.price,
+        this.thumbnailImage,
+        this.description,
+        this.videoDescription,
+        this.videoThumbnail,
+        this.videoId,
+        this.address,
+        this.addressDescription,
+        this.googleMap,
+        this.totalArea,
+        this.totalUnit,
+        this.totalBedroom,
+        this.totalBathroom,
+        this.totalGarage,
+        this.totalKitchen,
+        this.isFeatured,
+        this.isTop,
+        this.isUrgent,
+        this.status,
+        this.bhkType,
+        this.expiredDate,
+        this.seoTitle,
+        this.seoMetaDescription,
+        this.serial,
+        this.showSlider,
+        this.approveByAdmin,
+        this.createdAt,
+        this.updatedAt,
+        this.dateFrom,
+        this.dateTo,
+        this.timeFrom,
+        this.timeTo,
+        this.countryId,
+        this.lat,
+        this.lon,
+        this.possessionStatus,
+        this.cityId,
+        this.totalRating,
+        this.ratingAvarage});
+
+  LatestProperties.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    agentId = json['agent_id'];
+    propertyTypeId = json['property_type_id'];
+    stateId = json['state_id'];
+    title = json['title'];
+    slug = json['slug'];
+    purpose = json['purpose'];
+    rentPeriod = json['rent_period'];
+    price = json['price'];
+    thumbnailImage = json['thumbnail_image'];
+    description = json['description'];
+    videoDescription = json['video_description'];
+    videoThumbnail = json['video_thumbnail'];
+    videoId = json['video_id'];
+    address = json['address'];
+    addressDescription = json['address_description'];
+    googleMap = json['google_map'];
+    totalArea = json['total_area'];
+    totalUnit = json['total_unit'];
+    totalBedroom = json['total_bedroom'];
+    totalBathroom = json['total_bathroom'];
+    totalGarage = json['total_garage'];
+    totalKitchen = json['total_kitchen'];
+    isFeatured = json['is_featured'];
+    isTop = json['is_top'];
+    isUrgent = json['is_urgent'];
+    status = json['status'];
+    bhkType = json['bhk_type'];
+    expiredDate = json['expired_date'];
+    seoTitle = json['seo_title'];
+    seoMetaDescription = json['seo_meta_description'];
+    serial = json['serial'];
+    showSlider = json['show_slider'];
+    approveByAdmin = json['approve_by_admin'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    dateFrom = json['date_from'];
+    dateTo = json['date_to'];
+    timeFrom = json['time_from'];
+    timeTo = json['time_to'];
+    countryId = json['country_id'];
+    lat = json['lat'];
+    lon = json['lon'];
+    possessionStatus = json['possession_status'];
+    cityId = json['city_id'];
+    totalRating = json['totalRating'];
+    ratingAvarage = json['ratingAvarage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['agent_id'] = this.agentId;
+    data['property_type_id'] = this.propertyTypeId;
+    data['state_id'] = this.stateId;
+    data['title'] = this.title;
+    data['slug'] = this.slug;
+    data['purpose'] = this.purpose;
+    data['rent_period'] = this.rentPeriod;
+    data['price'] = this.price;
+    data['thumbnail_image'] = this.thumbnailImage;
+    data['description'] = this.description;
+    data['video_description'] = this.videoDescription;
+    data['video_thumbnail'] = this.videoThumbnail;
+    data['video_id'] = this.videoId;
+    data['address'] = this.address;
+    data['address_description'] = this.addressDescription;
+    data['google_map'] = this.googleMap;
+    data['total_area'] = this.totalArea;
+    data['total_unit'] = this.totalUnit;
+    data['total_bedroom'] = this.totalBedroom;
+    data['total_bathroom'] = this.totalBathroom;
+    data['total_garage'] = this.totalGarage;
+    data['total_kitchen'] = this.totalKitchen;
+    data['is_featured'] = this.isFeatured;
+    data['is_top'] = this.isTop;
+    data['is_urgent'] = this.isUrgent;
+    data['status'] = this.status;
+    data['bhk_type'] = this.bhkType;
+    data['expired_date'] = this.expiredDate;
+    data['seo_title'] = this.seoTitle;
+    data['seo_meta_description'] = this.seoMetaDescription;
+    data['serial'] = this.serial;
+    data['show_slider'] = this.showSlider;
+    data['approve_by_admin'] = this.approveByAdmin;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['date_from'] = this.dateFrom;
+    data['date_to'] = this.dateTo;
+    data['time_from'] = this.timeFrom;
+    data['time_to'] = this.timeTo;
+    data['country_id'] = this.countryId;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['possession_status'] = this.possessionStatus;
+    data['city_id'] = this.cityId;
+    data['totalRating'] = this.totalRating;
+    data['ratingAvarage'] = this.ratingAvarage;
+    return data;
+  }
+}
+
+class Properties {
+  int? id;
+  int? agentId;
+  int? propertyTypeId;
+  int? stateId;
+  String? title;
+  String? slug;
+  String? purpose;
+  String? rentPeriod;
+  int? price;
+  String? thumbnailImage;
+  String? description;
+  String? videoDescription;
+  String? videoThumbnail;
+  String? videoId;
+  String? address;
+  String? addressDescription;
+  String? googleMap;
+  String? totalArea;
+  String? totalUnit;
+  String? totalBedroom;
+  String? totalBathroom;
+  String? totalGarage;
+  String? totalKitchen;
+  String? isFeatured;
+  String? isTop;
+  String? isUrgent;
+  String? status;
+  String? bhkType;
+  Null? expiredDate;
+  String? seoTitle;
+  String? seoMetaDescription;
+  int? serial;
+  String? showSlider;
+  String? approveByAdmin;
+  String? createdAt;
+  String? updatedAt;
+  Null? dateFrom;
+  Null? dateTo;
+  Null? timeFrom;
+  Null? timeTo;
+  int? countryId;
+  String? lat;
+  String? lon;
+  int? possessionStatus;
+  int? cityId;
+  double? distance;
+  int? totalRating;
+  Null? ratingAvarage;
+
+  Properties(
+      {this.id,
+        this.agentId,
+        this.propertyTypeId,
+        this.stateId,
+        this.title,
+        this.slug,
+        this.purpose,
+        this.rentPeriod,
+        this.price,
+        this.thumbnailImage,
+        this.description,
+        this.videoDescription,
+        this.videoThumbnail,
+        this.videoId,
+        this.address,
+        this.addressDescription,
+        this.googleMap,
+        this.totalArea,
+        this.totalUnit,
+        this.totalBedroom,
+        this.totalBathroom,
+        this.totalGarage,
+        this.totalKitchen,
+        this.isFeatured,
+        this.isTop,
+        this.isUrgent,
+        this.status,
+        this.bhkType,
+        this.expiredDate,
+        this.seoTitle,
+        this.seoMetaDescription,
+        this.serial,
+        this.showSlider,
+        this.approveByAdmin,
+        this.createdAt,
+        this.updatedAt,
+        this.dateFrom,
+        this.dateTo,
+        this.timeFrom,
+        this.timeTo,
+        this.countryId,
+        this.lat,
+        this.lon,
+        this.possessionStatus,
+        this.cityId,
+        this.distance,
+        this.totalRating,
+        this.ratingAvarage});
+
+  Properties.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    agentId = json['agent_id'];
+    propertyTypeId = json['property_type_id'];
+    stateId = json['state_id'];
+    title = json['title'];
+    slug = json['slug'];
+    purpose = json['purpose'];
+    rentPeriod = json['rent_period'];
+    price = json['price'];
+    thumbnailImage = json['thumbnail_image'];
+    description = json['description'];
+    videoDescription = json['video_description'];
+    videoThumbnail = json['video_thumbnail'];
+    videoId = json['video_id'];
+    address = json['address'];
+    addressDescription = json['address_description'];
+    googleMap = json['google_map'];
+    totalArea = json['total_area'];
+    totalUnit = json['total_unit'];
+    totalBedroom = json['total_bedroom'];
+    totalBathroom = json['total_bathroom'];
+    totalGarage = json['total_garage'];
+    totalKitchen = json['total_kitchen'];
+    isFeatured = json['is_featured'];
+    isTop = json['is_top'];
+    isUrgent = json['is_urgent'];
+    status = json['status'];
+    bhkType = json['bhk_type'];
+    expiredDate = json['expired_date'];
+    seoTitle = json['seo_title'];
+    seoMetaDescription = json['seo_meta_description'];
+    serial = json['serial'];
+    showSlider = json['show_slider'];
+    approveByAdmin = json['approve_by_admin'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    dateFrom = json['date_from'];
+    dateTo = json['date_to'];
+    timeFrom = json['time_from'];
+    timeTo = json['time_to'];
+    countryId = json['country_id'];
+    lat = json['lat'];
+    lon = json['lon'];
+    possessionStatus = json['possession_status'];
+    cityId = json['city_id'];
+    distance = json['distance'];
+    totalRating = json['totalRating'];
+    ratingAvarage = json['ratingAvarage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['agent_id'] = this.agentId;
+    data['property_type_id'] = this.propertyTypeId;
+    data['state_id'] = this.stateId;
+    data['title'] = this.title;
+    data['slug'] = this.slug;
+    data['purpose'] = this.purpose;
+    data['rent_period'] = this.rentPeriod;
+    data['price'] = this.price;
+    data['thumbnail_image'] = this.thumbnailImage;
+    data['description'] = this.description;
+    data['video_description'] = this.videoDescription;
+    data['video_thumbnail'] = this.videoThumbnail;
+    data['video_id'] = this.videoId;
+    data['address'] = this.address;
+    data['address_description'] = this.addressDescription;
+    data['google_map'] = this.googleMap;
+    data['total_area'] = this.totalArea;
+    data['total_unit'] = this.totalUnit;
+    data['total_bedroom'] = this.totalBedroom;
+    data['total_bathroom'] = this.totalBathroom;
+    data['total_garage'] = this.totalGarage;
+    data['total_kitchen'] = this.totalKitchen;
+    data['is_featured'] = this.isFeatured;
+    data['is_top'] = this.isTop;
+    data['is_urgent'] = this.isUrgent;
+    data['status'] = this.status;
+    data['bhk_type'] = this.bhkType;
+    data['expired_date'] = this.expiredDate;
+    data['seo_title'] = this.seoTitle;
+    data['seo_meta_description'] = this.seoMetaDescription;
+    data['serial'] = this.serial;
+    data['show_slider'] = this.showSlider;
+    data['approve_by_admin'] = this.approveByAdmin;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['date_from'] = this.dateFrom;
+    data['date_to'] = this.dateTo;
+    data['time_from'] = this.timeFrom;
+    data['time_to'] = this.timeTo;
+    data['country_id'] = this.countryId;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['possession_status'] = this.possessionStatus;
+    data['city_id'] = this.cityId;
+    data['distance'] = this.distance;
+    data['totalRating'] = this.totalRating;
+    data['ratingAvarage'] = this.ratingAvarage;
+    return data;
   }
 }

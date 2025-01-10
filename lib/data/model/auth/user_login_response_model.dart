@@ -85,12 +85,12 @@ class UserModel {
   final String? image;
   final String? phone;
   final String? address;
-  final String? verifyToken;
+    String? verifyToken;
   final String? otpMailVerifyToken;
   final int? emailVerified;
   final String? designation;
   final String? aboutMe;
-  final String? facebook;
+  // final String? facebook;
   final String? twitter;
   final String? linkedin;
   final String? instagram;
@@ -120,7 +120,7 @@ class UserModel {
     this.emailVerified,
     this.designation,
     this.aboutMe,
-    this.facebook,
+    // this.facebook,
     this.twitter,
     this.linkedin,
     this.instagram,
@@ -153,7 +153,7 @@ class UserModel {
       emailVerified: json['email_verified'] as int?,
       designation: json['designation'] as String?,
       aboutMe: json['about_me'] as String?,
-      facebook: json['facebook'] as String?,
+      // facebook: json['facebook'] as String?,
       twitter: json['twitter'] as String?,
       linkedin: json['linkedin'] as String?,
       instagram: json['instagram'] as String?,
@@ -187,7 +187,7 @@ class UserModel {
       'email_verified': emailVerified,
       'designation': designation,
       'about_me': aboutMe,
-      'facebook': facebook,
+      // 'facebook': facebook,
       'twitter': twitter,
       'linkedin': linkedin,
       'instagram': instagram,

@@ -27,6 +27,7 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
       String? token =  await prefs.getString('token');
 
     if (token != null) {
+      log("Token is ", name: token);
       emit(state.copyWith(Token: token));
     } else {
       log("Token is null", name: "SplashScreenCubit");

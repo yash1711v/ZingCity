@@ -12,7 +12,7 @@ class AllRecommendedProperties extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>().homeModel!.sliderProperty;
+    // final homeCubit = context.read<HomeCubit>().homeModel!.sliderProperty;
     // print(homeCubit.properties.length);
     // print(homeCubit.description);
     return Scaffold(
@@ -20,22 +20,24 @@ class AllRecommendedProperties extends StatelessWidget {
       appBar: const CustomAppBar(
         title: 'Recommended Property',
       ),
-      body: ListView.builder(
-        itemCount: homeCubit!.length,
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0)
-            .copyWith(bottom: 40.0),
-        physics: const ClampingScrollPhysics(),
-        itemBuilder: (context, index) {
-          final item = homeCubit[index];
-          return GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                    context,
-                    RouteNames.propertyDetailsScreen,
-                    arguments: item.slug,
-                  ),
-              child: SinglePropertyCardView(property: item));
-        },
-      ),
+      body: Column()
+      // ListView.builder(
+      //   itemCount:
+      //   //homeCubit!.length,
+      //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0)
+      //       .copyWith(bottom: 40.0),
+      //   physics: const ClampingScrollPhysics(),
+      //   itemBuilder: (context, index) {
+      //     final item = homeCubit[index];
+      //     return GestureDetector(
+      //         onTap: () => Navigator.pushNamed(
+      //               context,
+      //               RouteNames.propertyDetailsScreen,
+      //               arguments: item.slug,
+      //             ),
+      //         child: SinglePropertyCardView(property: item));
+      //   },
+      // ),
     );
   }
 }

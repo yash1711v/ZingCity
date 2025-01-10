@@ -24,7 +24,7 @@ class HomeRepositoryImp extends HomeRepository {
   Future<Either<dynamic, HomeDataModel>> getHomeData() async {
     try {
       final result = await remoteDataSource.getHomeData();
-      final data = HomeDataModel.fromMap(result);
+      final data = HomeDataModel.fromJson(result);
       return Right(data);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message, e.statusCode));

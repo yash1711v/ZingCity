@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate/logic/bloc/General/general_cubit.dart';
 import 'package:real_estate/logic/bloc/login/login_cubit.dart';
+import 'package:real_estate/logic/cubit/home/cubit/home_cubit.dart';
 import 'package:real_estate/logic/cubit/profile/profile_cubit.dart';
 import 'package:real_estate/logic/repository/auth_repository.dart';
 // import 'package:real_estate/logic/bloc/signup/sign_up_bloc.dart';
@@ -43,6 +44,7 @@ class RealEstate extends StatelessWidget {
             BlocProvider<LoginCubit>(create: (_) => LoginCubit()),
             BlocProvider<GeneralCubit>(create: (_) => GeneralCubit()),
             BlocProvider<ProfileCubit>(create: (_) => ProfileCubit()),
+            BlocProvider<HomeCubit>(create: (_) => HomeCubit()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

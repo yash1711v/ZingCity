@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
@@ -7,8 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/agent/agent_profile_model.dart';
 import '../../../data/model/auth/auth_error_model.dart';
+import '../../../data/model/auth/user_login_response_model.dart';
 import '../../../data/model/auth/user_profile_model.dart';
 import '../../../presentation/error/failure.dart';
+import '../../../presentation/router/route_names.dart';
+import '../../../state_inject_package_names.dart';
+import '../../bloc/General/general_cubit.dart';
 import '../../bloc/login/login_bloc.dart';
 import '../../repository/auth_repository.dart';
 import '../../repository/profile_repository.dart';
@@ -21,10 +27,10 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
   // final LoginBloc _loginBloc;
   TextEditingController amountCon = TextEditingController();
 
-  ProfileCubit()
-      : super(ProfileStateModel());
+  ProfileCubit() : super(ProfileStateModel());
 
-  final Respository _authRepository = Respository();
+  final Repository _authRepository = Repository();
+
   void nameChange(String text) {
     emit(state.copyWith(name: text, profileState: const ProfileInitial()));
   }
@@ -46,8 +52,8 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
     emit(state.copyWith(aboutMe: text, profileState: const ProfileInitial()));
   }
 
-  void facebookChange(String text) {
-    emit(state.copyWith(facebook: text, profileState: const ProfileInitial()));
+  void emailChange(String text) {
+    emit(state.copyWith(email: text, profileState: const ProfileInitial()));
   }
 
   void twitterChange(String text) {
@@ -62,7 +68,7 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
     emit(state.copyWith(instagram: text, profileState: const ProfileInitial()));
   }
 
-  void imageChange(String text) {
+  void imageChange(File text) {
     emit(state.copyWith(image: text, profileState: const ProfileInitial()));
   }
 
@@ -139,8 +145,52 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
   //   }
   // }
 
-  Future<void> updateAgentProfileInfo() async {
+  Future<dynamic> updateAgentProfileInfo({
+    required String name,
+    required String number,
+    required String address,
+    required String description,
+    required String email,
+    required String about,
+    required File image,
+    required BuildContext context,
+    required String Token,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    var res = await _authRepository.updateProfile(
+        name: name,
+        number: number,
+        address: address,
+        description: description,
+        email: email,
+        about: about,
+        image: image,
+        token: Token);
+    var data = jsonDecode(res.body);
+    // log('res: ${data}', name: 'LoginCubit verify');
+    if (data["status"]) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
+      UserModel user = UserModel.fromJson(data["user"]);
+      await prefs.setString("token", Token);
+      String? token = await prefs.getString("token");
+      context.read<GeneralCubit>().setUser(user);
+
+      // if(user.name == null){
+      //   emit(state.copyWith(isLoading: false));
+      //   Navigator.pushReplacementNamed(
+      //       context, RouteNames.updateProfileScreen,arguments: user);
+      // } else {
+      //   emit(state.copyWith(isLoading: false));
+      //   Navigator.pushReplacementNamed(
+      //       context, RouteNames.mainPageScreen);
+      // }
+      // await prefs.setString("token", data["access_token"].toString());
+      // String? token = await prefs.getString("token");
+      // _authRepository.updateHeader(token);
+      emit(state.copyWith(isLoading: false));
+      return true;
+    }
   }
 
   // Future<void> getAgentProfile() async {

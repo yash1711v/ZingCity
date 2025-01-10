@@ -65,208 +65,220 @@ class _VerificationScreenState extends State<VerificationScreen> {
     // print('forgotEmail ${forgotCubit.emailController.text}');
     // print('code ${forgotCubit.codeController.text}');
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: BlocBuilder<LoginCubit, LoginModelState>(
         builder: (context, state) {
 
-          return Column(
-            children: [
-              Container(
-                width: size.width,
-                height: 800,
-                decoration: const ShapeDecoration(
-                  color: Color(0xFFE3EFF8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(300),
-                      bottomRight: Radius.circular(300),
-                    ),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x1E000000),
-                      blurRadius: 8,
-                      offset: Offset(0, 1),
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 100),
-                    Image.asset(
-                      "assets/Yash/images/ZingCityLogo.png",
-                      width: 74.2,
-                      height: 51.91,
-                    ),
-                    const SizedBox(height: 35),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Verify OTP',
-                            style: TextStyle(
-                              color:
-                                  Colors.black.withOpacity(0.6000000238418579),
-                              fontSize: 22,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w700,
-                              height: 0,
-                            ),
-                          )
-                        ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: size.width,
+                  // height: 600,
+                  decoration: const ShapeDecoration(
+                    color: Color(0xFFE3EFF8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(300),
+                        bottomRight: Radius.circular(300),
                       ),
                     ),
-                    const SizedBox(height: 17),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 324,
-                            child: Text(
-                              'We have sent a verification code to your number *********${widget.phoneNumber.substring(8)}',
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x1E000000),
+                        blurRadius: 8,
+                        offset: Offset(0, 1),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 100),
+                      Image.asset(
+                        "assets/Yash/images/ZingCityLogo.png",
+                        width: 74.2,
+                        height: 51.91,
+                      ),
+                      const SizedBox(height: 35),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Verify OTP',
                               style: TextStyle(
-                                color: Colors.black
-                                    .withOpacity(0.4000000059604645),
+                                color:
+                                    Colors.black.withOpacity(0.6000000238418579),
+                                fontSize: 22,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w700,
+                                height: 0,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 17),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 324,
+                              child: Text(
+                                'We have sent a verification code to your number *********${widget.phoneNumber.substring(8)}',
+                                style: TextStyle(
+                                  color: Colors.black
+                                      .withOpacity(0.4000000059604645),
+                                  fontSize: 13,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 17),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Pinput(
+                            controller:
+                                context.read<LoginCubit>().verifyOtpController,
+                            // bloc.pinController,
+            
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            defaultPinTheme: PinTheme(
+                                width: 80.90,
+                                height: 59.36,
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: borderRadius,
+                                ),
+                                textStyle: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24.0,
+                                  color: blackColor,
+                                )),
+                            onCompleted: (v) {
+                              context
+                                  .read<LoginCubit>()
+                                  .verifyOtpController
+                                  .text = v;
+                              // if (widget.isVerification) {
+                              //   // print('new user create');
+                              //   bloc.add(AccountActivateCodeSubmit(v));
+                              // } else {
+                              //   forgotCubit.codeController.text = v;
+                              //   forgotCubit.verifyForgotPasswordCode();
+                              // }
+                            },
+                            length: 6,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 27),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            // Spacer(),
+                            SizedBox(
+                              width: 15,),
+                            Text(
+                              state.timeLeft ?? "",
+                              style: TextStyle(
+                                color:
+                                    Colors.black.withOpacity(0.4000000059604645),
                                 fontSize: 13,
                                 fontFamily: 'DM Sans',
                                 fontWeight: FontWeight.w400,
                                 height: 0,
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 17),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Pinput(
-                          controller:
-                              context.read<LoginCubit>().verifyOtpController,
-                          // bloc.pinController,
-
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          defaultPinTheme: PinTheme(
-                              width: 80.90,
-                              height: 59.36,
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: borderRadius,
+                            Spacer(),
+                            Text(
+                              'Didn’t receive an OTP?',
+                              style: TextStyle(
+                                color:
+                                    Colors.black.withOpacity(0.4000000059604645),
+                                fontSize: 13,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0,
                               ),
-                              textStyle: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24.0,
-                                color: blackColor,
-                              )),
-                          onCompleted: (v) {
-                            context
-                                .read<LoginCubit>()
-                                .verifyOtpController
-                                .text = v;
+                            ),
+                            const SizedBox(width: 5),
+                            GestureDetector(
+                              onTap: () async {
+                                await context
+                                    .read<LoginCubit>()
+                                    .onPressLogin(context
+                                    .read<LoginCubit>()
+                                    .phoneController
+                                    .text);
+                              },
+                              child: const Text(
+                                'Resend',
+                                style: TextStyle(
+                                  color: Color(0xFF30469A),
+                                  fontSize: 13,
+                                  fontFamily: 'DM Sans',
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.underline,
+                                  height: 0,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 31),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: (state.isLoading ?? false)
+                            ? const CircularProgressIndicator()
+                            :PrimaryButton(
+                          text: 'Verify Otp',
+                          onPressed: () async {
                             // if (widget.isVerification) {
                             //   // print('new user create');
                             //   bloc.add(AccountActivateCodeSubmit(v));
                             // } else {
+                            //   print('forgot password');
                             //   forgotCubit.codeController.text = v;
                             //   forgotCubit.verifyForgotPasswordCode();
                             // }
+                            await context
+                                .read<LoginCubit>()
+                                .verifyOtp(
+                                    widget.phoneNumber,
+                                    context
+                                        .read<LoginCubit>()
+                                        .verifyOtpController
+                                        .text,context)
+                                .then((value) {
+                              if (value) {
+                                // Navigator.pushReplacementNamed(
+                                //     context, RouteNames.mainPageScreen);
+                              }
+                            });
+                            // Navigator.pushReplacementNamed(
+                            //     context, RouteNames.mainPageScreen);
                           },
-                          length: 6,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 27),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          // Spacer(),
-                          SizedBox(
-                            width: 15,),
-                          Text(
-                            state.timeLeft ?? "",
-                            style: TextStyle(
-                              color:
-                                  Colors.black.withOpacity(0.4000000059604645),
-                              fontSize: 13,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            'Didn’t receive an OTP?',
-                            style: TextStyle(
-                              color:
-                                  Colors.black.withOpacity(0.4000000059604645),
-                              fontSize: 13,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          GestureDetector(
-                            onTap: () {},
-                            child: const Text(
-                              'Resend',
-                              style: TextStyle(
-                                color: Color(0xFF30469A),
-                                fontSize: 13,
-                                fontFamily: 'DM Sans',
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.underline,
-                                height: 0,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 31),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: PrimaryButton(
-                        text: 'Verify Otp',
-                        onPressed: () async {
-                          // if (widget.isVerification) {
-                          //   // print('new user create');
-                          //   bloc.add(AccountActivateCodeSubmit(v));
-                          // } else {
-                          //   print('forgot password');
-                          //   forgotCubit.codeController.text = v;
-                          //   forgotCubit.verifyForgotPasswordCode();
-                          // }
-                          await context
-                              .read<LoginCubit>()
-                              .verifyOtp(
-                                  widget.phoneNumber,
-                                  context
-                                      .read<LoginCubit>()
-                                      .verifyOtpController
-                                      .text,context)
-                              .then((value) {
-                            if (value) {
-                              // Navigator.pushReplacementNamed(
-                              //     context, RouteNames.mainPageScreen);
-                            }
-                          });
-                          // Navigator.pushReplacementNamed(
-                          //     context, RouteNames.mainPageScreen);
-                        },
-                      ),
-                    ),
-                  ],
+                      const SizedBox(height: 150),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

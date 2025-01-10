@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate/data/model/auth/user_login_response_model.dart';
@@ -29,13 +31,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   getExitingProfileData() {
+    debugPrint("fvf${widget.profile.phone}");
     final profile = context.read<ProfileCubit>();
     profile.nameChange(widget.profile.name ?? "");
     profile.phoneChange(widget.profile.phone ?? "");
     profile.addressChange(widget.profile.address ?? "");
     profile.designationChange(widget.profile.designation ?? "");
     profile.aboutMeChange(widget.profile.aboutMe ?? "");
-    profile.facebookChange(widget.profile.facebook ?? "");
+    profile.emailChange(widget.profile.email ?? "");
     profile.instagramChange(widget.profile.instagram ?? "");
     profile.twitterChange(widget.profile.twitter ?? "");
     profile.linkedinChange(widget.profile.linkedin ?? "");
@@ -52,41 +55,40 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: const CustomAppBar(
-        title: 'Update Profile',
+      appBar: CustomAppBar(
+        title: widget.profile.name == null ? "Register" : 'Update Profile',
       ),
       body: BlocListener<ProfileCubit, ProfileStateModel>(
-        listener: (context, state) {
-          final update = state.profileState;
-          // if (update is ProfileUpdateLoading) {
-          //   log(_className, name: update.toString());
-          // } else if (update is ProfileUpdateError) {
-          //   Utils.errorSnackBar(context, update.message);
-          // } else if (update is ProfileUpdateLoaded) {
-          //   Navigator.of(context).pop();
-          //   //Utils.showSnackBar(context, update.message);
-          // }
-
-          if (update is ProfileUpdateLoading) {
-            Utils.loadingDialog(context);
-          } else {
-            Utils.closeDialog(context);
-            if (update is ProfileUpdateError) {
-              if (update.statusCode == 401) {
-                Utils.logout(context);
-              } else {
-                Utils.errorSnackBar(context, update.message);
-              }
-            } else if (update is ProfileUpdateLoaded) {
-
-             // Navigator.of(context).pop();
-
-              Utils.showSnackBar(context, update.message);
-            }
-          }
-        },
-        child:
-        ListView(
+        listener: (context, state) {},
+        // {
+        //   final update = state.profileState;
+        //   // if (update is ProfileUpdateLoading) {
+        //   //   log(_className, name: update.toString());
+        //   // } else if (update is ProfileUpdateError) {
+        //   //   Utils.errorSnackBar(context, update.message);
+        //   // } else if (update is ProfileUpdateLoaded) {
+        //   //   Navigator.of(context).pop();
+        //   //   //Utils.showSnackBar(context, update.message);
+        //   // }
+        //
+        //   if (update is ProfileUpdateLoading) {
+        //     Utils.loadingDialog(context);
+        //   } else {
+        //     Utils.closeDialog(context);
+        //     if (update is ProfileUpdateError) {
+        //       if (update.statusCode == 401) {
+        //         Utils.logout(context);
+        //       } else {
+        //         Utils.errorSnackBar(context, update.message);
+        //       }
+        //     } else if (update is ProfileUpdateLoaded) {
+        //       // Navigator.of(context).pop();
+        //
+        //       Utils.showSnackBar(context, update.message);
+        //     }
+        //   }
+        // },
+        child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
@@ -94,7 +96,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           children: [
             const SizedBox(height: 20.0),
             ProfileImages(profilePicture: widget.profile.image ?? ""),
-          const SizedBox(height: 35.0),
+            const SizedBox(height: 35.0),
             BlocBuilder<ProfileCubit, ProfileStateModel>(
               builder: (context, state) {
                 final update = state.profileState;
@@ -129,15 +131,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
-                      initialValue: widget.profile.phone,
-                      decoration: const InputDecoration(
-                        hintText: 'Phone',
-                      ),
-                      keyboardType: TextInputType.phone,
-                      onChanged: (String text) {
+                        readOnly: true,
+                        initialValue: widget.profile.phone,
+                        decoration: const InputDecoration(
+                          hintText: 'Phone',
+                        ),
+                        keyboardType: TextInputType.phone,
+                        onChanged: (String text) {
                           profileCubit.phoneChange(text);
-                      }
-                    ),
+                        }),
                     if (update is ProfileUpdateFormValidate) ...[
                       if (update.error.phone.isNotEmpty)
                         ErrorText(
@@ -156,15 +158,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
-                      initialValue: widget.profile.address,
-                      decoration: const InputDecoration(
-                        hintText: 'Address',
-                      ),
-                      keyboardType: TextInputType.streetAddress,
-                      onChanged: (String text) {
+                        initialValue: widget.profile.address,
+                        decoration: const InputDecoration(
+                          hintText: 'Address',
+                        ),
+                        keyboardType: TextInputType.streetAddress,
+                        onChanged: (String text) {
                           profileCubit.addressChange(text);
-                      }
-                    ),
+                        }),
                     if (update is ProfileUpdateFormValidate) ...[
                       if (update.error.address.isNotEmpty)
                         ErrorText(
@@ -183,15 +184,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
-                      initialValue: widget.profile.designation,
-                      decoration: const InputDecoration(
-                        hintText: 'Designation',
-                      ),
-                      keyboardType: TextInputType.text,
-                      onChanged: (String text) {
+                        initialValue: widget.profile.designation,
+                        decoration: const InputDecoration(
+                          hintText: 'Designation',
+                        ),
+                        keyboardType: TextInputType.text,
+                        onChanged: (String text) {
                           // profileCubit.designationChange(text),
-                      }
-                    ),
+                        }),
                     if (update is ProfileUpdateFormValidate) ...[
                       if (update.error.designation.isNotEmpty)
                         ErrorText(
@@ -210,16 +210,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
-                      initialValue: widget.profile.aboutMe,
-                      decoration: const InputDecoration(
-                        hintText: 'About me',
-                      ),
-                      keyboardType: TextInputType.text,
-                      maxLines: 6,
-                      onChanged: (String text) {
+                        initialValue: widget.profile.aboutMe,
+                        decoration: const InputDecoration(
+                          hintText: 'About me',
+                        ),
+                        keyboardType: TextInputType.text,
+                        maxLines: 6,
+                        onChanged: (String text) {
                           profileCubit.aboutMeChange(text);
-                      }
-                    ),
+                        }),
                     if (update is ProfileUpdateFormValidate) ...[
                       if (update.error.aboutMe.isNotEmpty)
                         ErrorText(
@@ -234,17 +233,26 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             BlocBuilder<ProfileCubit, ProfileStateModel>(
               builder: (context, state) {
                 return TextFormField(
-                  initialValue: widget.profile.facebook,
+                  initialValue: widget.profile.email,
                   decoration: const InputDecoration(
                     hintText: 'Email',
                   ),
                   keyboardType: TextInputType.text,
                   onChanged: (String text) {
-                    profileCubit.facebookChange(text);
+                    profileCubit.emailChange(text);
+                  },
+                  validator: (value){
+                    final RegExp emailRegex = RegExp(
+                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                    );
+
+                    // Test the email against the regex
+                    return emailRegex.hasMatch(value ?? "") ? "Enter Valid Email":null;
                   },
                 );
               },
             ),
+            spacer,
             // spacer,
             // BlocBuilder<ProfileCubit, ProfileStateModel>(
             //   builder: (context, state) {
@@ -310,18 +318,35 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        margin: Utils.only(bottom: 20.0),
-        padding: EdgeInsets.only(
-            left: 20.0,
-            right: 30.0,
-            bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: PrimaryButton(
-            text: widget.profile.name == null ?"Register":'Update Profile',
-            onPressed: () {
-              Utils.closeKeyBoard(context);
-              profileCubit.updateAgentProfileInfo();
-            }),
+      bottomNavigationBar: BlocBuilder<ProfileCubit, ProfileStateModel>(
+        builder: (context, state) {
+          return Container(
+            margin: Utils.only(bottom: 20.0),
+            padding: EdgeInsets.only(
+                left: 20.0,
+                right: 30.0,
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: state.isLoading ?? false
+                ? const Center(child: CircularProgressIndicator())
+                : PrimaryButton(
+                    text: widget.profile.name == null
+                        ? "Register"
+                        : 'Update Profile',
+                    onPressed: () {
+                      Utils.closeKeyBoard(context);
+                      profileCubit.updateAgentProfileInfo(
+                          name: state.name,
+                          number: state.phone,
+                          address: state.address,
+                          description: state.aboutMe,
+                          email: state.email,
+                          about: state.aboutMe,
+                          image: state.image ?? File(""),
+                          context: context,
+                          Token: widget.profile.verifyToken ?? "");
+                    }),
+          );
+        },
       ),
     );
   }

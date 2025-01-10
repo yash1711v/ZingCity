@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:real_estate/data/model/agency/agency_details_model.dart';
 
 import '../../widget/custom_theme.dart';
 import '/presentation/utils/utils.dart';
@@ -13,14 +14,14 @@ import '../../widget/custom_test_style.dart';
 import '../../widget/loading_widget.dart';
 
 class PurchaseDetailScreen extends StatelessWidget {
-  const PurchaseDetailScreen({super.key, required this.orderId});
+  const PurchaseDetailScreen({super.key, required this.propertiesDetails});
 
-  final String orderId;
+  final Properties propertiesDetails;
 
   @override
   Widget build(BuildContext context) {
-    final orderCubit = context.read<OrderCubit>();
-    orderCubit.getOrderDetails(orderId);
+    // final orderCubit = context.read<OrderCubit>();
+    // orderCubit.getOrderDetails(propertiesDetails);
     return Scaffold(
       extendBody: true,
       backgroundColor: whiteColor,
@@ -120,25 +121,8 @@ class PurchaseDetailScreen extends StatelessWidget {
             )
         ),
       ),
-      body: BlocBuilder<OrderCubit, OrderState>(
-        builder: (context, state) {
-          // if (state is OrderLoading) {
-          //   return const LoadingWidget();
-          // } else if (state is OrderError) {
-          //   if (state.statusCode == 503) {
-          //     return OrderDetailLoaded(orderDetail: orderCubit.singleOrder!);
-          //   } else {
-          //     return Center(
-          //         child: CustomTextStyle(text: state.message, color: redColor));
-          //   }
-          //
-          //   //Utils.errorSnackBar(context, state.message);
-          // }
-
-          return const OrderDetailLoaded(orderDetail: null
-              //orderCubit.singleOrder!
-              );
-        },
+      body: const OrderDetailLoaded(orderDetail: null
+        //orderCubit.singleOrder!
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

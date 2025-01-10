@@ -1,19 +1,21 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 
 import 'profile_cubit.dart';
 
 class ProfileStateModel extends Equatable {
+  final bool?  isLoading;
   final String name;
   final String phone;
   final String address;
-  final String image;
+  final File? image;
   final String designation;
   final String aboutMe;
-  final String facebook;
+  final String email;
   final String twitter;
   final String linkedin;
   final String instagram;
@@ -25,14 +27,15 @@ class ProfileStateModel extends Equatable {
   double result;
   final ProfileState profileState;
 
-  ProfileStateModel({
+  ProfileStateModel( {
+    this.isLoading,
     this.name = '',
     this.phone = '',
     this.address = '',
-    this.image = '',
+    this.image,
     this.designation = '',
     this.aboutMe = '',
-    this.facebook = '',
+    this.email = '',
     this.twitter = '',
     this.linkedin = '',
     this.instagram = '',
@@ -49,10 +52,10 @@ class ProfileStateModel extends Equatable {
     String? name,
     String? phone,
     String? address,
-    String? image,
+    File? image,
     String? designation,
     String? aboutMe,
-    String? facebook,
+    String? email,
     String? twitter,
     String? linkedin,
     String? instagram,
@@ -63,6 +66,7 @@ class ProfileStateModel extends Equatable {
     int? year,
     double? result,
     ProfileState? profileState,
+    bool? isLoading,
   }) {
     return ProfileStateModel(
       name: name ?? this.name,
@@ -71,7 +75,7 @@ class ProfileStateModel extends Equatable {
       image: image ?? this.image,
       designation: designation ?? this.designation,
       aboutMe: aboutMe ?? this.aboutMe,
-      facebook: facebook ?? this.facebook,
+      email: email ?? this.email,
       twitter: twitter ?? this.twitter,
       linkedin: linkedin ?? this.linkedin,
       instagram: instagram ?? this.instagram,
@@ -82,6 +86,7 @@ class ProfileStateModel extends Equatable {
       year: year ?? this.year,
       result: result ?? this.result,
       profileState: profileState ?? this.profileState,
+      isLoading: isLoading ?? this.isLoading
     );
   }
 
@@ -93,7 +98,7 @@ class ProfileStateModel extends Equatable {
       //'image': image,
       'designation': designation,
       'about_me': aboutMe,
-      'facebook': facebook,
+      'email': email,
       'twitter': twitter,
       'linkedin': linkedin,
       'instagram': instagram,
@@ -106,10 +111,9 @@ class ProfileStateModel extends Equatable {
       name: '',
       phone: '',
       address: '',
-      image: '',
       designation: '',
       aboutMe: '',
-      facebook: '',
+      email: '',
       twitter: '',
       linkedin: '',
       currentPassword: '',
@@ -125,7 +129,7 @@ class ProfileStateModel extends Equatable {
       address: map['address'] as String,
       designation: map['designation'] as String,
       aboutMe: map['aboutMe'] as String,
-      facebook: map['facebook'] as String,
+      email: map['email'] as String,
       twitter: map['twitter'] as String,
       linkedin: map['linkedin'] as String,
       instagram: map['instagram'] as String,
@@ -141,7 +145,7 @@ class ProfileStateModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       name,
       phone,
@@ -149,7 +153,7 @@ class ProfileStateModel extends Equatable {
       image,
       designation,
       aboutMe,
-      facebook,
+      email,
       twitter,
       linkedin,
       instagram,
@@ -160,6 +164,7 @@ class ProfileStateModel extends Equatable {
       year,
       result,
       profileState,
+      isLoading
     ];
   }
 }

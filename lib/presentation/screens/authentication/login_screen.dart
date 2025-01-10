@@ -36,34 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return MultiBlocListener(
       listeners: [
         BlocListener<LoginCubit, LoginModelState>(
-          listenWhen: (previous, current) => previous.state != current.state,
-          listener: (context, state) {
-            if (state.state is LoginStateError) {
-              final status = state.state as LoginStateError;
-
-              if (status.statusCode == 402) {
-                Utils.showSnackBarWithAction(
-                  context,
-                  status.errorMsg,
-                  () {
-                    // context
-                    //     .read<LoginBloc>()
-                    //     .add(const SentAccountActivateCodeSubmit());
-                    // Navigator.pushNamed(
-                    //     context, RouteNames.verificationCodeScreen);
-                  },
-                );
-              } else {
-                Utils.errorSnackBar(context, status.errorMsg);
-              }
-            } else if (state.state is LoginStateLoaded) {
-              Navigator.pushReplacementNamed(
-                  context, RouteNames.mainPageScreen);
-            } else if (state.state is SendAccountCodeSuccess) {
-              final messageState = state.state as SendAccountCodeSuccess;
-              Utils.showSnackBar(context, messageState.msg);
-            }
-          },
+          // listenWhen: (previous, current) => previous.state != current.state,
+          listener: (context, state) {}
         ),
       ],
       child: Scaffold(
@@ -71,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Container(
               width: size.width,
-              height: 500,
+              height: 425,
               decoration: const ShapeDecoration(
                 color: Color(0xFFE3EFF8),
                 shape: RoundedRectangleBorder(
@@ -138,16 +112,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: BlocBuilder<LoginCubit, LoginModelState>(
                       builder: (context, state) {
-                        final login = state.state;
+                        // final login = state.state;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextFormField(
-                              controller: context.read<LoginCubit>().phoneController,
+                              controller:
+                                  context.read<LoginCubit>().phoneController,
                               keyboardType: TextInputType.number,
                               // initialValue: state.text,
                               onChanged: (value) {
-                                context.read<LoginCubit>().phoneController.text = value;
+                                context
+                                    .read<LoginCubit>()
+                                    .phoneController
+                                    .text = value;
                                 // context.read<LoginCubit>().add(LoginEvenEmailOrPhone(value));
                               },
                               decoration: InputDecoration(
@@ -163,12 +141,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 10.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
                                         child: Text(
                                           '+91',
                                           style: TextStyle(
-                                            color: Colors.black
-                                                .withOpacity(0.4000000059604645),
+                                            color: Colors.black.withOpacity(
+                                                0.4000000059604645),
                                             fontSize: 15,
                                             fontFamily: 'DM Sans',
                                             fontWeight: FontWeight.w400,
@@ -182,11 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: 'Number',
                               ),
                             ),
-                            if (login is LoginStateFormInvalid) ...[
-                              if (login.error.email.isNotEmpty &&
-                                  login.error.email.length < 10)
-                                ErrorText(text: login.error.email.first)
-                            ]
+                            // if (login is LoginStateFormInvalid) ...[
+                            //   if (login.error.email.isNotEmpty &&
+                            //       login.error.email.length < 10)
+                            //     ErrorText(text: login.error.email.first)
+                            // ]
                           ],
                         );
                       },
@@ -238,29 +217,44 @@ class _LoginScreenState extends State<LoginScreen> {
                   //         ],
                   //       )),
                   // ),
-
                 ],
               ),
             ),
             // Spacer(),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: PrimaryButton(
-                text: 'Send Otp',
-                onPressed: () async {
-                await context.read<LoginCubit>().onPressLogin(context.read<LoginCubit>().phoneController.text).then((value){
-                   if(value){
-                     Navigator.pushReplacementNamed(
-                         context, RouteNames.verificationScreen,arguments: context.read<LoginCubit>().phoneController.text);
-                   }
-                 });
-                  // Navigator.pushReplacementNamed(
-                  //     context, RouteNames.verificationScreen,arguments: false);
-                },
-              ),
+            const Spacer(),
+            BlocBuilder<LoginCubit, LoginModelState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: (state.isLoading ?? false)
+                      ? const CircularProgressIndicator()
+                      : PrimaryButton(
+                          text: 'Send Otp',
+                          onPressed: () async {
+                            await context
+                                .read<LoginCubit>()
+                                .onPressLogin(context
+                                    .read<LoginCubit>()
+                                    .phoneController
+                                    .text)
+                                .then((value) {
+                              if (value) {
+                                Navigator.pushReplacementNamed(
+                                    context, RouteNames.verificationScreen,
+                                    arguments: context
+                                        .read<LoginCubit>()
+                                        .phoneController
+                                        .text);
+                              }
+                            });
+                            // Navigator.pushReplacementNamed(
+                            //     context, RouteNames.verificationScreen,arguments: false);
+                          },
+                        ),
+                );
+              },
             ),
-            Spacer(),
+            const Spacer(),
             SizedBox(
               width: 324,
               child: Text.rich(
@@ -276,7 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 0,
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'Terms & Conditions & Privacy Policy',
                       style: TextStyle(
                         color: Color(0xFF398BCB),

@@ -36,7 +36,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Container(
                   width: size.width,
-                  height: 400,
+                  height: 300,
                   decoration: const ShapeDecoration(
                     color: Color(0x23398BCB),
                     shape: RoundedRectangleBorder(

@@ -1,17 +1,19 @@
 part of 'login_bloc.dart';
 
 class LoginModelState extends Equatable {
+  final bool? isLoading;
   final String text;
   final String password;
   final LoginState state;
   final String? time;
   final String? timeLeft;
 
-  const LoginModelState({
-    this.text = '+91987XXXXXXX',
+  const LoginModelState( {
+    this.text = '',
     this.password = '1234',
     this.time,
     this.timeLeft,
+    this.isLoading,
     // this.text = '',
     // this.password = '',
     // this.text = 'koxopo2388@rockdian.com',
@@ -25,6 +27,7 @@ class LoginModelState extends Equatable {
     LoginState? state,
     String? time,
     String? timeLeft,
+    bool? isLoading,
   }) {
     return LoginModelState(
       text: text ?? this.text,
@@ -32,6 +35,7 @@ class LoginModelState extends Equatable {
       state: state ?? this.state,
       time: time ?? this.time,
       timeLeft: timeLeft ?? this.timeLeft,
+      isLoading: isLoading ?? this.isLoading
     );
   }
 
@@ -62,7 +66,7 @@ class LoginModelState extends Equatable {
       'LoginModelState(username: $text, password: $password, state: $state)';
 
   @override
-  List<Object?> get props => [text, password, state,time,timeLeft];
+  List<Object?> get props => [text, password, state,time,timeLeft,isLoading];
 }
 
 abstract class LoginState extends Equatable {

@@ -25,8 +25,8 @@ class SavedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = context.read<ProfileCubit>();
-    final loginBloc = context.read<LoginBloc>();
+    // final profile = context.read<ProfileCubit>();
+    // final loginBloc = context.read<LoginBloc>();
     return Scaffold(
       backgroundColor: scaffoldBackground,
       body: Padding(

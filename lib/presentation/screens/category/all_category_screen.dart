@@ -12,27 +12,28 @@ class AllCategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit =
-        context.read<HomeCubit>().homeModel!.category.propertyTypes;
+    // final homeCubit =
+    //     context.read<HomeCubit>().homeModel!.category.propertyTypes;
     //print(homeCubit[0].slug);
     return Scaffold(
       backgroundColor: scaffoldBackground,
       appBar: const CustomAppBar(title: 'All Category'),
-      body: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, crossAxisSpacing: 0.0, mainAxisExtent: 110.0),
-        itemCount: homeCubit.length,
-        itemBuilder: (context, index) => GestureDetector(
-            onTap: () {
-              final type =
-                  homeCubit[index].name.replaceAll(' ', '-').toLowerCase();
-              print(type);
-              Navigator.pushNamed(context, RouteNames.filterPropertyScreen,
-                  arguments: type);
-            },
-            child: SingleCategoryCircle(category: homeCubit[index])),
-      ),
+      body: Column()
+      // GridView.builder(
+      //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //       crossAxisCount: 4, crossAxisSpacing: 0.0, mainAxisExtent: 110.0),
+      //   itemCount: homeCubit.length,
+      //   itemBuilder: (context, index) => GestureDetector(
+      //       onTap: () {
+      //         final type =
+      //             homeCubit[index].name.replaceAll(' ', '-').toLowerCase();
+      //         print(type);
+      //         Navigator.pushNamed(context, RouteNames.filterPropertyScreen,
+      //             arguments: type);
+      //       },
+      //       child: SingleCategoryCircle(category: homeCubit[index])),
+      // ),
     );
   }
 }

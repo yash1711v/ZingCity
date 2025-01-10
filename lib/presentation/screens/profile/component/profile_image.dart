@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,11 +37,12 @@ class ProfileImages extends StatelessWidget {
         // print('fileImagesss: ${state.image}');
         return Container(
           height: 170,
-          width: 170,
+          // width: 50,
           decoration: BoxDecoration(
+            shape: BoxShape.circle,
             image: DecorationImage(
-              image: state.image.isNotEmpty
-                  ? FileImage(File(state.image))
+              image: (state.image ?? File("")).path.isNotEmpty
+                  ? FileImage(File(state.image!.path))
                   : NetworkImage(profilePicture),
               fit: BoxFit.cover,
             ),
@@ -65,12 +67,27 @@ class ProfileImages extends StatelessWidget {
                 //   ),
                 // ),
                 Positioned(
-                  right: 10,
+                  right: 130,
                   bottom: 10,
                   child: InkWell(
                     onTap: () async {
-                      final imageSourcePath = await Utils.pickSingleImage();
-                      updateCubit.imageChange(imageSourcePath!);
+                      FilePickerResult? result = await FilePicker.platform.pickFiles(
+                        allowMultiple: false, // Ensures only one file is picked
+                      );
+
+                      if (result != null && result.files.isNotEmpty) {
+                        // Get the selected file
+                        PlatformFile file = result.files.first;
+                        updateCubit.imageChange(File(file.path!));
+                        // You can now access file properties like name, path, size, etc.
+                        print('File Name: ${file.name}');
+                        print('File Size: ${file.size} bytes');
+                        print('File Path: ${file.path}');
+                      } else {
+                        // User canceled the picker
+                        print('No file selected.');
+                      }
+
                     },
                     child: CircleAvatar(
                       backgroundColor: primaryColor,
@@ -92,4 +109,16 @@ class ProfileImages extends StatelessWidget {
       },
     );
   }
+
+  // Future<void> _pickFiles() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //     allowMultiple: false, // Allow multiple files to be selected
+  //   );
+  //
+  //   if (result != null) {
+  //     setState(() {
+  //       selectedFiles = result.paths.map((path) => File(path!)).toList();
+  //     });
+  //   }
+  // }
 }

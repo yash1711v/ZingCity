@@ -1,3 +1,4 @@
+import 'package:real_estate/data/model/agency/agency_details_model.dart';
 import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 import 'package:real_estate/presentation/screens/company_screen/company_screen.dart';
 import 'package:real_estate/presentation/screens/company_screen/components/create_agent_screen.dart';
@@ -308,10 +309,10 @@ class RouteNames {
         return MaterialPageRoute(
             settings: settings, builder: (_) => const PurchaseScreen());
       case RouteNames.purchaseDetailsScreen:
-        final orderId = settings.arguments as String;
+        final Properties  properties = settings.arguments as Properties;
         return MaterialPageRoute(
             settings: settings,
-            builder: (_) => PurchaseDetailScreen(orderId: orderId));
+            builder: (_) => PurchaseDetailScreen(propertiesDetails: properties));
 
       case RouteNames.searchScreen:
         return MaterialPageRoute(

@@ -59,7 +59,7 @@ class MyBottomNavigationBar extends StatelessWidget {
                   ),
                   BottomBarItem(
                     icon: ImageIcon(AssetImage("assets/images/ph_heart.png")),
-                    title: Text('Settings'),
+                    title: Text('Saved'),
                     activeColor: Color(0xfff30469A),
                   ),
                 ],

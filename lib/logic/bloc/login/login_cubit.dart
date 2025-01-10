@@ -13,12 +13,13 @@ import 'login_bloc.dart';
 class LoginCubit extends Cubit<LoginModelState> {
   LoginCubit() : super(LoginModelState());
 
-  final Respository _authRepository = Respository();
+  final Repository _authRepository = Repository();
 
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController verifyOtpController = TextEditingController();
 
   Future<dynamic> onPressLogin(String number) async {
+    emit(state.copyWith(isLoading: true));
     var res = await _authRepository.login(number);
 
     // if(res){}
@@ -29,36 +30,55 @@ class LoginCubit extends Cubit<LoginModelState> {
       emit(state.copyWith(
         time: data["time"].toString(),
       ));
+      emit(state.copyWith(isLoading: false));
       return true;
     }
   }
 
   Future<dynamic> verifyOtp(
-      String number, String otp, BuildContext context) async {
+      String number, String otp, BuildContext context)
+  async {
+    emit(state.copyWith(isLoading: true));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var res = await _authRepository.OtpVerfy(number, otp);
     var data = jsonDecode(res.body);
     log('res: ${data}', name: 'LoginCubit verify');
     if (data["status"]) {
       UserModel user = UserModel.fromJson(data["user"]);
+      user.verifyToken = data["access_token"].toString();
       context.read<GeneralCubit>().setUser(user);
       if(user.name == null){
+        emit(state.copyWith(isLoading: false));
         Navigator.pushReplacementNamed(
             context, RouteNames.updateProfileScreen,arguments: user);
       } else {
+        await prefs.setString("token", data["access_token"].toString());
+        String? token = await prefs.getString("token");
+        _authRepository.updateHeader(token);
+        emit(state.copyWith(isLoading: false));
         Navigator.pushReplacementNamed(
             context, RouteNames.mainPageScreen);
       }
-      await prefs.setString("token", data["access_token"].toString());
-      String? token = await prefs.getString("token");
-      _authRepository.updateHeader(token);
+
       return true;
     }
   }
 
   void startTimer() {
-    // Convert the given time (in minutes) into total seconds
-    int totalSeconds = int.parse(state.time!) * 60;
+    // Normalize the input to ensure it always includes minutes and seconds
+    String timeString = state.time ?? "0:00";
+    if (!timeString.contains(':')) {
+      // If only single-digit or minute value is provided, append ":00"
+      timeString = "$timeString:00";
+    }
+
+    // Parse the time string into minutes and seconds
+    List<String> timeParts = timeString.split(':');
+    int minutes = int.tryParse(timeParts[0]) ?? 0;
+    int seconds = int.tryParse(timeParts[1]) ?? 0;
+
+    // Convert the time into total seconds
+    int totalSeconds = (minutes * 60) + seconds;
 
     // Start the countdown timer
     Timer.periodic(Duration(seconds: 1), (Timer timer) {
@@ -71,8 +91,9 @@ class LoginCubit extends Cubit<LoginModelState> {
 
         // Update the state with time left in "X mins Y secs left" format
         emit(state.copyWith(
-            timeLeft:
-                '$remainingMinutes min${remainingMinutes > 1 ? "s" : ""} $remainingSeconds sec${remainingSeconds > 1 ? "s" : ""} left'));
+          timeLeft: '${remainingMinutes} min${remainingMinutes != 1 ? "s" : ""} '
+              '${remainingSeconds} sec${remainingSeconds != 1 ? "s" : ""} left',
+        ));
       } else {
         timer.cancel();
         print("Timer Completed!");
@@ -80,6 +101,7 @@ class LoginCubit extends Cubit<LoginModelState> {
       }
     });
   }
+
 
 //
 // LoginBloc({

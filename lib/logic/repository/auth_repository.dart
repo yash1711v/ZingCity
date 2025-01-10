@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 
@@ -12,6 +13,8 @@ import '../../data/model/kyc/kyc_model.dart';
 import '../../presentation/error/exception.dart';
 import '../../presentation/error/failure.dart';
 import 'package:http/http.dart' as http;
+
+import '../../state_inject_package_names.dart';
 
 abstract class AuthRepository {
   Future<Either<dynamic, UserLoginResponseModel>> login(
@@ -183,24 +186,26 @@ class AuthRepositoryImp extends AuthRepository {
   }
 }
 
-
-class Respository {
+class Repository {
   final http.Client client = http.Client();
   late Map<String, String> _mainHeaders = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   };
 
-  void updateHeader(String? token,) {
+  Future<void> updateHeader(
+    String? tokens,
+  ) async {
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = await prefs.getString("token");
     _mainHeaders = {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Accept' : 'application/json',
-      'Authorization': 'Bearer $token'
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token ?? tokens}'
     };
     print("Api main header ================>${_mainHeaders} ");
   }
-
 
   dynamic login(String number) {
     final uri = Uri.parse(RemoteUrls.userLogin);
@@ -211,24 +216,98 @@ class Respository {
 
     log("${body} ", name: "Login  in Repository");
     log("${_mainHeaders} ", name: "Login  in Repository");
-    var response = client.post(uri,body: jsonEncode(body), headers: _mainHeaders,);
+    var response = client.post(
+      uri,
+      body: jsonEncode(body),
+      headers: _mainHeaders,
+    );
     // log("${response} ", name: "Login  in Repository");
     return response;
-
   }
-  dynamic OtpVerfy(String number,String Otp) {
+
+  dynamic OtpVerfy(String number, String Otp) {
     final uri = Uri.parse(RemoteUrls.verifyOtp);
 
-    var body = {
-      "phone": number,
-      "otp": Otp
-    };
+    var body = {"phone": number, "otp": Otp};
 
     log("${body} ", name: "Login  in Repository verify otp");
 
-    var response = client.post(uri,body: body);
+    var response = client.post(uri, body: body);
     // log("${response} ", name: "Login  in Repository");
     return response;
+  }
 
+  dynamic updateProfile(
+      {required String name,
+      required String number,
+      required String address,
+      required String description,
+      required String email,
+      required String about,
+      required File image,
+      required String token,
+      })
+  async {
+
+    final uri = Uri.parse(RemoteUrls.userRegisterAndUpdateData);
+    await updateHeader(token);
+
+    var request = http.MultipartRequest('POST', uri);
+    request.fields['name'] = name ?? '';
+    request.fields['phone'] = number ?? '';
+    request.fields['address'] = address ?? '';
+    request.fields['description'] = description ?? '';
+    request.fields['email'] = email ?? '';
+    request.fields['about'] = about ?? '';
+
+    if(image.path.isNotEmpty) {
+      // debugPrint('====> isEmpty: ${files.isEmpty}');
+        request.files
+            .add(await http.MultipartFile.fromPath('image', image.path));
+
+    }
+    // debugPrint('====> API Call: $url\nHeader: $token');
+    // debugPrint('====> API body: ${request.files.single.filename}');
+    request.headers.addAll(_mainHeaders);
+     log('====> API body: ${request.headers}');
+
+    try {
+    // Send the request and get the StreamedResponse
+    final streamedResponse = await request.send();
+
+    // Convert the StreamedResponse to a Response
+    final response = await http.Response.fromStream(streamedResponse);
+    log('====> API Response: ${response.body}');
+    return response;
+    } catch (e) {
+    print("Exception: $e");
+    rethrow; // Re-throw the error if needed
+    }
+
+    // var body = {"phone": number, "otp": Otp};
+
+    //
+    //
+    // var response = client.post(uri, body: body);
+    // // log("${response} ", name: "Login  in Repository");
+    // return response;
+  }
+
+
+  dynamic getHomeScreenData({required String lat, required String long}) async {
+
+    final uri = Uri.parse("${RemoteUrls.homeUrl}?latitude=$lat&longitude=$long");
+    await updateHeader("");
+
+    // var body = {
+    //   "":,
+    //   "":,
+    // };
+
+    // log("${body} ", name: "Data is ");
+
+    var response = client.get(uri,headers:_mainHeaders );
+    // log("${response} ", name: "HomeData");
+    return response;
   }
 }

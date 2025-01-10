@@ -23,7 +23,7 @@ class HeadlineText extends StatelessWidget {
         children: [
           CustomTextStyle(
             text: text,
-            fontSize: 18.0,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
           GestureDetector(
@@ -31,7 +31,7 @@ class HeadlineText extends StatelessWidget {
             child: const Text('See All',
                   style: TextStyle(
                     color: Color(0xFF30469A),
-                    fontSize: 18,
+                    fontSize: 16,
                     fontFamily: 'DM Sans',
                     fontWeight: FontWeight.w300,
                     height: 0,
