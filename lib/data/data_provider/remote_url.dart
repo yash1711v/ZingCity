@@ -223,7 +223,7 @@ class RemoteUrls {
 
   //payment urls end
 
-  static String getSearchProperty = '${baseUrl}properties?';
+  static String getSearchProperty = '${baseUrl}property-search?';
   static String getAllProperty = '${baseUrl}properties';
   static String getFilterProperty = '${baseUrl}properties?';
 

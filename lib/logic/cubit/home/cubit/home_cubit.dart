@@ -57,4 +57,10 @@ class HomeCubit extends Cubit<HomeState> {
       log('Error: $e', name: 'getHomeData');
     }
   }
+
+
+  void setListOfData(List<Properties> data){
+    emit(state.copyWith(data: [],isLoading: true));
+    emit(state.copyWith(data: data,isLoading: false));
+  }
 }

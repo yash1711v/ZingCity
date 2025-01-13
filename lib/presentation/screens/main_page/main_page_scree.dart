@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+// import 'package:real_estate/data/model/agency/agency_details_model.dart';
+import 'package:real_estate/data/model/home/home_data_model.dart';
 import 'package:real_estate/logic/cubit/company/company_cubit.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -345,6 +347,35 @@ class _MainPageScreenState extends State<MainPageScreen>
                             controller: _tabController,
                             unselectedLabelColor: Colors.grey,
                             labelColor: const Color(0xFF30469A),
+                            onTap: (value){
+                              List<Properties>? properties = context.read<HomeCubit>().state.rentProperties ;
+                              if(value == 0){
+                                List<Properties>? ResidentialProperties = [];
+
+                               ( properties ?? []).forEach((element){
+                                  // element.
+                                  if(element.propertyTypeId == 1){
+                                    ResidentialProperties.add(element);
+                                  }
+                                  debugPrint(ResidentialProperties.length.toString());
+                                  context.read<HomeCubit>().setListOfData(ResidentialProperties);
+                                });
+                              }
+
+                              if(value == 1) {
+                                List<Properties>? comercialProperties = [];
+
+                                ( properties ?? []).forEach((element){
+                                  // element.
+                                  if(element.propertyTypeId == 2){
+                                    comercialProperties.add(element);
+                                  }
+                                  debugPrint(comercialProperties.length.toString());
+                                  context.read<HomeCubit>().setListOfData(comercialProperties);
+                                });
+                              }
+
+                            },
                             tabs: const [
                               Padding(
                                 padding: EdgeInsets.only(bottom: 16.0),
@@ -376,6 +407,80 @@ class _MainPageScreenState extends State<MainPageScreen>
                         Visibility(
                           visible: item == 2,
                           child: TabBar(
+                            onTap: (value) {
+                              List<Properties>? properties = context.read<HomeCubit>().state.buyProperties ;
+                              // List<Properties>? buyProperties = context.read<HomeCubit>().state.buyProperties ;
+
+                              if(value == 0){
+                                List<Properties>? ResidentialProperties = [];
+
+                                ( properties ?? []).forEach((element){
+                                  // element.
+                                  if(element.propertyTypeId == 1){
+                                    ResidentialProperties.add(element);
+                                  }
+                                  debugPrint(ResidentialProperties.length.toString());
+                                  context.read<HomeCubit>().setListOfData(ResidentialProperties);
+                                });
+                              }
+
+                              if(value == 1) {
+                                List<Properties>? comercialProperties = [];
+
+                                ( properties ?? []).forEach((element){
+                                  // element.
+                                  if(element.propertyTypeId == 2){
+                                    comercialProperties.add(element);
+                                  }
+                                  debugPrint(comercialProperties.length.toString());
+                                  context.read<HomeCubit>().setListOfData(comercialProperties);
+                                });
+                              }
+
+                              if(value == 2) {
+                                List<Properties>? agriculture = [];
+
+                                ( properties ?? []).forEach((element){
+                                  // element.
+                                  if(element.propertyTypeId == 3){
+                                    agriculture.add(element);
+                                  }
+                                  debugPrint(agriculture.length.toString());
+                                  context.read<HomeCubit>().setListOfData(agriculture);
+                                });
+                              }
+
+                              if(value == 3) {
+                                List<Properties>? plotLand = [];
+
+                                ( properties ?? []).forEach((element){
+                                  // element.
+                                  if(element.propertyTypeId == 4){
+                                    plotLand.add(element);
+                                  }
+                                  debugPrint(plotLand.length.toString());
+                                  context.read<HomeCubit>().setListOfData(plotLand);
+                                });
+                              }
+
+                              //
+                              // if(value == 4) {
+                              //   List<Properties>? comercialProperties = [];
+                              //
+                              //   ( properties ?? []).forEach((element){
+                              //     // element.
+                              //     if(element.propertyTypeId == 2){
+                              //       comercialProperties.add(element);
+                              //     }
+                              //     debugPrint(comercialProperties.length.toString());
+                              //     context.read<HomeCubit>().setListOfData(comercialProperties);
+                              //   });
+                              // }
+
+
+
+
+                            },
                             indicatorSize: TabBarIndicatorSize.tab,
                             dividerColor: Colors.transparent,
                             labelPadding: EdgeInsets.zero,

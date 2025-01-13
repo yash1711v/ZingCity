@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// import '../../../../data/model/agency/agency_details_model.dart';
+import '../../../../data/model/home/home_data_model.dart';
+import '../../../../logic/cubit/home/cubit/home_cubit.dart';
 import '../../../utils/constraints.dart';
 import '../../../utils/k_images.dart';
 import '../../../widget/custom_theme.dart';
@@ -40,6 +44,37 @@ class MyBottomNavigationBar extends StatelessWidget {
                 selectedIndex: selectedIndex,
                 onTap: (int index) {
                   controller.naveListener.sink.add(index);
+                  if(index == 1){
+                    List<Properties>? properties = context.read<HomeCubit>().state.rentProperties ;
+
+                      List<Properties>? ResidentialProperties = [];
+
+                      ( properties ?? []).forEach((element){
+                        // element.
+                        if(element.propertyTypeId == 1){
+                          ResidentialProperties.add(element);
+                        }
+                        debugPrint(ResidentialProperties.length.toString());
+                        context.read<HomeCubit>().setListOfData(ResidentialProperties);
+                      });
+
+                  }
+
+                  if(index == 2){
+                    List<Properties>? properties = context.read<HomeCubit>().state.buyProperties ;
+                    // List<Properties>? buyProperties = context.read<HomeCubit>().state.buyProperties ;
+                      List<Properties>? ResidentialProperties = [];
+
+                      ( properties ?? []).forEach((element){
+                        // element.
+                        if(element.propertyTypeId == 1){
+                          ResidentialProperties.add(element);
+                        }
+                        debugPrint(ResidentialProperties.length.toString());
+                        context.read<HomeCubit>().setListOfData(ResidentialProperties);
+                      });
+
+                  }
                 },
                 items: const <BottomBarItem>[
                   BottomBarItem(

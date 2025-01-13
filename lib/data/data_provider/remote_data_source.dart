@@ -851,7 +851,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
     final clientMethod = client.get(uri, headers: headers);
     final responseJsonBody =
         await NetworkParser.callClientWithCatchException(() => clientMethod);
-    return responseJsonBody['properties'];
+    return responseJsonBody['data'];
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:real_estate/data/model/agency/agency_details_model.dart';
 
 import '../../../data/data_provider/remote_url.dart';
+import '../../router/route_names.dart';
 import '../../widget/custom_theme.dart';
 import '../../widget/customnetwork_widget.dart';
 import '../home/home_screen.dart';
@@ -64,39 +65,48 @@ class PurchaseDetailScreen extends StatelessWidget {
                         height: 35.01,
                       ),
                       const Spacer(),
-                      Container(
-                        width: 95.65,
-                        height: 30.90,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF30469A),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x19000000),
-                              blurRadius: 8,
-                              offset: Offset(0, 0),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                                "assets/Yash/images/post_ad_button.png"),
-                            const SizedBox(width: 5.0),
-                            const Text(
-                              'Post Ad',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontFamily: 'DM Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            )
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteNames.addPropertyScreen);
+                        },
+                        child: Container(
+                          width: 155,
+                          height: 30.90,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFF30469A),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x19000000),
+                                blurRadius: 8,
+                                offset: Offset(0, 0),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                    "assets/Yash/images/post_ad_button.png"),
+                                const SizedBox(width: 5.0),
+                                const Text(
+                                  'Post Property',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'DM Sans',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(

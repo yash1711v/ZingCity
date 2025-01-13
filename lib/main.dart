@@ -24,7 +24,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  // await StateInjector.init();
+  await StateInjector.init();
   runApp(const RealEstate());
 }
 

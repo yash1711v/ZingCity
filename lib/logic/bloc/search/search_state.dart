@@ -14,7 +14,7 @@ class SearchLoading extends SearchState {}
 class SearchMorePropertyLoading extends SearchState {}
 
 class SearchLoaded extends SearchState {
-  final List<SearchProperty> property;
+  final List<Properties> property;
 
   const SearchLoaded(this.property);
 

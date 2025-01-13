@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate/data/model/home/home_data_model.dart';
 
 import '/logic/bloc/search/search_bloc.dart';
 import '/presentation/utils/constraints.dart';
@@ -123,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
 class SearchLoadedWidget extends StatelessWidget {
   const SearchLoadedWidget({super.key, required this.property});
-  final List<SearchProperty> property;
+  final List<Properties> property;
 
   @override
   Widget build(BuildContext context) {
@@ -135,9 +136,9 @@ class SearchLoadedWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 40.0)
               .copyWith(top: 0.0),
           itemBuilder: (context, index) => GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                  context, RouteNames.propertyDetailsScreen,
-                  arguments: property[index].slug),
+              onTap: () =>       Navigator.pushNamed(context,
+                  RouteNames.purchaseDetailsScreen,
+                  arguments: property[index]),
               child: SearchComponent(property: property[index])));
     } else {
       return const Center(

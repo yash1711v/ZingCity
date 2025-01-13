@@ -189,6 +189,7 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
       // String? token = await prefs.getString("token");
       // _authRepository.updateHeader(token);
       emit(state.copyWith(isLoading: false));
+
       return true;
     }
   }

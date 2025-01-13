@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate/data/model/home/home_data_model.dart';
 
 import '/data/data_provider/remote_url.dart';
 import '/data/model/search_response_model/search_property_model.dart';
@@ -13,7 +14,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository _searchRepository;
 
   SearchResponseModel? _searchResponseModel;
-  List<SearchProperty> property = [];
+  List<Properties> property = [];
 
   SearchBloc({required SearchRepository searchRepository})
       : _searchRepository = searchRepository,
@@ -25,33 +26,32 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _searchProperty(
       SearchEventProperty event, Emitter<SearchState> emit) async {
     emit(SearchLoading());
-    final uri = Uri.parse(RemoteUrls.getSearchProperty)
-        .replace(queryParameters: {'search': event.name});
+    final uri = Uri.parse("https://lab6.invoidea.in/zingcity/api/user/property-search?search=${event.name}");
     final result = await _searchRepository.getSearchProperty(uri);
     result.fold((failure) {
       emit(SearchError(failure.message, failure.statusCode));
     }, (success) {
-      property = success.data!;
-      emit(SearchLoaded(success.data!));
+      property = success ;
+      emit(SearchLoaded(property));
     });
   }
 
   Future<void> _searchMoreProperty(
       SearchEventLoadMoreProperty event, Emitter<SearchState> emit) async {
-    if (state is SearchMorePropertyLoading) return;
-    if (_searchResponseModel == null) {
-      return;
-    }
-    emit(SearchMorePropertyLoading());
-    final uri = Uri.parse(_searchResponseModel!.nextPageUrl);
-    final result = await _searchRepository.getSearchProperty(uri);
-
-    result.fold((failure) {
-      emit(SearchMorePropertyError(failure.message, failure.statusCode));
-    }, (success) {
-      _searchResponseModel = success;
-      property.addAll(success.data!);
-      emit(SearchMorePropertyLoaded(property.toSet().toList()));
-    });
+    // if (state is SearchMorePropertyLoading) return;
+    // if (_searchResponseModel == null) {
+    //   return;
+    // }
+    // emit(SearchMorePropertyLoading());
+    // final uri = Uri.parse(_searchResponseModel!.nextPageUrl);
+    // final result = await _searchRepository.getSearchProperty(uri);
+    //
+    // result.fold((failure) {
+    //   emit(SearchMorePropertyError(failure.message, failure.statusCode));
+    // }, (success) {
+    //   _searchResponseModel = success;
+    //   property.addAll(success.data!);
+    //   emit(SearchMorePropertyLoaded(property.toSet().toList()));
+    // });
   }
 }

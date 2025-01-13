@@ -343,7 +343,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           about: state.aboutMe,
                           image: state.image ?? File(""),
                           context: context,
-                          Token: widget.profile.verifyToken ?? "");
+                          Token: widget.profile.verifyToken ?? "").then((value){
+                            if(value){
+                              Navigator.pushReplacementNamed(
+                                  context, RouteNames.mainPageScreen);
+                            }
+                      });
                     }),
           );
         },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../data/model/home/home_data_model.dart';
 import '/data/data_provider/remote_url.dart';
 import '/presentation/utils/utils.dart';
 import '../../../../data/model/search_response_model/search_property_model.dart';
@@ -12,7 +13,7 @@ import '../../../widget/favorite_button.dart';
 
 class SearchComponent extends StatelessWidget {
   const SearchComponent({super.key, required this.property});
-  final SearchProperty property;
+  final Properties property;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class SearchComponent extends StatelessWidget {
                 // fit: StackFit.expand,
                 children: [
                   CustomImage(
-                    path: RemoteUrls.imageUrl(property.thumbnailImage),
+                    path: RemoteUrls.imageUrl(property.thumbnailImage ?? ""),
                     height: double.infinity,
                     width: 140.0,
                     fit: BoxFit.cover,
@@ -63,25 +64,24 @@ class SearchComponent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     CustomTextStyle(
-                      text: Utils.formatPrice(
-                          context, property.price.toStringAsFixed(2)),
+                      text: (property.price ?? 0.0).toStringAsFixed(2),
                       color: primaryColor,
                       fontWeight: FontWeight.w700,
                       fontSize: 16.0,
                     ),
-                    CustomTextStyle(
-                      text: property.rentPeriod.isNotEmpty
-                          ? '/${property.rentPeriod}'
-                          : property.rentPeriod,
-                      color: grayColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.0,
-                    ),
+                    // CustomTextStyle(
+                    //   text: property.rentPeriod.isNotEmpty
+                    //       ? '/${property.rentPeriod}'
+                    //       : property.rentPeriod,
+                    //   color: grayColor,
+                    //   fontWeight: FontWeight.w400,
+                    //   fontSize: 14.0,
+                    // ),
                   ],
                 ),
                 Flexible(
                   child: CustomTextStyle(
-                    text: property.title,
+                    text: property.title ?? "",
                     color: blackColor,
                     textAlign: TextAlign.left,
                     fontWeight: FontWeight.w600,
@@ -102,7 +102,7 @@ class SearchComponent extends StatelessWidget {
                     const SizedBox(width: 6.0),
                     Flexible(
                       child: CustomTextStyle(
-                        text: property.address,
+                        text: property.address ?? "",
                         textAlign: TextAlign.left,
                         color: grayColor,
                         fontWeight: FontWeight.w400,
