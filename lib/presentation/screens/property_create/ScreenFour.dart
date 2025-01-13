@@ -117,7 +117,7 @@ class _ScreenfourState extends State<Screenfour> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
-                                  "assets/Yash/images/available2.svg",
+                                  "assets/Yash/images/Garage.svg",
                                   width: 50,
                                   height: 50,
                                   color: isSelected ? Colors.white : const Color(0xFF30469A),
@@ -210,7 +210,7 @@ class _ScreenfourState extends State<Screenfour> {
                           ),
                         ),
                         child: Center(
-                          child: SvgPicture.asset("assets/Yash/images/available2.svg",
+                          child: SvgPicture.asset("assets/Yash/images/Garage.svg",
                             width: 24,
                             height: 24,
                             color: const Color(0xFF30469A),

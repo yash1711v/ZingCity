@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../widget/custom_theme.dart';
 import '/presentation/widget/loading_widget.dart';
 import '../../../../presentation/utils/constraints.dart';
 import '../../../../presentation/widget/custom_rounded_app_bar.dart';
@@ -42,8 +43,111 @@ class PrivacyPolicyScreen extends StatelessWidget {
     final privacyCubit = context.read<PrivacyPolicyCubit>();
     privacyCubit.getPrivacyPolicy();
     return Scaffold(
-      appBar: const CustomRoundedAppBar(
-        text: 'Privacy Policy',
+      appBar: PreferredSize(
+        preferredSize: const Size(
+          360,
+          200,
+        ),
+        child: Container(
+            width: 360,
+            height: 200,
+            decoration: BoxDecoration(
+              color: CustomTheme.theme.scaffoldBackgroundColor,
+              boxShadow: [
+                const BoxShadow(
+                  color: Color(0x1E000000),
+                  blurRadius: 8,
+                  offset: Offset(0, 1),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 50.0, left: 16, right: 16),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/Yash/images/ZingCityLogo.png",
+                        width: 50.03,
+                        height: 35.01,
+                      ),
+                      const Spacer(),
+                      // Container(
+                      //   width: 95.65,
+                      //   height: 30.90,
+                      //   decoration: ShapeDecoration(
+                      //     color: const Color(0xFF30469A),
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(5)),
+                      //     shadows: const [
+                      //       BoxShadow(
+                      //         color: Color(0x19000000),
+                      //         blurRadius: 8,
+                      //         offset: Offset(0, 0),
+                      //         spreadRadius: 0,
+                      //       )
+                      //     ],
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Image.asset(
+                      //           "assets/Yash/images/post_ad_button.png"),
+                      //       const SizedBox(width: 5.0),
+                      //       const Text(
+                      //         'Post Ad',
+                      //         style: TextStyle(
+                      //           color: Colors.white,
+                      //           fontSize: 12,
+                      //           fontFamily: 'DM Sans',
+                      //           fontWeight: FontWeight.w400,
+                      //           height: 0,
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
+                      // const SizedBox(
+                      //   width: 10,
+                      // ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 35,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.arrow_back_ios,
+                        ),
+                        Text(
+                          'Privacy Policy',
+                          style: TextStyle(
+                            color: Color(0xFF30469A),
+                            fontSize: 18,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )),
       ),
       body: BlocBuilder<PrivacyPolicyCubit, PrivacyPolicyState>(
         builder: (context, state) {
@@ -74,6 +178,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
 class LoadedPrivacyPolicy extends StatelessWidget {
   const LoadedPrivacyPolicy({super.key, required this.policyText});
+
   final String policyText;
 
   @override

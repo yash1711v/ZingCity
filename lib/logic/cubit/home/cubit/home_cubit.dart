@@ -32,7 +32,7 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await _repository.getHomeScreenData(lat: lat, long: long);
 
       var data = jsonDecode(result.body);
-
+      log("${data}",name: "Data");
       if(data['status']) {
        log("${data}",name: "Data");
         homeModel = HomeDataModel.fromJson(data['data']);

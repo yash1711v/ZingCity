@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,6 +78,9 @@ class _MainPageScreenState extends State<MainPageScreen>
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       if (mounted) {
+
+     debugPrint("lat ${position.latitude.toString()} long ${position.longitude.toString()}");
+
         context.read<HomeCubit>().getHomeData(
               lat: position.latitude.toString(),
               long: position.longitude.toString(),
@@ -186,7 +191,7 @@ class _MainPageScreenState extends State<MainPageScreen>
                 builder: (context, snapshot) {
                   int item = snapshot.data ?? 0;
                   if (item == 2) {
-                    _tabController = TabController(length: 3, vsync: this);
+                    _tabController = TabController(length: 4, vsync: this);
                   } else {
                     _tabController = TabController(length: 2, vsync: this);
                   }
@@ -240,7 +245,7 @@ class _MainPageScreenState extends State<MainPageScreen>
                                       context, RouteNames.addPropertyScreen);
                                 },
                                 child: Container(
-                                  width: 95.65,
+                                  width: 155,
                                   height: 30.90,
                                   decoration: ShapeDecoration(
                                     color: const Color(0xFF30469A),
@@ -255,23 +260,26 @@ class _MainPageScreenState extends State<MainPageScreen>
                                       )
                                     ],
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                          "assets/Yash/images/post_ad_button.png"),
-                                      const SizedBox(width: 5.0),
-                                      const Text(
-                                        'Post Ad',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontFamily: 'DM Sans',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                        ),
-                                      )
-                                    ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                            "assets/Yash/images/post_ad_button.png"),
+                                        const SizedBox(width: 5.0),
+                                        const Text(
+                                          'Post Property',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontFamily: 'DM Sans',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -370,7 +378,8 @@ class _MainPageScreenState extends State<MainPageScreen>
                           child: TabBar(
                             indicatorSize: TabBarIndicatorSize.tab,
                             dividerColor: Colors.transparent,
-                            indicatorWeight: 3,
+                            labelPadding: EdgeInsets.zero,
+                            indicatorWeight: 4,
                             controller: _tabController,
                             unselectedLabelColor: Colors.grey,
                             labelColor: const Color(0xFF30469A),
@@ -403,6 +412,18 @@ class _MainPageScreenState extends State<MainPageScreen>
                                 padding: EdgeInsets.only(bottom: 16.0),
                                 child: Text(
                                   'Agricultar',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'DM Sans',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 16.0),
+                                child: Text(
+                                  'Plot/Land',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'DM Sans',

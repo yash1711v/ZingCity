@@ -309,7 +309,7 @@ class RouteNames {
         return MaterialPageRoute(
             settings: settings, builder: (_) => const PurchaseScreen());
       case RouteNames.purchaseDetailsScreen:
-        final Properties  properties = settings.arguments as Properties;
+        final dynamic  properties = settings.arguments;
         return MaterialPageRoute(
             settings: settings,
             builder: (_) => PurchaseDetailScreen(propertiesDetails: properties));

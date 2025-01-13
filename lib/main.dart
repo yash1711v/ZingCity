@@ -12,6 +12,8 @@ import 'package:real_estate/logic/repository/auth_repository.dart';
 import '/presentation/utils/k_strings.dart';
 import 'logic/bloc/signup/sign_up_cubit.dart';
 import 'logic/bloc/splash_screen_cubit.dart';
+import 'logic/cubit/privacy_policy/privacy_policy_cubit.dart';
+import 'logic/repository/privacy_policy_repository.dart';
 import 'presentation/router/route_names.dart';
 import 'presentation/widget/custom_theme.dart';
 import 'state_injector.dart';
@@ -40,11 +42,13 @@ class RealEstate extends StatelessWidget {
         return  MultiBlocProvider(
           // providers: StateInjector.blocProviders,
           providers: [
-            BlocProvider<SplashScreenCubit>(create: (_) => SplashScreenCubit()..chekToken()),
-            BlocProvider<LoginCubit>(create: (_) => LoginCubit()),
-            BlocProvider<GeneralCubit>(create: (_) => GeneralCubit()),
-            BlocProvider<ProfileCubit>(create: (_) => ProfileCubit()),
-            BlocProvider<HomeCubit>(create: (_) => HomeCubit()),
+            // BlocProvider<PrivacyPolicyCubit>(
+            //   create: (BuildContext context) => PrivacyPolicyCubit(
+            //     repository: context.read(),
+            //   ),
+            // ),
+            ...StateInjector.repositoryProviders, // Ensure repository providers are initialized first
+            ...StateInjector.blocProviders,
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

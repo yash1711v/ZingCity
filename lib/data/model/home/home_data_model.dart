@@ -89,7 +89,7 @@ class BannerImage {
   String? location;
   int? imageType;
   String? image;
-  Null? createdAt;
+  String? createdAt;
   String? updatedAt;
 
   BannerImage(
@@ -158,10 +158,10 @@ class PropertyFeatured {
   String? approveByAdmin;
   String? createdAt;
   String? updatedAt;
-  Null? dateFrom;
-  Null? dateTo;
-  Null? timeFrom;
-  Null? timeTo;
+  String? dateFrom;
+  String? dateTo;
+  String? timeFrom;
+  String? timeTo;
   int? countryId;
   String? lat;
   String? lon;
@@ -339,7 +339,7 @@ class LatestProperties {
   String? videoId;
   String? address;
   String? addressDescription;
-  Null? googleMap;
+  String? googleMap;
   String? totalArea;
   String? totalUnit;
   String? totalBedroom;
@@ -351,7 +351,7 @@ class LatestProperties {
   String? isUrgent;
   String? status;
   String? bhkType;
-  Null? expiredDate;
+  String? expiredDate;
   String? seoTitle;
   String? seoMetaDescription;
   int? serial;
@@ -359,17 +359,17 @@ class LatestProperties {
   String? approveByAdmin;
   String? createdAt;
   String? updatedAt;
-  Null? dateFrom;
-  Null? dateTo;
-  Null? timeFrom;
-  Null? timeTo;
+  String? dateFrom;
+  String? dateTo;
+  String? timeFrom;
+  String? timeTo;
   int? countryId;
   String? lat;
   String? lon;
   int? possessionStatus;
   int? cityId;
   int? totalRating;
-  Null? ratingAvarage;
+  String? ratingAvarage;
 
   LatestProperties(
       {this.id,
@@ -552,7 +552,7 @@ class Properties {
   String? isUrgent;
   String? status;
   String? bhkType;
-  Null? expiredDate;
+  String? expiredDate;
   String? seoTitle;
   String? seoMetaDescription;
   int? serial;
@@ -560,10 +560,10 @@ class Properties {
   String? approveByAdmin;
   String? createdAt;
   String? updatedAt;
-  Null? dateFrom;
-  Null? dateTo;
-  Null? timeFrom;
-  Null? timeTo;
+  String? dateFrom;
+  String? dateTo;
+  String? timeFrom;
+  String? timeTo;
   int? countryId;
   String? lat;
   String? lon;
@@ -571,7 +571,7 @@ class Properties {
   int? cityId;
   double? distance;
   int? totalRating;
-  Null? ratingAvarage;
+  String? ratingAvarage;
 
   Properties(
       {this.id,

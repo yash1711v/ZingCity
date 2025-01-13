@@ -64,7 +64,7 @@ class _Screen3State extends State<Screen3> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           ),
                           child: Center(
-                            child: SvgPicture.asset("assets/Yash/images/available1.svg"),
+                            child: SvgPicture.asset("assets/Yash/images/BedRoom.svg"),
                           ),
                         ),
                         SizedBox(width: 10,),

@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:real_estate/logic/cubit/privacy_policy/privacy_policy_cubit.dart';
 
 import '../../../logic/bloc/login/login_cubit.dart';
 import '/presentation/utils/utils.dart';
@@ -263,32 +265,64 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextSpan(
                       text: 'You accept our ',
                       style: TextStyle(
-                        color: Colors.black.withOpacity(0.6000000238418579),
+                        color: Colors.black.withOpacity(0.6),
                         fontSize: 13,
                         fontFamily: 'DM Sans',
                         fontWeight: FontWeight.w400,
-                        height: 0,
                       ),
                     ),
-                    const TextSpan(
-                      text: 'Terms & Conditions & Privacy Policy',
-                      style: TextStyle(
+                    TextSpan(
+                      text: 'Terms & Conditions',
+                      style: const TextStyle(
                         color: Color(0xFF398BCB),
                         fontSize: 13,
                         fontFamily: 'DM Sans',
                         fontWeight: FontWeight.w400,
                         decoration: TextDecoration.underline,
-                        height: 0,
                       ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          // Handle Terms & Conditions tap
+                          print('Terms & Conditions tapped');
+                          context.read<PrivacyPolicyCubit>().getTermsAndCondition();
+                          Navigator.pushNamed(
+                            context, RouteNames.termsAndConditionScreen,);
+                        },
+                    ),
+                    TextSpan(
+                      text: ' & ',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        fontSize: 13,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Privacy Policy',
+                      style: const TextStyle(
+                        color: Color(0xFF398BCB),
+                        fontSize: 13,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w400,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          // Handle Privacy Policy
+                          context.read<PrivacyPolicyCubit>().getPrivacyPolicy();
+                          Navigator.pushNamed(
+                            context, RouteNames.privacyPolicyScreen,);
+                          // print('Privacy Policy tapped');
+                        },
                     ),
                     TextSpan(
                       text: ' by clicking the login button.',
                       style: TextStyle(
-                        color: Colors.black.withOpacity(0.6000000238418579),
+                        color: Colors.black.withOpacity(0.6),
                         fontSize: 13,
                         fontFamily: 'DM Sans',
                         fontWeight: FontWeight.w400,
-                        height: 0,
                       ),
                     ),
                   ],

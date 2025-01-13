@@ -145,6 +145,7 @@ class _RentScreenState extends State<RentScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 17.0, vertical: 17.0),
                                       itemBuilder: (context, index) {
+                                        debugPrint((state.rentProperties ?? [])[index].title);
                                         return GestureDetector(
                                           onTap: () {
                                             Navigator.pushNamed(

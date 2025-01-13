@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate/data/model/auth/user_login_response_model.dart';
+import 'package:real_estate/logic/bloc/General/general_cubit.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
 
+import '../../../logic/cubit/privacy_policy/privacy_policy_cubit.dart';
 import '../../widget/custom_theme.dart';
 import '../home/component/agent_search.dart';
 import '/presentation/utils/utils.dart';
@@ -42,8 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Container(
             width: 360,
             height: 240,
-            decoration:  BoxDecoration(
-              color:  Color(0xFFE7EBF4),
+            decoration: BoxDecoration(
+              color: Color(0xFFE7EBF4),
               boxShadow: [
                 BoxShadow(
                   color: Color(0x1E000000),
@@ -67,42 +70,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const Spacer(),
                       GestureDetector(
-                        onTap: (){
-                          Navigator.pushNamed(context, RouteNames.addPropertyScreen);
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteNames.addPropertyScreen);
                         },
-                        child: Container(
-                          width: 95.65,
-                          height: 30.90,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFF30469A),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x19000000),
-                                blurRadius: 8,
-                                offset: Offset(0, 0),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                  "assets/Yash/images/post_ad_button.png"),
-                              const SizedBox(width: 5.0),
-                              const Text(
-                                'Post Ad',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontFamily: 'DM Sans',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              )
-                            ],
+                        child: Expanded(
+                          child: Container(
+                            // width: 95.65,
+                            height: 30.90,
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFF30469A),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x19000000),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 0),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                      "assets/Yash/images/post_ad_button.png"),
+                                  const SizedBox(width: 5.0),
+                                  const Text(
+                                    'Post Property',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'DM Sans',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -141,88 +151,92 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: 324,
-                          height: 75.49,
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x19000000),
-                                blurRadius: 8,
-                                offset: Offset(0, 0),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: (){
-                                    debugPrint("Edit Profile");
-                                  },
-                                  child: const Stack(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 30,
+                BlocBuilder<GeneralCubit, GeneralState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              // width: 324,
+                              height: 75.49,
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x19000000),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 0),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        debugPrint("Edit Profile");
+                                      },
+                                      child: const Stack(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 30,
+                                          ),
+                                          Positioned(
+                                              top: 35,
+                                              left: 38,
+                                              child: Icon(
+                                                Icons.edit,
+                                                color: Colors.blue,
+                                              )),
+                                        ],
                                       ),
-                                      Positioned(
-                                        top: 35,
-                                          left: 38,
-                                          child: Icon(
-                                        Icons.edit,
-                                        color: Colors.blue,
-                                      )),
-                                    ],
-                                  ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15.0, left: 10.0),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'Edit Profile',
+                                              style: TextStyle(
+                                                color: Color(0xFF398BCB),
+                                                fontSize: 12,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w300,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            Text(
+                                              '${(state.userModel ?? UserModel()).name ?? ""}',
+                                              style: TextStyle(
+                                                color: Colors.black.withOpacity(
+                                                    0.699999988079071),
+                                                fontSize: 14,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w300,
+                                                height: 0,
+                                              ),
+                                            )
+                                          ]),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15.0, left: 10.0),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Edit Profile',
-                                          style: TextStyle(
-                                            color: Color(0xFF398BCB),
-                                            fontSize: 12,
-                                            fontFamily: 'DM Sans',
-                                            fontWeight: FontWeight.w300,
-                                            height: 0,
-                                          ),
-                                        ),
-                                        Text(
-                                          '+91 9876543210',
-                                          style: TextStyle(
-                                            color: Colors.black
-                                                .withOpacity(0.699999988079071),
-                                            fontSize: 14,
-                                            fontFamily: 'DM Sans',
-                                            fontWeight: FontWeight.w300,
-                                            height: 0,
-                                          ),
-                                        )
-                                      ]),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -324,14 +338,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-                Text(
-                  'Privacy Policy',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.699999988079071),
-                    fontSize: 16,
-                    fontFamily: 'DM Sans',
-                    fontWeight: FontWeight.w300,
-                    height: 0,
+                GestureDetector(
+                  onTap: (){
+                    context.read<PrivacyPolicyCubit>().getPrivacyPolicy();
+                    Navigator.pushNamed(
+                      context, RouteNames.privacyPolicyScreen,);
+                  },
+                  child: Text(
+                    'Privacy Policy',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.699999988079071),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w300,
+                      height: 0,
+                    ),
                   ),
                 ),
                 Row(
@@ -355,7 +376,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, RouteNames.termsAndConditionScreen);
+                    context.read<PrivacyPolicyCubit>().getTermsAndCondition();
+                    Navigator.pushNamed(
+                      context, RouteNames.termsAndConditionScreen,);
                   },
                   child: Expanded(
                     child: Row(

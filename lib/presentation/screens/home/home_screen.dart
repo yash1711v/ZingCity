@@ -259,7 +259,7 @@ class HomeScreen extends StatelessWidget {
                                     onTap: () {
                                       Navigator.pushNamed(context,
                                           RouteNames.purchaseDetailsScreen,
-                                          arguments: state.homeDataLoaded?.propertyFeatured?[index]);
+                                          arguments: Properties.fromJson(state.homeDataLoaded?.propertyFeatured?[index].toJson() ?? {}));
                                     },
                                     child: Container(
                                       width: 299.52,
@@ -342,7 +342,7 @@ class HomeScreen extends StatelessWidget {
                                                 ),
                                                 Expanded(
                                                   child: Text(
-                                                    removeHtmlTags( state.homeDataLoaded?.propertyFeatured?[index].description ?? ""),
+                                                    removeHtmlTags( state.homeDataLoaded?.propertyFeatured?[index].address ?? ""),
                                                     maxLines: 1,
                                                     style: TextStyle(
                                                       color: Colors.black
@@ -655,7 +655,7 @@ class HomeScreen extends StatelessWidget {
 
                                         Navigator.pushNamed(context,
                                             RouteNames.purchaseDetailsScreen,
-                                            arguments: state.homeDataLoaded?.latestProperties?[index]);
+                                            arguments: Properties.fromJson(state.homeDataLoaded?.latestProperties?[index].toJson() ?? {}));
                                         // Navigator.pushNamed(
                                         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                                       },
@@ -745,19 +745,22 @@ class HomeScreen extends StatelessWidget {
                                                             .location_on_sharp,
                                                         size: 12,
                                                       ),
-                                                      Text(
-                                                          removeHtmlTags( state.homeDataLoaded?.latestProperties?[index].description ?? ""),
-                                                        maxLines: 1,
-                                                        style: TextStyle(
-                                                          color:
-                                                              Colors.black,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight
-                                                                  .w300,
-                                                          height: 0,
+                                                      SizedBox(
+                                                        width: 200,
+                                                        child: Text(
+                                                            removeHtmlTags( state.homeDataLoaded?.latestProperties?[index].address ?? ""),
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                            color:
+                                                                Colors.black,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'DM Sans',
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w300,
+                                                            height: 0,
+                                                          ),
                                                         ),
                                                       )
                                                     ],
@@ -815,4 +818,8 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+String removeHtmlTags(String htmlText) {
+  final RegExp exp = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: false);
+  return htmlText.replaceAll(exp, '');
 }
