@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 
+import '../../data/model/add_property_model.dart';
+import '../../state_inject_package_names.dart';
 import '/data/model/create_property/create_property_model.dart';
 import '../../data/data_provider/local_data_source.dart';
 import '../../data/data_provider/remote_data_source.dart';
@@ -12,6 +14,8 @@ import '../cubit/add_property/add_property_state_model.dart';
 abstract class PropertyRepository {
   Future<Either<Failure, CreatePropertyInfo>> getPropertyCreateInfo(
       String token, String purpose);
+
+  Future<Either<Failure, PropertyTypeResponse>> getPropertyData();
 
   Future<Either<dynamic, String>> createProperty(
       AddPropertyModel data, String token);
@@ -173,6 +177,19 @@ class PropertyRepositoryImp extends PropertyRepository {
       return Right(data);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message, e.statusCode));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PropertyTypeResponse>> getPropertyData() async {
+     try {
+    final result = await remoteDataSource.getPropertyInfo();
+
+    final data = PropertyTypeResponse.fromJson(result);
+    debugPrint('value === >: ${data.status}');
+    return Right(data);
+    } on ServerException catch (e) {
+    return Left(ServerFailure(e.message, e.statusCode));
     }
   }
 }

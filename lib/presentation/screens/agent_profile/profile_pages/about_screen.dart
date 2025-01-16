@@ -32,20 +32,20 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 6.0,),
           ContactComponents(image: KImages.locationsIcon, text:  agentDetails.agent!.address,),
           const SizedBox(height: 20.0,),
-           Row(children: [
-            SocialComponents(icon: KImages.linkedinIcon,onTap: (){
-              _launchURL(agentDetails.agent!.linkedin);
-            },),
-            const SizedBox(width: 10.0,),
-            SocialComponents(icon: KImages.twitterIcon,onTap: (){
-              _launchURL(agentDetails.agent!.twitter);
-            },),
-            const SizedBox(width: 10.0,),
-            SocialComponents(icon: KImages.instagramIcon,onTap: (){
-              _launchURL(agentDetails.agent!.instagram);
-
-            },),
-          ],),
+          //  Row(children: [
+          //   SocialComponents(icon: KImages.linkedinIcon,onTap: (){
+          //     _launchURL(agentDetails.agent!.linkedin);
+          //   },),
+          //   const SizedBox(width: 10.0,),
+          //   SocialComponents(icon: KImages.twitterIcon,onTap: (){
+          //     _launchURL(agentDetails.agent!.twitter);
+          //   },),
+          //   const SizedBox(width: 10.0,),
+          //   SocialComponents(icon: KImages.instagramIcon,onTap: (){
+          //     _launchURL(agentDetails.agent!.instagram);
+          //
+          //   },),
+          // ],),
 
         ],
       ),

@@ -39,6 +39,23 @@ class AddPropertyCubit extends Cubit<AddPropertyModel> {
     emit(state.copyWith(purpose: text, addState: const AddPropertyInitial()));
   }
 
+  void changeCity(String text) {
+    emit(state.copyWith(city: text, addState: const AddPropertyInitial()));
+  }
+
+  void changeCountry(String text) {
+    emit(state.copyWith(country: text, addState: const AddPropertyInitial()));
+  }
+
+void changeAddress(String text) {
+    emit(state.copyWith(address: text, addState: const AddPropertyInitial()));
+  }
+
+  void changeState(String text) {
+    debugPrint("$text");
+    emit(state.copyWith(state: text, addState: const AddPropertyInitial()));
+  }
+
   void changeRentPeriod(String text) {
     emit(state.copyWith(
       rentPeriod: text,
@@ -255,6 +272,26 @@ class AddPropertyCubit extends Cubit<AddPropertyModel> {
       },
       (success) {
         emit(state.copyWith(addState: AddPropertyLoaded(success)));
+      },
+    );
+  }
+  Future<void> getData() async {
+    debugPrint('add-property-body ${state.toMap()}');
+    emit(state.copyWith(addState: const AddPropertyLoading()));
+    final result = await _repository.getPropertyData();
+    result.fold(
+      (failure) {
+        if (failure is InvalidAuthData) {
+          final errorState = AddPropertyFormError(failure.errors);
+          emit(state.copyWith(addState: errorState));
+        } else {
+          final errors = AddPropertyError(failure.message, failure.statusCode);
+          emit(state.copyWith(addState: errors));
+        }
+      },
+      (success) {
+        debugPrint("Success");
+        emit(state.copyWith(staticInfo: success));
       },
     );
   }

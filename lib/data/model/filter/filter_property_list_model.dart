@@ -65,7 +65,7 @@ class FilterPropertyListModel extends Equatable {
       'seo_setting': seoSetting?.toMap(),
       'locations': location!.map((x) => x.toMap()).toList(),
       'property_types': propertyType!.map((x) => x.toMap()).toList(),
-      'slider_agents': sliderAgent!.map((x) => x.toMap()).toList(),
+      // 'slider_agents': sliderAgent!.map((x) => x.toMap()).toList(),
       'properties': properties!.toMap(),
       'max_bed_room': maxBedRooms,
       'max_bath_room': maxBathRooms,

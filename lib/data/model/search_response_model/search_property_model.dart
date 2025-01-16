@@ -111,7 +111,7 @@ class SearchProperty extends Equatable {
       'property_type_id': propertyTypeId,
       'totalRating': totalRating,
       'ratingAvarage': ratingAvarage,
-      'agent': agent!.toMap(),
+      // 'agent': agent!.toMap(),
     };
   }
 

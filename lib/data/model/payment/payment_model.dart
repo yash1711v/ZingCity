@@ -69,7 +69,7 @@ class PaymentModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'user': user!.toMap(),
+      // 'user': user!.toMap(),
       'bankPayment': bankPayment!.toMap(),
       'plan_expired_date': planeExpireData,
       'flutterwave': flutterWave!.toMap(),

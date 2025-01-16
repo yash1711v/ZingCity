@@ -66,7 +66,7 @@ class Review extends Equatable {
       'status': status,
       'created_at': createdAt,
       'updated_at': updatedAt,
-      'user': user!.toMap(),
+      // 'user': user!.toMap(),
     };
   }
 

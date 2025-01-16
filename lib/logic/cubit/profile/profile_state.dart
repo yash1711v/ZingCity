@@ -63,7 +63,7 @@ class ProfileUpdateFormValidate extends ProfileState {
 }
 
 class AgentProfileLoaded extends ProfileState {
-  final UserProfileModel? users;
+  final UserModel? users;
 
   const AgentProfileLoaded(this.users);
 

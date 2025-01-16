@@ -17,7 +17,7 @@ import 'component/profile_image.dart';
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key, required this.profile});
 
-  final UserModel profile;
+  final dynamic profile;
 
   @override
   State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
@@ -36,12 +36,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     profile.nameChange(widget.profile.name ?? "");
     profile.phoneChange(widget.profile.phone ?? "");
     profile.addressChange(widget.profile.address ?? "");
-    profile.designationChange(widget.profile.designation ?? "");
+    // profile.designationChange(widget.profile.designation ?? "");
     profile.aboutMeChange(widget.profile.aboutMe ?? "");
     profile.emailChange(widget.profile.email ?? "");
-    profile.instagramChange(widget.profile.instagram ?? "");
-    profile.twitterChange(widget.profile.twitter ?? "");
-    profile.linkedinChange(widget.profile.linkedin ?? "");
+    // profile.instagramChange(widget.profile.instagram ?? "");
+    // profile.twitterChange(widget.profile.twitter ?? "");
+    // profile.linkedinChange(widget.profile.linkedin ?? "");
   }
 
   final _className = "UpdateProfileScreen";
@@ -59,35 +59,35 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         title: widget.profile.name == null ? "Register" : 'Update Profile',
       ),
       body: BlocListener<ProfileCubit, ProfileStateModel>(
-        listener: (context, state) {},
-        // {
-        //   final update = state.profileState;
-        //   // if (update is ProfileUpdateLoading) {
-        //   //   log(_className, name: update.toString());
-        //   // } else if (update is ProfileUpdateError) {
-        //   //   Utils.errorSnackBar(context, update.message);
-        //   // } else if (update is ProfileUpdateLoaded) {
-        //   //   Navigator.of(context).pop();
-        //   //   //Utils.showSnackBar(context, update.message);
-        //   // }
-        //
-        //   if (update is ProfileUpdateLoading) {
-        //     Utils.loadingDialog(context);
-        //   } else {
-        //     Utils.closeDialog(context);
-        //     if (update is ProfileUpdateError) {
-        //       if (update.statusCode == 401) {
-        //         Utils.logout(context);
-        //       } else {
-        //         Utils.errorSnackBar(context, update.message);
-        //       }
-        //     } else if (update is ProfileUpdateLoaded) {
-        //       // Navigator.of(context).pop();
-        //
-        //       Utils.showSnackBar(context, update.message);
-        //     }
-        //   }
-        // },
+        listener: (context, state)
+        {
+          final update = state.profileState;
+          // if (update is ProfileUpdateLoading) {
+          //   log(_className, name: update.toString());
+          // } else if (update is ProfileUpdateError) {
+          //   Utils.errorSnackBar(context, update.message);
+          // } else if (update is ProfileUpdateLoaded) {
+          //   Navigator.of(context).pop();
+          //   //Utils.showSnackBar(context, update.message);
+          // }
+
+          if (update is ProfileUpdateLoading) {
+            Utils.loadingDialog(context);
+          } else {
+            Utils.closeDialog(context);
+            if (update is ProfileUpdateError) {
+              if (update.statusCode == 401) {
+                Utils.logout(context);
+              } else {
+                Utils.errorSnackBar(context, update.message);
+              }
+            } else if (update is ProfileUpdateLoaded) {
+              // Navigator.of(context).pop();
+
+              Utils.showSnackBar(context, update.message);
+            }
+          }
+        },
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           physics: const BouncingScrollPhysics(),
@@ -176,32 +176,32 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 );
               },
             ),
-            spacer,
-            BlocBuilder<ProfileCubit, ProfileStateModel>(
-              builder: (context, state) {
-                final update = state.profileState;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                        initialValue: widget.profile.designation,
-                        decoration: const InputDecoration(
-                          hintText: 'Designation',
-                        ),
-                        keyboardType: TextInputType.text,
-                        onChanged: (String text) {
-                          // profileCubit.designationChange(text),
-                        }),
-                    if (update is ProfileUpdateFormValidate) ...[
-                      if (update.error.designation.isNotEmpty)
-                        ErrorText(
-                          text: update.error.designation.first,
-                        ),
-                    ]
-                  ],
-                );
-              },
-            ),
+            // spacer,
+            // BlocBuilder<ProfileCubit, ProfileStateModel>(
+            //   builder: (context, state) {
+            //     final update = state.profileState;
+            //     return Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         TextFormField(
+            //             initialValue:"",
+            //             decoration: const InputDecoration(
+            //               hintText: 'Designation',
+            //             ),
+            //             keyboardType: TextInputType.text,
+            //             onChanged: (String text) {
+            //               // profileCubit.designationChange(text),
+            //             }),
+            //         if (update is ProfileUpdateFormValidate) ...[
+            //           if (update.error.designation.isNotEmpty)
+            //             ErrorText(
+            //               text: update.error.designation.first,
+            //             ),
+            //         ]
+            //       ],
+            //     );
+            //   },
+            // ),
             spacer,
             BlocBuilder<ProfileCubit, ProfileStateModel>(
               builder: (context, state) {

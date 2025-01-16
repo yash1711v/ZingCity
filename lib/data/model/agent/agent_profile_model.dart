@@ -61,7 +61,7 @@ class AgentProfileModel extends Equatable {
       'total_purchase': totalPurchase,
       'total_wishlist': totalWishlist,
       'total_review': totalReview,
-      'agent': agent!.toMap(),
+      // 'agent': agent!.toMap(),
       'properties': properties!.toMap(),
       //'mobile_app': mobileApp!.toMap(),
     };

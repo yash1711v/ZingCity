@@ -23,11 +23,11 @@ import 'profile_state_model.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileStateModel> {
-  // final ProfileRepository _profileRepository;
+  final ProfileRepository profileRepository;
   // final LoginBloc _loginBloc;
   TextEditingController amountCon = TextEditingController();
 
-  ProfileCubit() : super(ProfileStateModel());
+  ProfileCubit({required this.profileRepository}) : super(ProfileStateModel());
 
   final Repository _authRepository = Repository();
 
@@ -127,7 +127,7 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
   }
 
   AgentProfileModel? agentDetailModel;
-  UserProfileModel? users;
+  UserModel? users;
 
   // Future<void> getAgentDashboardInfo() async {
   //   if (_loginBloc.userInfo != null &&
@@ -194,23 +194,27 @@ class ProfileCubit extends Cubit<ProfileStateModel> {
     }
   }
 
-  // Future<void> getAgentProfile() async {
-  //   debugPrint('called-getAgentProfile');
-  //   if (_loginBloc.userInfo != null &&
-  //       _loginBloc.userInfo!.accessToken.isNotEmpty) {
-  //     emit(state.copyWith(profileState: ProfileLoading()));
-  //     final result = await _profileRepository
-  //         .getAgentProfile(_loginBloc.userInfo!.accessToken);
-  //     result.fold((failure) {
-  //       final errors = ProfileError(failure.message, failure.statusCode);
-  //       emit(state.copyWith(profileState: errors));
-  //     }, (success) {
-  //       users = success;
-  //       final loaded = AgentProfileLoaded(success);
-  //       emit(state.copyWith(profileState: loaded));
-  //     });
-  //   }
-  // }
+  Future<void> getAgentProfile() async {
+    debugPrint('called-getAgentProfile');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = await prefs.getString("token");
+
+      emit(state.copyWith(profileState: ProfileLoading()));
+      final result = await profileRepository
+          .getAgentProfile(token ?? "");
+     print("Value==>$result");
+      result.fold((failure) {
+        debugPrint("==>$failure");
+        final errors = ProfileError(failure.message, failure.statusCode);
+        emit(state.copyWith(profileState: errors));
+      }, (success) {
+        debugPrint("==>${success.userName}");
+        users = success;
+        // final loaded = AgentProfileLoaded(success);
+        emit(state.copyWith(user: users));
+      });
+
+  }
 
   // Future<void> deleteAccount() async {
   //   emit(state.copyWith(profileState: const AccountDeleting()));

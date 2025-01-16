@@ -36,29 +36,29 @@ class HomeAppBar extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  if (login.userInfo!.user.ownerId == 0) {
-                    Navigator.pushNamed(
-                        context, RouteNames.premiumMembershipScreen);
-                  } else {
-                    Utils.showCustomDialog(context,
-                        barrierDismissible: true,
-                        child: const SizedBox(
-                          height: 150,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                  child: CustomTextStyle(
-                                text: "Only Your Agency Can Buy a Plan.",
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
-                                color: redColor,
-                              ))
-                            ],
-                          ),
-                        ));
-                  }
+                  // if (login.userInfo!.user.ownerId == 0) {
+                  //   Navigator.pushNamed(
+                  //       context, RouteNames.premiumMembershipScreen);
+                  // } else {
+                  //   Utils.showCustomDialog(context,
+                  //       barrierDismissible: true,
+                  //       child: const SizedBox(
+                  //         height: 150,
+                  //         child: Column(
+                  //           mainAxisSize: MainAxisSize.min,
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             Center(
+                  //                 child: CustomTextStyle(
+                  //               text: "Only Your Agency Can Buy a Plan.",
+                  //               fontSize: 16.0,
+                  //               fontWeight: FontWeight.w500,
+                  //               color: redColor,
+                  //             ))
+                  //           ],
+                  //         ),
+                  //       ));
+                  // }
                 },
                 child: Container(
                   height: 50.0,

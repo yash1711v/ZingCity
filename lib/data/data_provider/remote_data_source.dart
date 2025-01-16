@@ -12,6 +12,7 @@ import '../../logic/cubit/contact_us/contact_us_state_model.dart';
 import '../../logic/cubit/payment/stripe_payment/stripe_payment_state_model.dart';
 import '../../logic/cubit/profile/profile_state_model.dart';
 import '../../presentation/error/failure.dart';
+import '../../state_inject_package_names.dart';
 import '../model/auth/set_password_model.dart';
 import '../model/booking/booking_model.dart';
 import '../model/kyc/kyc_model.dart';
@@ -46,6 +47,7 @@ abstract class RemoteDataSource {
   Future getPropertyEditInfo(String id, String token);
 
   Future getPropertyChooseInfo(String token);
+  Future getPropertyInfo();
 
   Future websiteSetup();
 
@@ -66,7 +68,7 @@ abstract class RemoteDataSource {
 
   Future getAgentDashboardInfo(String token);
 
-  Future getAgentProfile(String token);
+  Future getAgentProfile();
 
   Future<String> deleteAccount(String token, ProfileStateModel password);
 
@@ -680,13 +682,20 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future getAgentProfile(String token) async {
-    final uri = Uri.parse(RemoteUrls.getAgentProfile(token));
+  Future getAgentProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = await prefs.getString("token");
+    final _mainHeaders = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token ?? token}'
+    };
+    final uri = Uri.parse(RemoteUrls.getAgentProfile());
 
-    final clientMethod = client.get(uri, headers: headers);
+    final clientMethod = client.get(uri, headers: _mainHeaders);
     final responseJsonBody =
         await NetworkParser.callClientWithCatchException(() => clientMethod);
-    return responseJsonBody['user'];
+    return clientMethod;
   }
 
   @override
@@ -1288,5 +1297,24 @@ class RemoteDataSourceImp extends RemoteDataSource {
   Future<String> updateAgentProfileInfo(String token, ProfileStateModel body) {
     // TODO: implement updateAgentProfileInfo
     throw UnimplementedError();
+  }
+
+  @override
+  Future getPropertyInfo() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = await prefs.getString("token");
+    final _mainHeaders = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token ?? token}'
+    };
+    final uri = Uri.parse(RemoteUrls.getData());
+
+    final clientMethod = client.get(uri, headers: _mainHeaders);
+    final responseJsonBody =
+        await NetworkParser.callClientWithCatchException(() => clientMethod);
+    log('responseJsonBody', name: responseJsonBody.toString());
+    return responseJsonBody;
   }
 }

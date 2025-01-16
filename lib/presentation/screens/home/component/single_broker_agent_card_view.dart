@@ -23,8 +23,8 @@ class SingleBrokerAgentCartView extends StatelessWidget {
     final image = agent.image.isNotEmpty ? agent.image : defaultImage;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, RouteNames.agentProfileScreen,
-            arguments: agent.userName);
+        // Navigator.pushNamed(context, RouteNames.agentProfileScreen,
+        //     arguments: agent.userName);
         //print(agent.userName);
       },
       child: Container(
@@ -70,24 +70,24 @@ class SingleBrokerAgentCartView extends StatelessWidget {
                           color: blackColor,
                         ),
                       ),
-                      Utils.horizontalSpace(agent.kycStatus == 1 ? 4.0 : 0),
-                      if (agent.kycStatus == 1) ...[
-                        const Icon(
-                          Icons.verified_rounded,
-                          color: Color(0xFF01BF8B),
-                          size: 18.0,
-                        )
-                      ],
+                      // Utils.horizontalSpace(agent.kycStatus == 1 ? 4.0 : 0),
+                      // if (agent.kycStatus == 1) ...[
+                      //   const Icon(
+                      //     Icons.verified_rounded,
+                      //     color: Color(0xFF01BF8B),
+                      //     size: 18.0,
+                      //   )
+                      // ],
                     ],
                   ),
-                  CustomTextStyle(
-                    text: agent.designation.isNotEmpty
-                        ? agent.designation
-                        : 'Your Designation',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12.0,
-                    color: grayColor,
-                  ),
+                  // CustomTextStyle(
+                  //   text: agent.designation.isNotEmpty
+                  //       ? agent.designation
+                  //       : 'Your Designation',
+                  //   fontWeight: FontWeight.w400,
+                  //   fontSize: 12.0,
+                  //   color: grayColor,
+                  // ),
                 ],
               ),
             ),

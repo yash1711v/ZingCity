@@ -36,7 +36,7 @@ class AgentsModel extends Equatable {
       'visibility': visibility,
       'title': title,
       'description': description,
-      'agents': agents.map((x) => x.toMap()).toList(),
+      // 'agents': agents.map((x) => x.toMap()).toList(),
     };
   }
 

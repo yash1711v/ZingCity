@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+import '../../../data/model/add_property_model.dart';
 import '../../../data/model/create_property/additional_info_dto.dart';
 import '../../../data/model/create_property/edit_info/existing_slider.dart';
 import '../../../data/model/create_property/nearest_location_dto.dart';
@@ -35,6 +36,10 @@ class AddPropertyModel extends Equatable {
   final String isFeatured;
   final String isTop;
   final String isUrgent;
+  final String city;
+  final String state;
+  final String country;
+  final String address;
   final PropertyImageDto propertyImageDto;
   final PropertyVideoDto propertyVideoDto;
   final PropertyLocationDto propertyLocationDto;
@@ -47,6 +52,7 @@ class AddPropertyModel extends Equatable {
   final String seoTitle;
   final String seoMetaDescription;
   final AddPropertyState addState;
+  final PropertyTypeResponse? staticInfo;
 
   const AddPropertyModel({
     this.title = '',
@@ -70,6 +76,10 @@ class AddPropertyModel extends Equatable {
     this.isFeatured = '',
     this.isTop = '',
     this.isUrgent = '',
+    this.city = '',
+    this.state = '',
+    this.country = '',
+    this.address = '',
     this.propertyImageDto =
         const PropertyImageDto(sliderImages: [], thumbnailImage: ''),
     this.propertyVideoDto = const PropertyVideoDto(
@@ -84,6 +94,7 @@ class AddPropertyModel extends Equatable {
     this.seoTitle = '',
     this.seoMetaDescription = '',
     this.addState = const AddPropertyInitial(),
+    this.staticInfo,
   });
 
   AddPropertyModel copyWith({
@@ -119,6 +130,11 @@ class AddPropertyModel extends Equatable {
     String? seoTitle,
     String? seoMetaDescription,
     AddPropertyState? addState,
+    PropertyTypeResponse? staticInfo,
+     String? city,
+     String? state,
+     String? country,
+     String? address,
   }) {
     return AddPropertyModel(
       title: title ?? this.title,
@@ -153,6 +169,11 @@ class AddPropertyModel extends Equatable {
       seoTitle: seoTitle ?? this.seoTitle,
       seoMetaDescription: seoMetaDescription ?? this.seoMetaDescription,
       addState: addState ?? this.addState,
+      country: country ?? this.country,
+      state: state ?? this.state,
+      city: city ?? this.city,
+      address: address ?? this.address,
+      staticInfo: staticInfo ?? this.staticInfo,
     );
   }
 
@@ -173,6 +194,7 @@ class AddPropertyModel extends Equatable {
     result.addAll({'total_kitchen': totalKitchen});
     result.addAll({'description': description});
     result.addAll({'status': description});
+
     // if (isFeatured.isNotEmpty) {
     //   print('this is isFeatured $isFeatured');
     //   result.addAll({'is_featured': isFeatured});
@@ -329,6 +351,8 @@ class AddPropertyModel extends Equatable {
       ),
       seoTitle: map['seoTitle'] ?? "",
       seoMetaDescription: map['seoMetaDescription'] ?? "",
+      staticInfo: map['staticInfo'] as PropertyTypeResponse,
+
     );
   }
 
@@ -341,7 +365,7 @@ class AddPropertyModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       title,
       slug,
@@ -375,6 +399,11 @@ class AddPropertyModel extends Equatable {
       seoTitle,
       seoMetaDescription,
       addState,
+      state,
+      city,
+      country,
+      address,
+      staticInfo,
     ];
   }
 }

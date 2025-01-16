@@ -189,12 +189,10 @@ class StateInjector {
         loginBloc: context.read(),
       ),
     ),
-    // BlocProvider<ProfileCubit>(
-    //   create: (BuildContext context) => ProfileCubit(
-    //     profileRepository: context.read(),
-    //     loginBloc: context.read(),
-    //   ),
-    // ),
+    BlocProvider<ProfileCubit>(
+      create: (BuildContext context) =>
+          ProfileCubit(profileRepository: context.read()),
+    ),
     BlocProvider<AgentCubit>(
       create: (BuildContext context) => AgentCubit(
         agentRepository: context.read(),
@@ -206,12 +204,12 @@ class StateInjector {
       ),
     ),
 
-    BlocProvider<SplashScreenCubit>(create: (_) => SplashScreenCubit()..chekToken()),
+    BlocProvider<SplashScreenCubit>(
+        create: (_) => SplashScreenCubit()..chekToken()),
     BlocProvider<LoginCubit>(create: (_) => LoginCubit()),
     BlocProvider<GeneralCubit>(create: (_) => GeneralCubit()),
-    BlocProvider<ProfileCubit>(create: (_) => ProfileCubit()),
+    // BlocProvider<ProfileCubit>(create: (_) => ProfileCubit()),
     BlocProvider<HomeCubit>(create: (_) => HomeCubit()),
-
 
     BlocProvider<ReviewCubit>(
       create: (BuildContext context) => ReviewCubit(

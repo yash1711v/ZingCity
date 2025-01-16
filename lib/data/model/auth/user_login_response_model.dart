@@ -33,7 +33,7 @@ class UserLoginResponseModel extends Equatable {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    result.addAll({'user': user.toMap()});
+    // result.addAll({'user': user.toMap()});
     result.addAll({'access_token': accessToken});
     result.addAll({'expires_in': expiresIn});
     result.addAll({'token_type': tokenType});
@@ -78,7 +78,7 @@ class UserModel {
   final String? emailVerifiedAt;
   final String? forgetPasswordToken;
   final String? forgetPasswordOtp;
-  final int? status;
+  final dynamic status;
   final String? providerId;
   final String? provider;
   final String? providerAvatar;
@@ -141,7 +141,7 @@ class UserModel {
       emailVerifiedAt: json['email_verified_at'] as String?,
       forgetPasswordToken: json['forget_password_token'] as String?,
       forgetPasswordOtp: json['forget_password_otp'] as String?,
-      status: json['status'] as int?,
+      status: json['status'],
       providerId: json['provider_id'] as String?,
       provider: json['provider'] as String?,
       providerAvatar: json['provider_avatar'] as String?,

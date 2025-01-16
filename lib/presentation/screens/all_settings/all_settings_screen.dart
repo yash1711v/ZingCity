@@ -398,8 +398,8 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
     final profile = context.read<ProfileCubit>();
     final users = context.read<ProfileCubit>();
     if (users.users != null) {
-      userImage = users.users!.image.isNotEmpty
-          ? RemoteUrls.imageUrl(users.users!.image)
+      userImage = users.users!.image!.isNotEmpty
+          ? RemoteUrls.imageUrl(users.users!.image ?? "")
           : RemoteUrls.imageUrl(appSetting.defaultAvatar);
     } else {
       userImage = RemoteUrls.imageUrl(appSetting.defaultAvatar);

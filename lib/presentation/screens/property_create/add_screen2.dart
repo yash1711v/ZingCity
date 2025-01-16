@@ -1,3 +1,9 @@
+import 'dart:developer';
+
+import 'package:real_estate/logic/cubit/add_property/add_property_cubit.dart';
+
+import '../../../logic/cubit/add_property/add_property_state_model.dart';
+import '../../../state_inject_package_names.dart';
 import '../../router/route_packages_name.dart';
 
 class AddScreen2 extends StatefulWidget {
@@ -10,180 +16,174 @@ class AddScreen2 extends StatefulWidget {
 class _AddScreen2State extends State<AddScreen2> {
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
-      backgroundColor:  Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 339,
-                    child: Text(
-                      'Property name',
-                      style: TextStyle(
-                        color: Color(0xFF4D5454),
-                        fontSize: 14,
-                        fontFamily: 'Manrope',
-                        fontWeight: FontWeight.w400,
-                        height: 0.10,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                 decoration: InputDecoration(
-                   fillColor: Color(0xFFF5F5F5),
-                   hintText: 'Enter property name',
-                   border: InputBorder.none,
-                 ),
-               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 339,
-                    child: Text(
-                      'Description',
-                      style: TextStyle(
-                        color: Color(0xFF000000),
-                        fontSize: 14,
-                        fontFamily: 'Manrope',
-                        fontWeight: FontWeight.w400,
-                        height: 0.10,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                maxLines: 6,
-                decoration: InputDecoration(
-                  fillColor: Color(0xFFF5F5F5),
-                  hintText: 'Discribe your property',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 198,
-                    child: Text(
-                      'Address',
-                      style: TextStyle(
-                        color: Color(0xFF4D5454),
-                        fontSize: 14,
-                        fontFamily: 'Manrope',
-                        fontWeight: FontWeight.w400,
-                        height: 0.10,
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    'Choose Location',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(0xFF30469A),
-                      fontSize: 14,
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w400,
-                      height: 0.10,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  fillColor: Color(0xFFF5F5F5),
-                  hintText: 'City',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
+    return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
+      builder: (context, state) {
+        log("AddScreen2: ${state.state}",name: "States");
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
 
-                decoration: InputDecoration(
-                  fillColor: Color(0xFFF5F5F5),
-                  hintText: 'State',
-                  border: InputBorder.none,
+                const SizedBox(height: 31,),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 198,
+                        child: Text(
+                          'Address',
+                          style: TextStyle(
+                            color: Color(0xFF4D5454),
+                            fontSize: 14,
+                            fontFamily: 'Manrope',
+                            fontWeight: FontWeight.w400,
+                            height: 0.10,
+                          ),
+                        ),
+                      ),
+                      // Spacer(),
+                      // Text(
+                      //   'Choose Location',
+                      //   textAlign: TextAlign.right,
+                      //   style: TextStyle(
+                      //     color: Color(0xFF30469A),
+                      //     fontSize: 14,
+                      //     fontFamily: 'Manrope',
+                      //     fontWeight: FontWeight.w400,
+                      //     height: 0.10,
+                      //   ),
+                      // )
+                    ],
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  fillColor: Color(0xFFF5F5F5),
-                  hintText: 'Country',
-                  border: InputBorder.none,
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                maxLines: 7,
-                decoration: InputDecoration(
-                  fillColor: Color(0xFFF5F5F5),
-                  hintText: 'Address',
-                  border: InputBorder.none,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: CustomDropdown(
+                    title: 'Select City',
+                    states: state.staticInfo?.city ?? [],
+                    selectedState:
+                    //"Punjab",
+                     state.city.isNotEmpty?state.city:null,
+                    onChanged: (value) {
+                      // debugPrint("value==> $value");
+                      context.read<AddPropertyCubit>().changeCity(value ?? "");
+                      // if(value != "Punjab"){
+                      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //     content: Text("Currently we are only available for Punjab state"),));
+                      // } else {
+                      //   context.read<AddPropertyCubit>().changeState(value ?? "");
+                      // }
+                    },
+                  ),
                 ),
-              ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: CustomDropdown(
+                    title: 'Select State',
+                    states: state.staticInfo?.state ?? [],
+                    selectedState: "Punjab",
+                    //state.state.isNotEmpty?state.state:null,
+                    onChanged: (value) {
+                      // debugPrint("value==> $value");
+                      if(value != "Punjab"){
+                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                       content: Text("Currently we are only available for Punjab state"),));
+                      } else {
+                      context.read<AddPropertyCubit>().changeState(value ?? "");}
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    readOnly: true,
+                    onChanged: (value){
+                      context.read<AddPropertyCubit>().changeCountry(value ?? "");
+                    },
+                    decoration: const InputDecoration(
+                      fillColor: Color(0xFFF5F5F5),
+                      hintText: 'India',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    onChanged: (value){
+                      context.read<AddPropertyCubit>().changeAddress(value ?? "");
+                    },
+                    maxLines: 3,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      fillColor: Color(0xFFF5F5F5),
+                      hintText: 'Address ',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 80,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 80,
-            ),
-          ],
-        ),
+          ),
+        );
+      },
+    );
+  }
+}
+// (value) {
+// context.read<AddPropertyCubit>().changeState(value ?? "");
+// },
+
+class CustomDropdown extends StatelessWidget {
+  final String? title;
+  final List<dynamic> states;
+  final String? selectedState;
+  final void Function(String?)? onChanged;
+
+  const CustomDropdown({
+    Key? key,
+    required this.states,
+    this.selectedState, this.onChanged, this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF5F5F5),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: DropdownButton<String>(
+        value: selectedState,
+        hint:  Text(title ?? ""),
+        items: states.map((state) {
+          return DropdownMenuItem<String>(
+            value: state.name,
+            child: Text(state.name),
+          );
+        }).toList(),
+        onChanged: onChanged,
+
+        underline: const SizedBox(), // Removes the default underline
+        isExpanded: true,
       ),
     );
   }

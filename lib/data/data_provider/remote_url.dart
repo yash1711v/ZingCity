@@ -62,8 +62,8 @@ class RemoteUrls {
   static String getAgentDashboardInfo(String token) =>
       '${baseUrl}user/dashboard?token=$token';
 
-  static String getAgentProfile(String token) =>
-      '${baseUrl}user/my-profile?token=$token';
+  static String getAgentProfile() =>
+      '${baseUrl}user/my-profile';
 
 
   static String getAgencyAgentList(String token) =>
@@ -191,6 +191,9 @@ class RemoteUrls {
 
   static String removeCompare(token, id) =>
       '${baseUrl}user/remove-compare/$id?token=$token';
+
+  static String getData() =>
+      '${baseUrl}user/property-type';
 
   //payment urls start
 

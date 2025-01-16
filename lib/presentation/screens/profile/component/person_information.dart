@@ -6,6 +6,7 @@ import 'package:real_estate/logic/bloc/login/login_bloc.dart';
 import 'package:real_estate/presentation/router/route_names.dart';
 
 import '../../../../data/model/agent/agent_profile_model.dart';
+import '../../../../data/model/auth/user_login_response_model.dart';
 import '../../../../data/model/auth/user_profile_model.dart';
 import '../../../../logic/cubit/profile/profile_cubit.dart';
 import '../../../../logic/cubit/profile/profile_state_model.dart';
@@ -45,14 +46,14 @@ class PersonInformation extends StatelessWidget {
 
 class ProfileInLoaded extends StatelessWidget {
   const ProfileInLoaded({super.key, required this.profile});
-  final UserProfileModel profile;
+  final UserModel profile;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final properties = context.read<ProfileCubit>().agentDetailModel;
     final appSetting = context.read<AppSettingCubit>();
-    final image = profile.image.isNotEmpty
+    final image = profile.image!.isNotEmpty
         ? profile.image
         : appSetting.settingModel!.setting.defaultAvatar;
     return SizedBox(

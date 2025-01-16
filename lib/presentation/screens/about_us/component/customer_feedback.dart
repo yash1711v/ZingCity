@@ -108,12 +108,12 @@ class CustomerFeedback extends StatelessWidget {
                                     fontWeight: FontWeight.w700,
                                     color: blackColor,
                                   ),
-                                  CustomTextStyle(
-                                    text: user.designation,
-                                    fontSize: 13.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: grayColor,
-                                  ),
+                                  // CustomTextStyle(
+                                  //   text: user.designation,
+                                  //   fontSize: 13.0,
+                                  //   fontWeight: FontWeight.w400,
+                                  //   color: grayColor,
+                                  // ),
                                 ],
                               )
                             ],

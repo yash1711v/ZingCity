@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate/data/model/auth/user_login_response_model.dart';
+import 'package:real_estate/data/model/auth/user_profile_model.dart';
 import 'package:real_estate/logic/bloc/General/general_cubit.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
 
+import '../../../data/data_provider/remote_url.dart';
 import '../../../logic/cubit/privacy_policy/privacy_policy_cubit.dart';
 import '../../widget/custom_theme.dart';
 import '../home/component/agent_search.dart';
@@ -33,7 +37,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    // Future.microtask(() => context.read<ProfileCubit>().getAgentProfile());
+    Future.microtask(() => context.read<ProfileCubit>().getAgentProfile());
     super.initState();
   }
 
@@ -151,84 +155,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                BlocBuilder<GeneralCubit, GeneralState>(
+                BlocBuilder<ProfileCubit, ProfileStateModel>(
                   builder: (context, state) {
+                    log(
+                        (state.user ??
+                                    UserModel())
+                                . name??
+                            "",
+                        name: "Name");
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
                         children: [
                           Expanded(
-                            child: Container(
-                              // width: 324,
-                              height: 75.49,
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x19000000),
-                                    blurRadius: 8,
-                                    offset: Offset(0, 0),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        debugPrint("Edit Profile");
-                                      },
-                                      child: const Stack(
-                                        children: [
-                                          CircleAvatar(
-                                            radius: 30,
-                                          ),
-                                          Positioned(
-                                              top: 35,
-                                              left: 38,
-                                              child: Icon(
-                                                Icons.edit,
-                                                color: Colors.blue,
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15.0, left: 10.0),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Edit Profile',
-                                              style: TextStyle(
-                                                color: Color(0xFF398BCB),
-                                                fontSize: 12,
-                                                fontFamily: 'DM Sans',
-                                                fontWeight: FontWeight.w300,
-                                                height: 0,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${(state.userModel ?? UserModel()).name ?? ""}',
-                                              style: TextStyle(
-                                                color: Colors.black.withOpacity(
-                                                    0.699999988079071),
-                                                fontSize: 14,
-                                                fontFamily: 'DM Sans',
-                                                fontWeight: FontWeight.w300,
-                                                height: 0,
-                                              ),
-                                            )
-                                          ]),
-                                    ),
+                            child: GestureDetector(
+                              onTap: () {
+                                debugPrint("Edit Profile");
+                                Navigator.pushReplacementNamed(
+                                    context, RouteNames.updateProfileScreen,arguments: state.user);
+                              },
+                              child: Container(
+                                // width: 324,
+                                height: 75.49,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5)),
+                                  shadows: const [
+                                    BoxShadow(
+                                      color: Color(0x19000000),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 0),
+                                      spreadRadius: 0,
+                                    )
                                   ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      debugPrint("Edit Profile");
+                                      Navigator.pushReplacementNamed(
+                                          context, RouteNames.updateProfileScreen,arguments: state.user);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            debugPrint("Edit Profile");
+                                            Navigator.pushReplacementNamed(
+                                                context, RouteNames.updateProfileScreen,arguments: state.user);
+                                          },
+                                          child:  Stack(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 30,
+                                                backgroundImage: NetworkImage(RemoteUrls.rootUrl+"/${state.user?.image ?? ""}"),
+                                              ),
+                                              Positioned(
+                                                  top: 35,
+                                                  left: 38,
+                                                  child: Icon(
+                                                    Icons.edit,
+                                                    color: Colors.blue,
+                                                  )),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 15.0, left: 10.0),
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  'Edit Profile',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF398BCB),
+                                                    fontSize: 12,
+                                                    fontFamily: 'DM Sans',
+                                                    fontWeight: FontWeight.w300,
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${state.user?.phone ?? ""}',
+                                                  style: TextStyle(
+                                                    color: Colors.black
+                                                        .withOpacity(
+                                                            0.699999988079071),
+                                                    fontSize: 14,
+                                                    fontFamily: 'DM Sans',
+                                                    fontWeight: FontWeight.w300,
+                                                    height: 0,
+                                                  ),
+                                                )
+                                              ]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -339,10 +367,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     context.read<PrivacyPolicyCubit>().getPrivacyPolicy();
                     Navigator.pushNamed(
-                      context, RouteNames.privacyPolicyScreen,);
+                      context,
+                      RouteNames.privacyPolicyScreen,
+                    );
                   },
                   child: Text(
                     'Privacy Policy',
@@ -378,7 +408,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () {
                     context.read<PrivacyPolicyCubit>().getTermsAndCondition();
                     Navigator.pushNamed(
-                      context, RouteNames.termsAndConditionScreen,);
+                      context,
+                      RouteNames.termsAndConditionScreen,
+                    );
                   },
                   child: Expanded(
                     child: Row(

@@ -27,7 +27,7 @@ class WishListModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'user': user!.toMap(),
+      // 'user': user!.toMap(),
       'properties': properties!.toMap(),
     };
   }

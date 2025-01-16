@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
+import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 import 'package:real_estate/data/model/auth/user_profile_model.dart';
 
 import '../../data/data_provider/local_data_source.dart';
@@ -6,6 +9,7 @@ import '../../data/data_provider/remote_data_source.dart';
 import '../../data/model/agent/agent_profile_model.dart';
 import '../../presentation/error/exception.dart';
 import '../../presentation/error/failure.dart';
+import '../../presentation/router/route_packages_name.dart';
 import '../cubit/change_password/change_password_cubit.dart';
 import '../cubit/profile/profile_state_model.dart';
 
@@ -18,7 +22,7 @@ abstract class ProfileRepository {
   Future<Either<Failure, AgentProfileModel>> getAgentDashboardInfo(
       String token);
 
-  Future<Either<Failure, UserProfileModel>> getAgentProfile(String token);
+  Future<Either<Failure, UserModel>> getAgentProfile(String token);
 
   Future<Either<dynamic, String>> updateAgentProfileInfo(
       String token, ProfileStateModel body);
@@ -81,12 +85,16 @@ class ProfileRepositoryImp extends ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, UserProfileModel>> getAgentProfile(
+  Future<Either<Failure, UserModel>> getAgentProfile(
       String token) async {
     try {
-      final result = await remoteDataSource.getAgentProfile(token);
-      final data = UserProfileModel.fromMap(result);
-      return Right(data);
+      final result = await remoteDataSource.getAgentProfile();
+      var data = jsonDecode(result.body);
+      debugPrint("${data['user']}");
+      final data2 = UserModel.fromJson(data['user']);
+      data2.verifyToken = data['access_token'];
+      debugPrint("${data2.name}");
+      return Right(data2);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message, e.statusCode));
     }

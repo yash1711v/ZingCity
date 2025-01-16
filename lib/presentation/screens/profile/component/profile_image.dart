@@ -43,7 +43,7 @@ class ProfileImages extends StatelessWidget {
             image: DecorationImage(
               image: (state.image ?? File("")).path.isNotEmpty
                   ? FileImage(File(state.image!.path))
-                  : NetworkImage(profilePicture),
+                  : NetworkImage(RemoteUrls.rootUrl+"/"+profilePicture),
               fit: BoxFit.cover,
             ),
             boxShadow: [

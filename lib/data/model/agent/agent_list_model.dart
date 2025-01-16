@@ -27,7 +27,7 @@ class AgentListModel extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'seo_setting': seoSetting?.toMap(),
-      'agents': agents!.map((x) => x.toMap()).toList(),
+      // 'agents': agents!.map((x) => x.toMap()).toList(),
     };
   }
 

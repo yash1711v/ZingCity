@@ -4,11 +4,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 
+import '../../../data/model/auth/user_profile_model.dart';
 import 'profile_cubit.dart';
 
 class ProfileStateModel extends Equatable {
-  final bool?  isLoading;
+  final bool? isLoading;
   final String name;
   final String phone;
   final String address;
@@ -26,68 +28,69 @@ class ProfileStateModel extends Equatable {
   int year;
   double result;
   final ProfileState profileState;
+  final UserModel? user;
 
-  ProfileStateModel( {
-    this.isLoading,
-    this.name = '',
-    this.phone = '',
-    this.address = '',
-    this.image,
-    this.designation = '',
-    this.aboutMe = '',
-    this.email = '',
-    this.twitter = '',
-    this.linkedin = '',
-    this.instagram = '',
-    this.currentPassword = '',
-    this.showPassword = false,
-    this.amount = '0',
-    this.rate = 0.0,
-    this.year = 0,
-    this.result = 0.0,
-    this.profileState = const ProfileInitial(),
-  });
+  ProfileStateModel(
+      {this.isLoading,
+      this.name = '',
+      this.phone = '',
+      this.address = '',
+      this.image,
+      this.designation = '',
+      this.aboutMe = '',
+      this.email = '',
+      this.twitter = '',
+      this.linkedin = '',
+      this.instagram = '',
+      this.currentPassword = '',
+      this.showPassword = false,
+      this.amount = '0',
+      this.rate = 0.0,
+      this.year = 0,
+      this.result = 0.0,
+      this.profileState = const ProfileInitial(),
+      this.user});
 
-  ProfileStateModel copyWith({
-    String? name,
-    String? phone,
-    String? address,
-    File? image,
-    String? designation,
-    String? aboutMe,
-    String? email,
-    String? twitter,
-    String? linkedin,
-    String? instagram,
-    String? currentPassword,
-    bool? showPassword,
-    String? amount,
-    double? rate,
-    int? year,
-    double? result,
-    ProfileState? profileState,
-    bool? isLoading,
-  }) {
+  ProfileStateModel copyWith(
+      {String? name,
+      String? phone,
+      String? address,
+      File? image,
+      String? designation,
+      String? aboutMe,
+      String? email,
+      String? twitter,
+      String? linkedin,
+      String? instagram,
+      String? currentPassword,
+      bool? showPassword,
+      String? amount,
+      double? rate,
+      int? year,
+      double? result,
+      ProfileState? profileState,
+      bool? isLoading,
+        UserModel? user}) {
     return ProfileStateModel(
-      name: name ?? this.name,
-      phone: phone ?? this.phone,
-      address: address ?? this.address,
-      image: image ?? this.image,
-      designation: designation ?? this.designation,
-      aboutMe: aboutMe ?? this.aboutMe,
-      email: email ?? this.email,
-      twitter: twitter ?? this.twitter,
-      linkedin: linkedin ?? this.linkedin,
-      instagram: instagram ?? this.instagram,
-      currentPassword: currentPassword ?? this.currentPassword,
-      showPassword: showPassword ?? this.showPassword,
-      amount: amount ?? this.amount,
-      rate: rate ?? this.rate,
-      year: year ?? this.year,
-      result: result ?? this.result,
-      profileState: profileState ?? this.profileState,
-      isLoading: isLoading ?? this.isLoading
-    );
+        name: name ?? this.name,
+        phone: phone ?? this.phone,
+        address: address ?? this.address,
+        image: image ?? this.image,
+        designation: designation ?? this.designation,
+        aboutMe: aboutMe ?? this.aboutMe,
+        email: email ?? this.email,
+        twitter: twitter ?? this.twitter,
+        linkedin: linkedin ?? this.linkedin,
+        instagram: instagram ?? this.instagram,
+        currentPassword: currentPassword ?? this.currentPassword,
+        showPassword: showPassword ?? this.showPassword,
+        amount: amount ?? this.amount,
+        rate: rate ?? this.rate,
+        year: year ?? this.year,
+        result: result ?? this.result,
+        profileState: profileState ?? this.profileState,
+        isLoading: isLoading ?? this.isLoading,
+        user: user ?? this.user);
   }
 
   Map<String, String> toMap() {
@@ -108,32 +111,43 @@ class ProfileStateModel extends Equatable {
 
   ProfileStateModel clear() {
     return ProfileStateModel(
-      name: '',
-      phone: '',
-      address: '',
-      designation: '',
-      aboutMe: '',
-      email: '',
-      twitter: '',
-      linkedin: '',
-      currentPassword: '',
-      showPassword: false,
-      instagram: '',
-    );
+        name: '',
+        phone: '',
+        address: '',
+        designation: '',
+        aboutMe: '',
+        email: '',
+        twitter: '',
+        linkedin: '',
+        currentPassword: '',
+        showPassword: false,
+        instagram: '',
+        user:  UserModel(
+            id: 0,
+            name: '',
+            image: '',
+            email: '',
+            phone: '',
+
+            status: 0,
+
+            address: '',
+
+            aboutMe: '',));
   }
 
   factory ProfileStateModel.fromMap(Map<String, dynamic> map) {
     return ProfileStateModel(
-      name: map['name'] as String,
-      phone: map['phone'] as String,
-      address: map['address'] as String,
-      designation: map['designation'] as String,
-      aboutMe: map['aboutMe'] as String,
-      email: map['email'] as String,
-      twitter: map['twitter'] as String,
-      linkedin: map['linkedin'] as String,
-      instagram: map['instagram'] as String,
-    );
+        name: map['name'] as String,
+        phone: map['phone'] as String,
+        address: map['address'] as String,
+        designation: map['designation'] as String,
+        aboutMe: map['aboutMe'] as String,
+        email: map['email'] as String,
+        twitter: map['twitter'] as String,
+        linkedin: map['linkedin'] as String,
+        instagram: map['instagram'] as String,
+        user: map['user'] as UserModel);
   }
 
   String toJson() => json.encode(toMap());
@@ -164,7 +178,8 @@ class ProfileStateModel extends Equatable {
       year,
       result,
       profileState,
-      isLoading
+      isLoading,
+      user
     ];
   }
 }

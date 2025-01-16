@@ -36,7 +36,7 @@ class AgentDetailsModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'agent': agent?.toMap(),
+      // 'agent': agent?.toMap(),
       'total_property': totalProperty,
       'total_review': totalReview,
       'properties': properties!.map((x) => x.toMap()).toList(),

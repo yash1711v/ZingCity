@@ -168,7 +168,7 @@ class RouteNames {
             settings: settings, builder: (_) => const ProfileScreen());
 
       case RouteNames.updateProfileScreen:
-        final profile = settings.arguments as UserModel;
+        final profile = settings.arguments;
         return MaterialPageRoute(
             settings: settings,
             builder: (_) => UpdateProfileScreen(profile: profile));
