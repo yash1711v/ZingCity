@@ -86,7 +86,7 @@ class _AddPropertyPlanViewState extends State<AddPropertyPlanView> {
                                     deleteCubit
                                         .deleteSinglePlan(itemId.toString());
                                   }
-                                  addProperty.deletePropertyPlan(index);
+                                  // addProperty.deletePropertyPlan(index);
                                 },
                                 child: const DeleteIconBtn()),
                           ],

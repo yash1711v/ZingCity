@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate/data/model/agency/agency_details_model.dart';
 import 'package:real_estate/presentation/utils/utils.dart';
 
 import '../../../data/model/auth/auth_error_model.dart';
@@ -39,8 +41,17 @@ class AddPropertyCubit extends Cubit<AddPropertyModel> {
     emit(state.copyWith(purpose: text, addState: const AddPropertyInitial()));
   }
 
-  void changeCity(String text) {
-    emit(state.copyWith(city: text, addState: const AddPropertyInitial()));
+  void changeCity(String text, String id) {
+    emit(state.copyWith(city: text, addState: const AddPropertyInitial(),cityId: id));
+  }
+
+  void changeAmenities(int text,bool isAdd) {
+
+    if(isAdd){
+      emit(state.copyWith(aminities: List.of(state.aminities)..add(text), addState: const AddPropertyInitial()));}
+    else{
+      emit(state.copyWith(aminities: List.of(state.aminities)..remove(text), addState: const AddPropertyInitial()));
+    }
   }
 
   void changeCountry(String text) {
@@ -51,9 +62,9 @@ void changeAddress(String text) {
     emit(state.copyWith(address: text, addState: const AddPropertyInitial()));
   }
 
-  void changeState(String text) {
+  void changeState(String text, String id) {
     debugPrint("$text");
-    emit(state.copyWith(state: text, addState: const AddPropertyInitial()));
+    emit(state.copyWith(state: text, addState: const AddPropertyInitial(),stateId: id));
   }
 
   void changeRentPeriod(String text) {
@@ -77,8 +88,30 @@ void changeAddress(String text) {
     ));
   }
 
-  void changeTypeId(String text) {
-    emit(state.copyWith(typeId: text, addState: const AddPropertyInitial()));
+  void changeTypeId(String text,String categoryId) {
+    // debugPrint('category-id $categoryId');
+    // debugPrint('type-id $text');
+    emit(state.copyWith(typeId: text, addState: const AddPropertyInitial(),categoryId: categoryId));
+  }
+  void changeRoomType(String text) {
+    emit(state.copyWith(roomType: text, addState: const AddPropertyInitial()));
+  }
+
+
+
+
+  void changeNearestLocation(List<Map<String, dynamic>> data) {
+    List<String> tempNearestLocation = [];
+    List<String> tempDistance = [];
+
+    data.forEach((element) {
+
+      tempNearestLocation.add(element['id'].toString());
+      tempDistance.add(element['value'].toString());
+      // emit(state.copyWith(nearestLocationList: List.of(state.nearestLocationList)..add(NearestLocationDto(locationId: element['id'],distances: element['distance'])), addState: const AddPropertyInitial()));
+    });
+
+    emit(state.copyWith(nearestLocation: tempNearestLocation, addState: const AddPropertyInitial(),distance: tempDistance));
   }
 
   void changeTitle(String text) {
@@ -133,6 +166,17 @@ void changeAddress(String text) {
     final updatedImg = List.of(state.galleryImage)..add(slider);
     emit(state.copyWith(
         galleryImage: updatedImg, addState: const AddPropertyInitial()));
+  }
+
+  void addSliders(List<File> images) {
+    // final updatedImg = List.of(state.galleryImage)..add(slider);
+    emit(state.copyWith(
+        sliderImages: images, addState: const AddPropertyInitial()));
+  }
+  void addThumbNails(String images) {
+    // final updatedImg = List.of(state.galleryImage)..add(slider);
+    emit(state.copyWith(
+        thumbNailImage: images, addState: const AddPropertyInitial()));
   }
 
   void updateGalleryImage(int index, ExistingSlider slider) {
@@ -247,19 +291,33 @@ void changeAddress(String text) {
     }
   }
 
-  void deletePropertyPlan(int index) {
-    final locations = List.of(state.propertyPlanDto)..removeAt(index);
-    emit(state.copyWith(
-        propertyPlanDto: locations, addState: const AddPropertyInitial()));
+  Future<void> deletePropertyPlan(String index) async {
+    emit(state.copyWith(addState: const AddPropertyLoading()));
+    final result = await _repository.createProperty(
+        state);
+    result.fold(
+          (failure) {
+        if (failure is InvalidAuthData) {
+          final errorState = AddPropertyFormError(failure.errors);
+          emit(state.copyWith(addState: errorState));
+        } else {
+          final errors = AddPropertyError(failure.message, failure.statusCode);
+          emit(state.copyWith(addState: errors));
+        }
+      },
+          (success) {
+        emit(state.copyWith(addState: AddPropertyLoaded(success)));
+      },
+    );
   }
 
   ///property plan end
 
   Future<void> addProperty() async {
-    debugPrint('add-property-body ${state.toMap()}');
+    // debugPrint('add-property-body ${state.toMap()}');
     emit(state.copyWith(addState: const AddPropertyLoading()));
     final result = await _repository.createProperty(
-        state, _loginBloc.userInfo!.accessToken);
+        state);
     result.fold(
       (failure) {
         if (failure is InvalidAuthData) {
@@ -291,7 +349,7 @@ void changeAddress(String text) {
       },
       (success) {
         debugPrint("Success");
-        emit(state.copyWith(staticInfo: success));
+        emit(state.copyWith(staticInfo: success,addState: const AddPropertyInitial()));
       },
     );
   }
@@ -480,6 +538,7 @@ void changeAddress(String text) {
   FutureOr<void> resetData() {
     emit(
       state.copyWith(
+        addState: const AddPropertyInitial(),
         propertyPlanDto: <PropertyPlanDto>[],
         addtionalInfoList: <AdditionalInfoDto>[],
         nearestLocationList: <NearestLocationDto>[],
@@ -505,4 +564,55 @@ void changeAddress(String text) {
       ),
     );
   }
+
+  Future<void> getProperties() async {
+
+    debugPrint('add-property-body ${state.toMap()}');
+    emit(state.copyWith(addState: const AddPropertyLoading()));
+    final result = await _repository.getMyProperties();
+    result.fold(
+          (failure) {
+        if (failure is InvalidAuthData) {
+          final errorState = AddPropertyFormError(failure.errors);
+          emit(state.copyWith(addState: errorState));
+        } else {
+          final errors = AddPropertyError(failure.message, failure.statusCode);
+          emit(state.copyWith(addState: errors));
+        }
+      },
+          (success) {
+        debugPrint("Success");
+        emit(state.copyWith(properties: success,addState: const AddPropertyInitial()));
+      },
+    );
+
+  }
+
+  void editProperty(Properties? property) {
+    emit(state.copyWith(
+      title: property!.title,
+      price: property.price,
+      totalArea: property.totalArea,
+      totalUnit: property.totalUnit,
+      totalBedroom: property.totalBedroom,
+      totalBathroom: property.totalBathroom,
+      totalKitchen: property.totalKitchen,
+      totalGarage: property.totalGarage,
+      description: property.description,
+      address: property.address,
+      // seoTitle: property.seoTitle,
+      // seoMetaDescription: property.seoMetaDescription,
+      // propertyLocationDto: PropertyLocationDto(
+      //     cityId: property.cityId,
+      //     address: property.address,
+      //     addressDescription: property.addressDescription,
+      //     googleMap: property.googleMap),
+      // propertyVideoDto: PropertyVideoDto(
+      //     videoThumbnail: property.videoThumbnail,
+      //     videoId: property.videoId,
+      //     videoDescription: property.videoDescription),
+      addState: const AddPropertyInitial(),
+    ));
+  }
+
 }

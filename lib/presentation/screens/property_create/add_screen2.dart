@@ -18,14 +18,15 @@ class _AddScreen2State extends State<AddScreen2> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
       builder: (context, state) {
-        log("AddScreen2: ${state.state}",name: "States");
+        log("AddScreen2: ${state.state}", name: "States");
         return Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Column(
               children: [
-
-                const SizedBox(height: 31,),
+                const SizedBox(
+                  height: 31,
+                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -36,9 +37,9 @@ class _AddScreen2State extends State<AddScreen2> {
                           'Address',
                           style: TextStyle(
                             color: Color(0xFF4D5454),
-                            fontSize: 14,
+                            fontSize: 15,
                             fontFamily: 'Manrope',
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.bold,
                             height: 0.10,
                           ),
                         ),
@@ -67,11 +68,18 @@ class _AddScreen2State extends State<AddScreen2> {
                     title: 'Select City',
                     states: state.staticInfo?.city ?? [],
                     selectedState:
-                    //"Punjab",
-                     state.city.isNotEmpty?state.city:null,
+                        //"Punjab",
+                        state.city.isNotEmpty ? state.city : null,
                     onChanged: (value) {
                       // debugPrint("value==> $value");
-                      context.read<AddPropertyCubit>().changeCity(value ?? "");
+                      (state.staticInfo?.city ?? []).forEach((element) {
+                        if (element.name == value) {
+                          context
+                              .read<AddPropertyCubit>()
+                              .changeCity(element.name ?? "", element.id.toString());
+                        }
+                      });
+                      // context.read<AddPropertyCubit>().changeCity(value ?? "");
                       // if(value != "Punjab"){
                       //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       //     content: Text("Currently we are only available for Punjab state"),));
@@ -93,11 +101,24 @@ class _AddScreen2State extends State<AddScreen2> {
                     //state.state.isNotEmpty?state.state:null,
                     onChanged: (value) {
                       // debugPrint("value==> $value");
-                      if(value != "Punjab"){
-                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                       content: Text("Currently we are only available for Punjab state"),));
+                      if (value != "Punjab") {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              "Currently we are only available for Punjab state"),
+                        ));
                       } else {
-                      context.read<AddPropertyCubit>().changeState(value ?? "");}
+                        (state.staticInfo?.state ?? []).forEach((element) {
+                          if (element.name == value) {
+                            context
+                                .read<AddPropertyCubit>()
+                                .changeState(element.name ?? "", element.id.toString());
+                          }
+                        });
+                        // context
+                        //     .read<AddPropertyCubit>()
+                        //     .changeState(value ?? "");
+                      }
                     },
                   ),
                 ),
@@ -108,8 +129,10 @@ class _AddScreen2State extends State<AddScreen2> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
                     readOnly: true,
-                    onChanged: (value){
-                      context.read<AddPropertyCubit>().changeCountry(value ?? "");
+                    onChanged: (value) {
+                      context
+                          .read<AddPropertyCubit>()
+                          .changeCountry(value ?? "");
                     },
                     decoration: const InputDecoration(
                       fillColor: Color(0xFFF5F5F5),
@@ -124,11 +147,13 @@ class _AddScreen2State extends State<AddScreen2> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
-                    onChanged: (value){
-                      context.read<AddPropertyCubit>().changeAddress(value ?? "");
+                    onChanged: (value) {
+                      context
+                          .read<AddPropertyCubit>()
+                          .changeAddress(value ?? "");
                     },
                     maxLines: 3,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
                       fillColor: Color(0xFFF5F5F5),
                       hintText: 'Address ',
@@ -155,12 +180,16 @@ class CustomDropdown extends StatelessWidget {
   final String? title;
   final List<dynamic> states;
   final String? selectedState;
+  final bool? isRoomType;
   final void Function(String?)? onChanged;
 
   const CustomDropdown({
     Key? key,
     required this.states,
-    this.selectedState, this.onChanged, this.title,
+    this.selectedState,
+    this.onChanged,
+    this.title,
+    this.isRoomType = false,
   }) : super(key: key);
 
   @override
@@ -173,16 +202,24 @@ class CustomDropdown extends StatelessWidget {
       ),
       child: DropdownButton<String>(
         value: selectedState,
-        hint:  Text(title ?? ""),
+        hint: Text(title ?? ""),
         items: states.map((state) {
           return DropdownMenuItem<String>(
             value: state.name,
-            child: Text(state.name),
+            child: Text(
+              state.name,
+              style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'Manrope',
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           );
         }).toList(),
         onChanged: onChanged,
 
-        underline: const SizedBox(), // Removes the default underline
+        underline: const SizedBox(),
+        // Removes the default underline
         isExpanded: true,
       ),
     );

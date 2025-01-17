@@ -87,14 +87,19 @@ class Properties extends Equatable {
   final String price;
   final String thumbnailImage;
   final String address;
+  final String description;
   final String totalBedroom;
   final String totalBathroom;
+  final String totalGarage;
+  final String totalKitchen;
   final String totalArea;
   final String status;
   final String isFeatured;
   final int totalRating;
   final String ratingAvarage;
   final Agent agent;
+
+  final String totalUnit;
 
   const Properties( {
     required this.id,
@@ -109,12 +114,16 @@ class Properties extends Equatable {
     required this.address,
     required this.totalBedroom,
     required this.totalBathroom,
+      this.totalGarage = '',
     required this.totalArea,
     required this.status,
     required this.isFeatured,
     required this.totalRating,
     required this.ratingAvarage,
     required this.agent,
+    this.description = '',
+    this.totalKitchen = '',
+    this.totalUnit = '',
   });
 
   Properties copyWith({
@@ -129,13 +138,17 @@ class Properties extends Equatable {
     String? address,
     String? totalBedroom,
     String? totalBathroom,
+    String? totalGarage,
     String? totalArea,
     String? status,
     String? isFeatured,
     int? totalRating,
     String? ratingAvarage,
     Agent? agent,
-    int? propertyTypeId
+    int? propertyTypeId,
+    String? description,
+    String? totalKitchen,
+    String? totalUnit,
   }) {
     return Properties(
       id: id ?? this.id,
@@ -156,6 +169,10 @@ class Properties extends Equatable {
       ratingAvarage: ratingAvarage ?? this.ratingAvarage,
       agent: agent ?? this.agent,
       propertyTypeId: propertyTypeId ?? this.propertyTypeId,
+      description: description ?? this.description,
+      totalGarage: totalGarage ?? this.totalGarage,
+      totalKitchen: totalKitchen ?? this.totalKitchen,
+      totalUnit: totalUnit ?? this.totalUnit,
     );
   }
 
@@ -178,7 +195,11 @@ class Properties extends Equatable {
       'totalRating': totalRating,
       'ratingAvarage': ratingAvarage,
       'agent': agent.toMap(),
-      "property_type_id": propertyTypeId
+      "property_type_id": propertyTypeId,
+      'description': description,
+      'totalGarage': totalGarage,
+      'totalKitchen': totalKitchen,
+      'totalUnit': totalUnit,
     };
   }
 
@@ -190,18 +211,22 @@ class Properties extends Equatable {
       slug: map['slug'] ?? '',
       purpose: map['purpose'] ?? '',
       rentPeriod: map['rent_period'] ?? '',
-      price: map['price'] ?? '',
+      price: map['price'].toString() ?? '',
       thumbnailImage: map['thumbnail_image'] ?? '',
       address: map['address'] ?? '',
       totalBedroom: map['total_bedroom'] ?? '',
       totalBathroom: map['total_bathroom'] ?? '',
+      totalGarage: map['total_garage'] ?? '',
       totalArea: map['total_area'] ?? '',
       status: map['status'] ?? '',
       isFeatured: map['is_featured'] ?? '',
       totalRating: map['totalRating'] ?? 0,
       ratingAvarage: map['ratingAvarage'] ?? '',
-      agent: Agent.fromMap(map['agent'] as Map<String, dynamic>),
+      agent: Agent.fromMap((map['agent'] ?? Agent(id: 0, name: '', phone: '', email: '', designation: '', image: '', userName: '').toMap()) as Map<String, dynamic>),
       propertyTypeId: map['property_type_id'],
+      description: map['description'] ?? '',
+      totalKitchen: map['total_kitchen'] ?? '',
+      totalUnit: map['total_unit'] ?? '',
     );
   }
 
@@ -233,6 +258,7 @@ class Properties extends Equatable {
       totalRating,
       ratingAvarage,
       agent,
+      description
     ];
   }
 }

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../data/model/add_property_model.dart';
+import '../../data/model/agency/agency_details_model.dart';
 import '../../state_inject_package_names.dart';
 import '/data/model/create_property/create_property_model.dart';
 import '../../data/data_provider/local_data_source.dart';
@@ -17,8 +18,10 @@ abstract class PropertyRepository {
 
   Future<Either<Failure, PropertyTypeResponse>> getPropertyData();
 
+  Future<Either<Failure, List<Properties>>> getMyProperties();
+
   Future<Either<dynamic, String>> createProperty(
-      AddPropertyModel data, String token);
+      AddPropertyModel data);
 
   Future<Either<dynamic, String>> updateProperty(
       String id, AddPropertyModel data, String token);
@@ -63,13 +66,16 @@ class PropertyRepositoryImp extends PropertyRepository {
 
   @override
   Future<Either<dynamic, String>> createProperty(
-      AddPropertyModel data, String token) async {
+      AddPropertyModel data,) async {
     try {
-      final result = await remoteDataSource.createPropertyRequest(data, token);
+      final result = await remoteDataSource.createPropertyRequest(data);
+      debugPrint('result === >: $result');
       return Right(result);
     } on ServerException catch (e) {
+      debugPrint('resultServer === >: ${e.message}');
       return Left(ServerFailure(e.message, e.statusCode));
     } on InvalidAuthData catch (e) {
+      debugPrint('resultAuth === >: ${e.message}');
       return Left(InvalidAuthData(e.errors));
     }
   }
@@ -190,6 +196,25 @@ class PropertyRepositoryImp extends PropertyRepository {
     return Right(data);
     } on ServerException catch (e) {
     return Left(ServerFailure(e.message, e.statusCode));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Properties>>> getMyProperties() async {
+    try {
+      final result = await remoteDataSource.getMyProperties();
+     List<dynamic> values = result['data'];
+     debugPrint('value === >: $values');
+
+     values.forEach((element) {
+       debugPrint('value === >: $element');
+
+     });
+      final data = values.map((e) => Properties.fromMap(e)).toList();
+      debugPrint('value === >: $data');
+      return Right(data);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, e.statusCode));
     }
   }
 }

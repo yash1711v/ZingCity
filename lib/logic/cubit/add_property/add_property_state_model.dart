@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 
 import '../../../data/model/add_property_model.dart';
+import '../../../data/model/agency/agency_details_model.dart';
 import '../../../data/model/create_property/additional_info_dto.dart';
 import '../../../data/model/create_property/edit_info/existing_slider.dart';
 import '../../../data/model/create_property/nearest_location_dto.dart';
@@ -21,10 +23,13 @@ class AddPropertyModel extends Equatable {
   final String type;
   final String purpose;
   final String rentPeriod;
+  final String roomType;
   final String price;
   final String image;
   final String tempImage;
   final List<ExistingSlider> galleryImage;
+  final List<File> sliderImages;
+  final String thumbNailImage;
   final String totalArea;
   final String totalUnit;
   final String totalBedroom;
@@ -40,11 +45,17 @@ class AddPropertyModel extends Equatable {
   final String state;
   final String country;
   final String address;
+  final String cityId;
+  final String stateId;
+  final String categoryId;
+  final List<String> distance;
+  final List<String> nearestLocation;
   final PropertyImageDto propertyImageDto;
   final PropertyVideoDto propertyVideoDto;
   final PropertyLocationDto propertyLocationDto;
   final List<int> aminities;
   final List<NearestLocationDto> nearestLocationList;
+  final List<Properties>? properties;
 
   final List<NearestLocationModel> locationModel;
   final List<AdditionalInfoDto> addtionalInfoList;
@@ -54,12 +65,13 @@ class AddPropertyModel extends Equatable {
   final AddPropertyState addState;
   final PropertyTypeResponse? staticInfo;
 
-  const AddPropertyModel({
+  const AddPropertyModel( {
     this.title = '',
     this.slug = '',
     this.typeId = '',
+    this.roomType = '',
     this.type = '',
-    this.purpose = '',
+    this.purpose = 'Sale',
     this.rentPeriod = '',
     this.price = '',
     this.tempImage = '',
@@ -77,9 +89,17 @@ class AddPropertyModel extends Equatable {
     this.isTop = '',
     this.isUrgent = '',
     this.city = '',
-    this.state = '',
-    this.country = '',
+    this.state = 'Punjab',
+    this.country = 'India',
     this.address = '',
+    this.cityId = '',
+    this.stateId = '20',
+    this.categoryId = '',
+    this.distance = const [],
+    this.sliderImages = const [],
+    this.thumbNailImage = '',
+    this.properties = const [],
+    this.nearestLocation = const [],
     this.propertyImageDto =
         const PropertyImageDto(sliderImages: [], thumbnailImage: ''),
     this.propertyVideoDto = const PropertyVideoDto(
@@ -123,6 +143,7 @@ class AddPropertyModel extends Equatable {
     PropertyVideoDto? propertyVideoDto,
     PropertyLocationDto? propertyLocationDto,
     List<int>? aminities,
+    List<Properties>? properties,
     List<NearestLocationDto>? nearestLocationList,
     List<NearestLocationModel>? locationModel,
     List<AdditionalInfoDto>? addtionalInfoList,
@@ -131,10 +152,18 @@ class AddPropertyModel extends Equatable {
     String? seoMetaDescription,
     AddPropertyState? addState,
     PropertyTypeResponse? staticInfo,
-     String? city,
-     String? state,
-     String? country,
-     String? address,
+    String? city,
+    String? state,
+    String? country,
+    String? address,
+    String? roomType,
+    String? cityId,
+    String? stateId,
+    String? categoryId,
+    List<String>? distance,
+    List<String>? nearestLocation,
+    List<File>? sliderImages,
+    String? thumbNailImage,
   }) {
     return AddPropertyModel(
       title: title ?? this.title,
@@ -174,138 +203,105 @@ class AddPropertyModel extends Equatable {
       city: city ?? this.city,
       address: address ?? this.address,
       staticInfo: staticInfo ?? this.staticInfo,
+      roomType: roomType ?? this.roomType,
+      cityId: cityId ?? this.cityId,
+      stateId: stateId ?? this.stateId,
+      categoryId: categoryId ?? this.categoryId,
+      distance: distance ?? this.distance,
+      nearestLocation: nearestLocation ?? this.nearestLocation,
+      sliderImages: sliderImages ?? this.sliderImages,
+      thumbNailImage: thumbNailImage ?? this.thumbNailImage,
+      properties: properties ?? this.properties,
     );
   }
 
   Map<String, String> toMap() {
     final result = <String, String>{};
-    // return <String, dynamic>{
-    result.addAll({'title': title});
-    result.addAll({'slug': slug});
-    result.addAll({'property_type_id': typeId});
-    result.addAll({'purpose': purpose});
-    result.addAll({'rent_period': rentPeriod});
-    result.addAll({'price': price});
-    result.addAll({'total_area': totalArea});
-    result.addAll({'total_unit': totalUnit});
-    result.addAll({'total_bedroom': totalBedroom});
-    result.addAll({'total_bathroom': totalBathroom});
-    result.addAll({'total_garage': totalGarage});
-    result.addAll({'total_kitchen': totalKitchen});
-    result.addAll({'description': description});
-    result.addAll({'status': description});
 
-    // if (isFeatured.isNotEmpty) {
-    //   print('this is isFeatured $isFeatured');
-    //   result.addAll({'is_featured': isFeatured});
-    // }
-    // if (isTop.isNotEmpty) {
-    //   result.addAll({'is_top': isTop});
-    // }
-    // if (isUrgent.isNotEmpty) {
-    //   result.addAll({'is_urgent': isUrgent});
-    // }
+    // Basic details
+    result['title'] = title;
+    result['slug'] = slug;
+    result['property_type_id'] = typeId;
+    result['purpose'] = purpose;
+    result['rent_period'] = rentPeriod;
+    result['price'] = price;
+    result['total_area'] = totalArea;
+    result['total_unit'] = totalUnit;
+    result['total_bedroom'] = totalBedroom;
+    result['total_bathroom'] = totalBathroom;
+    result['total_garage'] = totalGarage;
+    result['total_kitchen'] = totalKitchen;
+    result['description'] = description;
+    result['status'] = status;
 
-    // result.addAll({'thumbnail_image': propertyImageDto!.toMap()});
 
-    result.addAll({'video_id': propertyVideoDto.videoId});
-    result.addAll({'video_description': propertyVideoDto.videoDescription});
+    // Property images and videos
+    result['video_id'] = propertyVideoDto.videoId;
+    result['video_description'] = propertyVideoDto.videoDescription;
 
-    result.addAll({'city_id': propertyLocationDto.cityId.toString()});
-    result.addAll({'address': propertyLocationDto.address});
-    result.addAll(
-        {'address_description': propertyLocationDto.addressDescription});
-    result.addAll({'google_map': propertyLocationDto.googleMap});
+    // Property location details
+    result['city_id'] = cityId.toString();
+    result['address'] = propertyLocationDto.address;
+    result['address_description'] = propertyLocationDto.addressDescription;
+    result['google_map'] = propertyLocationDto.googleMap;
 
-    if (aminities.isNotEmpty) {
-      for (var i = 0; i < aminities.length; i++) {
-        result.addAll({'aminities[$i]': aminities[i].toString()});
-      }
+    // Amenities
+    for (var i = 0; i < aminities.length; i++) {
+      result['aminities[$i]'] = aminities[i].toString();
     }
-    if (nearestLocationList.isNotEmpty) {
-      for (var i = 0; i < nearestLocationList.length; i++) {
-        // We are checking if ID exists or not to filter existing nearest data.
-        if (nearestLocationList[i].id > 0) {
-          debugPrint('old-location ${nearestLocationList[i]}');
-          result.addAll({
-            'existing_nearest_ids[$i]': nearestLocationList[i].id.toString()
-          });
-          result.addAll({
-            'existing_nearest_locations[$i]':
-                nearestLocationList[i].locationId.toString()
-          });
-          result.addAll(
-              {'existing_distances[$i]': nearestLocationList[i].distances});
-        } else {
-          if (nearestLocationList[i].locationId.toString().isNotEmpty &&
-              nearestLocationList[i].distances.isNotEmpty) {
-            debugPrint('new-location ${nearestLocationList[i]}');
-            result.addAll({
-              'nearest_locations[$i]':
-                  nearestLocationList[i].locationId.toString()
-            });
-            result.addAll({'distances[$i]': nearestLocationList[i].distances});
-          }
-        }
+
+    // Nearest locations
+    for (var i = 0; i < nearestLocationList.length; i++) {
+      final location = nearestLocationList[i];
+      if (location.id > 0) {
+        // Existing nearest locations
+        result['existing_nearest_ids[$i]'] = location.id.toString();
+        result['existing_nearest_locations[$i]'] = location.locationId.toString();
+        result['existing_distances[$i]'] = location.distances;
+      } else if (location.locationId.toString().isNotEmpty && location.distances.isNotEmpty) {
+        // New nearest locations
+        result['nearest_locations[$i]'] = location.locationId.toString();
+        result['distances[$i]'] = location.distances;
       }
     }
 
-    if (addtionalInfoList.isNotEmpty) {
-      for (var i = 0; i < addtionalInfoList.length; i++) {
-        // We are checking if ID exists or not to filter Additional Info data.
-        if (addtionalInfoList[i].id > 0) {
-          result.addAll(
-              {'existing_add_ids[$i]': addtionalInfoList[i].id.toString()});
-          result
-              .addAll({'existing_add_keys[$i]': addtionalInfoList[i].addKeys});
-          result.addAll(
-              {'existing_add_values[$i]': addtionalInfoList[i].addValues});
-        } else {
-          if (addtionalInfoList[i].addKeys.isNotEmpty &&
-              addtionalInfoList[i].addValues.isNotEmpty) {
-            result.addAll({'add_keys[$i]': addtionalInfoList[i].addKeys});
-            result.addAll({'add_values[$i]': addtionalInfoList[i].addValues});
-          }
-        }
+    // Additional info
+    for (var i = 0; i < addtionalInfoList.length; i++) {
+      final info = addtionalInfoList[i];
+      if (info.id > 0) {
+        // Existing additional info
+        result['existing_add_ids[$i]'] = info.id.toString();
+        result['existing_add_keys[$i]'] = info.addKeys;
+        result['existing_add_values[$i]'] = info.addValues;
+      } else if (info.addKeys.isNotEmpty && info.addValues.isNotEmpty) {
+        // New additional info
+        result['add_keys[$i]'] = info.addKeys;
+        result['add_values[$i]'] = info.addValues;
       }
     }
 
-    if (propertyPlanDto.isNotEmpty) {
-      for (var i = 0; i < propertyPlanDto.length; i++) {
-        // We are checking if ID exists or not to filter Plan data.
-        if (propertyPlanDto[i].id > 0) {
-          final plan = propertyPlanDto[i];
-          if (plan.id.toString().isNotEmpty) {
-            result.addAll(
-                {'existing_plan_ids[$i]': propertyPlanDto[i].id.toString()});
-          }
-          if (plan.planTitles.isNotEmpty) {
-            result.addAll(
-                {'existing_plan_titles[$i]': propertyPlanDto[i].planTitles});
-          }
-
-          if (plan.planDescriptions.isNotEmpty) {
-            result.addAll({
-              'existing_plan_descriptions[$i]':
-                  propertyPlanDto[i].planDescriptions
-            });
-          }
-        } else {
-          if (propertyPlanDto[i].planTitles.isNotEmpty &&
-              propertyPlanDto[i].planDescriptions.isNotEmpty) {
-            result.addAll({'plan_titles[$i]': propertyPlanDto[i].planTitles});
-            result.addAll(
-                {'plan_descriptions[$i]': propertyPlanDto[i].planDescriptions});
-            //result.addAll({'images[$i]': propertyPlanDto[i].planImages});
-          }
-        }
+    // Property plans
+    for (var i = 0; i < propertyPlanDto.length; i++) {
+      final plan = propertyPlanDto[i];
+      if (plan.id > 0) {
+        // Existing property plans
+        result['existing_plan_ids[$i]'] = plan.id.toString();
+        result['existing_plan_titles[$i]'] = plan.planTitles;
+        result['existing_plan_descriptions[$i]'] = plan.planDescriptions;
+      } else if (plan.planTitles.isNotEmpty && plan.planDescriptions.isNotEmpty) {
+        // New property plans
+        result['plan_titles[$i]'] = plan.planTitles;
+        result['plan_descriptions[$i]'] = plan.planDescriptions;
       }
     }
 
-    result.addAll({'seo_title': seoTitle});
-    result.addAll({'seo_meta_description': seoMetaDescription});
+    // SEO metadata
+    result['seo_title'] = seoTitle;
+    result['seo_meta_description'] = seoMetaDescription;
+
     return result;
   }
+
 
   factory AddPropertyModel.fromMap(Map<String, dynamic> map) {
     return AddPropertyModel(
@@ -352,7 +348,6 @@ class AddPropertyModel extends Equatable {
       seoTitle: map['seoTitle'] ?? "",
       seoMetaDescription: map['seoMetaDescription'] ?? "",
       staticInfo: map['staticInfo'] as PropertyTypeResponse,
-
     );
   }
 
@@ -404,6 +399,15 @@ class AddPropertyModel extends Equatable {
       country,
       address,
       staticInfo,
+      roomType,
+      cityId,
+      stateId,
+      categoryId,
+      distance,
+      nearestLocation,
+      sliderImages,
+      thumbNailImage,
+      properties,
     ];
   }
 }

@@ -36,7 +36,7 @@ class RemoteUrls {
       '${baseUrl}property/$slug';
 
   static String createPropertyUrl(String token) =>
-      '${baseUrl}user/property?token=$token';
+      '${baseUrl}user/property';
 
   static String deleteAccount(String token) =>
       '${baseUrl}user/delete-account?token=$token';
@@ -194,6 +194,9 @@ class RemoteUrls {
 
   static String getData() =>
       '${baseUrl}user/property-type';
+
+  static String getMyPropertiesApi() =>
+      '${baseUrl}user/property';
 
   //payment urls start
 

@@ -40,6 +40,9 @@ class NetworkParser {
       case 200:
         var responseJson = json.decode(response.body);
         return responseJson;
+        case 201:
+        var responseJson = json.decode(response.body);
+        return responseJson;
       case 400:
         final errorMsg = parsingDoseNotExist(response.body);
         throw BadRequestException(errorMsg, 400);

@@ -44,7 +44,8 @@ class HomeCubit extends Cubit<HomeState> {
          if (property.purpose?.toLowerCase() == "rent" ||
              property.purpose?.toLowerCase() == "for rent") {
            rentProperties.add(property);
-         } else if (property.purpose?.toLowerCase() == "sale") {
+         } else if (property.purpose?.toLowerCase() == "sale" ||
+             property.purpose?.toLowerCase() == "buy") {
            buyProperties.add(property);
          }
        }

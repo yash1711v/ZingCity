@@ -6,8 +6,10 @@ class PropertyTypeResponse {
   final List<State> state;
   final List<City> city;
   final List<RoomType> roomType;
+  final List<NearestLocation> nearestLocation;
+  final List<Amenities> amenities;
 
-  PropertyTypeResponse({
+  PropertyTypeResponse( {
     required this.status,
     required this.message,
     required this.sale,
@@ -15,6 +17,8 @@ class PropertyTypeResponse {
     required this.state,
     required this.city,
     required this.roomType,
+    required this.nearestLocation,
+    required this.amenities,
   });
 
   factory PropertyTypeResponse.fromJson(Map<String, dynamic> json) {
@@ -24,7 +28,10 @@ class PropertyTypeResponse {
       sale: (json['sale'] as List).map((e) => PropertyType.fromJson(e)).toList(),
       rent: (json['rent'] as List).map((e) => PropertyType.fromJson(e)).toList(),
       state: (json['state'] as List).map((e) => State.fromJson(e)).toList(),
-      city: (json['city'] as List).map((e) => City.fromJson(e)).toList(), roomType: (json['roomType'] as List).map((e) => RoomType.fromJson(e)).toList(),
+      city: (json['city'] as List).map((e) => City.fromJson(e)).toList(),
+      roomType: (json['roomType'] as List).map((e) => RoomType.fromJson(e)).toList(),
+      nearestLocation: (json['nearestLocation'] as List).map((e) => NearestLocation.fromJson(e)).toList(),
+      amenities: (json['amenities'] as List).map((e) => Amenities.fromJson(e)).toList(),
     );
   }
 }
@@ -140,37 +147,77 @@ class City {
 class RoomType {
   final int id;
   final String name;
-  final String slug;
-  final String icon;
-  final String type;
-  final int status;
+  // final int status;
   final String createdAt;
   final String updatedAt;
-  final int totalProperty;
 
   RoomType({
     required this.id,
     required this.name,
-    required this.slug,
-    required this.icon,
-    required this.type,
-    required this.status,
+    // required this.status,
     required this.createdAt,
     required this.updatedAt,
-    required this.totalProperty,
   });
 
   factory RoomType.fromJson(Map<String, dynamic> json) {
     return RoomType(
       id: json['id'] ?? 0,
-      name: json['name'].toString(),
-      slug: json['slug'].toString(),
-      icon: json['icon'].toString(),
-      type: json['type'].toString(),
+      name: json['bhk_type'].toString(),
+      // status: json['status'] ?? 0,
+      createdAt: json['created_at'].toString(),
+      updatedAt: json['updated_at'].toString(),
+    );
+  }
+}
+
+class NearestLocation {
+  final int id;
+  final String name;
+  // final int status;
+  final String createdAt;
+  final String updatedAt;
+
+  NearestLocation({
+    required this.id,
+    required this.name,
+    // required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory NearestLocation.fromJson(Map<String, dynamic> json) {
+    return NearestLocation(
+      id: json['id'] ?? 0,
+      name: json['location'].toString(),
+      // status: json['status'] ?? 0,
+      createdAt: json['created_at'].toString(),
+      updatedAt: json['updated_at'].toString(),
+    );
+  }
+}
+
+class Amenities {
+  final int id;
+  final String name;
+  final int status;
+  final String createdAt;
+  final String updatedAt;
+
+  Amenities({
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Amenities.fromJson(Map<String, dynamic> json) {
+    return Amenities(
+      id: json['id'] ?? 0,
+      name: json['aminity'].toString(),
       status: json['status'] ?? 0,
       createdAt: json['created_at'].toString(),
       updatedAt: json['updated_at'].toString(),
-      totalProperty: json['totalProperty'] ?? 0,
     );
   }
 }

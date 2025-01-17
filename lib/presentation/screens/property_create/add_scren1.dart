@@ -1,8 +1,12 @@
-import 'package:chips_choice/chips_choice.dart';
 
+
+import 'package:chips_choice/chips_choice.dart';
+import 'package:real_estate/data/model/add_property_model.dart' as room;
+
+import '../../../logic/cubit/add_property/add_property_cubit.dart';
 import '../../../logic/cubit/add_property/add_property_state_model.dart';
 import '../../../state_inject_package_names.dart';
-import '../../utils/constraints.dart';
+import '../../router/route_packages_name.dart';
 import 'add_screen2.dart';
 
 class ScreenOne extends StatefulWidget {
@@ -87,7 +91,7 @@ class _ScreenOneState extends State<ScreenOne> {
                           debugPrint('val: $val');
                           setState(() => tag = val);
                           context.read<AddPropertyCubit>().changeType(val == 0?"Sell":"Rent");
-                          context.read<AddPropertyCubit>().changeTypeId(val == 0?"Residential":"Residential");
+                          context.read<AddPropertyCubit>().changeTypeId("Residential","0");
                         },
                         choiceItems: C2Choice.listFrom<int, String>(
                           source: ["Sell", "Rent"],
@@ -115,7 +119,7 @@ class _ScreenOneState extends State<ScreenOne> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Select Catogery',
+                        'Select Category',
                         style: TextStyle(
                           color: Color(0xFF4D5454),
                           fontSize: 16,
@@ -141,7 +145,21 @@ class _ScreenOneState extends State<ScreenOne> {
                     state.typeId.isNotEmpty?state.typeId:null,
                     onChanged: (value) {
                       // debugPrint("value==> $value");
-                      context.read<AddPropertyCubit>().changeTypeId(value ?? "");
+
+                      if(tag == 0){
+                        (state.staticInfo?.sale ?? []).forEach((element) {
+                          if(element.name == value){
+                            context.read<AddPropertyCubit>().changeTypeId(element.name,(element.id ?? "").toString());
+                          }
+                        });
+                      } else {
+                        (state.staticInfo?.rent ?? []).forEach((element) {
+                          if(element.name == value){
+                            context.read<AddPropertyCubit>().changeTypeId(element.name,(element.id ?? "").toString());
+                          }
+                        });
+                      }
+
                       // if(value != "Punjab"){
                       //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       //     content: Text("Currently we are only available for Punjab state"),));
@@ -225,6 +243,7 @@ class _ScreenOneState extends State<ScreenOne> {
                     ],
                   ),
                 ),
+
                 const SizedBox(
                   height: 15,
                 ),
@@ -238,6 +257,130 @@ class _ScreenOneState extends State<ScreenOne> {
                       fillColor: Color(0xFFF5F5F5),
                       hintText: 'Enter property name',
                       border: InputBorder.none,
+                    ),
+                  ),
+                ),
+
+                Visibility(
+                  visible: state.typeId == "Residential",
+                  child: const SizedBox(
+                    height: 20,
+                  ),
+                ),
+
+                Visibility(
+                  visible: state.typeId == "Residential",
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 339,
+                          child: Text(
+                            'Select Room Type',
+                            style: TextStyle(
+                              color: Color(0xFF4D5454),
+                              fontSize: 14,
+                              fontFamily: 'Manrope',
+                              fontWeight: FontWeight.w400,
+                              height: 0.10,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+
+                Visibility(
+                  visible: state.typeId == "Residential",
+                  child: const SizedBox(
+                    height: 20,
+                  ),
+                ),
+
+                Visibility(
+                  visible: state.typeId == "Residential",
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: CustomDropdown(
+                      title: 'Select Room Type',
+                      states: state.staticInfo?.roomType ?? [],
+                      selectedState:
+                      //"Punjab",
+                      state.roomType.isNotEmpty?state.roomType:null,
+                      onChanged: (value) {
+                        // debugPrint("value==> $value");
+                        context.read<AddPropertyCubit>().changeRoomType(value ?? "");
+                        // if(value != "Punjab"){
+                        //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        //     content: Text("Currently we are only available for Punjab state"),));
+                        // } else {
+                        //   context.read<AddPropertyCubit>().changeState(value ?? "");}
+                      },
+                    ),
+                  ),
+                ),
+
+                Visibility(
+                  visible:  state.purpose == "Rent",
+                  child: const SizedBox(
+                    height: 20,
+                  ),
+                ),
+
+                Visibility(
+                  visible:state.purpose == "Rent",
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 339,
+                          child: Text(
+                            'Select Rent Period',
+                            style: TextStyle(
+                              color: Color(0xFF4D5454),
+                              fontSize: 14,
+                              fontFamily: 'Manrope',
+                              fontWeight: FontWeight.w400,
+                              height: 0.10,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                Visibility(
+                  visible:  state.purpose == "Rent",
+                  child: const SizedBox(
+                    height: 20,
+                  ),
+                ),
+                Visibility(
+                  visible: state.purpose == "Rent",
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: CustomDropdown(
+                      title: 'Select Rent Period',
+                      states: [room.RoomType(name: "Daily",id:0, createdAt: '', updatedAt: '' ),room.RoomType(name: "Monthly",id:0, createdAt: '', updatedAt: '' ),room.RoomType(name: "Yearly",id:0, createdAt: '', updatedAt: '' )],
+                      selectedState:
+                      //"Punjab",
+                      state.rentPeriod.isNotEmpty?state.rentPeriod:null,
+                      onChanged: (value) {
+                        // debugPrint("value==> $value");
+                        context.read<AddPropertyCubit>().changeRentPeriod(value ?? "");
+                        // if(value != "Punjab"){
+                        //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        //     content: Text("Currently we are only available for Punjab state"),));
+                        // } else {
+                        //   context.read<AddPropertyCubit>().changeState(value ?? "");}
+                      },
                     ),
                   ),
                 ),
@@ -398,7 +541,7 @@ class _ScreenOneState extends State<ScreenOne> {
                   child: TextField(
                     keyboardType: TextInputType.number,
                     onChanged: (value){
-                      context.read<AddPropertyCubit>().changeTotalArea(value ?? "");
+                      context.read<AddPropertyCubit>().changeTotalUnit(value ?? "");
                     },
                     maxLines: 1,
                     decoration: InputDecoration(

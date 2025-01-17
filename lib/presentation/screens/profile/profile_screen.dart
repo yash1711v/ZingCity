@@ -11,6 +11,7 @@ import '../../../data/data_provider/remote_url.dart';
 import '../../../logic/cubit/privacy_policy/privacy_policy_cubit.dart';
 import '../../widget/custom_theme.dart';
 import '../home/component/agent_search.dart';
+import '../my_property/my_property.dart';
 import '/presentation/utils/utils.dart';
 import '../../../../presentation/utils/constraints.dart';
 import '../../../../presentation/widget/custom_test_style.dart';
@@ -279,14 +280,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'My Location',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.699999988079071),
-                    fontSize: 16,
-                    fontFamily: 'DM Sans',
-                    fontWeight: FontWeight.w300,
-                    height: 0,
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MyProperty()));
+                  },
+                  child: Text(
+                    'Your Properties',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.699999988079071),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w300,
+                      height: 0,
+                    ),
                   ),
                 ),
                 Row(
@@ -308,64 +314,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-                Text(
-                  'Recent Search',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.699999988079071),
-                    fontSize: 16,
-                    fontFamily: 'DM Sans',
-                    fontWeight: FontWeight.w300,
-                    height: 0,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: 324,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 1,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color:
-                                  Colors.black.withOpacity(0.10000000149011612),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  'Notifications',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.699999988079071),
-                    fontSize: 16,
-                    fontFamily: 'DM Sans',
-                    fontWeight: FontWeight.w300,
-                    height: 0,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: 324,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 1,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color:
-                                  Colors.black.withOpacity(0.10000000149011612),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+
+                // Text(
+                //   'Recent Search',
+                //   style: TextStyle(
+                //     color: Colors.black.withOpacity(0.699999988079071),
+                //     fontSize: 16,
+                //     fontFamily: 'DM Sans',
+                //     fontWeight: FontWeight.w300,
+                //     height: 0,
+                //   ),
+                // ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Container(
+                //         width: 324,
+                //         decoration: ShapeDecoration(
+                //           shape: RoundedRectangleBorder(
+                //             side: BorderSide(
+                //               width: 1,
+                //               strokeAlign: BorderSide.strokeAlignCenter,
+                //               color:
+                //                   Colors.black.withOpacity(0.10000000149011612),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // Text(
+                //   'Notifications',
+                //   style: TextStyle(
+                //     color: Colors.black.withOpacity(0.699999988079071),
+                //     fontSize: 16,
+                //     fontFamily: 'DM Sans',
+                //     fontWeight: FontWeight.w300,
+                //     height: 0,
+                //   ),
+                // ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Container(
+                //         width: 324,
+                //         decoration: ShapeDecoration(
+                //           shape: RoundedRectangleBorder(
+                //             side: BorderSide(
+                //               width: 1,
+                //               strokeAlign: BorderSide.strokeAlignCenter,
+                //               color:
+                //                   Colors.black.withOpacity(0.10000000149011612),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 GestureDetector(
                   onTap: () {
                     context.read<PrivacyPolicyCubit>().getPrivacyPolicy();

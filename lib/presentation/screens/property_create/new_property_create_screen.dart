@@ -179,11 +179,11 @@ class _NewPropertyCreateScreenState extends State<NewPropertyCreateScreen> {
     return CreateUpdateSubmitButton(
       title: widget.id.isEmpty ? 'Submit Property' : 'Update Property',
       press: () {
-        if (widget.id.isNotEmpty) {
-          addProperty.updateProperty(widget.id);
-        } else {
-          addProperty.addProperty();
-        }
+        // if (widget.id.isNotEmpty) {
+        //   addProperty.updateProperty(widget.id);
+        // } else {
+        //   addProperty.addProperty();
+        // }
       },
     );
   }

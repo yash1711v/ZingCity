@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -29,7 +30,7 @@ abstract class RemoteDataSource {
 
   Future getPropertyCreateInfo(String token, String purpose);
 
-  Future<String> createPropertyRequest(AddPropertyModel data, String token);
+  Future<String> createPropertyRequest(AddPropertyModel data);
 
   Future<String> updatePropertyRequest(
       String id, AddPropertyModel data, String token);
@@ -48,6 +49,7 @@ abstract class RemoteDataSource {
 
   Future getPropertyChooseInfo(String token);
   Future getPropertyInfo();
+  Future getMyProperties();
 
   Future websiteSetup();
 
@@ -883,21 +885,64 @@ class RemoteDataSourceImp extends RemoteDataSource {
 
   @override
   Future<String> createPropertyRequest(
-      AddPropertyModel data, String token) async {
-    final headers = postDeleteHeader;
-    final uri = Uri.parse(RemoteUrls.createPropertyUrl(token));
-    debugPrint('create-url $uri');
+      AddPropertyModel data,) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = await prefs.getString("token");
+    final _mainHeaders = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token ?? token}'
+    };
+    final uri = Uri.parse(RemoteUrls.createPropertyUrl(token!));
+    // debugPrint('create-url $uri');
     final request = http.MultipartRequest('POST', uri);
-    request.fields.addAll(data.toMap());
+    request.fields.addAll({
+      "title": data.title,
+      "slug": data.title.trim().replaceAll(" ", "-"),
+      "property_type_id": data.categoryId.toString(),
+      "purpose": data.purpose,
+      "bhk_type": data.roomType,
+      "rent_period": data.rentPeriod,
+      "price": data.price,
+      "description": data.description,
+      "total_area": data.totalArea,
+      "total_unit": data.totalUnit,
+      "total_bedroom": data.totalBedroom,
+      "total_bathroom": data.totalBathroom,
+      "total_garage": data.totalGarage,
+      "total_kitchen": data.totalKitchen,
+      "city_id": data.cityId,
+      "state_id": data.stateId,
+      "country_id": "0",
+      "address": data.address,
+      "address_description": "",
+      "google_map": "",
+      "lat": "",
+      "lng": "",
+      // "thumbnail_image": data.thumbNailImage,// File upload (use Postman to upload the file)
+      "video_thumbnail": "", // File upload (use Postman to upload the file)
+      "aminities[]": jsonEncode(data.aminities),
+      // "slider_images": ["slider_image1.jpg", "slider_image2.jpg"], // File upload (use Postman to upload the files)
+      // "nearest_locations": [1, 2],
+      "distances[]": jsonEncode(data.distance),
+      "nearest_locations[]": jsonEncode(data.nearestLocation),
+      "add_keys": "",
+      "add_values": "",
+      "date_form": "",
+      "date_to": "",
+      "time_form": "",
+      "time_to": "",
+      "possession_status": "2"
+    });
 
-    log('create property map data:', name: '${data.toMap()}');
+    // log('create property map data:', name: '${data.toMap()}');
 
-    request.headers.addAll(headers);
+    request.headers.addAll(_mainHeaders);
 
-    if (data.image.isNotEmpty) {
-      print('thumbnailImage ${data.image}');
+    if (data.thumbNailImage.isNotEmpty) {
+      print('thumbnailImage ${data.thumbNailImage}');
       final thumbImage =
-          await http.MultipartFile.fromPath('thumbnail_image', data.image);
+          await http.MultipartFile.fromPath('thumbnail_image', data.thumbNailImage);
       request.files.add(thumbImage);
     }
 
@@ -908,13 +953,37 @@ class RemoteDataSourceImp extends RemoteDataSource {
     //     request.files.add(file);
     //   }
     // }
-    if (data.galleryImage.isNotEmpty) {
-      for (var i = 0; i < data.galleryImage.length; i++) {
+    if (data.sliderImages.isNotEmpty) {
+      for (var i = 0; i < data.sliderImages.length; i++) {
         final file = await http.MultipartFile.fromPath(
-            'slider_images[$i]', data.galleryImage[i].image);
+            'slider_images[$i]', data.sliderImages[i].path);
         request.files.add(file);
       }
     }
+
+    // if (data.aminities.isNotEmpty) {
+    //   for (var i = 0; i < data.aminities.length; i++) {
+    //     final file = await http.MultipartFile.fromPath(
+    //         'aminities[$i]', data.aminities[i].toString());
+    //     request.files.add(file);
+    //   }
+    // }
+
+    // if (data.nearestLocation.isNotEmpty) {
+    //   for (var i = 0; i < data.nearestLocation.length; i++) {
+    //     final file = await http.MultipartFile.fromPath(
+    //         'nearest_locations[$i]', data.nearestLocation[i].toString());
+    //     request.files.add(file);
+    //   }
+    // }
+
+    // if (data.distance.isNotEmpty) {
+    //   for (var i = 0; i < data.distance.length; i++) {
+    //     final file = await http.MultipartFile.fromPath(
+    //         'distances[$i]', data.distance[i].toString());
+    //     request.files.add(file);
+    //   }
+    // }
 
     if (data.propertyVideoDto.videoThumbnail.isNotEmpty) {
       final file = await http.MultipartFile.fromPath(
@@ -932,7 +1001,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
         }
       }
     }
-
+log(request.fields.toString(),name: "Data");
     http.StreamedResponse response = await request.send();
     final clientMethod = http.Response.fromStream(response);
 
@@ -1316,5 +1385,23 @@ class RemoteDataSourceImp extends RemoteDataSource {
         await NetworkParser.callClientWithCatchException(() => clientMethod);
     log('responseJsonBody', name: responseJsonBody.toString());
     return responseJsonBody;
+  }
+
+  @override
+  Future getMyProperties() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = await prefs.getString("token");
+    final _mainHeaders = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token ?? token}'
+    };
+    final uri = Uri.parse(RemoteUrls.getMyPropertiesApi());
+
+    final clientMethod = client.get(uri, headers: _mainHeaders);
+    final responseJsonBody =
+        await NetworkParser.callClientWithCatchException(() => clientMethod);
+    log('responseJsonBody', name: responseJsonBody.toString());
+    return responseJsonBody['properties'];
   }
 }

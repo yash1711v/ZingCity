@@ -389,215 +389,239 @@ class propertyDetailsLoaded extends StatelessWidget {
                 height: 1,
               ),
             ),
-            const SizedBox(
-              height: 15,
+            Visibility(
+              visible: (propertyDetails.totalBedroom ?? "").isNotEmpty || (propertyDetails.totalBathroom ?? "").isNotEmpty,
+              child: const SizedBox(
+                height: 15,
+              ),
             ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19087C7C),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: SvgPicture.asset("assets/Yash/images/BedRoom.svg"),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+            Visibility(
+              visible: (propertyDetails.totalBedroom ?? "").isNotEmpty || (propertyDetails.totalBathroom ?? "").isNotEmpty,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: (propertyDetails.totalBedroom ?? "").isNotEmpty,
+                    child: Row(
                       children: [
-                        const Text(
-                          'BedRoom',
-                          style: TextStyle(
-                            color: Color(0x7F4D5454),
-                            fontSize: 12,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.12,
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19087C7C),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                          child: SvgPicture.asset("assets/Yash/images/BedRoom.svg"),
                         ),
                         const SizedBox(
-                          height: 15,
+                          width: 5,
                         ),
-                        Text(
-                          '${propertyDetails.totalBedroom} Rooms',
-                          style: const TextStyle(
-                            color: Color(0xFF4D5454),
-                            fontSize: 14,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.10,
-                          ),
-                        )
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'BedRoom',
+                              style: TextStyle(
+                                color: Color(0x7F4D5454),
+                                fontSize: 12,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.12,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              '${propertyDetails.totalBedroom} Rooms',
+                              style: const TextStyle(
+                                color: Color(0xFF4D5454),
+                                fontSize: 14,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.10,
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19087C7C),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child:
-                          SvgPicture.asset("assets/Yash/images/Bathroom.svg"),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  Visibility(
+                    visible: (propertyDetails.totalBathroom ?? "").isNotEmpty,
+                    child: Row(
                       children: [
-                        const Text(
-                          'Bathroom',
-                          style: TextStyle(
-                            color: Color(0x7F4D5454),
-                            fontSize: 12,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.12,
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19087C7C),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                          child:
+                              SvgPicture.asset("assets/Yash/images/Bathroom.svg"),
                         ),
                         const SizedBox(
-                          height: 15,
+                          width: 5,
                         ),
-                        Text(
-                          '${propertyDetails.totalBathroom} Rooms',
-                          style: const TextStyle(
-                            color: Color(0xFF4D5454),
-                            fontSize: 14,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.10,
-                          ),
-                        )
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Bathroom',
+                              style: TextStyle(
+                                color: Color(0x7F4D5454),
+                                fontSize: 12,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.12,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              '${propertyDetails.totalBathroom} Rooms',
+                              style: const TextStyle(
+                                color: Color(0xFF4D5454),
+                                fontSize: 14,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.10,
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                )
-                // SizedBox(
-                //   width: 0,
-                // )
-              ],
+                  )
+                  // SizedBox(
+                  //   width: 0,
+                  // )
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 15,
+            Visibility(
+              visible: (propertyDetails.totalGarage ?? "").isNotEmpty || (propertyDetails.totalKitchen ?? "").isNotEmpty,
+              child: const SizedBox(
+                height: 15,
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19087C7C),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: SvgPicture.asset("assets/Yash/images/Garage.svg"),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            Visibility(
+              visible: (propertyDetails.totalGarage ?? "").isNotEmpty || (propertyDetails.totalKitchen ?? "").isNotEmpty,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: (propertyDetails.totalGarage ?? "").isNotEmpty,
+                    child: Row(
                       children: [
-                        const Text(
-                          'Garage',
-                          style: TextStyle(
-                            color: Color(0x7F4D5454),
-                            fontSize: 12,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.12,
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19087C7C),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                          child: SvgPicture.asset("assets/Yash/images/Garage.svg"),
                         ),
                         const SizedBox(
-                          height: 15,
+                          width: 5,
                         ),
-                        Text(
-                          '${propertyDetails.totalGarage} Rooms',
-                          style: const TextStyle(
-                            color: Color(0xFF4D5454),
-                            fontSize: 14,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.10,
-                          ),
-                        )
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Garage',
+                              style: TextStyle(
+                                color: Color(0x7F4D5454),
+                                fontSize: 12,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.12,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              '${propertyDetails.totalGarage} Rooms',
+                              style: const TextStyle(
+                                color: Color(0xFF4D5454),
+                                fontSize: 14,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.10,
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19087C7C),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: SvgPicture.asset("assets/Yash/images/kitchen.svg"),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                  Visibility(
+                    visible: (propertyDetails.totalKitchen ?? "").isNotEmpty,
+                    child: Row(
                       children: [
-                        const Text(
-                          'Kitchen',
-                          style: TextStyle(
-                            color: Color(0x7F4D5454),
-                            fontSize: 12,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.12,
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19087C7C),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                          child: SvgPicture.asset("assets/Yash/images/kitchen.svg"),
                         ),
                         const SizedBox(
-                          height: 15,
+                          width: 5,
                         ),
-                        Text(
-                          '${propertyDetails.totalKitchen} Rooms',
-                          style: const TextStyle(
-                            color: Color(0xFF4D5454),
-                            fontSize: 14,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0.10,
-                          ),
-                        )
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Kitchen',
+                              style: TextStyle(
+                                color: Color(0x7F4D5454),
+                                fontSize: 12,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.12,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              '${propertyDetails.totalKitchen} Rooms',
+                              style: const TextStyle(
+                                color: Color(0xFF4D5454),
+                                fontSize: 14,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w400,
+                                height: 0.10,
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                )
-                // SizedBox(
-                //   width: 0,
-                // )
-              ],
+                  )
+                  // SizedBox(
+                  //   width: 0,
+                  // )
+                ],
+              ),
             ),
             // GridView.builder(
             //   padding: EdgeInsets.zero,

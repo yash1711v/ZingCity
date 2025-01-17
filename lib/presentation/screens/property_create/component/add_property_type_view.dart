@@ -36,7 +36,7 @@ class _AddPropertyTypeViewState extends State<AddPropertyTypeView> {
       } else {
         categoryModel = infoCubit.createPropertyInfo!.types!.first;
       }
-      addProperty.changeTypeId(categoryModel!.id.toString());
+      // addProperty.changeTypeId(categoryModel!.id.toString());
     }
     if (addProperty.state.rentPeriod.isNotEmpty) {
       value = rendPeriodList
@@ -117,7 +117,7 @@ class _AddPropertyTypeViewState extends State<AddPropertyTypeView> {
                           onChanged: (val) {
                             //bloc.add(PropertyTypeEvent(type: val!.id.toString()));
                             if (val == null) return;
-                            addProperty.changeTypeId(val.id.toString());
+                            // addProperty.changeTypeId(val.id.toString());
                           },
                         ),
                       ] else ...[
