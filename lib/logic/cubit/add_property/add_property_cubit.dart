@@ -536,6 +536,7 @@ void changeAddress(String text) {
   }
 
   FutureOr<void> resetData() {
+
     emit(
       state.copyWith(
         addState: const AddPropertyInitial(),
@@ -589,30 +590,89 @@ void changeAddress(String text) {
   }
 
   void editProperty(Properties? property) {
+    emit(state.copyWith(addState: const AddPropertyLoading()));
+
+    // debugPrint("property ${property?.p}");
+    // changeAddress(property?.address ?? '');
+    // changeDescription(property?.description ?? '');
+    // changeRentPeriod(property?.rentPeriod ?? '');
+    // changeTotalPrice(property?.price ?? '');
+    // changeType(property?.purpose ?? '');
+    // changeTotalArea(property?.totalArea ?? '');
+    // changeTotalUnit(property?.totalUnit ?? '');
+    // changeTotalBedroom(property?.totalBedroom ?? '');
+    // changeTotalBathroom(property?.totalBathroom ?? '');
+    // changeTotalKitchen(property?.totalKitchen ?? '');
+    // changeTotalGarage(property?.totalGarage ?? '');
+    // addThumbNails(property?.seoTitle ?? '');
+    state.staticInfo?.city.forEach((element){
+      if(element.id.toString() == property?.cityId){
+        changeCity(element.name, element.id.toString());
+      }
+    });
+
+    state.staticInfo?.state.forEach((element){
+      if(element.id.toString() == property?.stateId){
+        changeState(element.name, element.id.toString());
+      }
+    });
+
+
+    if(property?.purpose == 'rent'){
+      state.staticInfo?.rent.forEach((element){
+        if(element.id == property?.propertyTypeId){
+         changeTypeId(element.name, element.id.toString());
+        }
+        // changeTypeId(text, categoryId)
+      });
+
+    } else {
+      state.staticInfo?.sale.forEach((element){
+        if(element.id == property?.propertyTypeId){
+          changeTypeId(element.name, element.id.toString());
+        }
+        // changeTypeId(text, categoryId)
+      });
+    }
+
     emit(state.copyWith(
-      title: property!.title,
-      price: property.price,
-      totalArea: property.totalArea,
-      totalUnit: property.totalUnit,
-      totalBedroom: property.totalBedroom,
-      totalBathroom: property.totalBathroom,
-      totalKitchen: property.totalKitchen,
-      totalGarage: property.totalGarage,
-      description: property.description,
-      address: property.address,
-      // seoTitle: property.seoTitle,
-      // seoMetaDescription: property.seoMetaDescription,
-      // propertyLocationDto: PropertyLocationDto(
-      //     cityId: property.cityId,
-      //     address: property.address,
-      //     addressDescription: property.addressDescription,
-      //     googleMap: property.googleMap),
-      // propertyVideoDto: PropertyVideoDto(
-      //     videoThumbnail: property.videoThumbnail,
-      //     videoId: property.videoId,
-      //     videoDescription: property.videoDescription),
       addState: const AddPropertyInitial(),
+      purpose: property?.purpose ?? '',
+      title: property?.title ?? '',
+      price: property?.price ?? '',
+      totalArea: property?.totalArea ?? '',
+      totalUnit: property?.totalUnit ?? '',
+      totalBedroom: property?.totalBedroom ?? '',
+      totalBathroom: property?.totalBathroom ?? '',
+      totalKitchen: property?.totalKitchen ?? '',
+      totalGarage: property?.totalGarage ?? '',
+      description: property?.description ?? '',
+      cityId: property?.cityId?? '',
+      stateId: property?.stateId?? '',
+      rentPeriod: property?.rentPeriod ?? '',
+      address: property?.address ?? '',
+      thumbNailImage: property?.thumbnailImage ?? '',
+      sliderImagesApi: property?.images ?? [],
+      // seoTitle: property?.seoTitle ?? '',
+      // seoMetaDescription: property?.seoMetaDescription ?? '',
+      // propertyLocationDto: PropertyLocationDto(
+      //   cityId: property?.cityId ?? 0,
+      //   address: property?.address ?? '',
+      //   addressDescription: property?.addressDescription ?? '',
+      //   googleMap: property?.googleMap ?? '',
+      // ),
+      // propertyVideoDto: PropertyVideoDto(
+      //   videoThumbnail: property?.videoThumbnail ?? '',
+      //   videoId: property?.videoId ?? '',
+      //   videoDescription: property?.videoDescription ?? '',
+      // ),
     ));
+
+
+    // changeCity(property?. ?? '', property?.cityId.toString() ?? '');
+    // changeState(property?.state ?? '', property?.stateId.toString() ?? '');
   }
+
+
 
 }

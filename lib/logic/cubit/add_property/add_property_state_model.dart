@@ -64,14 +64,15 @@ class AddPropertyModel extends Equatable {
   final String seoMetaDescription;
   final AddPropertyState addState;
   final PropertyTypeResponse? staticInfo;
-
-  const AddPropertyModel( {
+  final List<String>? sliderImagesApi;
+  final String? thumbNailImageApi;
+  const AddPropertyModel({
     this.title = '',
     this.slug = '',
     this.typeId = '',
     this.roomType = '',
     this.type = '',
-    this.purpose = 'Sale',
+    this.purpose = 'buy',
     this.rentPeriod = '',
     this.price = '',
     this.tempImage = '',
@@ -115,6 +116,8 @@ class AddPropertyModel extends Equatable {
     this.seoMetaDescription = '',
     this.addState = const AddPropertyInitial(),
     this.staticInfo,
+    this.sliderImagesApi = const [],
+    this.thumbNailImageApi = '',
   });
 
   AddPropertyModel copyWith({
@@ -164,6 +167,8 @@ class AddPropertyModel extends Equatable {
     List<String>? nearestLocation,
     List<File>? sliderImages,
     String? thumbNailImage,
+    List<String>? sliderImagesApi,
+    String? thumbNailImageApi,
   }) {
     return AddPropertyModel(
       title: title ?? this.title,
@@ -212,6 +217,8 @@ class AddPropertyModel extends Equatable {
       sliderImages: sliderImages ?? this.sliderImages,
       thumbNailImage: thumbNailImage ?? this.thumbNailImage,
       properties: properties ?? this.properties,
+      sliderImagesApi: sliderImagesApi ?? this.sliderImagesApi,
+      thumbNailImageApi: thumbNailImageApi ?? this.thumbNailImageApi,
     );
   }
 
@@ -408,6 +415,7 @@ class AddPropertyModel extends Equatable {
       sliderImages,
       thumbNailImage,
       properties,
+      sliderImagesApi
     ];
   }
 }

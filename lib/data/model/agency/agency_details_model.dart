@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 import 'agency_list_model.dart';
@@ -34,7 +35,7 @@ class AgencyDetailsModel extends Equatable {
     return <String, dynamic>{
       'agency': agency?.toMap(),
       'agents': agents!.map((x) => x.toMap()).toList(),
-      'properties':  properties!.map((x) => x.toMap()).toList(),
+      'properties': properties!.map((x) => x.toMap()).toList(),
       'totalProperty': totalProperty,
     };
   }
@@ -46,19 +47,17 @@ class AgencyDetailsModel extends Equatable {
           : null,
       agents: map['agents']['data'] != null
           ? List<AgencyListModel>.from(
-        (map['agents']['data'] as List<dynamic>)
-            .map<AgencyListModel?>(
-              (x) => AgencyListModel.fromMap(x as Map<String, dynamic>),
-        ),
-      )
+              (map['agents']['data'] as List<dynamic>).map<AgencyListModel?>(
+                (x) => AgencyListModel.fromMap(x as Map<String, dynamic>),
+              ),
+            )
           : [],
       properties: map['properties']['data'] != null
           ? List<Properties>.from(
-        (map['properties']['data'] as List<dynamic>)
-            .map<Properties?>(
-              (x) => Properties.fromMap(x as Map<String, dynamic>),
-        ),
-      )
+              (map['properties']['data'] as List<dynamic>).map<Properties?>(
+                (x) => Properties.fromMap(x as Map<String, dynamic>),
+              ),
+            )
           : [],
       totalProperty: map['total_property'] ?? 0,
     );
@@ -97,11 +96,14 @@ class Properties extends Equatable {
   final String isFeatured;
   final int totalRating;
   final String ratingAvarage;
+  final String cityId;
+  final String stateId;
   final Agent agent;
-
+  final List<String> images;
   final String totalUnit;
 
-  const Properties( {
+  const Properties({
+    this.images = const [],
     required this.id,
     required this.agentId,
     required this.propertyTypeId,
@@ -114,7 +116,7 @@ class Properties extends Equatable {
     required this.address,
     required this.totalBedroom,
     required this.totalBathroom,
-      this.totalGarage = '',
+    this.totalGarage = '',
     required this.totalArea,
     required this.status,
     required this.isFeatured,
@@ -123,6 +125,8 @@ class Properties extends Equatable {
     required this.agent,
     this.description = '',
     this.totalKitchen = '',
+    this.cityId = '',
+    this.stateId = '',
     this.totalUnit = '',
   });
 
@@ -149,6 +153,9 @@ class Properties extends Equatable {
     String? description,
     String? totalKitchen,
     String? totalUnit,
+    String? cityId,
+    String? stateId,
+    List<String>? images,
   }) {
     return Properties(
       id: id ?? this.id,
@@ -173,6 +180,9 @@ class Properties extends Equatable {
       totalGarage: totalGarage ?? this.totalGarage,
       totalKitchen: totalKitchen ?? this.totalKitchen,
       totalUnit: totalUnit ?? this.totalUnit,
+      cityId: cityId ?? this.cityId,
+      stateId: stateId ?? this.stateId,
+      images: images ?? this.images,
     );
   }
 
@@ -200,6 +210,9 @@ class Properties extends Equatable {
       'totalGarage': totalGarage,
       'totalKitchen': totalKitchen,
       'totalUnit': totalUnit,
+      'cityId': cityId,
+      'stateId': stateId,
+      "images": images
     };
   }
 
@@ -222,11 +235,23 @@ class Properties extends Equatable {
       isFeatured: map['is_featured'] ?? '',
       totalRating: map['totalRating'] ?? 0,
       ratingAvarage: map['ratingAvarage'] ?? '',
-      agent: Agent.fromMap((map['agent'] ?? Agent(id: 0, name: '', phone: '', email: '', designation: '', image: '', userName: '').toMap()) as Map<String, dynamic>),
+      agent: Agent.fromMap((map['agent'] ??
+          Agent(
+                  id: 0,
+                  name: '',
+                  phone: '',
+                  email: '',
+                  designation: '',
+                  image: '',
+                  userName: '')
+              .toMap()) as Map<String, dynamic>),
       propertyTypeId: map['property_type_id'],
       description: map['description'] ?? '',
       totalKitchen: map['total_kitchen'] ?? '',
       totalUnit: map['total_unit'] ?? '',
+      cityId: map['city_id'].toString() ?? '',
+      stateId: map['state_id'].toString() ?? '',
+      images: List<String>.from(map['slider_images'] ?? []),
     );
   }
 

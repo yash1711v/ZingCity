@@ -111,7 +111,14 @@ class _Screen3State extends State<Screen3> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: TextField(
-                              keyboardType: TextInputType.number,
+                              controller: TextEditingController(text: index == 0
+                                  ? state.totalBedroom
+                                  : index == 1
+                                      ? state.totalBathroom
+                                      : index == 2
+                                          ? state.totalKitchen
+                                          : state.totalGarage),
+
                               onChanged: (value) {
                                 if(index == 0) {
                                   context

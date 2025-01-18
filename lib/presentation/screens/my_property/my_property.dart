@@ -44,54 +44,54 @@ class _MyPropertyState extends State<MyProperty> {
     // }
 
 
-    if (update is AddPropertyLoaded) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        Navigator.of(context).pop();
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(content: Text(update.message)));
-      });
-
-      // return CircularProgressIndicator();
-    }
-
-    if (update is AddPropertyLoading) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        Utils.loadingDialog(context);
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(content: Text(update.message)));
-      });
-
-      // return CircularProgressIndicator();
-    } else {
-      Utils.closeDialog(context);
-      if (update is AddPropertyError) {
-
-        if (update.statusCode == 401) {
-          Utils.logout(context);
-        } else {
-
-          debugPrint("This is the Error ${update.message}");
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(update.message)));
-          });
-
-          // Utils.errorSnackBar(context, update.message);
-        }
-
-      } else if (update is AddPropertyLoaded) {
-        // Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).clearSnackBars();
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(update.message)));
-        });
-
-      }
-    }
+    // if (update is AddPropertyLoaded) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     ScaffoldMessenger.of(context).clearSnackBars();
+    //     Navigator.of(context).pop();
+    //     // ScaffoldMessenger.of(context).showSnackBar(
+    //     //     SnackBar(content: Text(update.message)));
+    //   });
+    //
+    //   // return CircularProgressIndicator();
+    // }
+    //
+    // if (update is AddPropertyLoading) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     ScaffoldMessenger.of(context).clearSnackBars();
+    //     Utils.loadingDialog(context);
+    //     // ScaffoldMessenger.of(context).showSnackBar(
+    //     //     SnackBar(content: Text(update.message)));
+    //   });
+    //
+    //   // return CircularProgressIndicator();
+    // } else {
+    //   Utils.closeDialog(context);
+    //   if (update is AddPropertyError) {
+    //
+    //     if (update.statusCode == 401) {
+    //       Utils.logout(context);
+    //     } else {
+    //
+    //       debugPrint("This is the Error ${update.message}");
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         ScaffoldMessenger.of(context).clearSnackBars();
+    //         ScaffoldMessenger.of(context).showSnackBar(
+    //             SnackBar(content: Text(update.message)));
+    //       });
+    //
+    //       // Utils.errorSnackBar(context, update.message);
+    //     }
+    //
+    //   } else if (update is AddPropertyLoaded) {
+    //     // Navigator.of(context).pop();
+    //     ScaffoldMessenger.of(context).clearSnackBars();
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //           SnackBar(content: Text(update.message)));
+    //     });
+    //
+    //   }
+    // }
 
 
     return Scaffold(
@@ -335,7 +335,7 @@ class _MyPropertyState extends State<MyProperty> {
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => const AddPropertyScreen()));
+                                    context, MaterialPageRoute(builder: (context) =>  AddPropertyScreen(property: state.properties?[index],)));
                               },
                               child: const Icon(
                                 Icons.edit,

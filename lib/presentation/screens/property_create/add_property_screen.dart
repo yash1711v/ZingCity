@@ -33,37 +33,37 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
 
     context.read<AddPropertyCubit>().getData();
 
-    // if ((widget.property ??
-    //         Properties(
-    //             id: 0,
-    //             agentId: 0,
-    //             propertyTypeId: 0,
-    //             title: "",
-    //             slug: "",
-    //             purpose: "",
-    //             rentPeriod: "",
-    //             price: "",
-    //             thumbnailImage: "",
-    //             address: "",
-    //             totalBedroom: "",
-    //             totalBathroom: "",
-    //             totalArea: "",
-    //             status: "",
-    //             isFeatured: "",
-    //             totalRating: 5,
-    //             ratingAvarage: "",
-    //             agent: Agent(
-    //                 id: 0,
-    //                 name: "",
-    //                 phone: "",
-    //                 email: "",
-    //                 designation: "",
-    //                 image: "",
-    //                 userName: "")))
-    //     .title
-    //     .isNotEmpty) {
-    //   context.read<AddPropertyCubit>().editProperty(widget.property);
-    // }
+    if ((widget.property ??
+            Properties(
+                id: 0,
+                agentId: 0,
+                propertyTypeId: 0,
+                title: "",
+                slug: "",
+                purpose: "",
+                rentPeriod: "",
+                price: "",
+                thumbnailImage: "",
+                address: "",
+                totalBedroom: "",
+                totalBathroom: "",
+                totalArea: "",
+                status: "",
+                isFeatured: "",
+                totalRating: 5,
+                ratingAvarage: "",
+                agent: Agent(
+                    id: 0,
+                    name: "",
+                    phone: "",
+                    email: "",
+                    designation: "",
+                    image: "",
+                    userName: "")))
+        .title
+        .isNotEmpty) {
+      context.read<AddPropertyCubit>().editProperty(widget.property);
+    }
   }
 
   int pageIndex = 0;
@@ -191,7 +191,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                         onTap: () {
                           if (pageController.page == 0) {
                             Navigator.pop(context);
-                            context.read<AddPropertyCubit>().resetData();
+                            // context.read<AddPropertyCubit>().resetData();
                           } else {
                             pageController.previousPage(
                                 duration: const Duration(milliseconds: 300),
@@ -251,7 +251,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                             state.typeId.isEmpty) {
                           // debugPrint("pageIndex ${pageIndex}");
                           if (pageIndex == 0) {
-                            if (state.purpose == "Rent") {
+                            if (state.purpose == "rent") {
                               if (state.typeId == "Residential") {
                                 if (state.typeId.isEmpty ||
                                     state.title.isEmpty ||

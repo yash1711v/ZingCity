@@ -54,6 +54,7 @@ class _ScreenOneState extends State<ScreenOne> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
       builder: (context, state) {
+        // setState(() => tag = state.purpose == "Sell"?0:1);
         return Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
@@ -86,11 +87,11 @@ class _ScreenOneState extends State<ScreenOne> {
                 Row(
                   children: [
                     ChipsChoice<int>.single(
-                        value: tag,
+                        value: state.purpose == "buy"?0:1,
                         onChanged: (val) {
                           debugPrint('val: $val');
-                          setState(() => tag = val);
-                          context.read<AddPropertyCubit>().changeType(val == 0?"Sell":"Rent");
+                          // setState(() => tag = val);
+                          context.read<AddPropertyCubit>().changeType(val == 0?"buy":"rent");
                           context.read<AddPropertyCubit>().changeTypeId("Residential","0");
                         },
                         choiceItems: C2Choice.listFrom<int, String>(
@@ -139,7 +140,7 @@ class _ScreenOneState extends State<ScreenOne> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: CustomDropdown(
                     title: 'Select Category',
-                    states: tag == 0?state.staticInfo?.sale ?? []:state.staticInfo?.rent ?? [],
+                    states: (state.purpose == "buy"?0:1) == 0?state.staticInfo?.sale ?? []:state.staticInfo?.rent ?? [],
                     selectedState:
                     //"Punjab",
                     state.typeId.isNotEmpty?state.typeId:null,
@@ -250,6 +251,7 @@ class _ScreenOneState extends State<ScreenOne> {
                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
+                    controller: TextEditingController(text: state.title),
                     onChanged: (value){
                       context.read<AddPropertyCubit>().changeTitle(value ?? "");
                     },
@@ -414,6 +416,7 @@ class _ScreenOneState extends State<ScreenOne> {
                  Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
+                    controller: TextEditingController(text: removeHtmlTags(state.description)),
                     onChanged: (value){
                       context.read<AddPropertyCubit>().changeDescription(value ?? "");
                     },
@@ -455,6 +458,7 @@ class _ScreenOneState extends State<ScreenOne> {
                  Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
+                    controller: TextEditingController(text: state.price),
                     keyboardType: TextInputType.number,
                     onChanged: (value){
                       context.read<AddPropertyCubit>().changeTotalPrice(value ?? "");
@@ -497,6 +501,7 @@ class _ScreenOneState extends State<ScreenOne> {
                  Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
+                    controller: TextEditingController(text: state.totalArea),
                     keyboardType: TextInputType.number,
                     onChanged: (value){
                       context.read<AddPropertyCubit>().changeTotalArea(value ?? "");
@@ -539,6 +544,7 @@ class _ScreenOneState extends State<ScreenOne> {
                  Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
+                    controller: TextEditingController(text: state.totalUnit),
                     keyboardType: TextInputType.number,
                     onChanged: (value){
                       context.read<AddPropertyCubit>().changeTotalUnit(value ?? "");

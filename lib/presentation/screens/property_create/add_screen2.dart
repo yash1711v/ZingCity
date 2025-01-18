@@ -147,6 +147,7 @@ class _AddScreen2State extends State<AddScreen2> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
+                    controller: TextEditingController(text: state.address),
                     onChanged: (value) {
                       context
                           .read<AddPropertyCubit>()

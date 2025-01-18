@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:real_estate/logic/cubit/add_property/add_property_cubit.dart';
+import 'package:real_estate/logic/cubit/add_property/add_property_state_model.dart';
 
 class ImageAddingScreen extends StatefulWidget {
   const ImageAddingScreen({super.key});
@@ -58,6 +59,8 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
+    return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
+  builder: (context, state) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -77,6 +80,8 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
                   ),
                   child: Column(
                     children: [
+
+
                       if (thumbnailImage != null)
                         Image.file(
                           thumbnailImage!,
@@ -156,5 +161,7 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
         ),
       ),
     );
+  },
+);
   }
 }
