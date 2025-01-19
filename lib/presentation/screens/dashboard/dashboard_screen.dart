@@ -187,7 +187,8 @@ class _BuyScreenState extends State<BuyScreen> {
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Column(
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              CrossAxisAlignment
+                                                  .start,
                                               children: [
                                                 const SizedBox(
                                                   height: 13,
@@ -265,33 +266,30 @@ class _BuyScreenState extends State<BuyScreen> {
                                                 ),
                                                 Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  MainAxisAlignment
+                                                      .start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
+
                                                     Icon(
-                                                      Icons.location_on_sharp,
+                                                      Icons
+                                                          .location_on_sharp,
                                                       size: 12,
                                                     ),
                                                     SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width -
-                                                              180,
+                                                      width: MediaQuery.of(context).size.width - 180,
                                                       child: Text(
-                                                        removeHtmlTags((state
-                                                                        .data ??
-                                                                    [])[index]
-                                                                .description ??
-                                                            ""),
-                                                        maxLines: 3,
+                                                        removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                                        maxLines: 2,
                                                         style: TextStyle(
-                                                          color: Colors.black,
+                                                          color: Colors
+                                                              .black,
                                                           fontSize: 14,
-                                                          fontFamily: 'DM Sans',
+                                                          fontFamily:
+                                                          'DM Sans',
                                                           fontWeight:
-                                                              FontWeight.w300,
+                                                          FontWeight
+                                                              .w300,
                                                           height: 0,
                                                         ),
                                                       ),

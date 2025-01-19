@@ -6,10 +6,13 @@ import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 import 'package:real_estate/data/model/auth/user_profile_model.dart';
 import 'package:real_estate/logic/bloc/General/general_cubit.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
+import 'package:real_estate/presentation/screens/support/contact_us.dart';
 
 import '../../../data/data_provider/remote_url.dart';
 import '../../../logic/cubit/privacy_policy/privacy_policy_cubit.dart';
+import '../../../logic/repository/auth_repository.dart';
 import '../../widget/custom_theme.dart';
+import '../EnquireScreens/enquires.dart';
 import '../home/component/agent_search.dart';
 import '../my_property/my_property.dart';
 import '/presentation/utils/utils.dart';
@@ -315,64 +318,125 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
 
-                // Text(
-                //   'Recent Search',
-                //   style: TextStyle(
-                //     color: Colors.black.withOpacity(0.699999988079071),
-                //     fontSize: 16,
-                //     fontFamily: 'DM Sans',
-                //     fontWeight: FontWeight.w300,
-                //     height: 0,
-                //   ),
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: Container(
-                //         width: 324,
-                //         decoration: ShapeDecoration(
-                //           shape: RoundedRectangleBorder(
-                //             side: BorderSide(
-                //               width: 1,
-                //               strokeAlign: BorderSide.strokeAlignCenter,
-                //               color:
-                //                   Colors.black.withOpacity(0.10000000149011612),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // Text(
-                //   'Notifications',
-                //   style: TextStyle(
-                //     color: Colors.black.withOpacity(0.699999988079071),
-                //     fontSize: 16,
-                //     fontFamily: 'DM Sans',
-                //     fontWeight: FontWeight.w300,
-                //     height: 0,
-                //   ),
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: Container(
-                //         width: 324,
-                //         decoration: ShapeDecoration(
-                //           shape: RoundedRectangleBorder(
-                //             side: BorderSide(
-                //               width: 1,
-                //               strokeAlign: BorderSide.strokeAlignCenter,
-                //               color:
-                //                   Colors.black.withOpacity(0.10000000149011612),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                GestureDetector(
+                  onTap: (){
+                    Repository repo = Repository();
+                    repo.getEnquiryRequests().then((value){
+                      print(value);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EnquiryScreen(properties: value, isRequest: true,)),
+                      );
+                    });
+                  },
+                  child: Text(
+                    'Enquiry Requests',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.699999988079071),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w300,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 324,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignCenter,
+                              color:
+                                  Colors.black.withOpacity(0.10000000149011612),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Repository repo = Repository();
+                    repo.getUserEnquires().then((value){
+                      print(value);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EnquiryScreen(properties: value, isRequest: false,)),
+                      );
+                    });
+                  },
+                  child: Text(
+                    'Your Enquires',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.699999988079071),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w300,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 324,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignCenter,
+                              color:
+                                  Colors.black.withOpacity(0.10000000149011612),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ContactUs()),
+                    );
+                  },
+                  child: Text(
+                    'Contact Us',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.699999988079071),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w300,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 324,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignCenter,
+                              color:
+                              Colors.black.withOpacity(0.10000000149011612),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 GestureDetector(
                   onTap: () {
                     context.read<PrivacyPolicyCubit>().getPrivacyPolicy();

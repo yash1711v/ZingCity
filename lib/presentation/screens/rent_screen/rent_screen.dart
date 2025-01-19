@@ -291,8 +291,8 @@ class _RentScreenState extends State<RentScreen> {
                                                       SizedBox(
                                                         width: MediaQuery.of(context).size.width - 180,
                                                         child: Text(
-                                                          removeHtmlTags((state.data ?? [])[index].description ?? ""),
-                                                          maxLines: 3,
+                                                          removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                                          maxLines: 2,
                                                           style: TextStyle(
                                                             color: Colors
                                                                 .black,

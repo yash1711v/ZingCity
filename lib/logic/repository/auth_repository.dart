@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:real_estate/data/model/agency/agency_details_model.dart';
 
 import '../../data/data_provider/local_data_source.dart';
 import '../../data/data_provider/remote_data_source.dart';
@@ -309,5 +310,50 @@ class Repository {
     var response = client.get(uri,headers:_mainHeaders );
     // log("${response} ", name: "HomeData");
     return response;
+  }
+
+
+  Future<dynamic> getEnquiryRequests() async {
+    final uri = Uri.parse("${RemoteUrls.baseUrl}property-enquiry");
+    await updateHeader("");
+
+    var response = await client.get(uri,headers:_mainHeaders );
+    log("${response.body} ", name: "Enquiry Requests");
+
+    var data = jsonDecode(response.body);
+
+    List<dynamic> properties = data['data'].map((e) => Properties.fromMap(e)).toList();
+
+    return properties;
+
+  }
+
+  Future<dynamic> getUserEnquires() async {
+    final uri = Uri.parse("${RemoteUrls.baseUrl}enquiry");
+    await updateHeader("");
+
+    var response = await client.get(uri,headers:_mainHeaders );
+    log("${response.body} ", name: "Enquiry Requests");
+
+    var data = jsonDecode(response.body);
+
+    List<dynamic> properties = data['data'].map((e) => Properties.fromMap(e)).toList();
+
+    return properties;
+
+  }
+  Future<dynamic> deleteMyProperty(String id) async {
+    final uri = Uri.parse("${RemoteUrls.baseUrl}user/property/$id");
+    await updateHeader("");
+
+    var response = await client.delete(uri,headers:_mainHeaders );
+    log("${response.body} ", name: "Enquiry Requests");
+
+    var data = jsonDecode(response.body);
+    //
+    // List<dynamic> properties = data['data'].map((e) => Properties.fromMap(e)).toList();
+    //
+     return data['message'] == 'Deleted successfully';
+
   }
 }

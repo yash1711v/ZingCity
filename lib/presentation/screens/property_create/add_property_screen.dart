@@ -198,13 +198,41 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 curve: Curves.easeIn);
                           }
                         },
-                        child: const Row(
+                        child:  Row(
                           children: [
                             Icon(
                               Icons.arrow_back_ios,
                             ),
                             Text(
-                              'Add Property',
+                              (widget.property ??
+                                  Properties(
+                                      id: 0,
+                                      agentId: 0,
+                                      propertyTypeId: 0,
+                                      title: "",
+                                      slug: "",
+                                      purpose: "",
+                                      rentPeriod: "",
+                                      price: "",
+                                      thumbnailImage: "",
+                                      address: "",
+                                      totalBedroom: "",
+                                      totalBathroom: "",
+                                      totalArea: "",
+                                      status: "",
+                                      isFeatured: "",
+                                      totalRating: 5,
+                                      ratingAvarage: "",
+                                      agent: Agent(
+                                          id: 0,
+                                          name: "",
+                                          phone: "",
+                                          email: "",
+                                          designation: "",
+                                          image: "",
+                                          userName: "")))
+                                  .title
+                                  .isNotEmpty?"Update Property":'Add Property',
                               style: TextStyle(
                                 color: Color(0xFF30469A),
                                 fontSize: 18,
@@ -540,9 +568,9 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           //   curve: Curves.easeIn);
                         }
                       },
-                      child: const Text(
-                        'Next',
-                        style: TextStyle(
+                      child: Text(
+                        _getButtonText(state, pageIndex, widget.property),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontFamily: 'DM Sans',
@@ -558,4 +586,23 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       },
     );
   }
+  String _getButtonText(AddPropertyModel state, int pageIndex, Properties? property) {
+
+    final isResidentialOrCommercial =
+        state.typeId == "Residential" || state.typeId == "Commercial Space";
+
+    final isLastPage = (isResidentialOrCommercial
+        ? dataScreens1.length
+        : dataScreens2.length) ==
+        pageIndex;
+
+    if (isLastPage) {
+      final propertyTitle = property?.title ?? "";
+      return propertyTitle.isNotEmpty ? "Update Property" : "Add Property";
+    }
+
+    return "Next";
+  }
 }
+
+

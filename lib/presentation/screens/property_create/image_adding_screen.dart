@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:real_estate/data/data_provider/remote_url.dart';
 import 'package:real_estate/logic/cubit/add_property/add_property_cubit.dart';
 import 'package:real_estate/logic/cubit/add_property/add_property_state_model.dart';
 
@@ -83,8 +84,16 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
 
 
                       if (thumbnailImage != null)
-                        Image.file(
-                          thumbnailImage!,
+                        thumbnailImage is String &&
+                            (thumbnailImage as String).startsWith(
+                                'uploads/')
+                            ? Image.network(
+                          '${RemoteUrls.rootUrl}/$thumbnailImage',
+                          width: screenWidth,
+                          fit: BoxFit.cover,
+                        )
+                            : Image.file(
+                          thumbnailImage as File,
                           width: screenWidth,
                           fit: BoxFit.cover,
                         )

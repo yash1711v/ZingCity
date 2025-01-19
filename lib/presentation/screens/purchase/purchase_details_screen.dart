@@ -11,6 +11,7 @@ import '../../router/route_names.dart';
 import '../../widget/custom_theme.dart';
 import '../../widget/customnetwork_widget.dart';
 import '../home/home_screen.dart';
+import '../support/contact_us.dart';
 import '/presentation/utils/utils.dart';
 import '../../../data/model/order/single_order_model.dart';
 import '../../../logic/cubit/order/order_cubit.dart';
@@ -159,9 +160,15 @@ class PurchaseDetailScreen extends StatelessWidget {
                         backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0))),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ContactUs(isSendingEnquiry: true,propertyId: propertiesDetails.id.toString())),
+                      );
+
+                    },
                     child: const Text(
-                      'Contact Now',
+                      'Send Eqnuiry',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

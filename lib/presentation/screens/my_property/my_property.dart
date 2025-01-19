@@ -100,7 +100,7 @@ class _MyPropertyState extends State<MyProperty> {
       appBar: PreferredSize(
         preferredSize: const Size(
           360,
-          120,
+          100,
         ),
         child: Container(
             width: 360,
@@ -122,7 +122,7 @@ class _MyPropertyState extends State<MyProperty> {
               children: [
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 10.0, left: 16, right: 16),
+                  const EdgeInsets.only(top: 25.0, left: 16, right: 16),
                   child: Row(
                     children: [
                       Image.asset(
@@ -134,7 +134,7 @@ class _MyPropertyState extends State<MyProperty> {
                   ),
                 ),
                 const SizedBox(
-                  height: 35,
+                  height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
@@ -174,7 +174,7 @@ class _MyPropertyState extends State<MyProperty> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ListView.builder(
+            state.properties!.length>0?ListView.builder(
                 physics:
                 const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(
@@ -347,6 +347,16 @@ SizedBox(
                             ),
                             GestureDetector(
                               onTap: () {
+
+
+                                Repository repo = Repository();
+
+                                repo.deleteMyProperty((state.properties?[index].id ?? "").toString()).then((value){
+                                  if(value){
+                                    context.read<AddPropertyCubit>().getProperties();
+                                  }
+                                });
+
                                 // Navigator.pushNamed(
                                 //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                               },
@@ -415,7 +425,34 @@ SizedBox(
                       ),
                     ),
                   );
-                }),
+                }):SizedBox(
+              height: MediaQuery.of(context).size.height-450,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Text("No Property Found",style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      ),),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddPropertyScreen()));
+                      }, child: Text("Add Property",style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      ),))
+                    ],
+                  ),
+                ),
             SizedBox(
               height: 20,
             ),

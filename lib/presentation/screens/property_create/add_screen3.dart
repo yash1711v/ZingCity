@@ -111,6 +111,7 @@ class _Screen3State extends State<Screen3> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: TextField(
+                              keyboardType: TextInputType.number,
                               controller: TextEditingController(text: index == 0
                                   ? state.totalBedroom
                                   : index == 1
@@ -120,6 +121,7 @@ class _Screen3State extends State<Screen3> {
                                           : state.totalGarage),
 
                               onChanged: (value) {
+
                                 if(index == 0) {
                                   context
                                       .read<AddPropertyCubit>()
