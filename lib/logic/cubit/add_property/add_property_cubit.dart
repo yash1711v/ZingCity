@@ -333,7 +333,7 @@ void changeAddress(String text) {
       },
     );
   }
-  Future<void> getData() async {
+  Future<dynamic> getData() async {
     debugPrint('add-property-body ${state.toMap()}');
     emit(state.copyWith(addState: const AddPropertyLoading()));
     final result = await _repository.getPropertyData();
@@ -342,14 +342,17 @@ void changeAddress(String text) {
         if (failure is InvalidAuthData) {
           final errorState = AddPropertyFormError(failure.errors);
           emit(state.copyWith(addState: errorState));
+          return false;
         } else {
           final errors = AddPropertyError(failure.message, failure.statusCode);
           emit(state.copyWith(addState: errors));
+          return false;
         }
       },
       (success) {
         debugPrint("Success");
         emit(state.copyWith(staticInfo: success,addState: const AddPropertyInitial()));
+        return true;
       },
     );
   }

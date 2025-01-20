@@ -197,7 +197,6 @@ class Repository {
   Future<void> updateHeader(
     String? tokens,
   ) async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = await prefs.getString("token");
     _mainHeaders = {
@@ -238,18 +237,16 @@ class Repository {
     return response;
   }
 
-  dynamic updateProfile(
-      {required String name,
-      required String number,
-      required String address,
-      required String description,
-      required String email,
-      required String about,
-      required File image,
-      required String token,
-      })
-  async {
-
+  dynamic updateProfile({
+    required String name,
+    required String number,
+    required String address,
+    required String description,
+    required String email,
+    required String about,
+    required File image,
+    required String token,
+  }) async {
     final uri = Uri.parse(RemoteUrls.userRegisterAndUpdateData);
     await updateHeader(token);
 
@@ -261,28 +258,26 @@ class Repository {
     request.fields['email'] = email ?? '';
     request.fields['about'] = about ?? '';
 
-    if(image.path.isNotEmpty) {
+    if (image.path.isNotEmpty) {
       // debugPrint('====> isEmpty: ${files.isEmpty}');
-        request.files
-            .add(await http.MultipartFile.fromPath('image', image.path));
-
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
     }
     // debugPrint('====> API Call: $url\nHeader: $token');
     // debugPrint('====> API body: ${request.files.single.filename}');
     request.headers.addAll(_mainHeaders);
-     log('====> API body: ${request.headers}');
+    log('====> API body: ${request.headers}');
 
     try {
-    // Send the request and get the StreamedResponse
-    final streamedResponse = await request.send();
+      // Send the request and get the StreamedResponse
+      final streamedResponse = await request.send();
 
-    // Convert the StreamedResponse to a Response
-    final response = await http.Response.fromStream(streamedResponse);
-    log('====> API Response: ${response.body}');
-    return response;
+      // Convert the StreamedResponse to a Response
+      final response = await http.Response.fromStream(streamedResponse);
+      log('====> API Response: ${response.body}');
+      return response;
     } catch (e) {
-    print("Exception: $e");
-    rethrow; // Re-throw the error if needed
+      print("Exception: $e");
+      rethrow; // Re-throw the error if needed
     }
 
     // var body = {"phone": number, "otp": Otp};
@@ -294,10 +289,9 @@ class Repository {
     // return response;
   }
 
-
   dynamic getHomeScreenData({required String lat, required String long}) async {
-
-    final uri = Uri.parse("${RemoteUrls.homeUrl}?latitude=$lat&longitude=$long");
+    final uri =
+        Uri.parse("${RemoteUrls.homeUrl}?latitude=$lat&longitude=$long");
     await updateHeader("");
 
     // var body = {
@@ -307,53 +301,99 @@ class Repository {
 
     // log("${body} ", name: "Data is ");
 
-    var response = client.get(uri,headers:_mainHeaders );
-    // log("${response} ", name: "HomeData");
+    var response = client.get(uri, headers: _mainHeaders);
+    log("${response} ", name: "HomeData");
     return response;
   }
-
 
   Future<dynamic> getEnquiryRequests() async {
     final uri = Uri.parse("${RemoteUrls.baseUrl}property-enquiry");
     await updateHeader("");
 
-    var response = await client.get(uri,headers:_mainHeaders );
+    var response = await client.get(uri, headers: _mainHeaders);
     log("${response.body} ", name: "Enquiry Requests");
 
     var data = jsonDecode(response.body);
 
-    List<dynamic> properties = data['data'].map((e) => Properties.fromMap(e)).toList();
+    List<dynamic> properties =
+        data['data'].map((e) => Properties.fromMap(e)).toList();
 
     return properties;
-
   }
 
   Future<dynamic> getUserEnquires() async {
     final uri = Uri.parse("${RemoteUrls.baseUrl}enquiry");
     await updateHeader("");
 
-    var response = await client.get(uri,headers:_mainHeaders );
+    var response = await client.get(uri, headers: _mainHeaders);
     log("${response.body} ", name: "Enquiry Requests");
 
     var data = jsonDecode(response.body);
 
-    List<dynamic> properties = data['data'].map((e) => Properties.fromMap(e)).toList();
+    List<dynamic> properties =
+        data['data'].map((e) => Properties.fromMap(e)).toList();
 
     return properties;
-
   }
+
   Future<dynamic> deleteMyProperty(String id) async {
     final uri = Uri.parse("${RemoteUrls.baseUrl}user/property/$id");
     await updateHeader("");
 
-    var response = await client.delete(uri,headers:_mainHeaders );
+    var response = await client.delete(uri, headers: _mainHeaders);
     log("${response.body} ", name: "Enquiry Requests");
 
     var data = jsonDecode(response.body);
     //
     // List<dynamic> properties = data['data'].map((e) => Properties.fromMap(e)).toList();
     //
-     return data['message'] == 'Deleted successfully';
-
+    return data['message'] == 'Deleted successfully';
   }
+
+  Future<dynamic> filter({
+    required String maxPrice,
+    required String minPrice,
+    required String roomType,
+    required String city,
+    required String possession,
+    required String maxArea,
+    required String purpose,
+    required String type,
+    required String minArea,
+    required String possessionStatus,
+  }) async {
+    final uri = Uri.parse("${RemoteUrls.baseUrl}properties/search");
+    await updateHeader("");
+
+    var body = {
+      if(possessionStatus != "null")
+      "possession_status": possessionStatus,
+      "purpose": purpose,
+      if(city != "null")
+      "city": city,
+      "country": 0,
+      "type": type,
+      "min_price": minPrice,
+      "max_price": maxPrice,
+      if(minArea != "null")
+      "min_area": minArea,
+      if(maxArea != "null")
+      "max_area": maxArea,
+      "room_types[]": [roomType],
+    };
+  debugPrint("body==>$body");
+    var response = await client.post(
+      uri,
+      headers: _mainHeaders,
+      body: jsonEncode(body), // Encode the body as JSON
+    );
+
+    log("${response.body} ", name: "Enquiry Requests");
+
+    Map<String,dynamic> data = jsonDecode(response.body);
+    log("${data['status']} ", name: "Search Data");
+
+    return data;
+  }
+
 }

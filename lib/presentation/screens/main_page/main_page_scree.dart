@@ -516,7 +516,7 @@ class _MainPageScreenState extends State<MainPageScreen>
                               Padding(
                                 padding: EdgeInsets.only(bottom: 16.0),
                                 child: Text(
-                                  'Agricultar',
+                                  'Agricultural',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'DM Sans',

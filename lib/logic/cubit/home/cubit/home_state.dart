@@ -6,7 +6,8 @@ part of 'home_cubit.dart';
    final List<Properties>? rentProperties;
    final List<Properties>? buyProperties;
    final List<Properties>? data;
-  const HomeState({this.homeDataLoaded,this.isLoading,this.rentProperties, this.buyProperties, this.data });
+   final List<Properties>? searchedProperties;
+  const HomeState( {this.homeDataLoaded,this.isLoading,this.rentProperties, this.buyProperties, this.data,this.searchedProperties, });
 
 
    HomeState copyWith({
@@ -15,6 +16,7 @@ part of 'home_cubit.dart';
      List<Properties>? rentProperties,
       List<Properties>? buyProperties,
       List<Properties>? data,
+     List<Properties>? searchedProperties
 
    }) {
      return HomeState(
@@ -22,12 +24,15 @@ part of 'home_cubit.dart';
        isLoading: isLoading ?? this.isLoading,
        rentProperties: rentProperties ?? this.rentProperties,
        buyProperties: buyProperties ?? this.buyProperties,
-         data: data ?? this.data
+       data: data ?? this.data,
+       searchedProperties: searchedProperties ?? this.searchedProperties
      );
    }
 
    @override
-  List<Object?> get props => [homeDataLoaded,isLoading,rentProperties,buyProperties,data];
+  List<Object?> get props => [homeDataLoaded,isLoading,rentProperties,buyProperties,data,
+     searchedProperties
+      ];
 }
 
 // class HomeInitial extends HomeState {

@@ -82,44 +82,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.pushNamed(
                               context, RouteNames.addPropertyScreen);
                         },
-                        child: Expanded(
-                          child: Container(
-                            // width: 95.65,
-                            height: 30.90,
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFF30469A),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x19000000),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 0),
-                                  spreadRadius: 0,
+                        child: Container(
+                          // width: 95.65,
+                          height: 30.90,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFF30469A),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x19000000),
+                                blurRadius: 8,
+                                offset: Offset(0, 0),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                    "assets/Yash/images/post_ad_button.png"),
+                                const SizedBox(width: 5.0),
+                                const Text(
+                                  'Post Property',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'DM Sans',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0,
+                                  ),
                                 )
                               ],
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                      "assets/Yash/images/post_ad_button.png"),
-                                  const SizedBox(width: 5.0),
-                                  const Text(
-                                    'Post Property',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'DM Sans',
-                                      fontWeight: FontWeight.w400,
-                                      height: 0,
-                                    ),
-                                  )
-                                ],
-                              ),
                             ),
                           ),
                         ),
@@ -483,21 +481,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       RouteNames.termsAndConditionScreen,
                     );
                   },
-                  child: Expanded(
-                    child: Row(
-                      children: [
-                        Text(
-                          'Terms & Conditions',
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.699999988079071),
-                            fontSize: 16,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w300,
-                            height: 0,
-                          ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Terms & Conditions',
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.699999988079071),
+                          fontSize: 16,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w300,
+                          height: 0,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Row(
