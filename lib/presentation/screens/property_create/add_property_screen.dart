@@ -31,7 +31,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
     // TODO: implement initState
     super.initState();
 
-    context.read<AddPropertyCubit>().getData();
+    // context.read<AddPropertyCubit>().getData();
 
     if ((widget.property ??
             Properties(
