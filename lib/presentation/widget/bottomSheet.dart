@@ -51,11 +51,11 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     // isLoaded = true;
     await context.read<AddPropertyCubit>().getData().then((value) {
       debugPrint("Data Loaded: $value");
-      if (context.read<AddPropertyCubit>().state.staticInfo?.status == true) {
-        setState(() {
-          isLoaded = false;
-        });
-      }
+      // if (context.read<AddPropertyCubit>().state.staticInfo?.status == true) {
+      //   setState(() {
+      //     isLoaded = false;
+      //   });
+      // }
       // isLoaded = false;
     });
   }

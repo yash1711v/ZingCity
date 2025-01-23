@@ -1384,7 +1384,7 @@ log(request.fields.toString(),name: "Data");
     final clientMethod = client.get(uri, headers: _mainHeaders);
     final responseJsonBody =
         await NetworkParser.callClientWithCatchException(() => clientMethod);
-    log('responseJsonBody', name: responseJsonBody.toString());
+    log('PropertyInfo Data', name: responseJsonBody.toString());
     return responseJsonBody;
   }
 

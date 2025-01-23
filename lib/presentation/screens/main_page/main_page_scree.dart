@@ -9,6 +9,7 @@ import 'package:real_estate/data/model/home/home_data_model.dart';
 import 'package:real_estate/logic/cubit/company/company_cubit.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:real_estate/presentation/screens/property_create/add_property_screen.dart';
 import '../../../../presentation/utils/constraints.dart';
 import '../../../../presentation/utils/k_images.dart';
 import '../../../../presentation/utils/utils.dart';
@@ -243,8 +244,10 @@ class _MainPageScreenState extends State<MainPageScreen>
                               const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteNames.addPropertyScreen);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const AddPropertyScreen()));
                                 },
                                 child: Container(
                                   width: 155,
