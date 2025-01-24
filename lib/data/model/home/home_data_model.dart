@@ -526,6 +526,7 @@ class LatestProperties {
 class Properties {
   int? id;
   int? agentId;
+  int? categoryId;
   int? propertyTypeId;
   int? stateId;
   String? title;
@@ -581,6 +582,7 @@ class Properties {
         this.title,
         this.slug,
         this.purpose,
+        this.categoryId,
         this.rentPeriod,
         this.price,
         this.thumbnailImage,
@@ -631,6 +633,7 @@ class Properties {
     title = json['title'];
     slug = json['slug'];
     purpose = json['purpose'];
+    categoryId = json['category_id'];
     rentPeriod = json['rent_period'];
     price = json['price'];
     thumbnailImage = json['thumbnail_image'];
@@ -683,6 +686,7 @@ class Properties {
     data['title'] = this.title;
     data['slug'] = this.slug;
     data['purpose'] = this.purpose;
+    data['category_id'] = this.categoryId;
     data['rent_period'] = this.rentPeriod;
     data['price'] = this.price;
     data['thumbnail_image'] = this.thumbnailImage;

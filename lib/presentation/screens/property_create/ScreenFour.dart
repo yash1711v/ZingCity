@@ -34,6 +34,7 @@ class _ScreenfourState extends State<Screenfour> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
       builder: (context, state) {
+        debugPrint("Amenities: ${totalElements}");
         return Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
@@ -69,7 +70,7 @@ class _ScreenfourState extends State<Screenfour> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SizedBox(
                       // width: double.infinity,
-                      height: 80,
+                      height: 100,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         separatorBuilder: (BuildContext context, int index) =>
@@ -84,11 +85,11 @@ class _ScreenfourState extends State<Screenfour> {
                                 if (isSelected) {
                                   selectedItems.remove(index);
                                   context.read<AddPropertyCubit>().changeAmenities(
-                                      state.staticInfo?.amenities[index].id ?? 0,false);
+                                      state.staticInfo?.amenities![index].id ?? 0,false);
                                 } else {
                                   selectedItems.add(index);
                                   context.read<AddPropertyCubit>().changeAmenities(
-                                      state.staticInfo?.amenities[index].id ?? 0,true);
+                                      state.staticInfo?.amenities![index].id ?? 0,true);
                                 }
                               });
                             },
@@ -128,16 +129,17 @@ class _ScreenfourState extends State<Screenfour> {
                                                   .staticInfo
                                                   ?.amenities ??
                                               [])[index]
-                                          .name,
+                                          .aminity ?? "",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
                                         color: isSelected
                                             ? Colors.white
                                             : const Color(0xFF30469A),
                                         fontSize: 12,
                                         fontFamily: 'Manrope',
                                         fontWeight: FontWeight.w400,
-                                        height: 0.12,
+                                        height: 0.8,
                                       ),
                                     ),
                                   )
@@ -454,10 +456,27 @@ class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
   }
 
   void updateTextFieldValue(int index, String value) {
+    if (!checkBoxStates[index]) {
+      // Show Snackbar if checkbox is not checked
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Please select the checkbox before entering a value.",
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+          ),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      return; // Prevent further execution if checkbox is unchecked
+    }
+
     setState(() {
       for (var element in data) {
-        if (element["id"].toString() ==
-            widget.nearestLocations[index].id.toString()) {
+        if (element["id"].toString() == widget.nearestLocations[index].id.toString()) {
           element["value"] = value.trim();
           break;
         }
@@ -512,7 +531,7 @@ class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
                 // Location Name
                 Expanded(
                   child: Text(
-                    widget.nearestLocations[index].name,
+                    widget.nearestLocations[index].location,
                     style: const TextStyle(
                       color: Color(0xFF4D5454),
                       fontSize: 16,
@@ -523,31 +542,52 @@ class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
                   ),
                 ),
                 // TextField (enabled/disabled based on checkbox state)
-                AbsorbPointer(
-                  absorbing: !checkBoxStates[index], // Block interaction when unchecked
-                  child: SizedBox(
-                    width: 77,
-                    height: 25,
-                    child: TextField(
-                      onChanged: (value) => updateTextFieldValue(index, value),
-                      keyboardType: TextInputType.number,
-                      maxLength: 3,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                        filled: false,
-                        hintText: '0000',
-                        hintStyle: const TextStyle(
-                          color: Color(0xFF595959),
-                          fontSize: 16,
-                          fontFamily: 'Manrope',
-                          fontWeight: FontWeight.w400,
-                          height: 0.09,
+                Visibility(
+                  visible: checkBoxStates[index],
+                  child: AbsorbPointer(
+                    absorbing: !checkBoxStates[index], // Block interaction when unchecked
+                    child: SizedBox(
+                      width: 77,
+                      height: 25,
+                      child: TextField(
+                        onTap: () {
+                          if (!checkBoxStates[index]) {
+                            // Show Snackbar if checkbox is not checked
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  "Please select the checkbox before entering a value.",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                backgroundColor: Colors.red,
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        },
+                        onChanged: (value) => updateTextFieldValue(index, value),
+                        keyboardType: TextInputType.number,
+                        maxLength: 3,
+                        decoration: const InputDecoration(
+                          counterText: "",
+                          contentPadding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                          filled: false,
+                          hintText: '0000',
+                          hintStyle: TextStyle(
+                            color: Color(0xFF595959),
+                            fontSize: 16,
+                            fontFamily: 'Manrope',
+                            fontWeight: FontWeight.w400,
+                            height: 0.09,
+                          ),
+                          border: InputBorder.none, // Removes the border
+                          enabledBorder: InputBorder.none, // Removes the border when enabled
+                          focusedBorder: InputBorder.none, // Removes the border when focused
                         ),
-                        border: InputBorder.none, // Removes the border
-                        enabledBorder: InputBorder.none, // Removes the border when enabled
-                        focusedBorder: InputBorder.none, // Removes the border when focused
                       ),
                     ),
                   ),

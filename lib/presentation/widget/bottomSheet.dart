@@ -60,21 +60,21 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     });
   }
 
-  List<addProperty.RoomType> possessionStatus = [
-    addProperty.RoomType(
-        name: "Ready to Move", id: 0, createdAt: '', updatedAt: ''),
-    addProperty.RoomType(
-        name: "Within 3 Months", id: 1, createdAt: '', updatedAt: ''),
-    addProperty.RoomType(
-        name: "Within 6 Months", id: 1, createdAt: '', updatedAt: ''),
-    addProperty.RoomType(
-        name: "Within 12 Months", id: 1, createdAt: '', updatedAt: ''),
-    // addProperty.RoomType(),
-    // {"name":"Ready to Move"},
-    // {"name":"Within 3 Months"},
-    // {"name":"Within 6 Months"},
-    // {"name":"Within 12 Months"},
-  ];
+  // List<addProperty.RoomType> possessionStatus = [
+  //   addProperty.RoomType(
+  //       name: "Ready to Move", id: 0, createdAt: '', updatedAt: ''),
+  //   addProperty.RoomType(
+  //       name: "Within 3 Months", id: 1, createdAt: '', updatedAt: ''),
+  //   addProperty.RoomType(
+  //       name: "Within 6 Months", id: 1, createdAt: '', updatedAt: ''),
+  //   addProperty.RoomType(
+  //       name: "Within 12 Months", id: 1, createdAt: '', updatedAt: ''),
+  //   // addProperty.RoomType(),
+  //   // {"name":"Ready to Move"},
+  //   // {"name":"Within 3 Months"},
+  //   // {"name":"Within 6 Months"},
+  //   // {"name":"Within 12 Months"},
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -427,25 +427,25 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                         height: 10,
                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: CustomDropdown(
-                          title: 'Select Room Type',
-                          states: state.staticInfo?.roomType ?? [],
-                          selectedState: roomType.isEmpty ? null : roomType,
-                          onChanged: (value) {
-                            setState(() {
-                              roomType = value ?? "";
-                              state.staticInfo?.roomType.forEach((element) {
-                                if (element.name == roomType) {
-                                  roomTypeId = element.id;
-                                }
-                              });
-                            });
-                          },
-                          isRoomType: true,
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      //   child: CustomDropdown(
+                      //     title: 'Select Room Type',
+                      //     states: state.staticInfo?.roomType ?? [],
+                      //     selectedState: roomType.isEmpty ? null : roomType,
+                      //     onChanged: (value) {
+                      //       setState(() {
+                      //         roomType = value ?? "";
+                      //         state.staticInfo?.roomType.forEach((element) {
+                      //           if (element.name == roomType) {
+                      //             roomTypeId = element.id;
+                      //           }
+                      //         });
+                      //       });
+                      //     },
+                      //     isRoomType: true,
+                      //   ),
+                      // ),
 
                       SizedBox(
                         height: 10,
@@ -474,26 +474,26 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                         height: 10,
                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: CustomDropdown(
-                          title: 'Select City',
-                          states: state.staticInfo?.city ?? [],
-                          selectedState: city.isEmpty ? null : city,
-                          onChanged: (value) {
-                            setState(() {
-                              city = value ?? "";
-                              state.staticInfo?.city.forEach((element) {
-                                if (element.name == city) {
-                                  cityID = element.id;
-                                }
-                              });
-                              // cityID = state.staticInfo?.city.indexWhere((element) => element.name == city) ?? 0;
-                            });
-                          },
-                          isRoomType: false,
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      //   child: CustomDropdown(
+                      //     title: 'Select City',
+                      //     states: state.staticInfo?.city ?? [],
+                      //     selectedState: city.isEmpty ? null : city,
+                      //     onChanged: (value) {
+                      //       setState(() {
+                      //         city = value ?? "";
+                      //         state.staticInfo?.city.forEach((element) {
+                      //           if (element.name == city) {
+                      //             cityID = element.id;
+                      //           }
+                      //         });
+                      //         // cityID = state.staticInfo?.city.indexWhere((element) => element.name == city) ?? 0;
+                      //       });
+                      //     },
+                      //     isRoomType: false,
+                      //   ),
+                      // ),
 
                       SizedBox(
                         height: 10,
@@ -523,34 +523,34 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                         height: 10,
                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: CustomDropdown(
-                          title: 'Select Possession',
-                          states: possessionStatus,
-                          selectedState: possession.isEmpty ? null : possession,
-                          onChanged: (value) {
-                            setState(() {
-                              possession = value ?? "";
-                              if (value == "Ready to Move") {
-                                possessionId = 1;
-                              }
-                              ;
-                              if (value == "Within 3 Months") {
-                                possessionId = 2;
-                              }
-                              if (value == "Within 6 Months") {
-                                possessionId = 3;
-                              }
-                              if (value == "Within 12 Months") {
-                                possessionId = 4;
-                              }
-                              // cityID = state.staticInfo?.city.indexWhere((element) => element.name == city) ?? 0;
-                            });
-                          },
-                          isRoomType: false,
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      //   child: CustomDropdown(
+                      //     title: 'Select Possession',
+                      //     states: possessionStatus,
+                      //     selectedState: possession.isEmpty ? null : possession,
+                      //     onChanged: (value) {
+                      //       setState(() {
+                      //         possession = value ?? "";
+                      //         if (value == "Ready to Move") {
+                      //           possessionId = 1;
+                      //         }
+                      //         ;
+                      //         if (value == "Within 3 Months") {
+                      //           possessionId = 2;
+                      //         }
+                      //         if (value == "Within 6 Months") {
+                      //           possessionId = 3;
+                      //         }
+                      //         if (value == "Within 12 Months") {
+                      //           possessionId = 4;
+                      //         }
+                      //         // cityID = state.staticInfo?.city.indexWhere((element) => element.name == city) ?? 0;
+                      //       });
+                      //     },
+                      //     isRoomType: false,
+                      //   ),
+                      // ),
 
                       //
                       // Padding(

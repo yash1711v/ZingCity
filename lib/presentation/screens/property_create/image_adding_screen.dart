@@ -33,7 +33,6 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
     final pickedFiles = await _picker.pickMultiImage();
     if (pickedFiles != null) {
       setState(() {
-        // Create a new modifiable list by combining the existing and newly picked images
         sliderImages = [
           ...sliderImages,
           ...pickedFiles.map((file) => File(file.path))
@@ -41,6 +40,20 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
       });
       context.read<AddPropertyCubit>().addSliders(List<File>.from(sliderImages));
     }
+  }
+
+  void removeThumbnailImage() {
+    setState(() {
+      thumbnailImage = null;
+    });
+    context.read<AddPropertyCubit>().addThumbNails('');
+  }
+
+  void removeSliderImage(int index) {
+    setState(() {
+      sliderImages.removeAt(index);
+    });
+    context.read<AddPropertyCubit>().addSliders(List<File>.from(sliderImages));
   }
 
   @override
@@ -52,7 +65,6 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
         ? File(cubitState.thumbNailImage)
         : null;
 
-    // Ensure sliderImages is initialized as a modifiable list
     sliderImages = List<File>.from(cubitState.sliderImages);
   }
 
@@ -61,116 +73,145 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
-  builder: (context, state) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // First Container: Add Thumbnail Image
-              GestureDetector(
-                onTap: pickThumbnailImage,
-                child: Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: Colors.grey),
-                  ),
-                  child: Column(
-                    children: [
-
-
-                      if (thumbnailImage != null)
-                        thumbnailImage is String &&
-                            (thumbnailImage as String).startsWith(
-                                'uploads/')
-                            ? Image.network(
-                          '${RemoteUrls.rootUrl}/$thumbnailImage',
-                          width: screenWidth,
-                          fit: BoxFit.cover,
-                        )
-                            : Image.file(
-                          thumbnailImage as File,
-                          width: screenWidth,
-                          fit: BoxFit.cover,
-                        )
-                      else
-                        Column(
-                          children: [
-                            const Icon(Icons.image, size: 50, color: Colors.grey),
-                            const SizedBox(height: 8),
-                            const Text(
-                              'Add Thumbnail Image',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Second Container: Add Slider Images
-              GestureDetector(
-                onTap: pickSliderImages,
-                child: Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: Colors.grey),
-                  ),
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Add Slider Images',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                        ),
+      builder: (context, state) {
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // First Container: Add Thumbnail Image
+                  GestureDetector(
+                    onTap: pickThumbnailImage,
+                    child: Container(
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.grey),
                       ),
-                      const SizedBox(height: 8),
-                      if (sliderImages.isNotEmpty)
-                        Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children: sliderImages.map((image) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.file(
-                                image,
-                                width: screenWidth / 3 - 16,
-                                height: screenWidth / 3 - 16,
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          }).toList(),
-                        )
-                      else
-                        const Icon(
-                          Icons.add_photo_alternate,
-                          size: 50,
-                          color: Colors.grey,
-                        ),
-                    ],
+                      child: Column(
+                        children: [
+                          if (thumbnailImage != null)
+                            Stack(
+                              children: [
+                                thumbnailImage is String &&
+                                    (thumbnailImage as String).startsWith('uploads/')
+                                    ? Image.network(
+                                  '${RemoteUrls.rootUrl}/$thumbnailImage',
+                                  width: screenWidth,
+                                  fit: BoxFit.cover,
+                                )
+                                    : Image.file(
+                                  thumbnailImage as File,
+                                  width: screenWidth,
+                                  fit: BoxFit.cover,
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: removeThumbnailImage,
+                                  ),
+                                ),
+                              ],
+                            )
+                          else
+                            Column(
+                              children: [
+                                const Icon(Icons.image, size: 50, color: Colors.grey),
+                                const SizedBox(height: 8),
+                                const Text(
+                                  'Add Thumbnail Image',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  // Second Container: Add Slider Images
+                  GestureDetector(
+                    onTap: pickSliderImages,
+                    child: Container(
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Add Images',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          if (sliderImages.isNotEmpty)
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 8.0,
+                              children: sliderImages.asMap().entries.map((entry) {
+                                final index = entry.key;
+                                final image = entry.value;
+                                return Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.file(
+                                        image,
+                                        width: screenWidth / 3 - 16,
+                                        height: screenWidth / 3 - 16,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 4,
+                                      right: 4,
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        onPressed: () => removeSliderImage(index),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            )
+                          else
+                            const Icon(
+                              Icons.add_photo_alternate,
+                              size: 50,
+                              color: Colors.grey,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 100),
+                ],
               ),
-              const SizedBox(height: 100),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
-  },
-);
   }
 }

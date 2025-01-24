@@ -354,7 +354,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.propertyTypeId == 1){
+                                  if(element.categoryId == 1){
                                     ResidentialProperties.add(element);
                                   }
                                   debugPrint(ResidentialProperties.length.toString());
@@ -367,7 +367,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.propertyTypeId == 2){
+                                  if(element.categoryId == 2){
                                     comercialProperties.add(element);
                                   }
                                   debugPrint(comercialProperties.length.toString());

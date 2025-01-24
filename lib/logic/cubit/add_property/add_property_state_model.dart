@@ -20,6 +20,8 @@ class AddPropertyModel extends Equatable {
   final String title;
   final String slug;
   final String typeId;
+  final String? propertyType;
+  final String? propertyTypeId;
   final String type;
   final String purpose;
   final String rentPeriod;
@@ -34,6 +36,7 @@ class AddPropertyModel extends Equatable {
   final String totalUnit;
   final String totalBedroom;
   final String totalBathroom;
+  final String totalBalcony;
   final String totalGarage;
   final String totalKitchen;
   final String description;
@@ -66,11 +69,18 @@ class AddPropertyModel extends Equatable {
   final PropertyTypeResponse? staticInfo;
   final List<String>? sliderImagesApi;
   final String? thumbNailImageApi;
-  const AddPropertyModel({
+
+  final String? furnished;
+  final String? roomTypeId;
+  final String? elevator;
+  const AddPropertyModel( {
     this.title = '',
+    this.elevator = '',
     this.slug = '',
     this.typeId = '',
+    this.furnished = '',
     this.roomType = '',
+    this.roomTypeId = '',
     this.type = '',
     this.purpose = 'buy',
     this.rentPeriod = '',
@@ -79,6 +89,7 @@ class AddPropertyModel extends Equatable {
     this.image = '',
     this.galleryImage = const <ExistingSlider>[],
     this.totalArea = '',
+    this.totalBalcony = '',
     this.totalUnit = '',
     this.totalBedroom = '',
     this.totalBathroom = '',
@@ -101,6 +112,7 @@ class AddPropertyModel extends Equatable {
     this.thumbNailImage = '',
     this.properties = const [],
     this.nearestLocation = const [],
+    this.propertyType, this.propertyTypeId,
     this.propertyImageDto =
         const PropertyImageDto(sliderImages: [], thumbnailImage: ''),
     this.propertyVideoDto = const PropertyVideoDto(
@@ -126,6 +138,7 @@ class AddPropertyModel extends Equatable {
     String? typeId,
     String? type,
     String? purpose,
+    String? furnished,
     String? rentPeriod,
     String? price,
     String? image,
@@ -156,12 +169,16 @@ class AddPropertyModel extends Equatable {
     AddPropertyState? addState,
     PropertyTypeResponse? staticInfo,
     String? city,
+    String? elevator,
     String? state,
     String? country,
     String? address,
     String? roomType,
+    String? roomTypeId,
     String? cityId,
     String? stateId,
+    String? propertyType,
+    String? propertyTypeId,
     String? categoryId,
     List<String>? distance,
     List<String>? nearestLocation,
@@ -169,11 +186,13 @@ class AddPropertyModel extends Equatable {
     String? thumbNailImage,
     List<String>? sliderImagesApi,
     String? thumbNailImageApi,
+    String? totalBalcony,
   }) {
     return AddPropertyModel(
       title: title ?? this.title,
       slug: slug ?? this.slug,
       typeId: typeId ?? this.typeId,
+      roomTypeId: roomTypeId ?? this.roomTypeId,
       type: type ?? this.type,
       purpose: purpose ?? this.purpose,
       rentPeriod: rentPeriod ?? this.rentPeriod,
@@ -191,6 +210,7 @@ class AddPropertyModel extends Equatable {
       status: status ?? this.status,
       isFeatured: isFeatured ?? this.isFeatured,
       isTop: isTop ?? this.isTop,
+      elevator: elevator ?? this.elevator,
       isUrgent: isUrgent ?? this.isUrgent,
       propertyImageDto: propertyImageDto ?? this.propertyImageDto,
       propertyVideoDto: propertyVideoDto ?? this.propertyVideoDto,
@@ -206,6 +226,7 @@ class AddPropertyModel extends Equatable {
       country: country ?? this.country,
       state: state ?? this.state,
       city: city ?? this.city,
+      furnished: furnished ?? this.furnished,
       address: address ?? this.address,
       staticInfo: staticInfo ?? this.staticInfo,
       roomType: roomType ?? this.roomType,
@@ -219,6 +240,9 @@ class AddPropertyModel extends Equatable {
       properties: properties ?? this.properties,
       sliderImagesApi: sliderImagesApi ?? this.sliderImagesApi,
       thumbNailImageApi: thumbNailImageApi ?? this.thumbNailImageApi,
+      propertyType: propertyType ?? this.propertyType,
+      propertyTypeId: propertyTypeId ?? this.propertyTypeId,
+        totalBalcony: totalBalcony ?? this.totalBalcony,
     );
   }
 
@@ -239,7 +263,10 @@ class AddPropertyModel extends Equatable {
     result['total_garage'] = totalGarage;
     result['total_kitchen'] = totalKitchen;
     result['description'] = description;
+    result['elevator'] = elevator ?? "";
     result['status'] = status;
+    result['totalBalcony'] = isFeatured;
+    result['roomTypeId'] = roomTypeId  ?? "";
 
 
     // Property images and videos
@@ -327,9 +354,11 @@ class AddPropertyModel extends Equatable {
       totalKitchen: map['totalKitchen'] as String,
       description: map['description'] ?? "",
       status: map['status'] ?? "",
+      roomTypeId: map['roomTypeId'] ?? "",
       isFeatured: map['is_featured'] ?? "",
       isTop: map['is_top'] ?? "",
       isUrgent: map['is_urgent'] ?? "",
+      totalBalcony: map['totalBalcony'] ?? "",
       propertyImageDto: PropertyImageDto.fromMap(
           map['propertyImageDto'] as Map<String, dynamic>),
       propertyVideoDto: PropertyVideoDto.fromMap(
@@ -355,6 +384,9 @@ class AddPropertyModel extends Equatable {
       seoTitle: map['seoTitle'] ?? "",
       seoMetaDescription: map['seoMetaDescription'] ?? "",
       staticInfo: map['staticInfo'] as PropertyTypeResponse,
+      propertyType: map['propertyType'] as String,
+      propertyTypeId: map['propertyTypeId'] as String,
+      elevator: map['elevator'] as String,
     );
   }
 
@@ -415,7 +447,13 @@ class AddPropertyModel extends Equatable {
       sliderImages,
       thumbNailImage,
       properties,
-      sliderImagesApi
+      sliderImagesApi,
+      propertyType,
+      propertyTypeId,
+      totalBalcony,
+      furnished,
+      elevator,
+      roomTypeId
     ];
   }
 }

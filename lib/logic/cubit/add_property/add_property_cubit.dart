@@ -93,8 +93,13 @@ void changeAddress(String text) {
     // debugPrint('type-id $text');
     emit(state.copyWith(typeId: text, addState: const AddPropertyInitial(),categoryId: categoryId));
   }
-  void changeRoomType(String text) {
-    emit(state.copyWith(roomType: text, addState: const AddPropertyInitial()));
+  void changePropertyTypeId(String text,String categoryId) {
+    // debugPrint('category-id $categoryId');
+    // debugPrint('type-id $text');
+    emit(state.copyWith(propertyType: text, addState: const AddPropertyInitial(),propertyTypeId: categoryId));
+  }
+  void changeRoomType(String text,String roomTypeId) {
+    emit(state.copyWith(roomType: text, addState: const AddPropertyInitial(),roomTypeId: roomTypeId));
   }
 
 
@@ -146,6 +151,10 @@ void changeAddress(String text) {
   void changeTotalKitchen(String text) {
     emit(state.copyWith(
         totalKitchen: text, addState: const AddPropertyInitial()));
+  }
+  void changeTotalBalconies(String text) {
+    emit(state.copyWith(
+        totalBalcony: text, addState: const AddPropertyInitial()));
   }
 
   void changeTotalGarage(String text) {
@@ -608,35 +617,35 @@ void changeAddress(String text) {
     // changeTotalKitchen(property?.totalKitchen ?? '');
     // changeTotalGarage(property?.totalGarage ?? '');
     // addThumbNails(property?.seoTitle ?? '');
-    state.staticInfo?.city.forEach((element){
-      if(element.id.toString() == property?.cityId){
-        changeCity(element.name, element.id.toString());
-      }
-    });
+    // state.staticInfo?.city.forEach((element){
+    //   if(element.id.toString() == property?.cityId){
+    //     changeCity(element.name, element.id.toString());
+    //   }
+    // });
 
-    state.staticInfo?.state.forEach((element){
-      if(element.id.toString() == property?.stateId){
-        changeState(element.name, element.id.toString());
-      }
-    });
+    // state.staticInfo?.state.forEach((element){
+    //   if(element.id.toString() == property?.stateId){
+    //     changeState(element.name, element.id.toString());
+    //   }
+    // });
 
 
-    if(property?.purpose == 'rent'){
-      state.staticInfo?.rent.forEach((element){
-        if(element.id == property?.propertyTypeId){
-         changeTypeId(element.name, element.id.toString());
-        }
-        // changeTypeId(text, categoryId)
-      });
-
-    } else {
-      state.staticInfo?.sale.forEach((element){
-        if(element.id == property?.propertyTypeId){
-          changeTypeId(element.name, element.id.toString());
-        }
-        // changeTypeId(text, categoryId)
-      });
-    }
+    // if(property?.purpose == 'rent'){
+    //   state.staticInfo?.rent.forEach((element){
+    //     if(element.id == property?.propertyTypeId){
+    //      changeTypeId(element.name, element.id.toString());
+    //     }
+    //     // changeTypeId(text, categoryId)
+    //   });
+    //
+    // } else {
+    //   state.staticInfo?.sale.forEach((element){
+    //     if(element.id == property?.propertyTypeId){
+    //       changeTypeId(element.name, element.id.toString());
+    //     }
+    //     // changeTypeId(text, categoryId)
+    //   });
+    // }
 
     emit(state.copyWith(
       addState: const AddPropertyInitial(),
@@ -674,6 +683,16 @@ void changeAddress(String text) {
 
     // changeCity(property?. ?? '', property?.cityId.toString() ?? '');
     // changeState(property?.state ?? '', property?.stateId.toString() ?? '');
+  }
+
+  void changeFurnished(String? value) {
+
+    emit(state.copyWith(furnished: value, addState: const AddPropertyInitial()));
+  }
+
+  void changeElevator(String? value) {
+
+    emit(state.copyWith(elevator: value, addState: const AddPropertyInitial()));
   }
 
 

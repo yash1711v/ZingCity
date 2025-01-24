@@ -14,11 +14,25 @@ class AddScreen2 extends StatefulWidget {
 }
 
 class _AddScreen2State extends State<AddScreen2> {
+
+
+  TextEditingController _addressController = TextEditingController();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+      _addressController.text =   context.read<AddPropertyCubit>().state.address;
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
       builder: (context, state) {
-        log("AddScreen2: ${state.state}", name: "States");
+        // log("AddScreen2: ${state.state}", name: "States");
         return Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
@@ -64,29 +78,18 @@ class _AddScreen2State extends State<AddScreen2> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: CustomDropdown(
-                    title: 'Select City',
-                    states: state.staticInfo?.city ?? [],
-                    selectedState:
-                        //"Punjab",
-                        state.city.isNotEmpty ? state.city : null,
+                  child: TextField(
+                    readOnly: true,
                     onChanged: (value) {
-                      // debugPrint("value==> $value");
-                      (state.staticInfo?.city ?? []).forEach((element) {
-                        if (element.name == value) {
-                          context
-                              .read<AddPropertyCubit>()
-                              .changeCity(element.name ?? "", element.id.toString());
-                        }
-                      });
-                      // context.read<AddPropertyCubit>().changeCity(value ?? "");
-                      // if(value != "Punjab"){
-                      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      //     content: Text("Currently we are only available for Punjab state"),));
-                      // } else {
-                      //   context.read<AddPropertyCubit>().changeState(value ?? "");
-                      // }
+                      context
+                          .read<AddPropertyCubit>()
+                          .changeCountry(value ?? "");
                     },
+                    decoration: const InputDecoration(
+                      fillColor: Color(0xFFF5F5F5),
+                      hintText: 'India',
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -125,29 +128,45 @@ class _AddScreen2State extends State<AddScreen2> {
                 const SizedBox(
                   height: 20,
                 ),
+
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    readOnly: true,
+                  child: CustomDropdown(
+                    title: 'Select City',
+                    states: state.staticInfo?.city ?? [],
+                    selectedState:
+                    //"Punjab",
+                    state.city.isNotEmpty ? state.city : null,
                     onChanged: (value) {
-                      context
-                          .read<AddPropertyCubit>()
-                          .changeCountry(value ?? "");
+                      // debugPrint("value==> $value");
+                      (state.staticInfo?.city ?? []).forEach((element) {
+                        if (element.name == value) {
+                          context
+                              .read<AddPropertyCubit>()
+                              .changeCity(element.name ?? "", element.id.toString());
+                        }
+                      });
+                      // context.read<AddPropertyCubit>().changeCity(value ?? "");
+                      // if(value != "Punjab"){
+                      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //     content: Text("Currently we are only available for Punjab state"),));
+                      // } else {
+                      //   context.read<AddPropertyCubit>().changeState(value ?? "");
+                      // }
                     },
-                    decoration: const InputDecoration(
-                      fillColor: Color(0xFFF5F5F5),
-                      hintText: 'India',
-                      border: InputBorder.none,
-                    ),
                   ),
                 ),
+
                 const SizedBox(
                   height: 20,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextField(
-                    controller: TextEditingController(text: state.address),
+                    controller: _addressController,
+
+                    // TextEditingController(text: state.address),
                     onChanged: (value) {
                       context
                           .read<AddPropertyCubit>()

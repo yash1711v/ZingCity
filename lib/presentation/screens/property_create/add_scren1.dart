@@ -16,6 +16,7 @@ class ScreenOne extends StatefulWidget {
 
 class _ScreenOneState extends State<ScreenOne> {
 
+
   List<DropdownMenuItem<String>>? items1 = const [
     DropdownMenuItem(
       value: "Residential",
@@ -49,7 +50,12 @@ class _ScreenOneState extends State<ScreenOne> {
       child: Text("Plot/Land"),
     ),
   ];
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
@@ -112,7 +118,7 @@ class _ScreenOneState extends State<ScreenOne> {
                   ],
                 ),
 
-                state.purpose == "buy"?Container(): const RentScreenOne(),
+                state.purpose == "buy"?const SellScreenOne(): const RentScreenOne(),
 
               ],
             ),

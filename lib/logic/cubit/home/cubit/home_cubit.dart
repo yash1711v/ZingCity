@@ -36,7 +36,7 @@ class HomeCubit extends Cubit<HomeState> {
       var data = jsonDecode(result.body);
       log("${data}", name: "Data");
       if (data['status']) {
-        log("${data}", name: "Data");
+        // log("${data}", name: "Data");
         homeModel = HomeDataModel.fromJson(data['data']);
 
         List<Properties> rentProperties = [];
@@ -44,11 +44,13 @@ class HomeCubit extends Cubit<HomeState> {
 
         for (Properties property
             in (homeModel ?? HomeDataModel()).properties ?? []) {
-          if (property.purpose?.toLowerCase() == "rent" ||
-              property.purpose?.toLowerCase() == "for rent") {
+
+          if (property.purpose?.toString().toLowerCase() == "2" ||
+              property.categoryId.toString().toLowerCase() == "for rent") {
+            // log("${property.purpose?.toString()}", name: "Data");
             rentProperties.add(property);
-          } else if (property.purpose?.toLowerCase() == "sale" ||
-              property.purpose?.toLowerCase() == "buy") {
+          } else if (property.purpose?.toString().toLowerCase() == "1" ||
+              property.purpose?.toString().toLowerCase() == "buy") {
             buyProperties.add(property);
           }
         }

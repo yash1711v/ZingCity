@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import '../../data/model/add_property_model.dart';
@@ -192,7 +194,7 @@ class PropertyRepositoryImp extends PropertyRepository {
     final result = await remoteDataSource.getPropertyInfo();
 
     final data = PropertyTypeResponse.fromJson(result);
-    debugPrint('value === >: ${data.status}');
+    // log('value === >: ${result}',name:"roomtype");
     return Right(data);
     } on ServerException catch (e) {
     return Left(ServerFailure(e.message, e.statusCode));

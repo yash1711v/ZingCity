@@ -31,10 +31,14 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
     // TODO: implement initState
     super.initState();
 
-    // context.read<AddPropertyCubit>().getData();
+    context.read<AddPropertyCubit>().getData().then((value){
+      // context.read<AddPropertyCubit>().state.staticInfo?.categories?.forEach((element) {
+      //   debugPrint("element==> ${ context.read<AddPropertyCubit>().state.staticInfo?.}");
+      // });
+    });
 
     if ((widget.property ??
-            Properties(
+            const Properties(
                 id: 0,
                 agentId: 0,
                 propertyTypeId: 0,
@@ -154,7 +158,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
             child: Container(
                 width: 360,
                 height: 200,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFFE7EBF4),
                   boxShadow: [
                     BoxShadow(
@@ -200,12 +204,12 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                         },
                         child:  Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.arrow_back_ios,
                             ),
                             Text(
                               (widget.property ??
-                                  Properties(
+                                  const Properties(
                                       id: 0,
                                       agentId: 0,
                                       propertyTypeId: 0,
@@ -233,7 +237,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                           userName: "")))
                                   .title
                                   .isNotEmpty?"Update Property":'Add Property',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFF30469A),
                                 fontSize: 18,
                                 fontFamily: 'DM Sans',
@@ -276,12 +280,14 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                       onPressed: () {
                         if (state.typeId == "Residential" ||
                             state.typeId == "Commercial Space" ||
+                            state.typeId != "Agriculture Land" ||
                             state.typeId.isEmpty) {
                           // debugPrint("pageIndex ${pageIndex}");
                           if (pageIndex == 0) {
                             if (state.purpose == "rent") {
                               if (state.typeId == "Residential") {
                                 if (state.typeId.isEmpty ||
+                                    (state.propertyType ?? "").isEmpty ||
                                     state.title.isEmpty ||
                                     state.description.isEmpty ||
                                     state.price.isEmpty ||
@@ -289,6 +295,18 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                     state.totalUnit.isEmpty ||
                                     state.rentPeriod.isEmpty ||
                                     state.roomType.isEmpty) {
+
+
+                                  debugPrint("This is Empty Field ${state.typeId}");
+                                  debugPrint("This is Empty Field ${state.title}");
+                                  debugPrint("This is Empty Field ${state.description}");
+                                  debugPrint("This is Empty Field ${state.price}");
+                                  debugPrint("This is Empty Field ${state.totalArea}");
+                                  debugPrint("This is Empty Field ${state.totalUnit}");
+                                  debugPrint("This is Empty Field ${state.roomType}");
+
+
+
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text(
@@ -303,9 +321,11 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                     pageIndex = pageController.page!.toInt();
                                   });
                                 }
-                              } else {
+                              }
+                              else {
                                 if (state.typeId.isEmpty ||
                                     state.title.isEmpty ||
+                                    (state.propertyType ?? "").isEmpty ||
                                     state.description.isEmpty ||
                                     state.price.isEmpty ||
                                     state.totalArea.isEmpty ||
@@ -329,6 +349,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                             } else {
                               if (state.typeId.isEmpty ||
                                   state.title.isEmpty ||
+                                  ((state.propertyType ?? "").isEmpty) ||
                                   state.description.isEmpty ||
                                   state.price.isEmpty ||
                                   state.totalArea.isEmpty ||
@@ -377,31 +398,44 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                             }
                           }
                           if (pageIndex == 2) {
-                            if (state.totalBedroom.isEmpty ||
-                                state.totalBathroom.isEmpty ||
-                                state.totalGarage.isEmpty ||
-                                state.totalGarage.isEmpty) {
-                              // debugPrint("This is Empty Field ${state.city}");
-                              // debugPrint("This is Empty Field ${state.state}");
-                              // debugPrint(
-                              //     "This is Empty Field ${state.country}");
-                              // debugPrint(
-                              //     "This is Empty Field ${state.address}");
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text("Please fill all the fields")));
-                              return;
-                            } else {
-// debugPrint("This is Empty Field ${state.city}");
-                              pageController.nextPage(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeIn);
-                              setState(() {
-                                pageIndex = pageController.page!.toInt();
-                              });
-                            }
+                            pageController.nextPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeIn);
+                            setState(() {
+                              pageIndex = pageController.page!.toInt();
+                            });
+
+
+//                             if ((state.totalBedroom.isEmpty ||
+//                                 state.totalBathroom.isEmpty ||
+//                                 state.totalGarage.isEmpty ||
+//                                 state.totalBalcony.isEmpty ||
+//                                 state.totalKitchen.isEmpty
+//                                 // state.totalBalcony.isEmpty ||
+//                                 // state.totalBedroom.isEmpty
+//                             )) {
+//                               // debugPrint("This is Empty Field ${state.city}");
+//                               // debugPrint("This is Empty Field ${state.state}");
+//                               // debugPrint(
+//                               //     "This is Empty Field ${state.country}");
+//                               // debugPrint(
+//                               //     "This is Empty Field ${state.address}");
+//
+//                               ScaffoldMessenger.of(context).showSnackBar(
+//                                   const SnackBar(
+//                                       content:
+//                                           Text("Please fill all the fields")));
+//                               return;
+//                             } else {
+// // debugPrint("This is Empty Field ${state.city}");
+//                               pageController.nextPage(
+//                                   duration: const Duration(milliseconds: 300),
+//                                   curve: Curves.easeIn);
+//                               setState(() {
+//                                 pageIndex = pageController.page!.toInt();
+//                               });
+//                             }
                           }
 
                           if (pageIndex == 3) {
@@ -454,7 +488,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
 //                               });
 //                             }
                           }
-                        } else {
+                        }
+                        else {
                           if (pageIndex == 0) {
                             if (state.typeId.isEmpty ||
                                 state.title.isEmpty ||

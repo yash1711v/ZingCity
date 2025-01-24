@@ -1,223 +1,556 @@
+import 'dart:convert';
+
 class PropertyTypeResponse {
-  final bool status;
-  final String message;
-  final List<PropertyType> sale;
-  final List<PropertyType> rent;
-  final List<State> state;
-  final List<City> city;
-  final List<RoomType> roomType;
-  final List<NearestLocation> nearestLocation;
-  final List<Amenities> amenities;
+  bool? status;
+  String? message;
+  PurposeClass? purpose;
+  List<Category>? categories;
+  Map<String, Category>? subcategories;
+  List<RoomType>? roomType;
+  List<State>? state;
+  List<City>? city;
+  List<Amenity>? amenities;
+  List<Location>? nearestLocation;
 
-  PropertyTypeResponse( {
-    required this.status,
-    required this.message,
-    required this.sale,
-    required this.rent,
-    required this.state,
-    required this.city,
-    required this.roomType,
-    required this.nearestLocation,
-    required this.amenities,
+  PropertyTypeResponse({
+    this.status,
+    this.message,
+    this.purpose,
+    this.categories,
+    this.subcategories,
+    this.roomType,
+    this.state,
+    this.city,
+    this.amenities,
+    this.nearestLocation,
   });
 
-  factory PropertyTypeResponse.fromJson(Map<String, dynamic> json) {
-    return PropertyTypeResponse(
-      status: json['status'],
-      message: json['message'],
-      sale: (json['sale'] as List).map((e) => PropertyType.fromJson(e)).toList(),
-      rent: (json['rent'] as List).map((e) => PropertyType.fromJson(e)).toList(),
-      state: (json['state'] as List).map((e) => State.fromJson(e)).toList(),
-      city: (json['city'] as List).map((e) => City.fromJson(e)).toList(),
-      roomType: (json['roomType'] as List).map((e) => RoomType.fromJson(e)).toList(),
-      nearestLocation: (json['nearestLocation'] as List).map((e) => NearestLocation.fromJson(e)).toList(),
-      amenities: (json['amenities'] as List).map((e) => Amenities.fromJson(e)).toList(),
-    );
-  }
+  PropertyTypeResponse copyWith({
+    bool? status,
+    String? message,
+    PurposeClass? purpose,
+    List<Category>? categories,
+    Map<String, Category>? subcategories,
+    List<RoomType>? roomType,
+    List<State>? state,
+    List<City>? city,
+    List<Amenity>? amenities,
+    List<Location>? nearestLocation,
+  }) =>
+      PropertyTypeResponse(
+        status: status ?? this.status,
+        message: message ?? this.message,
+        purpose: purpose ?? this.purpose,
+        categories: categories ?? this.categories,
+        subcategories: subcategories ?? this.subcategories,
+        roomType: roomType ?? this.roomType,
+        state: state ?? this.state,
+        city: city ?? this.city,
+        amenities: amenities ?? this.amenities,
+        nearestLocation: nearestLocation ?? this.nearestLocation,
+      );
+
+  factory PropertyTypeResponse.fromJson(Map<String, dynamic> json) => PropertyTypeResponse(
+    status: json['status'] as bool?,
+    message: json['message'] as String?,
+    purpose: json['purpose'] != null ? PurposeClass.fromJson(json['purpose']) : null,
+    categories: (json['categories'] as List<dynamic>?)
+        ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    subcategories: (json['subcategories'] as Map<String, dynamic>?)?.map(
+          (key, value) => MapEntry(key, Category.fromJson(value as Map<String, dynamic>)),
+    ),
+    roomType: (json['room_type'] as List<dynamic>?)
+        ?.map((e) => RoomType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    state: (json['state'] as List<dynamic>?)
+        ?.map((e) => State.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    city: (json['city'] as List<dynamic>?)
+        ?.map((e) => City.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    amenities: (json['amenities'] as List<dynamic>?)
+        ?.map((e) => Amenity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nearestLocation: (json['nearest_location'] as List<dynamic>?)
+        ?.map((e) => Location.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'status': status,
+    'message': message,
+    'purpose': purpose?.toJson(),
+    'categories': categories?.map((e) => e.toJson()).toList(),
+    'subcategories': subcategories?.map((key, value) => MapEntry(key, value.toJson())),
+    'room_type': roomType?.map((e) => e.toJson()).toList(),
+    'state': state?.map((e) => e.toJson()).toList(),
+    'city': city?.map((e) => e.toJson()).toList(),
+    'amenities': amenities?.map((e) => e.toJson()).toList(),
+    'nearestLocation': nearestLocation?.map((e) => e.toJson()).toList(),
+  };
 }
 
-class PropertyType {
-  final int id;
-  final String name;
-  final String slug;
-  final String icon;
-  final String type;
-  final int status;
-  final String createdAt;
-  final String updatedAt;
-  final int totalProperty;
+class Amenity {
+  int? id;
+  String? aminity;
+  int? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? location;
 
-  PropertyType({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.icon,
-    required this.type,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.totalProperty,
+  Amenity({
+    this.id,
+    this.aminity,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.location,
   });
 
-  factory PropertyType.fromJson(Map<String, dynamic> json) {
-    return PropertyType(
-      id: json['id'],
-      name: json['name'],
-      slug: json['slug'],
-      icon: json['icon'],
-      type: json['type'],
-      status: json['status'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      totalProperty: json['totalProperty'],
-    );
-  }
+  Amenity copyWith({
+    int? id,
+    String? aminity,
+    int? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? location,
+  }) =>
+      Amenity(
+        id: id ?? this.id,
+        aminity: aminity ?? this.aminity,
+        status: status ?? this.status,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        location: location ?? this.location,
+      );
+
+  factory Amenity.fromJson(Map<String, dynamic> json) => Amenity(
+    id: json['id'],
+    aminity: json['aminity'],
+    status: json['status'],
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'])
+        : null,
+    updatedAt: json['updatedAt'] != null
+        ? DateTime.parse(json['updatedAt'])
+        : null,
+    location: json['location'],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'aminity': aminity,
+    'status': status,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+    'location': location,
+  };
 }
 
-class State {
-  final int id;
-  final String name;
-  final String code;
-  final String createdAt;
-  final String updatedAt;
-  final int totalProperty;
+class Location {
+  int? id;
+  String? location;
+  int? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  // String? location;
 
-  State({
-    required this.id,
-    required this.name,
-    required this.code,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.totalProperty,
+  Location({
+    this.id,
+    this.location,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    // this.location,
   });
 
-  factory State.fromJson(Map<String, dynamic> json) {
-    return State(
-      id: json['id'],
-      name: json['name'].toString(),
-      code: json['code'].toString(),
-      createdAt: json['created_at'].toString(),
-      updatedAt: json['updated_at'].toString(),
-      totalProperty: json['totalProperty'] ?? 0,
-    );
-  }
+  Location copyWith({
+    int? id,
+    String? location,
+    int? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    // String? location,
+  }) =>
+      Location(
+        id: id ?? this.id,
+        location: location ?? this.location,
+        status: status ?? this.status,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        // location: location ?? this.location,
+      );
+
+  factory Location.fromJson(Map<String, dynamic> json) => Location(
+    id: json['id'],
+    location: json['location'],
+    status: json['status'],
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'])
+        : null,
+    updatedAt: json['updatedAt'] != null
+        ? DateTime.parse(json['updatedAt'])
+        : null,
+    // location: json['location'],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'location': location,
+    'status': status,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+    // 'location': location,
+  };
 }
+
+class Category {
+  int? id;
+  String? name;
+  String? slug;
+  String? icon;
+  List<dynamic>? purpose;
+  dynamic type;
+  int? parentId;
+  dynamic image;
+  int? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? totalProperty;
+
+  Category({
+    this.id,
+    this.name,
+    this.slug,
+    this.icon,
+    this.purpose,
+    this.type,
+    this.parentId,
+    this.image,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.totalProperty,
+  });
+
+  Category copyWith({
+    int? id,
+    String? name,
+    String? slug,
+    String? icon,
+    List<String>? purpose,
+    dynamic type,
+    int? parentId,
+    dynamic image,
+    int? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? totalProperty,
+  }) =>
+      Category(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        slug: slug ?? this.slug,
+        icon: icon ?? this.icon,
+        purpose: purpose ?? this.purpose,
+        type: type ?? this.type,
+        parentId: parentId ?? this.parentId,
+        image: image ?? this.image,
+        status: status ?? this.status,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        totalProperty: totalProperty ?? this.totalProperty,
+      );
+
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+    id: json['id'],
+    name: json['name'],
+    slug: json['slug'],
+    icon: json['icon'],
+    purpose: json['purpose'] != null
+        ? jsonDecode(json['purpose'])
+        : null,
+    type: json['type'],
+    parentId: json['parent_id'],
+    image: json['image'],
+    status: json['status'],
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'])
+        : null,
+    updatedAt: json['updatedAt'] != null
+        ? DateTime.parse(json['updatedAt'])
+        : null,
+    totalProperty: json['totalProperty'],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'slug': slug,
+    'icon': icon,
+    'purpose': purpose,
+    'type': type,
+    'parent_id': parentId,
+    'image': image,
+    'status': status,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+    'totalProperty': totalProperty,
+  };
+}
+
+// enum PurposeEnum {
+//   THE_1,
+//   THE_12,
+//   THE_2
+// }
 
 class City {
-  final int id;
-  final String name;
-  final String slug;
-  final bool showHomepage;
-  final String image;
-  final int serial;
-  final String createdAt;
-  final String updatedAt;
-  final int stateId;
-  final int totalProperty;
+  int? id;
+  String? name;
+  String? slug;
+  int? showHomepage;
+  String? image;
+  int? serial;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? stateId;
+  int? totalProperty;
 
   City({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.showHomepage,
-    required this.image,
-    required this.serial,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.stateId,
-    required this.totalProperty,
+    this.id,
+    this.name,
+    this.slug,
+    this.showHomepage,
+    this.image,
+    this.serial,
+    this.createdAt,
+    this.updatedAt,
+    this.stateId,
+    this.totalProperty,
   });
 
-  factory City.fromJson(Map<String, dynamic> json) {
-    return City(
-      id: json['id'],
-      name: json['name'].toString(),
-      slug: json['slug'].toString(),
-      showHomepage: json['show_homepage'] == 1,
-      image: json['image'].toString(),
-      serial: json['serial'] ?? 0,
-      createdAt: json['created_at'].toString(),
-      updatedAt: json['updated_at'].toString(),
-      stateId: json['state_id'] ?? 0,
-      totalProperty: json['totalProperty'] ?? 0,
-    );
-  }
+  City copyWith({
+    int? id,
+    String? name,
+    String? slug,
+    int? showHomepage,
+    String? image,
+    int? serial,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? stateId,
+    int? totalProperty,
+  }) =>
+      City(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        slug: slug ?? this.slug,
+        showHomepage: showHomepage ?? this.showHomepage,
+        image: image ?? this.image,
+        serial: serial ?? this.serial,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        stateId: stateId ?? this.stateId,
+        totalProperty: totalProperty ?? this.totalProperty,
+      );
+
+  factory City.fromJson(Map<String, dynamic> json) => City(
+    id: json['id'],
+    name: json['name'],
+    slug: json['slug'],
+    showHomepage: json['showHomepage'],
+    image: json['image'],
+    serial: json['serial'],
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'])
+        : null,
+    updatedAt: json['updatedAt'] != null
+        ? DateTime.parse(json['updatedAt'])
+        : null,
+    stateId: json['stateId'],
+    totalProperty: json['totalProperty'],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'slug': slug,
+    'showHomepage': showHomepage,
+    'image': image,
+    'serial': serial,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+    'stateId': stateId,
+    'totalProperty': totalProperty,
+  };
+}
+
+class PurposeClass {
+  List<Rent>? sell;
+  List<Rent>? rent;
+
+  PurposeClass({
+    this.sell,
+    this.rent,
+  });
+
+  PurposeClass copyWith({
+    List<Rent>? sell,
+    List<Rent>? rent,
+  }) =>
+      PurposeClass(
+        sell: sell ?? this.sell,
+        rent: rent ?? this.rent,
+      );
+
+  factory PurposeClass.fromJson(Map<String, dynamic> json) => PurposeClass(
+    sell: (json['sell'] as List<dynamic>?)
+        ?.map((e) => Rent.fromJson(e))
+        .toList(),
+
+    // (json['sell'] as Map<String, dynamic>?),
+    rent: (json['rent'] as List<dynamic>?)
+        ?.map((e) => Rent.fromJson(e))
+        .toList(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'sell': sell?.map((e) => e.toJson()).toList(),
+    'rent': rent?.map((e) => e.toJson()).toList(),
+  };
+}
+
+class Rent {
+  int? categoryId;
+  List<int>? subcategories;
+
+  Rent({
+    this.categoryId,
+    this.subcategories,
+  });
+
+  Rent copyWith({
+    int? categoryId,
+    List<int>? subcategories,
+  }) =>
+      Rent(
+        categoryId: categoryId ?? this.categoryId,
+        subcategories: subcategories ?? this.subcategories,
+      );
+
+  factory Rent.fromJson(Map<String, dynamic> json) => Rent(
+    categoryId: json['category_id'],
+    subcategories: (json['subcategories'] as List<dynamic>?)
+        ?.map((e) => e as int)
+        .toList(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'category_id': categoryId,
+    'subcategories': subcategories,
+  };
 }
 
 class RoomType {
-  final int id;
-  final String name;
-  // final int status;
-  final String createdAt;
-  final String updatedAt;
+  int? id;
+  String? name;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   RoomType({
-    required this.id,
-    required this.name,
-    // required this.status,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  factory RoomType.fromJson(Map<String, dynamic> json) {
-    return RoomType(
-      id: json['id'] ?? 0,
-      name: json['bhk_type'].toString(),
-      // status: json['status'] ?? 0,
-      createdAt: json['created_at'].toString(),
-      updatedAt: json['updated_at'].toString(),
-    );
-  }
+  RoomType copyWith({
+    int? id,
+    String? name,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      RoomType(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
+  factory RoomType.fromJson(Map<String, dynamic> json) => RoomType(
+    id: json['id'],
+    name: json['bhk_type'] ?? "",
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'])
+        : null,
+    updatedAt: json['updatedAt'] != null
+        ? DateTime.parse(json['updatedAt'])
+        : null,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'bhk_type': name,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+  };
 }
 
-class NearestLocation {
-  final int id;
-  final String name;
-  // final int status;
-  final String createdAt;
-  final String updatedAt;
+class State {
+  int? id;
+  String? name;
+  String? code;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? totalProperty;
 
-  NearestLocation({
-    required this.id,
-    required this.name,
-    // required this.status,
-    required this.createdAt,
-    required this.updatedAt,
+  State({
+    this.id,
+    this.name,
+    this.code,
+    this.createdAt,
+    this.updatedAt,
+    this.totalProperty,
   });
 
-  factory NearestLocation.fromJson(Map<String, dynamic> json) {
-    return NearestLocation(
-      id: json['id'] ?? 0,
-      name: json['location'].toString(),
-      // status: json['status'] ?? 0,
-      createdAt: json['created_at'].toString(),
-      updatedAt: json['updated_at'].toString(),
-    );
-  }
-}
+  State copyWith({
+    int? id,
+    String? name,
+    String? code,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? totalProperty,
+  }) =>
+      State(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        code: code ?? this.code,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        totalProperty: totalProperty ?? this.totalProperty,
+      );
 
-class Amenities {
-  final int id;
-  final String name;
-  final int status;
-  final String createdAt;
-  final String updatedAt;
+  factory State.fromJson(Map<String, dynamic> json) => State(
+    id: json['id'],
+    name: json['name'],
+    code: json['code'],
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'])
+        : null,
+    updatedAt: json['updatedAt'] != null
+        ? DateTime.parse(json['updatedAt'])
+        : null,
+    totalProperty: json['totalProperty'],
+  );
 
-  Amenities({
-    required this.id,
-    required this.name,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  factory Amenities.fromJson(Map<String, dynamic> json) {
-    return Amenities(
-      id: json['id'] ?? 0,
-      name: json['aminity'].toString(),
-      status: json['status'] ?? 0,
-      createdAt: json['created_at'].toString(),
-      updatedAt: json['updated_at'].toString(),
-    );
-  }
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'code': code,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+    'totalProperty': totalProperty,
+  };
 }

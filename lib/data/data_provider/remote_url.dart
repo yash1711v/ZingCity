@@ -193,7 +193,7 @@ class RemoteUrls {
       '${baseUrl}user/remove-compare/$id?token=$token';
 
   static String getData() =>
-      '${baseUrl}user/property-type';
+      '${baseUrl}get-category';
 
   static String getMyPropertiesApi() =>
       '${baseUrl}user/property';
