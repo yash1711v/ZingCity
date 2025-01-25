@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate/state_inject_package_names.dart';
 
 import '../../../data/model/auth/auth_error_model.dart';
 import '../../../data/model/auth/user_login_response_model.dart';
@@ -127,25 +128,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginModelState> {
     Emitter<LoginModelState> emit,
   ) async {
     emit(state.copyWith(state: const LoginStateLogOutLoading()));
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+    final result = await preferences.clear();
 
-    final result = await _authRepository.logOut(userInfo!.accessToken);
-
-    result.fold(
-      (Failure failure) {
-        if (failure.statusCode == 500) {
-          const loadedData = LoginStateLogOut('logout success', 200);
-          emit(state.copyWith(state: loadedData));
-        } else {
-          final error =
-              LoginStateSignOutError(failure.message, failure.statusCode);
-          emit(state.copyWith(state: error));
-        }
-      },
-      (String success) {
-        _user = null;
-        final loadedData = LoginStateLogOut(success, 200);
-        emit(state.copyWith(state: loadedData));
-      },
-    );
+    _user = null;
   }
 }

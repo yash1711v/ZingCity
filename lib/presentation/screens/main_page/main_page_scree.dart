@@ -57,6 +57,8 @@ class _MainPageScreenState extends State<MainPageScreen>
   final controller = MainController();
 
   Future<void> _setInitialLocation() async {
+    context.read<HomeCubit>().startLoader();
+ // Set loading to true
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -152,7 +154,7 @@ class _MainPageScreenState extends State<MainPageScreen>
       BuyScreen(
         tabController: _tabController,
       ),
-      const SavedScreen(),
+      // const SavedScreen(),
       // const OrderScreen(),
       // Container(),
     ];
@@ -211,7 +213,7 @@ class _MainPageScreenState extends State<MainPageScreen>
                     BuyScreen(
                       tabController: _tabController,
                     ),
-                    const SavedScreen(),
+                    // const SavedScreen(),
                     // const OrderScreen(),
                     // Container(),
                   ];
@@ -356,6 +358,7 @@ class _MainPageScreenState extends State<MainPageScreen>
                                 List<Properties>? ResidentialProperties = [];
 
                                ( properties ?? []).forEach((element){
+                                 debugPrint(element.categoryId.toString());
                                   // element.
                                   if(element.categoryId == 1){
                                     ResidentialProperties.add(element);
@@ -419,7 +422,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.propertyTypeId == 1){
+                                  if(element.categoryId == 1){
                                     ResidentialProperties.add(element);
                                   }
                                   debugPrint(ResidentialProperties.length.toString());
@@ -432,7 +435,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.propertyTypeId == 2){
+                                  if(element.categoryId == 2){
                                     comercialProperties.add(element);
                                   }
                                   debugPrint(comercialProperties.length.toString());
@@ -445,7 +448,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.propertyTypeId == 3){
+                                  if(element.categoryId == 3){
                                     agriculture.add(element);
                                   }
                                   debugPrint(agriculture.length.toString());
@@ -458,7 +461,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.propertyTypeId == 4){
+                                  if(element.categoryId == 4){
                                     plotLand.add(element);
                                   }
                                   debugPrint(plotLand.length.toString());
@@ -568,7 +571,7 @@ class _MainPageScreenState extends State<MainPageScreen>
         //   },
         // ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 16),
           child: const MyBottomNavigationBar(),
         ),
       ),

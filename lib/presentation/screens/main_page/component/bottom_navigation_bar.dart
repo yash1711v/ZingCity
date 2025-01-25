@@ -51,7 +51,7 @@ class MyBottomNavigationBar extends StatelessWidget {
 
                       ( properties ?? []).forEach((element){
                         // element.
-                        if(element.propertyTypeId == 1){
+                        if(element.categoryId == 1){
                           ResidentialProperties.add(element);
                         }
                         debugPrint(ResidentialProperties.length.toString());
@@ -67,7 +67,7 @@ class MyBottomNavigationBar extends StatelessWidget {
 
                       ( properties ?? []).forEach((element){
                         // element.
-                        if(element.propertyTypeId == 1){
+                        if(element.categoryId == 1){
                           ResidentialProperties.add(element);
                         }
                         debugPrint(ResidentialProperties.length.toString());
@@ -92,11 +92,11 @@ class MyBottomNavigationBar extends StatelessWidget {
                     title: Text('BUY'),
                     activeColor: Color(0xfff30469A),
                   ),
-                  BottomBarItem(
-                    icon: ImageIcon(AssetImage("assets/images/ph_heart.png")),
-                    title: Text('Saved'),
-                    activeColor: Color(0xfff30469A),
-                  ),
+                  // BottomBarItem(
+                  //   icon: ImageIcon(AssetImage("assets/images/ph_heart.png")),
+                  //   title: Text('Saved'),
+                  //   activeColor: Color(0xfff30469A),
+                  // ),
                 ],
               );
             })

@@ -6,10 +6,15 @@ import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 import 'package:real_estate/presentation/router/route_names.dart';
 
 import '../../../data/model/auth/user_profile_model.dart';
+import '../../../logic/bloc/login/login_bloc.dart';
 import '../../../logic/cubit/profile/profile_cubit.dart';
 import '../../../logic/cubit/profile/profile_state_model.dart';
+import '../../utils/constraints.dart';
+import '../../utils/k_images.dart';
 import '../../utils/utils.dart';
 import '../../widget/custom_app_bar.dart';
+import '../../widget/custom_images.dart';
+import '../../widget/custom_test_style.dart';
 import '../../widget/error_text.dart';
 import '../../widget/primary_button.dart';
 import 'component/profile_image.dart';
@@ -328,31 +333,119 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: state.isLoading ?? false
                 ? const Center(child: CircularProgressIndicator())
-                : PrimaryButton(
-                    text: widget.profile.name == null
-                        ? "Register"
-                        : 'Update Profile',
-                    onPressed: () {
-                      Utils.closeKeyBoard(context);
-                      profileCubit.updateAgentProfileInfo(
-                          name: state.name,
-                          number: state.phone,
-                          address: state.address,
-                          description: state.aboutMe,
-                          email: state.email,
-                          about: state.aboutMe,
-                          image: state.image ?? File(""),
-                          context: context,
-                          Token: widget.profile.verifyToken ?? "").then((value){
-                            if(value){
-                              Navigator.pushReplacementNamed(
-                                  context, RouteNames.mainPageScreen);
-                            }
-                      });
-                    }),
+                : Row(
+                  children: [
+                    Expanded(
+                      child: PrimaryButton(
+                          text: widget.profile.name == null
+                              ? "Register"
+                              : 'Update Profile',
+                          onPressed: () {
+                            Utils.closeKeyBoard(context);
+                            profileCubit.updateAgentProfileInfo(
+                                name: state.name,
+                                number: state.phone,
+                                address: state.address,
+                                description: state.aboutMe,
+                                email: state.email,
+                                about: state.aboutMe,
+                                image: state.image ?? File(""),
+                                context: context,
+                                Token: widget.profile.verifyToken ?? "").then((value){
+                                  if(value){
+                                    Navigator.pushReplacementNamed(
+                                        context, RouteNames.mainPageScreen);
+                                  }
+                            });
+                          }),
+                    ),
+                    SizedBox(width: 10.0),
+                    Expanded(
+                      child: PrimaryButton(
+                          text: "Log Out",
+                          bgColor: Colors.red,
+                          onPressed: () {
+                            logoutDialog(context);
+                            // Utils.closeKeyBoard(context);
+                            // profileCubit.updateAgentProfileInfo(
+                            //     name: state.name,
+                            //     number: state.phone,
+                            //     address: state.address,
+                            //     description: state.aboutMe,
+                            //     email: state.email,
+                            //     about: state.aboutMe,
+                            //     image: state.image ?? File(""),
+                            //     context: context,
+                            //     Token: widget.profile.verifyToken ?? "").then((value){
+                            //       if(value){
+                            //         Navigator.pushReplacementNamed(
+                            //             context, RouteNames.mainPageScreen);
+                            //       }
+                            // });
+                          }),
+                    ),
+                  ],
+                ),
           );
         },
       ),
     );
   }
+}
+
+logoutDialog(BuildContext context) {
+  final loginBloc = context.read<LoginBloc>();
+  Utils.showCustomDialog(
+    context,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 25.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const CustomImage(path: KImages.logoutIcon),
+          const SizedBox(height: 10.0),
+          const CustomTextStyle(
+            textAlign: TextAlign.center,
+            text: 'Are you sure\nYou want to Logout?',
+            fontSize: 24.0,
+            fontWeight: FontWeight.w500,
+          ),
+          const SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              logoutButton(
+                  'Not Now', () => Navigator.of(context).pop(), blackColor),
+              const SizedBox(width: 14.0),
+              logoutButton('Logout', () {
+              debugPrint("Logout");
+                Navigator.of(context).pushReplacementNamed(RouteNames.loginScreen);
+                loginBloc.add(const LoginEventLogout());
+              }, redColor),
+            ],
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget logoutButton(String text, VoidCallback onPressed, Color bgColor) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    style: ButtonStyle(
+        minimumSize: WidgetStateProperty.all(const Size(100.0, 40.0)),
+        backgroundColor: WidgetStateProperty.all(bgColor),
+        elevation: WidgetStateProperty.all(0.0),
+        shadowColor: WidgetStateProperty.all(transparent),
+        splashFactory: NoSplash.splashFactory,
+        shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(borderRadius: borderRadius))),
+    child: CustomTextStyle(
+      text: text,
+      fontWeight: FontWeight.w500,
+      fontSize: 18.0,
+      color: whiteColor,
+    ),
+  );
 }

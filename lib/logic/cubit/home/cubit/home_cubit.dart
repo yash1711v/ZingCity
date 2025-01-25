@@ -6,8 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate/logic/repository/auth_repository.dart';
 
 import '../../../../data/model/home/home_data_model.dart';
-import '../../../../presentation/router/route_packages_name.dart';
-import '../../../repository/home_repository.dart';
 
 part 'home_state.dart';
 
@@ -27,6 +25,11 @@ class HomeCubit extends Cubit<HomeState> {
   //
   bool? isLoading = false;
 
+
+
+  Future<void> startLoader()async {
+    emit(state.copyWith(isLoading: true));
+  }
   Future<void> getHomeData({required String lat, required String long}) async {
     try {
       emit(state.copyWith(isLoading: true)); // Set loading to true
@@ -44,7 +47,6 @@ class HomeCubit extends Cubit<HomeState> {
 
         for (Properties property
             in (homeModel ?? HomeDataModel()).properties ?? []) {
-
           if (property.purpose?.toString().toLowerCase() == "2" ||
               property.categoryId.toString().toLowerCase() == "for rent") {
             // log("${property.purpose?.toString()}", name: "Data");
@@ -71,7 +73,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void setListOfData(List<Properties> data) {
     emit(state.copyWith(data: [], isLoading: true));
-    emit(state.copyWith(data: data, isLoading: false,searchedProperties: []));
+    emit(state.copyWith(data: data, isLoading: false, searchedProperties: []));
   }
 
   Future<void> getFilterList(
@@ -83,7 +85,8 @@ class HomeCubit extends Cubit<HomeState> {
       required String maxArea,
       required String purpose,
       required String type,
-        required String possessionStatus,
+      required String possessionStatus,
+      required String categoryId,
       required String minArea}) async {
     try {
       emit(state.copyWith(isLoading: true)); // Set loading to true
@@ -97,12 +100,15 @@ class HomeCubit extends Cubit<HomeState> {
           maxArea: maxArea,
           purpose: purpose,
           type: type,
-          minArea: minArea, possessionStatus: possessionStatus);
+          minArea: minArea,
+          possessionStatus: possessionStatus,
+        categoryId: categoryId
+      );
 
       var data = result;
       //log("${data}", name: "Data");
       if (data['status'] == true) {
-       // log("${data}", name: "Data");
+        // log("${data}", name: "Data");
         // homeModel = HomeDataModel.fromJson(data['data']);
         //
         List<Properties> searchList = data['properties']
@@ -122,11 +128,14 @@ class HomeCubit extends Cubit<HomeState> {
         // }
 
         emit(state.copyWith(
-            searchedProperties: searchList,
-            isLoading: false,
-            ));
-
-
+          searchedProperties: searchList,
+          isLoading: false,
+        ));
+      } else {
+        emit(state.copyWith(
+          searchedProperties: [],
+          isLoading: false,
+        ));
       } // Set loading to false after success
     } catch (e) {
       emit(

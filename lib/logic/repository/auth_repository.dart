@@ -71,15 +71,17 @@ class AuthRepositoryImp extends AuthRepository {
 
   @override
   Future<Either<Failure, String>> logOut(String token) async {
-    try {
-      final result = await remoteDataSource.logOut(token);
-      localDataSource.clearUserProfile();
-      // localDataSource.clearCoupon();
-      // localDataSource.clearCoupon();
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message, e.statusCode));
-    }
+    // try {
+    //   SharedPreferences preferences = await SharedPreferences.getInstance();
+    //   final result = await preferences.clear();
+    //   localDataSource.clearUserProfile();
+    //   // localDataSource.clearCoupon();
+    //   // localDataSource.clearCoupon();
+    //   return Right(result!);
+    // } on ServerException catch (e) {
+    //   return Left(ServerFailure(e.message, e.statusCode));
+    // }
+    return Right("Success");
   }
 
   @override
@@ -361,11 +363,13 @@ class Repository {
     required String type,
     required String minArea,
     required String possessionStatus,
+    required String categoryId,
   }) async {
     final uri = Uri.parse("${RemoteUrls.baseUrl}properties/search");
     await updateHeader("");
 
     var body = {
+      // "category_id":categoryId,
       if(possessionStatus != "null")
       "possession_status": possessionStatus,
       "purpose": purpose,

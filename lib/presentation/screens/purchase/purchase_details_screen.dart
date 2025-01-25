@@ -192,7 +192,7 @@ class propertyDetailsLoaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final user = context.read<OrderCubit>().orders!.user;
-    log("${propertyDetails.isFeatured}", name: "Home");
+    // log("${propertyDetails.isFeatured}", name: "Home");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: SingleChildScrollView(
@@ -254,67 +254,67 @@ class propertyDetailsLoaded extends StatelessWidget {
                                 ),
                               )),
                         ),
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: const ShapeDecoration(
-                            color: Colors.white,
-                            shape: OvalBorder(),
-                            shadows: [
-                              BoxShadow(
-                                color: Color(0x194D5454),
-                                blurRadius: 15,
-                                offset: Offset(0, 2),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                                "assets/Yash/images/heartShape.svg"),
-                          ),
-                        ),
+                        // Container(
+                        //   width: 32,
+                        //   height: 32,
+                        //   decoration: const ShapeDecoration(
+                        //     color: Colors.white,
+                        //     shape: OvalBorder(),
+                        //     shadows: [
+                        //       BoxShadow(
+                        //         color: Color(0x194D5454),
+                        //         blurRadius: 15,
+                        //         offset: Offset(0, 2),
+                        //         spreadRadius: 0,
+                        //       )
+                        //     ],
+                        //   ),
+                        //   child: Center(
+                        //     child: SvgPicture.asset(
+                        //         "assets/Yash/images/heartShape.svg"),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset("assets/Yash/images/banglowIcon.svg"),
-                // const SizedBox(
-                //   width: 5,
-                // ),
-                const Expanded(
-                  child: Text(
-                    'Bangalow',
-                    style: TextStyle(
-                      color: Color(0x7F4D5454),
-                      fontSize: 14,
-                      fontFamily: 'DM Sans',
-                      fontWeight: FontWeight.w400,
-                      height: 0.10,
-                    ),
-                  ),
-                ),
-                // const Spacer(),
-                //  Text(
-                //   propertyDetails.,
-                //   style: TextStyle(
-                //     color: Color(0x7F4D5454),
-                //     fontSize: 14,
-                //     fontFamily: 'DM Sans',
-                //     fontWeight: FontWeight.w400,
-                //     height: 0.10,
-                //   ),
-                // ),
-              ],
-            ),
+            // SizedBox(
+            //   height: 10.h,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     SvgPicture.asset("assets/Yash/images/banglowIcon.svg"),
+            //     // const SizedBox(
+            //     //   width: 5,
+            //     // ),
+            //     const Expanded(
+            //       child: Text(
+            //         'Bangalow',
+            //         style: TextStyle(
+            //           color: Color(0x7F4D5454),
+            //           fontSize: 14,
+            //           fontFamily: 'DM Sans',
+            //           fontWeight: FontWeight.w400,
+            //           height: 0.10,
+            //         ),
+            //       ),
+            //     ),
+            //     // const Spacer(),
+            //     //  Text(
+            //     //   propertyDetails.,
+            //     //   style: TextStyle(
+            //     //     color: Color(0x7F4D5454),
+            //     //     fontSize: 14,
+            //     //     fontFamily: 'DM Sans',
+            //     //     fontWeight: FontWeight.w400,
+            //     //     height: 0.10,
+            //     //   ),
+            //     // ),
+            //   ],
+            // ),
             SizedBox(
               height: 15.h,
             ),
@@ -348,6 +348,7 @@ class propertyDetailsLoaded extends StatelessWidget {
               height: 25.h,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Text(
@@ -427,10 +428,11 @@ class propertyDetailsLoaded extends StatelessWidget {
                           width: 5,
                         ),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'BedRoom',
+                              'Bedroom',
                               style: TextStyle(
                                 color: Color(0x7F4D5454),
                                 fontSize: 12,
@@ -477,7 +479,8 @@ class propertyDetailsLoaded extends StatelessWidget {
                           width: 5,
                         ),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
                               'Bathroom',
@@ -826,99 +829,6 @@ class propertyDetailsLoaded extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            // const Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     SizedBox(
-            //       width: 293,
-            //       child: Text(
-            //         'Photo Gallery',
-            //         style: TextStyle(
-            //           color: Color(0xFF4D5454),
-            //           fontSize: 16,
-            //           fontFamily: 'DM Sans',
-            //           fontWeight: FontWeight.w600,
-            //           height: 0.09,
-            //         ),
-            //       ),
-            //     ),
-            //     Text(
-            //       'See All',
-            //       style: TextStyle(
-            //         color: Color(0x7F4D5454),
-            //         fontSize: 10,
-            //         fontFamily: 'DM Sans',
-            //         fontWeight: FontWeight.w600,
-            //         height: 0.14,
-            //       ),
-            //     )
-            //   ],
-            // ),
-            // const SizedBox(height: 25.0),
-            // SizedBox(
-            //   height: 100,
-            //   child: ListView.builder(
-            //       itemCount: 4,
-            //       shrinkWrap: true,
-            //       scrollDirection: Axis.horizontal,
-            //       itemBuilder: (context, index) {
-            //         return Padding(
-            //           padding: const EdgeInsets.only(right: 16.0),
-            //           child: index == 3
-            //               ? Container(
-            //                   width: 100,
-            //                   height: 100,
-            //                   decoration: ShapeDecoration(
-            //                     image: const DecorationImage(
-            //                       image: AssetImage(
-            //                           "assets/Yash/images/photoGallery.png"),
-            //                       fit: BoxFit.contain,
-            //                     ),
-            //                     shape: RoundedRectangleBorder(
-            //                       borderRadius: BorderRadius.circular(18),
-            //                     ),
-            //                   ),
-            //                   child: Container(
-            //                     width: 100,
-            //                     height: 100,
-            //                     decoration: ShapeDecoration(
-            //                       color: const Color(0x7F4D5454),
-            //                       shape: RoundedRectangleBorder(
-            //                         borderRadius: BorderRadius.circular(18),
-            //                       ),
-            //                     ),
-            //                     child: const Center(
-            //                       child: Text(
-            //                         '+3',
-            //                         style: TextStyle(
-            //                           color: Color(0xFFFAFAFA),
-            //                           fontSize: 16,
-            //                           fontFamily: 'DM Sans',
-            //                           fontWeight: FontWeight.w600,
-            //                           height: 0.09,
-            //                         ),
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 )
-            //               : Container(
-            //                   width: 100,
-            //                   height: 100,
-            //                   decoration: ShapeDecoration(
-            //                     image: const DecorationImage(
-            //                       image: AssetImage(
-            //                           "assets/Yash/images/photoGallery.png"),
-            //                       fit: BoxFit.fill,
-            //                     ),
-            //                     shape: RoundedRectangleBorder(
-            //                       borderRadius: BorderRadius.circular(18),
-            //                     ),
-            //                   ),
-            //                 ),
-            //         );
-            //       }),
-            // ),
-            // const SizedBox(height: 25.0),
             const Row(
               children: [
                 Expanded(
@@ -935,17 +845,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                 ),
               ],
             ),
-            // const SizedBox(height: 25.0),
-            //  Text(
-            //   'Address :',
-            //   style: TextStyle(
-            //     color: Color(0xFF4D5454),
-            //     fontSize: 14,
-            //     fontFamily: 'DM Sans',
-            //     fontWeight: FontWeight.w400,
-            //     height: 0.10,
-            //   ),
-            // ),
+
             const SizedBox(height: 15.0),
             Row(
               children: [

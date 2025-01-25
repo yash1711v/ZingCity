@@ -33,7 +33,7 @@ class PrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Color(0xFF30469A)),
+        backgroundColor: MaterialStateProperty.all(bgColor),
         splashFactory: NoSplash.splashFactory,
         shadowColor: MaterialStateProperty.all(transparent),
         overlayColor: MaterialStateProperty.all(transparent),
