@@ -127,7 +127,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             SizedBox(
                               width: 324,
                               child: Text(
-                                'We have sent a verification code to your number *********${widget.phoneNumber.substring(8)}',
+                                'We have sent a verification code to your number ${widget.phoneNumber}',
                                 style: TextStyle(
                                   color: Colors.black
                                       .withOpacity(0.4000000059604645),
@@ -246,30 +246,24 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             :PrimaryButton(
                           text: 'Verify Otp',
                           onPressed: () async {
-                            // if (widget.isVerification) {
-                            //   // print('new user create');
-                            //   bloc.add(AccountActivateCodeSubmit(v));
-                            // } else {
-                            //   print('forgot password');
-                            //   forgotCubit.codeController.text = v;
-                            //   forgotCubit.verifyForgotPasswordCode();
-                            // }
+                            final otp = context.read<LoginCubit>().verifyOtpController.text;
+                            if (otp.length != 6) {
+                              // Show an error message or handle the invalid OTP case
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Please enter a valid 6-digit OTP')),
+                              );
+                              return;
+                            }
+
                             await context
                                 .read<LoginCubit>()
-                                .verifyOtp(
-                                    widget.phoneNumber,
-                                    context
-                                        .read<LoginCubit>()
-                                        .verifyOtpController
-                                        .text,context)
+                                .verifyOtp(widget.phoneNumber, otp, context)
                                 .then((value) {
                               if (value) {
                                 // Navigator.pushReplacementNamed(
                                 //     context, RouteNames.mainPageScreen);
                               }
                             });
-                            // Navigator.pushReplacementNamed(
-                            //     context, RouteNames.mainPageScreen);
                           },
                         ),
                       ),

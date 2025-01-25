@@ -43,307 +43,308 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
       child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              width: size.width,
-              height: 425,
-              decoration: const ShapeDecoration(
-                color: Color(0xFFE3EFF8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(300),
-                    bottomRight: Radius.circular(300),
-                  ),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(0x1E000000),
-                    blurRadius: 8,
-                    offset: Offset(0, 1),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 100),
-                  Image.asset(
-                    "assets/Yash/images/ZingCityLogo.png",
-                    width: 74.2,
-                    height: 51.91,
-                  ),
-                  const SizedBox(height: 35),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Enter your Phone Number',
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.6000000238418579),
-                            fontSize: 22,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                      ],
+        body: Form(
+          child: Column(
+            children: [
+              Container(
+                width: size.width,
+                height: 425,
+                decoration: const ShapeDecoration(
+                  color: Color(0xFFE3EFF8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(300),
+                      bottomRight: Radius.circular(300),
                     ),
                   ),
-                  const SizedBox(height: 17),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          "You'll get a verification code from us.",
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.4000000059604645),
-                            fontSize: 13,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 17),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: BlocBuilder<LoginCubit, LoginModelState>(
-                      builder: (context, state) {
-                        // final login = state.state;
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                        maxLength: 10,
-                              controller:
-                                  context.read<LoginCubit>().phoneController,
-                              keyboardType: TextInputType.number,
-                              // initialValue: state.text,
-                              onChanged: (value) {
-                                context
-                                    .read<LoginCubit>()
-                                    .phoneController
-                                    .text = value;
-                                // context.read<LoginCubit>().add(LoginEvenEmailOrPhone(value));
-                              },
-                              decoration: InputDecoration(
-                                counterText: "",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.black
-                                        .withOpacity(0.10000000149011612),
-                                  ),
-                                ),
-                                prefixIcon: SizedBox(
-                                  width: 40.0,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10.0),
-                                        child: Text(
-                                          '+91',
-                                          style: TextStyle(
-                                            color: Colors.black.withOpacity(
-                                                0.4000000059604645),
-                                            fontSize: 15,
-                                            fontFamily: 'DM Sans',
-                                            fontWeight: FontWeight.w400,
-                                            height: 0,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                hintText: 'Number',
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter your phone number';
-                                }
-
-                                if(value.length != 10){
-                                  return 'Please enter a valid phone number';
-                                }
-                                return null;
-                              },
-                            ),
-                            // if (login is LoginStateFormInvalid) ...[
-                            //   if (login.error.email.isNotEmpty &&
-                            //       login.error.email.length < 10)
-                            //     ErrorText(text: login.error.email.first)
-                            // ]
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 17),
-                  // SvgPicture.asset(
-                  //   "assets/Yash/images/orImage.svg",
-                  //   height: 22,
-                  //   width: 0,
-                  // ),
-                  // const SizedBox(height: 47),
-                  // Container(
-                  //   width: 324,
-                  //   height: 55,
-                  //   decoration: ShapeDecoration(
-                  //     color: Colors.transparent,
-                  //     shape: RoundedRectangleBorder(
-                  //       side: const BorderSide(width: 1, color: Color(0xFF398BCB)),
-                  //       borderRadius: BorderRadius.circular(3),
-                  //     ),
-                  //   ),
-                  //   child: ElevatedButton(
-                  //     style: ButtonStyle(
-                  //       backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                  //       elevation: MaterialStateProperty.all(0.0),
-                  //       shape: MaterialStateProperty.all(
-                  //         RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(3),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //       onPressed: () {},
-                  //       child:  Row(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: [
-                  //           Image.asset("assets/Yash/images/mailIcon.png", width: 35, height: 35,),
-                  //           const SizedBox(width: 15),
-                  //           const Text(
-                  //             'Login with Gmail',
-                  //             style: TextStyle(
-                  //               color: Color(0xFF398BCB),
-                  //               fontSize: 15,
-                  //               fontFamily: 'DM Sans',
-                  //               fontWeight: FontWeight.w400,
-                  //               height: 0,
-                  //             ),
-                  //           )
-                  //         ],
-                  //       )),
-                  // ),
-                ],
-              ),
-            ),
-            // Spacer(),
-            const Spacer(),
-            BlocBuilder<LoginCubit, LoginModelState>(
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: (state.isLoading ?? false)
-                      ? const CircularProgressIndicator()
-                      : PrimaryButton(
-                          text: 'Send Otp',
-                          onPressed: () async {
-                            await context
-                                .read<LoginCubit>()
-                                .onPressLogin(context
-                                    .read<LoginCubit>()
-                                    .phoneController
-                                    .text)
-                                .then((value) {
-                              if (value) {
-                                Navigator.pushReplacementNamed(
-                                    context, RouteNames.verificationScreen,
-                                    arguments: context
-                                        .read<LoginCubit>()
-                                        .phoneController
-                                        .text);
-                              }
-                            });
-                            // Navigator.pushReplacementNamed(
-                            //     context, RouteNames.verificationScreen,arguments: false);
-                          },
-                        ),
-                );
-              },
-            ),
-            const Spacer(),
-            SizedBox(
-              width: 324,
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'You accept our ',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        fontSize: 13,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'Terms & Conditions',
-                      style: const TextStyle(
-                        color: Color(0xFF398BCB),
-                        fontSize: 13,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          // Handle Terms & Conditions tap
-                          print('Terms & Conditions tapped');
-                          context.read<PrivacyPolicyCubit>().getTermsAndCondition();
-                          Navigator.pushNamed(
-                            context, RouteNames.termsAndConditionScreen,);
-                        },
-                    ),
-                    TextSpan(
-                      text: ' & ',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        fontSize: 13,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'Privacy Policy',
-                      style: const TextStyle(
-                        color: Color(0xFF398BCB),
-                        fontSize: 13,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          // Handle Privacy Policy
-                          context.read<PrivacyPolicyCubit>().getPrivacyPolicy();
-                          Navigator.pushNamed(
-                            context, RouteNames.privacyPolicyScreen,);
-                          // print('Privacy Policy tapped');
-                        },
-                    ),
-                    TextSpan(
-                      text: ' by clicking the login button.',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        fontSize: 13,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                      ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0x1E000000),
+                      blurRadius: 8,
+                      offset: Offset(0, 1),
+                      spreadRadius: 0,
                     ),
                   ],
                 ),
-                textAlign: TextAlign.center,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 100),
+                    Image.asset(
+                      "assets/Yash/images/ZingCityLogo.png",
+                      width: 74.2,
+                      height: 51.91,
+                    ),
+                    const SizedBox(height: 35),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Enter your Phone Number',
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.6000000238418579),
+                              fontSize: 22,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w700,
+                              height: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 17),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "You'll get a verification code from us.",
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.4000000059604645),
+                              fontSize: 13,
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 17),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: BlocBuilder<LoginCubit, LoginModelState>(
+                        builder: (context, state) {
+                          // final login = state.state;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextFormField(
+                          maxLength: 10,
+                                controller:
+                                    context.read<LoginCubit>().phoneController,
+                                keyboardType: TextInputType.number,
+                                // initialValue: state.text,
+                                onChanged: (value) {
+                                  context
+                                      .read<LoginCubit>()
+                                      .phoneController
+                                      .text = value;
+                                  // context.read<LoginCubit>().add(LoginEvenEmailOrPhone(value));
+                                },
+                                decoration: InputDecoration(
+                                  counterText: "",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black
+                                          .withOpacity(0.10000000149011612),
+                                    ),
+                                  ),
+                                  prefixIcon: SizedBox(
+                                    width: 40.0,
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10.0),
+                                          child: Text(
+                                            '+91',
+                                            style: TextStyle(
+                                              color: Colors.black.withOpacity(
+                                                  0.4000000059604645),
+                                              fontSize: 15,
+                                              fontFamily: 'DM Sans',
+                                              fontWeight: FontWeight.w400,
+                                              height: 0,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  hintText: 'Number',
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter your phone number';
+                                  }
+
+                                  if(value.length != 10){
+                                    return 'Please enter a valid phone number';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              // if (login is LoginStateFormInvalid) ...[
+                              //   if (login.error.email.isNotEmpty &&
+                              //       login.error.email.length < 10)
+                              //     ErrorText(text: login.error.email.first)
+                              // ]
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 17),
+                    // SvgPicture.asset(
+                    //   "assets/Yash/images/orImage.svg",
+                    //   height: 22,
+                    //   width: 0,
+                    // ),
+                    // const SizedBox(height: 47),
+                    // Container(
+                    //   width: 324,
+                    //   height: 55,
+                    //   decoration: ShapeDecoration(
+                    //     color: Colors.transparent,
+                    //     shape: RoundedRectangleBorder(
+                    //       side: const BorderSide(width: 1, color: Color(0xFF398BCB)),
+                    //       borderRadius: BorderRadius.circular(3),
+                    //     ),
+                    //   ),
+                    //   child: ElevatedButton(
+                    //     style: ButtonStyle(
+                    //       backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                    //       elevation: MaterialStateProperty.all(0.0),
+                    //       shape: MaterialStateProperty.all(
+                    //         RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(3),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //       onPressed: () {},
+                    //       child:  Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Image.asset("assets/Yash/images/mailIcon.png", width: 35, height: 35,),
+                    //           const SizedBox(width: 15),
+                    //           const Text(
+                    //             'Login with Gmail',
+                    //             style: TextStyle(
+                    //               color: Color(0xFF398BCB),
+                    //               fontSize: 15,
+                    //               fontFamily: 'DM Sans',
+                    //               fontWeight: FontWeight.w400,
+                    //               height: 0,
+                    //             ),
+                    //           )
+                    //         ],
+                    //       )),
+                    // ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 25),
-          ],
+              // Spacer(),
+              const Spacer(),
+              BlocBuilder<LoginCubit, LoginModelState>(
+                builder: (context, state) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: (state.isLoading ?? false)
+                        ? const CircularProgressIndicator()
+                        : PrimaryButton(
+                            text: 'Send Otp',
+                            onPressed:  () async {
+                              final phoneNumber = context.read<LoginCubit>().phoneController.text;
+                              if (phoneNumber.length != 10) {
+                                // Show an error message or handle the invalid phone number case
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Please enter a valid 10-digit phone number')),
+                                );
+                                return;
+                              }
+
+                              await context.read<LoginCubit>().onPressLogin(phoneNumber).then((value) {
+                                if (value) {
+                                  Navigator.pushReplacementNamed(
+                                    context, RouteNames.verificationScreen,
+                                    arguments: phoneNumber,
+                                  );
+                                }
+                              });
+                            },
+                          ),
+                  );
+                },
+              ),
+              const Spacer(),
+              SizedBox(
+                width: 324,
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'You accept our ',
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.6),
+                          fontSize: 13,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Terms & Conditions',
+                        style: const TextStyle(
+                          color: Color(0xFF398BCB),
+                          fontSize: 13,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Handle Terms & Conditions tap
+                            print('Terms & Conditions tapped');
+                            context.read<PrivacyPolicyCubit>().getTermsAndCondition();
+                            Navigator.pushNamed(
+                              context, RouteNames.termsAndConditionScreen,);
+                          },
+                      ),
+                      TextSpan(
+                        text: ' & ',
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.6),
+                          fontSize: 13,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: const TextStyle(
+                          color: Color(0xFF398BCB),
+                          fontSize: 13,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Handle Privacy Policy
+                            context.read<PrivacyPolicyCubit>().getPrivacyPolicy();
+                            Navigator.pushNamed(
+                              context, RouteNames.privacyPolicyScreen,);
+                            // print('Privacy Policy tapped');
+                          },
+                      ),
+                      TextSpan(
+                        text: ' by clicking the login button.',
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.6),
+                          fontSize: 13,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
+          ),
         ),
       ),
     );
