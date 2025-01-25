@@ -119,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextFormField(
+                        maxLength: 10,
                               controller:
                                   context.read<LoginCubit>().phoneController,
                               keyboardType: TextInputType.number,
@@ -131,6 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 // context.read<LoginCubit>().add(LoginEvenEmailOrPhone(value));
                               },
                               decoration: InputDecoration(
+                                counterText: "",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
@@ -162,6 +164,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 hintText: 'Number',
                               ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your phone number';
+                                }
+
+                                if(value.length != 10){
+                                  return 'Please enter a valid phone number';
+                                }
+                                return null;
+                              },
                             ),
                             // if (login is LoginStateFormInvalid) ...[
                             //   if (login.error.email.isNotEmpty &&
