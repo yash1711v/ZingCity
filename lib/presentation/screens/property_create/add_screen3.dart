@@ -393,6 +393,9 @@ class _Screen3State extends State<Screen3> {
               //       ),
               //                      ),
               //    ),
+                SizedBox(
+                  height: 100,
+                ),
               ],
             ),
           ),

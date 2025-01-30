@@ -87,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Container(
                   width: size.width,
-                  height: 800,
+                  height: 700,
                   decoration: const ShapeDecoration(
                     color: Color(0xFFE3EFF8),
                     shape: RoundedRectangleBorder(

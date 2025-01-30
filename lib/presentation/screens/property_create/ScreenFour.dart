@@ -47,8 +47,8 @@ class _ScreenfourState extends State<Screenfour> {
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: 339,
+                      Expanded(
+                        // width: 339,
                         child: Text(
                           'Select Amenities',
                           style: TextStyle(
@@ -151,94 +151,7 @@ class _ScreenfourState extends State<Screenfour> {
                         itemCount: totalElements,
                       )
 
-                      // PageView.builder(
-                      //   scrollDirection: Axis.horizontal,
-                      //   controller: pageController,
-                      //   itemCount: totalPages,
-                      //   onPageChanged: (index) {
-                      //     setState(() {
-                      //       currentPage = index;
-                      //     });
-                      //   },
-                      //   itemBuilder: (context, pageIndex) {
-                      //     final start = pageIndex * elementsPerPage;
-                      //     final end = (start + elementsPerPage) > totalElements
-                      //         ? totalElements
-                      //         : start + elementsPerPage;
-                      //     final pageItems =
-                      //         List.generate(end - start, (i) => start + i);
-                      //
-                      //     return GridView.builder(
-                      //       gridDelegate:
-                      //           const SliverGridDelegateWithFixedCrossAxisCount(
-                      //         crossAxisCount: 3, // 3 columns
-                      //         mainAxisSpacing: 5.0,
-                      //         crossAxisSpacing: 5.0,
-                      //         childAspectRatio: 1.1,
-                      //       ),
-                      //       itemCount: pageItems.length,
-                      //       physics: const NeverScrollableScrollPhysics(),
-                      //       itemBuilder: (context, index) {
-                      //         bool isSelected = selectedItems.contains(index);
-                      //
-                      //         return GestureDetector(
-                      //           onTap: () {
-                      //             setState(() {
-                      //               if (isSelected) {
-                      //                 selectedItems.remove(index);
-                      //               } else {
-                      //                 selectedItems.add(index);
-                      //               }
-                      //             });
-                      //           },
-                      //           child: Container(
-                      //             alignment: Alignment.center,
-                      //             decoration: ShapeDecoration(
-                      //               color: isSelected
-                      //                   ? const Color(0xFF30469A)
-                      //                   : const Color(0x0C398BCB),
-                      //               shape: RoundedRectangleBorder(
-                      //                 side: const BorderSide(width: 1.50, color: Color(0x80EEEEEE)),
-                      //                 borderRadius: BorderRadius.circular(10),
-                      //               ),
-                      //             ),
-                      //             child: Column(
-                      //               mainAxisAlignment: MainAxisAlignment.center,
-                      //               crossAxisAlignment: CrossAxisAlignment.center,
-                      //               children: [
-                      //                 SvgPicture.asset(
-                      //                   "assets/Yash/images/Garage.svg",
-                      //                   width: 50,
-                      //                   height: 50,
-                      //                   color: isSelected ? Colors.white : const Color(0xFF30469A),
-                      //                 ),
-                      //                 const SizedBox(
-                      //                   height: 10,
-                      //                 ),
-                      //                 SizedBox(
-                      //                   width: 76,
-                      //                   child: Text(
-                      //                     (context.read<AddPropertyCubit>().state.staticInfo?.amenities ?? [])[pageItems[index]].name,
-                      //                     textAlign: TextAlign.center,
-                      //                     style: TextStyle(
-                      //                       color: isSelected
-                      //                           ? Colors.white
-                      //                           : const Color(0xFF30469A),
-                      //                       fontSize: 12,
-                      //                       fontFamily: 'Manrope',
-                      //                       fontWeight: FontWeight.w400,
-                      //                       height: 0.12,
-                      //                     ),
-                      //                   ),
-                      //                 )
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         );
-                      //       },
-                      //     );
-                      //   },
-                      // ),
+
                       ),
                 ),
                 // Page indicator
@@ -259,8 +172,8 @@ class _ScreenfourState extends State<Screenfour> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 339,
+                      Expanded(
+                        // width: 339,
                         child: Text(
                           'Nearest Places',
                           style: TextStyle(
@@ -497,8 +410,8 @@ class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
         return Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: SizedBox(
-            width: 339,
-            height: 48,
+            // width: 339,
+            // height: 48,
             child: Row(
               children: [
                 // Checkbox

@@ -36,7 +36,34 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       //   debugPrint("element==> ${ context.read<AddPropertyCubit>().state.staticInfo?.}");
       // });
     });
-
+     debugPrint("TitlE: ${(widget.property ??
+         const Properties(
+             id: 0,
+             agentId: 0,
+             propertyTypeId: 0,
+             title: "",
+             slug: "",
+             purpose: "",
+             rentPeriod: "",
+             price: "",
+             thumbnailImage: "",
+             address: "",
+             totalBedroom: "",
+             totalBathroom: "",
+             totalArea: "",
+             status: "",
+             isFeatured: "",
+             totalRating: 5,
+             ratingAvarage: "",
+             agent: Agent(
+                 id: 0,
+                 name: "",
+                 phone: "",
+                 email: "",
+                 designation: "",
+                 image: "",
+                 userName: ""), categoryId: ''))
+         .title}");
     if ((widget.property ??
             const Properties(
                 id: 0,
@@ -63,7 +90,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                     email: "",
                     designation: "",
                     image: "",
-                    userName: "")))
+                    userName: ""), categoryId: ''))
         .title
         .isNotEmpty) {
       context.read<AddPropertyCubit>().editProperty(widget.property);
@@ -234,7 +261,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                           email: "",
                                           designation: "",
                                           image: "",
-                                          userName: "")))
+                                          userName: ""), categoryId: "0"))
                                   .title
                                   .isNotEmpty?"Update Property":'Add Property',
                               style: const TextStyle(

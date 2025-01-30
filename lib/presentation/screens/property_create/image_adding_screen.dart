@@ -30,17 +30,30 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
   }
 
   Future<void> pickSliderImages() async {
-    final pickedFiles = await _picker.pickMultiImage();
-    if (pickedFiles != null) {
+    final pickedFiles = await _picker.pickMultiImage(
+      limit: 10,
+    );
+
+    if (pickedFiles != null && pickedFiles.isNotEmpty) {
+      int totalSelected = sliderImages.length + pickedFiles.length;
+
+      if (totalSelected > 10) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('You can only select up to 10 images.'),
+          ),
+        );
+        return;
+      }
+
       setState(() {
-        sliderImages = [
-          ...sliderImages,
-          ...pickedFiles.map((file) => File(file.path))
-        ];
+        sliderImages.addAll(pickedFiles.map((file) => File(file.path)));
       });
+
       context.read<AddPropertyCubit>().addSliders(List<File>.from(sliderImages));
     }
   }
+
 
   void removeThumbnailImage() {
     setState(() {

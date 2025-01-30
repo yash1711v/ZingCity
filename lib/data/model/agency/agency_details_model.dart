@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+import '../home/home_data_model.dart';
 import 'agency_list_model.dart';
 
 class AgencyDetailsModel extends Equatable {
@@ -81,6 +82,7 @@ class Properties extends Equatable {
   final String title;
   final String slug;
   final String purpose;
+  final String categoryId;
   final int? propertyTypeId;
   final String rentPeriod;
   final String price;
@@ -110,6 +112,7 @@ class Properties extends Equatable {
     required this.title,
     required this.slug,
     required this.purpose,
+    required this.categoryId,
     required this.rentPeriod,
     required this.price,
     required this.thumbnailImage,
@@ -135,6 +138,7 @@ class Properties extends Equatable {
     int? agentId,
     String? title,
     String? slug,
+    String? categoryId,
     String? purpose,
     String? rentPeriod,
     String? price,
@@ -183,6 +187,7 @@ class Properties extends Equatable {
       cityId: cityId ?? this.cityId,
       stateId: stateId ?? this.stateId,
       images: images ?? this.images,
+      categoryId: categoryId ?? this.categoryId,
     );
   }
 
@@ -212,7 +217,8 @@ class Properties extends Equatable {
       'totalUnit': totalUnit,
       'cityId': cityId,
       'stateId': stateId,
-      "images": images
+      "images": images,
+      "category_id": categoryId,
     };
   }
 
@@ -251,7 +257,7 @@ class Properties extends Equatable {
       totalUnit: map['total_unit'] ?? '',
       cityId: map['city_id'].toString() ?? '',
       stateId: map['state_id'].toString() ?? '',
-      images: List<String>.from(map['slider_images'] ?? []),
+      images: List<String>.from(map['slider_images'] ?? []), categoryId: map['category_id'].toString(),
     );
   }
 
@@ -283,7 +289,8 @@ class Properties extends Equatable {
       totalRating,
       ratingAvarage,
       agent,
-      description
+      description,
+      categoryId
     ];
   }
 }
@@ -369,6 +376,77 @@ class Agent extends Equatable {
       designation,
       image,
       userName,
+    ];
+  }
+}
+
+
+class EnquiryModel extends Equatable {
+  final String? id;
+  final String? name;
+  final String? email;
+  final String? message;
+  final Properties? property;
+
+
+  const EnquiryModel({
+    this.id, this.name, this.email, this.message, this.property,
+  });
+
+  EnquiryModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? message,
+    Properties? property,
+  }) {
+    return EnquiryModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      message: message ?? this.message,
+      property: property ?? this.property,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'email': email,
+      'message': message,
+      'property': property?.toMap(),
+    };
+  }
+
+  factory EnquiryModel.fromMap(Map<String, dynamic> map) {
+    return EnquiryModel(
+      id: map['id'].toString() ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      message: map['message'] ?? '',
+      property: map['property'] != null
+          ? Properties.fromMap(map['property'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory EnquiryModel.fromJson(String source) =>
+      EnquiryModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object?> get props {
+    return [
+      id,
+      name,
+      email,
+      message,
+      property,
     ];
   }
 }

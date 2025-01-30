@@ -253,7 +253,9 @@ class _MyPropertyState extends State<MyProperty> {
                                     children: [
                                       Text(
                                         state.properties?[index].title ?? "",
+                                        maxLines: 1,
                                         style: const TextStyle(
+                                          overflow: TextOverflow.ellipsis,
                                           color:
                                           Colors.black,
                                           fontSize: 14,
@@ -281,7 +283,7 @@ class _MyPropertyState extends State<MyProperty> {
                                         size: 12,
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: 150,
                                         child: Text(
                                           removeHtmlTags( state.properties?[index].address ?? ""),
                                           maxLines: 1,
@@ -295,6 +297,7 @@ class _MyPropertyState extends State<MyProperty> {
                                             FontWeight
                                                 .w300,
                                             height: 0,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                       )

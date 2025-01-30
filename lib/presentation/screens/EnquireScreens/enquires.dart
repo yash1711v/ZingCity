@@ -171,257 +171,206 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                   ],
                 )),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListView.builder(
-                    physics:
-                    const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14),
-                    shrinkWrap: true,
-                    itemCount: widget.properties.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
+          body: ListView.builder(
+              // physics:
+              // const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 14),
+              // shrinkWrap: true,
+              itemCount: widget.properties.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                  const EdgeInsets.only(top: 10.0,),
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(context,
+                          RouteNames.purchaseDetailsScreen,
+                          arguments: widget.isRequest?widget.properties[index]:widget.properties[index].property);
+                      // Navigator.pushNamed(
+                      //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+                    },
+                    child: Container(
+                      // width: 324,
+                      // height: 68,
+                      decoration: ShapeDecoration(
+                        color: const Color(0x0C398BCB),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Padding(
                         padding:
-                        const EdgeInsets.only(top: 10.0,),
-                        child: GestureDetector(
-                          onTap: (){
+                        const EdgeInsets.symmetric(
+                            horizontal: 15.0,vertical: 15),
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
 
-                            Navigator.pushNamed(context,
-                                RouteNames.purchaseDetailsScreen,
-                                arguments: widget.properties[index]);
-                            // Navigator.pushNamed(
-                            //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                          },
-                          child: Container(
-                            width: 324,
-                            height: 68,
-                            decoration: ShapeDecoration(
-                              color: const Color(0x0C398BCB),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(10),
+                            Visibility(
+                              visible: widget.isRequest,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Image.network(
+                                      RemoteUrls.rootUrl +
+                                          (widget.isRequest?widget.properties[index].thumbnailImage:""),
+                                      // width: 50,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Row(
-                              children: [
-                                // Container(
-                                //   width: 78.93,
-                                //   height: 78.93,
-                                //   decoration: ShapeDecoration(
-                                //     image:
-                                //          DecorationImage(
-                                //       image: NetworkImage(
-                                //         "${RemoteUrls.rootUrl}${homeCubit
-                                //             .homeModel!
-                                //             .latestProperty![index]
-                                //             .thumbnailImage}"),
-                                //       fit: BoxFit.fill,
-                                //     ),
-                                //     shape:
-                                //         RoundedRectangleBorder(
-                                //       borderRadius:
-                                //           BorderRadius.circular(
-                                //               10),
-                                //     ),
-                                //   ),
-                                // ),
 
-                                CustomNetworkImageWidget(
-                                  width: 78.93,
-                                  height: 78.93,
-                                  image:
-                                  "${RemoteUrls.rootUrl}${widget.properties[index].thumbnailImage}",
-                                ),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(
-                                      left: 15.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .start,
-                                        children: [
-                                          Text(
-                                            widget.properties[index].title,
-                                            style: const TextStyle(
-                                              color:
-                                              Colors.black,
-                                              fontSize: 14,
-                                              fontFamily:
-                                              'DM Sans',
-                                              fontWeight:
-                                              FontWeight
-                                                  .w700,
-                                              height: 0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .start,
-                                        children: [
-                                          const Icon(
-                                            Icons
-                                                .location_on_sharp,
-                                            size: 12,
-                                          ),
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                              removeHtmlTags( widget.properties[index].address),
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                color:
-                                                Colors.black,
-                                                fontSize: 14,
-                                                fontFamily:
-                                                'DM Sans',
-                                                fontWeight:
-                                                FontWeight
-                                                    .w300,
-                                                height: 0,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      // const SizedBox(
-                                      //   height: 5,
-                                      // ),
-                                      // Row(
-                                      //   children: [
-                                      //     Image.asset(
-                                      //       "assets/images/iconamoon_profile-light.png",
-                                      //       height: 12,
-                                      //     ),
-                                      //     const SizedBox(
-                                      //       width: 5,
-                                      //     ),
-                                      //      Text(
-                                      //       widget.homeDataLoaded?.latestProperties?[index]. ?? "",
-                                      //       style: TextStyle(
-                                      //         color:
-                                      //             Colors.black,
-                                      //         fontSize: 13,
-                                      //         fontFamily:
-                                      //             'DM Sans',
-                                      //         fontWeight:
-                                      //             FontWeight
-                                      //                 .w300,
-                                      //         height: 0,
-                                      //       ),
-                                      //     )
-                                      //   ],
-                                      // ),
-                                    ],
+                            Visibility(
+                              visible: widget.isRequest,
+                              child: const SizedBox(
+                                height: 15,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .start,
+                              children: [
+                                Text(
+                                  widget.isRequest?"${ widget.properties[index].title}":"Name: ${ widget.properties[index].name}",
+                                  style: const TextStyle(
+                                    color:
+                                    Colors.black,
+                                    fontSize: 14,
+                                    fontFamily:
+                                    'DM Sans',
+                                    fontWeight:
+                                    FontWeight
+                                        .w700,
+                                    height: 0,
                                   ),
                                 ),
-                                // Spacer(),
-                                // GestureDetector(
-                                //   onTap: () {
-                                //     Navigator.push(
-                                //         context, MaterialPageRoute(builder: (context) =>  AddPropertyScreen(property: widget.properties?[index],)));
-                                //   },
-                                //   child: const Icon(
-                                //     Icons.edit,
-                                //     color: Color(0xFF30469A),
-                                //   ),
-                                // ),
-                                // SizedBox(
-                                //   width: 10,
-                                // ),
-                                // GestureDetector(
-                                //   onTap: () {
-                                //     // Navigator.pushNamed(
-                                //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                                //   },
-                                //   child: const Icon(
-                                //     Icons.delete,
-                                //     color: Color(0xFF30469A),
-                                //   ),
-                                // ),
-                                // SizedBox(
-                                //   width: 10,
-                                // ),
-                                // Column(
-                                //   crossAxisAlignment: CrossAxisAlignment.end,
-                                //   mainAxisAlignment: MainAxisAlignment.center,
-                                //   children: [
-                                //     GestureDetector(
-                                //       onTap: () {
-                                //         // Navigator.pushNamed(
-                                //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                                //       },
-                                //       child: const Icon(
-                                //         Icons.edit,
-                                //         color: Color(0xFF30469A),
-                                //       ),
-                                //     ),
-                                //    SizedBox(
-                                //       height: 10,
-                                //    ),
-                                //      GestureDetector(
-                                //       onTap: () {
-                                //         // Navigator.pushNamed(
-                                //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                                //       },
-                                //       child: const Icon(
-                                //         Icons.delete,
-                                //         color: Color(0xFF30469A),
-                                //       ),
-                                //     ),
-                                //
-                                //
-                                //
-                                //     // IconButton(
-                                //     //   onPressed: () {
-                                //     //     // Navigator.pushNamed(
-                                //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                                //     //   },
-                                //     //   icon: const Icon(
-                                //     //     Icons.edit,
-                                //     //     color: Color(0xFF30469A),
-                                //     //   ),
-                                //     // ),
-                                //     // IconButton(
-                                //     //   onPressed: () {
-                                //     //     // Navigator.pushNamed(
-                                //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                                //     //   },
-                                //     //   icon: const Icon(
-                                //     //     Icons.delete,
-                                //     //     color: Color(0xFF30469A),
-                                //     //   ),
-                                //     // ),
-                                //   ],
-                                // )
                               ],
                             ),
-                          ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .start,
+                              children: [
+                                Visibility(
+                                  visible: widget.isRequest,
+                                  child: const Icon(
+                                    Icons
+                                        .location_on_sharp,
+                                    size: 12,
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: widget.isRequest,
+                                  child: SizedBox(
+                                    width: 5,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    widget.isRequest?"${removeHtmlTags( widget.properties[index].address)}":"Email: ${removeHtmlTags( widget.properties[index].email)}",
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      color:
+                                      Colors.black,
+                                      fontSize: 14,
+                                      fontFamily:
+                                      'DM Sans',
+                                      fontWeight:
+                                      FontWeight
+                                          .bold,
+                                      height: 0,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Visibility(
+                              visible: !widget.isRequest,
+                              child: const SizedBox(
+                                height: 5,
+                              ),
+                            ),
+                            Visibility(
+                              visible: !widget.isRequest,
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment
+                                    .start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      !widget.isRequest?"Message: ${widget.properties[index].message}":"",
+                                      // maxLines: 1,
+                                      style: const TextStyle(
+                                        color:
+                                        Colors.black,
+                                        fontSize: 14,
+                                        fontFamily:
+                                        'DM Sans',
+                                        fontWeight:
+                                        FontWeight
+                                            .w700,
+                                        height: 0,
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: widget.isRequest,
+                              child: const SizedBox(
+                                height: 5,
+                              ),
+                            ),
+                            Visibility(
+                              visible: widget.isRequest,
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment
+                                    .start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      widget.isRequest?"${widget.properties[index].description}":"",
+                                      // maxLines: 1,
+                                      style: const TextStyle(
+                                        color:
+                                        Colors.black,
+                                        fontSize: 14,
+                                        fontFamily:
+                                        'DM Sans',
+                                        fontWeight:
+                                        FontWeight
+                                            .w700,
+                                        height: 0,
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                          ],
                         ),
-                      );
-                    }),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
         );
       },
     );

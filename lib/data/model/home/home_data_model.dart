@@ -1,3 +1,5 @@
+import '../product/aminit_model.dart';
+
 class HomeDataModel {
   PropertyType? propertyType;
   List<BannerImage>? bannerImage;
@@ -169,6 +171,7 @@ class PropertyFeatured {
   int? cityId;
   int? totalRating;
   String? ratingAvarage;
+  List<AminityItemDto>? aminityItemDto;
 
   PropertyFeatured(
       {this.id,
@@ -217,6 +220,7 @@ class PropertyFeatured {
         this.possessionStatus,
         this.cityId,
         this.totalRating,
+        this.aminityItemDto,
         this.ratingAvarage});
 
   PropertyFeatured.fromJson(Map<String, dynamic> json) {
@@ -267,6 +271,12 @@ class PropertyFeatured {
     cityId = json['city_id'];
     totalRating = json['totalRating'];
     ratingAvarage = json['ratingAvarage'];
+    if (json['aminities'] != null) {
+      aminityItemDto = <AminityItemDto>[];
+      json['aminities'].forEach((v) {
+        aminityItemDto!.add(new AminityItemDto.fromMap(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -318,6 +328,10 @@ class PropertyFeatured {
     data['city_id'] = this.cityId;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    if (this.aminityItemDto != null) {
+      data['aminityItemDto'] =
+          this.aminityItemDto!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -370,6 +384,7 @@ class LatestProperties {
   int? cityId;
   int? totalRating;
   String? ratingAvarage;
+  List<AminityItemDto>? aminityItemDto;
 
   LatestProperties(
       {this.id,
@@ -418,6 +433,7 @@ class LatestProperties {
         this.possessionStatus,
         this.cityId,
         this.totalRating,
+        this.aminityItemDto,
         this.ratingAvarage});
 
   LatestProperties.fromJson(Map<String, dynamic> json) {
@@ -467,6 +483,12 @@ class LatestProperties {
     possessionStatus = json['possession_status'];
     cityId = json['city_id'];
     totalRating = json['totalRating'];
+     if (json['aminities'] != null) {
+      aminityItemDto = <AminityItemDto>[];
+      json['aminities'].forEach((v) {
+        aminityItemDto!.add(new AminityItemDto.fromMap(v));
+      });
+    }
     ratingAvarage = json['ratingAvarage'];
   }
 
@@ -519,6 +541,10 @@ class LatestProperties {
     data['city_id'] = this.cityId;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    if (this.aminityItemDto != null) {
+      data['aminities'] =
+          this.aminityItemDto!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -573,6 +599,7 @@ class Properties {
   double? distance;
   int? totalRating;
   String? ratingAvarage;
+  List<AminityItemDto>? aminityItemDto;
 
   Properties(
       {this.id,
@@ -623,6 +650,7 @@ class Properties {
         this.cityId,
         this.distance,
         this.totalRating,
+        this.aminityItemDto,
         this.ratingAvarage});
 
   Properties.fromJson(Map<String, dynamic> json) {
@@ -675,6 +703,12 @@ class Properties {
     distance = json['distance'];
     totalRating = json['totalRating'];
     ratingAvarage = json['ratingAvarage'];
+    if (json['aminities'] != null) {
+      aminityItemDto = <AminityItemDto>[];
+      json['aminities'].forEach((v) {
+        aminityItemDto!.add((v is Map<String, dynamic>)? new AminityItemDto.fromMap(v): new AminityItemDto.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -728,6 +762,10 @@ class Properties {
     data['distance'] = this.distance;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    if (this.aminityItemDto != null) {
+      data['aminities'] =
+          this.aminityItemDto!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

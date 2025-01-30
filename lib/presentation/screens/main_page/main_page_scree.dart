@@ -16,6 +16,7 @@ import '../../../../presentation/utils/utils.dart';
 import '../../../../presentation/widget/custom_images.dart';
 import '../../../../presentation/widget/custom_test_style.dart';
 import '../../../logic/cubit/about_us/about_us_cubit.dart';
+import '../../../logic/cubit/add_property/add_property_cubit.dart';
 import '../../../logic/cubit/agent/agent_cubit.dart';
 import '../../../logic/cubit/booking/booking_cubit.dart';
 import '../../../logic/cubit/contact_us/contact_us_cubit.dart';
@@ -85,11 +86,16 @@ class _MainPageScreenState extends State<MainPageScreen>
       if (mounted) {
 
      debugPrint("lat ${position.latitude.toString()} long ${position.longitude.toString()}");
+     context.read<AddPropertyCubit>().getData().then((value){
+       context.read<HomeCubit>().getHomeData(
+         lat: position.latitude.toString(),
+         long: position.longitude.toString(),
+       );
+       // context.read<AddPropertyCubit>().state.staticInfo?.categories?.forEach((element) {
+       //   debugPrint("element==> ${ context.read<AddPropertyCubit>().state.staticInfo?.}");
+       // });
+     });
 
-        context.read<HomeCubit>().getHomeData(
-              lat: position.latitude.toString(),
-              long: position.longitude.toString(),
-            );
       }
     } catch (e) {
       if (mounted) {

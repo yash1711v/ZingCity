@@ -647,9 +647,13 @@ void changeAddress(String text) {
     //   });
     // }
 
+    debugPrint('purpose ${property?.categoryId}');
+    debugPrint('title ${property?.title}');
+    debugPrint('title ${property?.title}');
+
     emit(state.copyWith(
       addState: const AddPropertyInitial(),
-      purpose: property?.purpose ?? '',
+      purpose: (property?.purpose ?? '').toString() == "1"? "buy" : "rent",
       title: property?.title ?? '',
       price: property?.price ?? '',
       totalArea: property?.totalArea ?? '',
@@ -665,6 +669,7 @@ void changeAddress(String text) {
       address: property?.address ?? '',
       thumbNailImage: property?.thumbnailImage ?? '',
       sliderImagesApi: property?.images ?? [],
+      categoryId: property?.categoryId ?? '',
       // seoTitle: property?.seoTitle ?? '',
       // seoMetaDescription: property?.seoMetaDescription ?? '',
       // propertyLocationDto: PropertyLocationDto(

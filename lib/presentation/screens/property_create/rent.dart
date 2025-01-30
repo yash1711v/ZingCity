@@ -35,6 +35,9 @@ class _RentScreenOneState extends State<RentScreenOne> {
           categories.add(category);
         }
 
+        if(rent.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
+          context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
+        }
       });
     });
 
@@ -161,8 +164,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 339,
+              Expanded(
+                // width: 339,
                 child: Text(
                   'Property Type',
                   style: TextStyle(
@@ -210,8 +213,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 339,
+              Expanded(
+                // width: 339,
                 child: Text(
                   'Property Name',
                   style: TextStyle(
@@ -262,8 +265,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 339,
+                Expanded(
+                  // width: 339,
                   child: Text(
                     'Select Room Type',
                     style: TextStyle(
@@ -320,8 +323,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 339,
+              Expanded(
+                // width: 339,
                 child: Text(
                   'Select Rent Period',
                   style: TextStyle(
@@ -367,8 +370,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 339,
+              Expanded(
+                // width: 339,
                 child: Text(
                   'Description',
                   style: TextStyle(
@@ -412,8 +415,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 339,
+              Expanded(
+                // width: 339,
                 child: Text(
                   'Rent',
                   style: TextStyle(
@@ -457,8 +460,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 339,
+              Expanded(
+                // width: 339,
                 child: Text(
                   'Total Area(sq. ft.)',
                   style: TextStyle(
@@ -501,8 +504,8 @@ class _RentScreenOneState extends State<RentScreenOne> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 339,
+              Expanded(
+                // width: 339,
                 child: Text(
                 'Security/Advance Amount',
                   style: TextStyle(
@@ -586,6 +589,10 @@ class _SellScreenOneState extends State<SellScreenOne> {
         if(sell.categoryId == category.id){
           categories.add(category);
           debugPrint("category ==> ${category.name}");
+
+          if(sell.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
+            context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
+          }
         }
 
       });
@@ -733,8 +740,8 @@ class _SellScreenOneState extends State<SellScreenOne> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 339,
+                    Expanded(
+                      // width: 339,
                       child: Text(
                         'Property Type',
                         style: TextStyle(
@@ -789,8 +796,8 @@ class _SellScreenOneState extends State<SellScreenOne> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 339,
+                  Expanded(
+                    // width: 339,
                     child: Text(
                       'Property Name',
                       style: TextStyle(
@@ -841,8 +848,8 @@ class _SellScreenOneState extends State<SellScreenOne> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 339,
+                    Expanded(
+                      // width: 339,
                       child: Text(
                         'Select Room Type',
                         style: TextStyle(
@@ -946,8 +953,8 @@ class _SellScreenOneState extends State<SellScreenOne> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 339,
+                  Expanded(
+                    // width: 339,
                     child: Text(
                       'Description',
                       style: TextStyle(
@@ -991,8 +998,8 @@ class _SellScreenOneState extends State<SellScreenOne> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 339,
+                  Expanded(
+                    // width: 339,
                     child: Text(
                       'Price',
                       style: TextStyle(
@@ -1036,8 +1043,8 @@ class _SellScreenOneState extends State<SellScreenOne> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 339,
+                  Expanded(
+                    // width: 339,
                     child: Text(
                       'Total Area(sq. ft.)',
                       style: TextStyle(
@@ -1080,8 +1087,8 @@ class _SellScreenOneState extends State<SellScreenOne> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 339,
+                  Expanded(
+                    // width: 339,
                     child: Text(
                       'Total ${state.typeId == "Agriculture Land"?"ACRE/ KANAL //MARLA":state.typeId == "Plot/Land"?"MARLA":"Unit"}',
                       style: TextStyle(

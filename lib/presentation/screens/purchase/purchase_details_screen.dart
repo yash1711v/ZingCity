@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:real_estate/data/model/agency/agency_details_model.dart';
 
 import '../../../data/data_provider/remote_url.dart';
+import '../../../data/model/add_property_model.dart' as room;
+import '../../../logic/cubit/add_property/add_property_cubit.dart';
 import '../../router/route_names.dart';
 import '../../widget/custom_theme.dart';
 import '../../widget/customnetwork_widget.dart';
@@ -184,10 +186,148 @@ class PurchaseDetailScreen extends StatelessWidget {
   }
 }
 
-class propertyDetailsLoaded extends StatelessWidget {
+class propertyDetailsLoaded extends StatefulWidget {
   const propertyDetailsLoaded({super.key, this.propertyDetails});
 
   final dynamic propertyDetails;
+
+  @override
+  State<propertyDetailsLoaded> createState() => _propertyDetailsLoadedState();
+}
+
+class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
+
+
+  List<room.Category> categories = [];
+  Set<room.Category> subCategoriesResidential = {};
+  Set<room.Category> subCategoriesCommercial = {};
+  Set<room.Category> subCategoriesPlotLand = {};
+  Set<room.Category> subCategoriesAgricultural = {};
+
+  String PropertyType = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.propertyDetails.purpose == "2"){
+
+      context.read<AddPropertyCubit>().state.staticInfo?.roomType?.forEach((element) {
+        debugPrint("element ==> ${element.id}");
+      });
+      context.read<AddPropertyCubit>().state.staticInfo?.categories?.forEach((category) {
+        context.read<AddPropertyCubit>().state.staticInfo?.purpose?.rent?.forEach((rent) {
+
+          if(rent.categoryId == category.id){
+            categories.add(category);
+          }
+
+          if(rent.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
+            context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
+          }
+        });
+      });
+
+
+      context.read<AddPropertyCubit>().state.staticInfo?.subcategories!.forEach((key,element) {
+        // debugPrint("key ==> $key");
+
+        categories.forEach((categories){
+          if(element.purpose!.contains(2)){
+
+            if(element.parentId.toString() == "1" ){
+
+              subCategoriesResidential.add(element);
+              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+                PropertyType = element.name ?? "";
+              }
+
+            }
+            else {
+              // debugPrint("Commercial ==> ${element.name}");
+              subCategoriesCommercial.add(element);
+              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+                PropertyType = element.name ?? "";
+              }
+              // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
+            }
+          }
+
+        });
+
+
+
+      });
+    } else {
+
+      context.read<AddPropertyCubit>().state.staticInfo?.roomType?.forEach((element) {
+        debugPrint("element ==> ${element.id}");
+      });
+      context.read<AddPropertyCubit>().state.staticInfo?.categories?.forEach((category) {
+        context.read<AddPropertyCubit>().state.staticInfo?.purpose?.sell?.forEach((rent) {
+
+          if(rent.categoryId == category.id){
+            categories.add(category);
+          }
+
+          if(rent.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
+            context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
+          }
+        });
+      });
+
+
+      context.read<AddPropertyCubit>().state.staticInfo?.subcategories!.forEach((key,element) {
+        // debugPrint("key ==> $key");
+
+        categories.forEach((categories){
+          if(element.purpose!.contains(1)){
+
+            if(element.parentId.toString() == "1" ){
+
+              subCategoriesResidential.add(element);
+              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+                PropertyType = element.name ?? "";
+              }
+
+            }
+            if(element.parentId.toString() == "2"){
+              // debugPrint("Commercial ==> ${element.name}");
+              subCategoriesCommercial.add(element);
+              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+                PropertyType = element.name ?? "";
+              }
+              // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
+            }
+            if (element.parentId.toString() == "3"){
+              subCategoriesAgricultural.add(element);
+              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+                PropertyType = element.name ?? "";
+              }
+              // debugPrint("Agricultural ==> ${element.name}");
+              // debugPrint("Agricultural ==> ${element.name}");
+            }
+            if (element.parentId.toString() == "4"){
+              subCategoriesPlotLand.add(element);
+              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+                PropertyType = element.name ?? "";
+              }
+            }
+          }
+
+        });
+
+
+
+      });
+
+
+
+
+
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +353,7 @@ class propertyDetailsLoaded extends StatelessWidget {
               decoration: ShapeDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                    "${RemoteUrls.rootUrl}${propertyDetails.thumbnailImage}",
+                    "${RemoteUrls.rootUrl}${widget.propertyDetails.thumbnailImage}",
                   ),
                   fit: BoxFit.fill,
                 ),
@@ -230,12 +370,12 @@ class propertyDetailsLoaded extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
-                      mainAxisAlignment: propertyDetails.isFeatured == "enable"
+                      mainAxisAlignment: widget.propertyDetails.isFeatured == "enable"
                           ? MainAxisAlignment.spaceBetween
                           : MainAxisAlignment.end,
                       children: [
                         Visibility(
-                          visible: propertyDetails.isFeatured == "enable",
+                          visible: widget.propertyDetails.isFeatured == "enable",
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: primaryColor,
@@ -280,28 +420,59 @@ class propertyDetailsLoaded extends StatelessWidget {
                 ],
               ),
             ),
-            // SizedBox(
-            //   height: 10.h,
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     SvgPicture.asset("assets/Yash/images/banglowIcon.svg"),
-            //     // const SizedBox(
-            //     //   width: 5,
-            //     // ),
-            //     const Expanded(
-            //       child: Text(
-            //         'Bangalow',
-            //         style: TextStyle(
-            //           color: Color(0x7F4D5454),
-            //           fontSize: 14,
-            //           fontFamily: 'DM Sans',
-            //           fontWeight: FontWeight.w400,
-            //           height: 0.10,
-            //         ),
-            //       ),
-            //     ),
+
+            SizedBox(
+              height: 20.h,
+            ),
+
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // SvgPicture.asset("assets/Yash/images/banglowIcon.svg"),
+                  // const SizedBox(
+                  //   width: 5,
+                  // ),
+                  Expanded(
+                    child: Text(
+                      widget.propertyDetails.purpose.toString() == "1"?"Purpose: For Sell":"Purpose: For Rent",
+                      style: TextStyle(
+                        color: Color(0x7F4D5454),
+                        fontSize: 14,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0.10,
+                      ),
+                    ),
+                  ),]),
+
+            Visibility(
+              visible: PropertyType.isNotEmpty,
+              child: SizedBox(
+                height: 15.h,
+              ),
+            ),
+            Visibility(
+              visible: PropertyType.isNotEmpty,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SvgPicture.asset("assets/Yash/images/banglowIcon.svg"),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                   Expanded(
+                    child: Text(
+                      PropertyType.toString(),
+                      style: TextStyle(
+                        color: Color(0x7F4D5454),
+                        fontSize: 14,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0.10,
+                      ),
+                    ),
+                  ),]),
+            ),
             //     // const Spacer(),
             //     //  Text(
             //     //   propertyDetails.,
@@ -322,7 +493,7 @@ class propertyDetailsLoaded extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    propertyDetails.title,
+                    widget.propertyDetails.title,
                     style: const TextStyle(
                       color: Color(0xFF4D5454),
                       fontSize: 16,
@@ -352,7 +523,7 @@ class propertyDetailsLoaded extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    '₹${propertyDetails.price}',
+                    '₹${widget.propertyDetails.price}',
                     style: const TextStyle(
                       color: Color(0xFF30469A),
                       fontSize: 16,
@@ -388,7 +559,7 @@ class propertyDetailsLoaded extends StatelessWidget {
               height: 10,
             ),
             ReadMoreText(
-              text: removeHtmlTags(propertyDetails.description),
+              text: removeHtmlTags(widget.propertyDetails.description),
               style: const TextStyle(
                 color: Color(0x7F4D5454),
                 fontSize: 14,
@@ -398,19 +569,19 @@ class propertyDetailsLoaded extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: (propertyDetails.totalBedroom ?? "").isNotEmpty || (propertyDetails.totalBathroom ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty || (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
               child: const SizedBox(
                 height: 15,
               ),
             ),
 
             Visibility(
-              visible: (propertyDetails.totalBedroom ?? "").isNotEmpty || (propertyDetails.totalBathroom ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty || (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Visibility(
-                    visible: (propertyDetails.totalBedroom ?? "").isNotEmpty,
+                    visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -445,7 +616,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                               height: 15,
                             ),
                             Text(
-                              '${propertyDetails.totalBedroom} Rooms',
+                              '${widget.propertyDetails.totalBedroom} Rooms',
                               style: const TextStyle(
                                 color: Color(0xFF4D5454),
                                 fontSize: 14,
@@ -460,7 +631,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: (propertyDetails.totalBathroom ?? "").isNotEmpty,
+                    visible: (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -496,7 +667,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                               height: 15,
                             ),
                             Text(
-                              '${propertyDetails.totalBathroom} Rooms',
+                              '${widget.propertyDetails.totalBathroom} Rooms',
                               style: const TextStyle(
                                 color: Color(0xFF4D5454),
                                 fontSize: 14,
@@ -517,18 +688,18 @@ class propertyDetailsLoaded extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: (propertyDetails.totalGarage ?? "").isNotEmpty || (propertyDetails.totalKitchen ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty || (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
               child: const SizedBox(
                 height: 15,
               ),
             ),
             Visibility(
-              visible: (propertyDetails.totalGarage ?? "").isNotEmpty || (propertyDetails.totalKitchen ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty || (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Visibility(
-                    visible: (propertyDetails.totalGarage ?? "").isNotEmpty,
+                    visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -563,7 +734,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                               height: 15,
                             ),
                             Text(
-                              '${propertyDetails.totalGarage} Rooms',
+                              '${widget.propertyDetails.totalGarage} Rooms',
                               style: const TextStyle(
                                 color: Color(0xFF4D5454),
                                 fontSize: 14,
@@ -578,7 +749,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: (propertyDetails.totalKitchen ?? "").isNotEmpty,
+                    visible: (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -613,7 +784,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                               height: 15,
                             ),
                             Text(
-                              '${propertyDetails.totalKitchen} Rooms',
+                              '${widget.propertyDetails.totalKitchen} Rooms',
                               style: const TextStyle(
                                 color: Color(0xFF4D5454),
                                 fontSize: 14,
@@ -855,7 +1026,7 @@ class propertyDetailsLoaded extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    "${propertyDetails.address}",
+                    "${widget.propertyDetails.address}",
                     maxLines: 2,
                     style: const TextStyle(
                       color: Color(0x7F4D5454),
@@ -868,49 +1039,85 @@ class propertyDetailsLoaded extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 25.0),
-            Container(
-              width: double.infinity,
-              height: 175,
-              decoration: ShapeDecoration(
-                image: const DecorationImage(
-                  image: AssetImage("assets/Yash/images/mapImage.png"),
-                  fit: BoxFit.fill,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-              ),
-              child: Container(
-                width: double.infinity,
-                height: 175,
-                decoration: ShapeDecoration(
-                  color: const Color(0x354D5454),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                child: Center(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                      onPressed: () {},
-                      child: const Text(
-                        'View on map',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontFamily: 'DM Sans',
-                          fontWeight: FontWeight.w400,
-                          height: 0.12,
-                        ),
-                      )),
-                ),
-              ),
+           SizedBox(
+             height: 10,
+           ),
+           Text("Aminities"),
+            SizedBox(
+              height: 10,
             ),
-            const SizedBox(height: 50.0),
+            SizedBox(
+              width: double.infinity,
+              height: 35,
+              child: ListView.builder(
+                itemCount: widget.propertyDetails.aminityItemDto.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context,index){
+                    return Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                      // width: 150,
+                      // height: 150,
+                      decoration: ShapeDecoration(
+                        color: const Color(0x19087C7C),
+                        // image: DecorationImage(
+                        //   image: NetworkImage(
+                        //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                        //   ),
+                        //   fit: BoxFit.fill,
+                        // ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                      child: Center(child: Text(widget.propertyDetails.aminityItemDto[index].aminity.aminity)),
+                    );
+                  }),
+            ),
+            const SizedBox(height: 80.0),
+            // Container(
+            //   width: double.infinity,
+            //   height: 175,
+            //   decoration: ShapeDecoration(
+            //     image: const DecorationImage(
+            //       image: AssetImage("assets/Yash/images/mapImage.png"),
+            //       fit: BoxFit.fill,
+            //     ),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(18),
+            //     ),
+            //   ),
+            //   child: Container(
+            //     width: double.infinity,
+            //     height: 175,
+            //     decoration: ShapeDecoration(
+            //       color: const Color(0x354D5454),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(18),
+            //       ),
+            //     ),
+            //     child: Center(
+            //       child: ElevatedButton(
+            //           style: ElevatedButton.styleFrom(
+            //               backgroundColor: primaryColor,
+            //               shape: RoundedRectangleBorder(
+            //                   borderRadius: BorderRadius.circular(10.0))),
+            //           onPressed: () {},
+            //           child: const Text(
+            //             'View on map',
+            //             style: TextStyle(
+            //               color: Colors.white,
+            //               fontSize: 12,
+            //               fontFamily: 'DM Sans',
+            //               fontWeight: FontWeight.w400,
+            //               height: 0.12,
+            //             ),
+            //           )),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 50.0),
           ],
         ),
       ),

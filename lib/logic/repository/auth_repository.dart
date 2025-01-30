@@ -331,9 +331,9 @@ class Repository {
     log("${response.body} ", name: "Enquiry Requests");
 
     var data = jsonDecode(response.body);
-
+          log("${data['data']} ", name: "Enquiry Requests");
     List<dynamic> properties =
-        data['data'].map((e) => Properties.fromMap(e)).toList();
+        data['data'].map((e) => EnquiryModel.fromMap(e)).toList();
 
     return properties;
   }
