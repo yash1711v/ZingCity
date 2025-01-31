@@ -525,7 +525,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
 
   // @override
   // Future<String> updateAgentProfileInfo(
-  //     String token, ProfileStateModel body) 
+  //     String token, ProfileStateModel body)
   // async {
   //   final url = Uri.parse(RemoteUrls.updateAgentProfileInfo(token));
   //   final headers = {
@@ -895,6 +895,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
     };
     final uri = Uri.parse(RemoteUrls.createPropertyUrl(token!));
     // debugPrint('create-url $uri');
+
+    final result = <String, String>{};
+
+
     final request = http.MultipartRequest('POST', uri);
     request.fields.addAll({
       "title": data.title,
@@ -922,11 +926,15 @@ class RemoteDataSourceImp extends RemoteDataSource {
       "lng": "",
       // "thumbnail_image": data.thumbNailImage,// File upload (use Postman to upload the file)
       "video_thumbnail": "", // File upload (use Postman to upload the file)
-      "aminities[]": jsonEncode(data.aminities),
-      // "slider_images": ["slider_image1.jpg", "slider_image2.jpg"], // File upload (use Postman to upload the files)
+      for (var i = 0; i < data.aminities.length; i++) 'aminities[$i]': data.aminities[i],
+
+      // "1,2,3,4",
+      // "slider_images": , // File upload (use Postman to upload the files)
       // "nearest_locations": [1, 2],
-      "distances[]": jsonEncode(data.distance),
-      "nearest_locations[]": jsonEncode(data.nearestLocation),
+      for (var i = 0; i < data.distance.length; i++) 'distances[$i]': data.distance[i],
+      // "distances": jsonEncode(data.distance),
+      for (var i = 0; i < data.nearestLocation.length; i++) 'nearest_locations[$i]': data.nearestLocation[i],
+      // "nearest_locations": jsonEncode(data.nearestLocation),
       "add_keys": "",
       "add_values": "",
       "date_form": "",
@@ -962,29 +970,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
       }
     }
 
-    // if (data.aminities.isNotEmpty) {
-    //   for (var i = 0; i < data.aminities.length; i++) {
-    //     final file = await http.MultipartFile.fromPath(
-    //         'aminities[$i]', data.aminities[i].toString());
-    //     request.files.add(file);
-    //   }
-    // }
 
-    // if (data.nearestLocation.isNotEmpty) {
-    //   for (var i = 0; i < data.nearestLocation.length; i++) {
-    //     final file = await http.MultipartFile.fromPath(
-    //         'nearest_locations[$i]', data.nearestLocation[i].toString());
-    //     request.files.add(file);
-    //   }
-    // }
 
-    // if (data.distance.isNotEmpty) {
-    //   for (var i = 0; i < data.distance.length; i++) {
-    //     final file = await http.MultipartFile.fromPath(
-    //         'distances[$i]', data.distance[i].toString());
-    //     request.files.add(file);
-    //   }
-    // }
+
+
 
     if (data.propertyVideoDto.videoThumbnail.isNotEmpty) {
       final file = await http.MultipartFile.fromPath(
@@ -1002,7 +991,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
         }
       }
     }
-log(request.fields.toString(),name: "Data");
+
+  log(request.fields.toString(),name: "Data");
+  log(request.files.contains("Sliders").toString(),name: "Sliders");
+
     http.StreamedResponse response = await request.send();
     final clientMethod = http.Response.fromStream(response);
 
@@ -1404,5 +1396,94 @@ log(request.fields.toString(),name: "Data");
         await NetworkParser.callClientWithCatchException(() => clientMethod);
     log('responseJsonBody', name: responseJsonBody.toString());
     return responseJsonBody['properties'];
+  }
+}
+
+
+
+
+class PropertyData {
+  String title;
+  String categoryId;
+  String propertyTypeId;
+  String purpose;
+  String roomTypeId;
+  String rentPeriod;
+  String price;
+  String description;
+  String totalArea;
+  String totalUnit;
+  String totalBedroom;
+  String totalBathroom;
+  String totalGarage;
+  String totalKitchen;
+  String cityId;
+  String stateId;
+  String address;
+  List<String> aminities;
+  Map<String, dynamic> distance;
+  Map<String, dynamic> nearestLocation;
+
+  PropertyData({
+    required this.title,
+    required this.categoryId,
+    required this.propertyTypeId,
+    required this.purpose,
+    required this.roomTypeId,
+    required this.rentPeriod,
+    required this.price,
+    required this.description,
+    required this.totalArea,
+    required this.totalUnit,
+    required this.totalBedroom,
+    required this.totalBathroom,
+    required this.totalGarage,
+    required this.totalKitchen,
+    required this.cityId,
+    required this.stateId,
+    required this.address,
+    required this.aminities,
+    required this.distance,
+    required this.nearestLocation,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      "title": title,
+      "slug": title.trim().replaceAll(" ", "-"),
+      "category_id": categoryId,
+      "property_type_id": propertyTypeId,
+      "purpose": purpose == "rent" ? "2" : "1",
+      "bhk_type": roomTypeId,
+      "rent_period": rentPeriod.toLowerCase(),
+      "price": price,
+      "description": description,
+      "total_area": totalArea,
+      "total_unit": totalUnit,
+      "total_bedroom": totalBedroom,
+      "total_bathroom": totalBathroom,
+      "total_garage": totalGarage,
+      "total_kitchen": totalKitchen,
+      "city_id": cityId,
+      "state_id": stateId,
+      "country_id": "0",
+      "address": address,
+      "address_description": "",
+      "google_map": "",
+      "lat": "",
+      "lng": "",
+      // File uploads should be handled separately
+      "video_thumbnail": "",
+      for (var i = 0; i < aminities.length; i++) 'aminities[$i]': aminities[i],
+      "distances": jsonEncode(distance),
+      "nearest_locations": jsonEncode(nearestLocation),
+      "add_keys": "",
+      "add_values": "",
+      "date_form": "",
+      "date_to": "",
+      "time_form": "",
+      "time_to": "",
+      "possession_status": "2",
+    };
   }
 }

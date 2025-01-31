@@ -6,6 +6,7 @@ import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 import 'package:real_estate/data/model/auth/user_profile_model.dart';
 import 'package:real_estate/logic/bloc/General/general_cubit.dart';
 import 'package:real_estate/logic/cubit/order/order_cubit.dart';
+import 'package:real_estate/presentation/screens/profile/update_profile_screen.dart';
 import 'package:real_estate/presentation/screens/support/contact_us.dart';
 
 import '../../../data/data_provider/remote_url.dart';
@@ -272,6 +273,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+        bottomNavigationBar: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+            children: [
+              Expanded(
+                child: PrimaryButton(
+                    text: "Log Out",
+                    bgColor: Colors.red,
+                    onPressed: () {
+                      logoutDialog(context);
+                      // Utils.closeKeyBoard(context);
+                      // profileCubit.updateAgentProfileInfo(
+                      //     name: state.name,
+                      //     number: state.phone,
+                      //     address: state.address,
+                      //     description: state.aboutMe,
+                      //     email: state.email,
+                      //     about: state.aboutMe,
+                      //     image: state.image ?? File(""),
+                      //     context: context,
+                      //     Token: widget.profile.verifyToken ?? "").then((value){
+                      //       if(value){
+                      //         Navigator.pushReplacementNamed(
+                      //             context, RouteNames.mainPageScreen);
+                      //       }
+                      // });
+                    }),
+              ),
+            ],
+            ),
+          ),
+        ),
         backgroundColor: scaffoldBackground,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -316,47 +350,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
 
-                GestureDetector(
-                  onTap: (){
-                    Repository repo = Repository();
-                    repo.getEnquiryRequests().then((value){
-                      print(value);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => EnquiryScreen(properties: value, isRequest: true,)),
-                      );
-                    });
-                  },
-                  child: Text(
-                    'Enquiry Requests',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.699999988079071),
-                      fontSize: 16,
-                      fontFamily: 'DM Sans',
-                      fontWeight: FontWeight.w300,
-                      height: 0,
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: 324,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 1,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color:
-                                  Colors.black.withOpacity(0.10000000149011612),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // GestureDetector(
+                //   onTap: (){
+                //     Repository repo = Repository();
+                //     repo.getEnquiryRequests().then((value){
+                //       print(value);
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(builder: (context) => EnquiryScreen(properties: value, isRequest: true,)),
+                //       );
+                //     });
+                //   },
+                //   child: Text(
+                //     'Enquiry Requests',
+                //     style: TextStyle(
+                //       color: Colors.black.withOpacity(0.699999988079071),
+                //       fontSize: 16,
+                //       fontFamily: 'DM Sans',
+                //       fontWeight: FontWeight.w300,
+                //       height: 0,
+                //     ),
+                //   ),
+                // ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Container(
+                //         width: 324,
+                //         decoration: ShapeDecoration(
+                //           shape: RoundedRectangleBorder(
+                //             side: BorderSide(
+                //               width: 1,
+                //               strokeAlign: BorderSide.strokeAlignCenter,
+                //               color:
+                //                   Colors.black.withOpacity(0.10000000149011612),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 GestureDetector(
                   onTap: (){
                     Repository repo = Repository();

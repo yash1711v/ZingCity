@@ -79,6 +79,7 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
         : null;
 
     sliderImages = List<File>.from(cubitState.sliderImages);
+    debugPrint('https://lab6.invoidea.in/zingcity/${thumbnailImage?.path.toString()}');
   }
 
   @override
@@ -95,6 +96,15 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // First Container: Add Thumbnail Image
+                  Text(
+                    'Thumbnail Image',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 8),
                   GestureDetector(
                     onTap: pickThumbnailImage,
                     child: Container(
@@ -106,13 +116,13 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
                       ),
                       child: Column(
                         children: [
-                          if (thumbnailImage != null)
+                          if (thumbnailImage?.path  != null)
                             Stack(
                               children: [
-                                thumbnailImage is String &&
-                                    (thumbnailImage as String).startsWith('uploads/')
+                                thumbnailImage?.path is String &&
+                                    (thumbnailImage?.path as String).startsWith('uploads/')
                                     ? Image.network(
-                                  '${RemoteUrls.rootUrl}/$thumbnailImage',
+                                  'https://lab6.invoidea.in/zingcity/${thumbnailImage?.path.toString()}',
                                   width: screenWidth,
                                   fit: BoxFit.cover,
                                 )
@@ -155,6 +165,17 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
                   ),
                   const SizedBox(height: 16),
                   // Second Container: Add Slider Images
+                  Text(
+                    'More Images',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   GestureDetector(
                     onTap: pickSliderImages,
                     child: Container(

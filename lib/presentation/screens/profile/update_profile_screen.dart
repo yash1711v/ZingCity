@@ -17,6 +17,7 @@ import '../../widget/custom_images.dart';
 import '../../widget/custom_test_style.dart';
 import '../../widget/error_text.dart';
 import '../../widget/primary_button.dart';
+import '../home/home_screen.dart';
 import 'component/profile_image.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     profile.phoneChange(widget.profile.phone ?? "");
     profile.addressChange(widget.profile.address ?? "");
     // profile.designationChange(widget.profile.designation ?? "");
-    profile.aboutMeChange(widget.profile.aboutMe ?? "");
+    profile.aboutMeChange(widget.profile.address ?? "");
     profile.emailChange(widget.profile.email ?? "");
     // profile.instagramChange(widget.profile.instagram ?? "");
     // profile.twitterChange(widget.profile.twitter ?? "");
@@ -207,33 +208,33 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             //     );
             //   },
             // ),
-            spacer,
-            BlocBuilder<ProfileCubit, ProfileStateModel>(
-              builder: (context, state) {
-                final update = state.profileState;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                        initialValue: widget.profile.aboutMe,
-                        decoration: const InputDecoration(
-                          hintText: 'About me',
-                        ),
-                        keyboardType: TextInputType.text,
-                        maxLines: 6,
-                        onChanged: (String text) {
-                          profileCubit.aboutMeChange(text);
-                        }),
-                    if (update is ProfileUpdateFormValidate) ...[
-                      if (update.error.aboutMe.isNotEmpty)
-                        ErrorText(
-                          text: update.error.aboutMe.first,
-                        ),
-                    ]
-                  ],
-                );
-              },
-            ),
+            // spacer,
+            // BlocBuilder<ProfileCubit, ProfileStateModel>(
+            //   builder: (context, state) {
+            //     final update = state.profileState;
+            //     return Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         TextFormField(
+            //             initialValue: widget.profile.aboutMe,
+            //             decoration: const InputDecoration(
+            //               hintText: 'Address',
+            //             ),
+            //             keyboardType: TextInputType.text,
+            //             maxLines: 3,
+            //             onChanged: (String text) {
+            //               profileCubit.addressChange(text);
+            //             }),
+            //         if (update is ProfileUpdateFormValidate) ...[
+            //           if (update.error.aboutMe.isNotEmpty)
+            //             ErrorText(
+            //               text: update.error.aboutMe.first,
+            //             ),
+            //         ]
+            //       ],
+            //     );
+            //   },
+            // ),
             spacer,
             BlocBuilder<ProfileCubit, ProfileStateModel>(
               builder: (context, state) {
@@ -351,39 +352,42 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 about: state.aboutMe,
                                 image: state.image ?? File(""),
                                 context: context,
-                                Token: widget.profile.verifyToken ?? "").then((value){
+                                Token: widget.profile.verifyToken ?? "").then((value) async {
                                   if(value){
+                                    if( widget.profile.name !=null) await setInitialLocation(context);
+
                                     Navigator.pushReplacementNamed(
                                         context, RouteNames.mainPageScreen);
+
                                   }
                             });
                           }),
                     ),
-                    SizedBox(width: 10.0),
-                    Expanded(
-                      child: PrimaryButton(
-                          text: "Log Out",
-                          bgColor: Colors.red,
-                          onPressed: () {
-                            logoutDialog(context);
-                            // Utils.closeKeyBoard(context);
-                            // profileCubit.updateAgentProfileInfo(
-                            //     name: state.name,
-                            //     number: state.phone,
-                            //     address: state.address,
-                            //     description: state.aboutMe,
-                            //     email: state.email,
-                            //     about: state.aboutMe,
-                            //     image: state.image ?? File(""),
-                            //     context: context,
-                            //     Token: widget.profile.verifyToken ?? "").then((value){
-                            //       if(value){
-                            //         Navigator.pushReplacementNamed(
-                            //             context, RouteNames.mainPageScreen);
-                            //       }
-                            // });
-                          }),
-                    ),
+                    // SizedBox(width: 10.0),
+                    // Expanded(
+                    //   child: PrimaryButton(
+                    //       text: "Log Out",
+                    //       bgColor: Colors.red,
+                    //       onPressed: () {
+                    //         logoutDialog(context);
+                    //         // Utils.closeKeyBoard(context);
+                    //         // profileCubit.updateAgentProfileInfo(
+                    //         //     name: state.name,
+                    //         //     number: state.phone,
+                    //         //     address: state.address,
+                    //         //     description: state.aboutMe,
+                    //         //     email: state.email,
+                    //         //     about: state.aboutMe,
+                    //         //     image: state.image ?? File(""),
+                    //         //     context: context,
+                    //         //     Token: widget.profile.verifyToken ?? "").then((value){
+                    //         //       if(value){
+                    //         //         Navigator.pushReplacementNamed(
+                    //         //             context, RouteNames.mainPageScreen);
+                    //         //       }
+                    //         // });
+                    //       }),
+                    // ),
                   ],
                 ),
           );

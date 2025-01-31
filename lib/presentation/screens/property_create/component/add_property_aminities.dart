@@ -44,10 +44,10 @@ class AddPropertyAminities extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Checkbox(
-                              value: state.aminities.contains(element.id),
+                              value: state.aminities.contains(element.id.toString()),
                               activeColor: primaryColor,
                               onChanged: (v) {
-                                addProperty.addAminities(element.id);
+                                addProperty.addAminities(element.id.toString());
                                 // bloc.add(PropertyPropertyAminitiesEvent(
                                 //     propertyAminities: aminityList));
                               }),

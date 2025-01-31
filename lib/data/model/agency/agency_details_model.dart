@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 import '../home/home_data_model.dart';
+import '../product/aminit_model.dart';
+import '../product/slider_image_model.dart';
 import 'agency_list_model.dart';
 
 class AgencyDetailsModel extends Equatable {
@@ -100,14 +102,19 @@ class Properties extends Equatable {
   final String ratingAvarage;
   final String cityId;
   final String stateId;
+  final String? approveByAdmin;
   final Agent agent;
   final List<String> images;
   final String totalUnit;
+  final List<SliderImage>? sliders;
+  final List<AminityItemDto>? aminityItemDto;
 
   const Properties({
     this.images = const [],
     required this.id,
     required this.agentId,
+    required this.aminityItemDto,
+    this.approveByAdmin,
     required this.propertyTypeId,
     required this.title,
     required this.slug,
@@ -128,6 +135,7 @@ class Properties extends Equatable {
     required this.agent,
     this.description = '',
     this.totalKitchen = '',
+    this.sliders = const [],
     this.cityId = '',
     this.stateId = '',
     this.totalUnit = '',
@@ -154,18 +162,22 @@ class Properties extends Equatable {
     String? ratingAvarage,
     Agent? agent,
     int? propertyTypeId,
+    String? approveByAdmin,
     String? description,
     String? totalKitchen,
     String? totalUnit,
     String? cityId,
     String? stateId,
     List<String>? images,
+    final List<SliderImage>? sliders,
+    List<AminityItemDto>? aminityItemDto,
   }) {
     return Properties(
       id: id ?? this.id,
       agentId: agentId ?? this.agentId,
       title: title ?? this.title,
       slug: slug ?? this.slug,
+      approveByAdmin: approveByAdmin ?? this.approveByAdmin,
       purpose: purpose ?? this.purpose,
       rentPeriod: rentPeriod ?? this.rentPeriod,
       price: price ?? this.price,
@@ -187,7 +199,9 @@ class Properties extends Equatable {
       cityId: cityId ?? this.cityId,
       stateId: stateId ?? this.stateId,
       images: images ?? this.images,
+      sliders: sliders ?? this.sliders,
       categoryId: categoryId ?? this.categoryId,
+      aminityItemDto: aminityItemDto ?? this.aminityItemDto,
     );
   }
 
@@ -219,6 +233,9 @@ class Properties extends Equatable {
       'stateId': stateId,
       "images": images,
       "category_id": categoryId,
+      "slider_images": sliders!.map((x) => x.toMap()).toList(),
+      "aminities": aminityItemDto!.map((x) => x.toMap()).toList(),
+      "approve_by_admin": approveByAdmin.toString(),
     };
   }
 
@@ -241,6 +258,7 @@ class Properties extends Equatable {
       isFeatured: map['is_featured'] ?? '',
       totalRating: map['totalRating'] ?? 0,
       ratingAvarage: map['ratingAvarage'] ?? '',
+      approveByAdmin: map['approve_by_admin'] ?? '',
       agent: Agent.fromMap((map['agent'] ??
           Agent(
                   id: 0,
@@ -257,7 +275,22 @@ class Properties extends Equatable {
       totalUnit: map['total_unit'] ?? '',
       cityId: map['city_id'].toString() ?? '',
       stateId: map['state_id'].toString() ?? '',
-      images: List<String>.from(map['slider_images'] ?? []), categoryId: map['category_id'].toString(),
+      images: List<String>.from(map['slider_images'] ?? []),
+      categoryId: map['category_id'].toString(),
+      sliders: map['slider_images'] != null
+          ? List<SliderImage>.from(
+              (map['slider_images'] as List<dynamic>).map<SliderImage>(
+                (x) => SliderImage.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : [],
+      aminityItemDto: map['aminities'] != null
+          ? List<AminityItemDto>.from(
+              (map['aminities'] as List<dynamic>).map<AminityItemDto>(
+                (x) => (x is Map<String, dynamic> )?AminityItemDto.fromMap(x):AminityItemDto.fromJson(x ),
+              ),
+            )
+          : [],
     );
   }
 
@@ -270,7 +303,7 @@ class Properties extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       agentId,
@@ -290,7 +323,9 @@ class Properties extends Equatable {
       ratingAvarage,
       agent,
       description,
-      categoryId
+      categoryId,
+      aminityItemDto,
+      approveByAdmin
     ];
   }
 }
@@ -380,7 +415,6 @@ class Agent extends Equatable {
   }
 }
 
-
 class EnquiryModel extends Equatable {
   final String? id;
   final String? name;
@@ -388,9 +422,12 @@ class EnquiryModel extends Equatable {
   final String? message;
   final Properties? property;
 
-
   const EnquiryModel({
-    this.id, this.name, this.email, this.message, this.property,
+    this.id,
+    this.name,
+    this.email,
+    this.message,
+    this.property,
   });
 
   EnquiryModel copyWith({

@@ -366,7 +366,7 @@ class _MainPageScreenState extends State<MainPageScreen>
                                ( properties ?? []).forEach((element){
                                  debugPrint(element.categoryId.toString());
                                   // element.
-                                  if(element.categoryId == 1){
+                                  if(element.categoryId == "1"){
                                     ResidentialProperties.add(element);
                                   }
                                   debugPrint(ResidentialProperties.length.toString());
@@ -379,7 +379,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.categoryId == 2){
+                                  if(element.categoryId == "2"){
                                     comercialProperties.add(element);
                                   }
                                   debugPrint(comercialProperties.length.toString());
@@ -428,7 +428,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.categoryId == 1){
+                                  if(element.categoryId == "1"){
                                     ResidentialProperties.add(element);
                                   }
                                   debugPrint(ResidentialProperties.length.toString());
@@ -441,7 +441,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.categoryId == 2){
+                                  if(element.categoryId == "2"){
                                     comercialProperties.add(element);
                                   }
                                   debugPrint(comercialProperties.length.toString());
@@ -454,7 +454,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.categoryId == 3){
+                                  if(element.categoryId == "3"){
                                     agriculture.add(element);
                                   }
                                   debugPrint(agriculture.length.toString());
@@ -467,7 +467,7 @@ class _MainPageScreenState extends State<MainPageScreen>
 
                                 ( properties ?? []).forEach((element){
                                   // element.
-                                  if(element.categoryId == 4){
+                                  if(element.categoryId == "4"){
                                     plotLand.add(element);
                                   }
                                   debugPrint(plotLand.length.toString());

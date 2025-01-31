@@ -44,7 +44,7 @@ class AminityItemDto extends Equatable {
       'propert_id': propertyId,
       'created_at': createdAt,
       'updated_at': updatedAt,
-      'aminity': aminity!.toMap(),
+      'aminity': aminity?.toMap(),
     };
   }
 

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../data/data_provider/remote_url.dart';
 import '../../data/model/agency/agency_details_model.dart';
 import '../../state_inject_package_names.dart';
@@ -8,7 +10,8 @@ import 'home/home_screen.dart';
 class SeeAll extends StatefulWidget {
   final String title;
   final List<dynamic> properties;
-  const SeeAll({super.key, required this.title, required this.properties}) ;
+
+  const SeeAll({super.key, required this.title, required this.properties});
 
   @override
   State<SeeAll> createState() => _seeAllState();
@@ -45,7 +48,7 @@ class _seeAllState extends State<SeeAll> {
               children: [
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 25.0, left: 16, right: 16),
+                      const EdgeInsets.only(top: 25.0, left: 16, right: 16),
                   child: Row(
                     children: [
                       Image.asset(
@@ -72,7 +75,7 @@ class _seeAllState extends State<SeeAll> {
                       //       curve: Curves.easeIn);
                       // }
                     },
-                    child:  Row(
+                    child: Row(
                       children: [
                         const Icon(
                           Icons.arrow_back_ios,
@@ -98,7 +101,7 @@ class _seeAllState extends State<SeeAll> {
           // physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 14),
           shrinkWrap: true,
-          itemCount: (widget.properties.length ),
+          itemCount: (widget.properties.length),
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(
@@ -106,11 +109,14 @@ class _seeAllState extends State<SeeAll> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, RouteNames.purchaseDetailsScreen,
-                      arguments: Properties.fromJson(widget.properties[index]
-                          .toJson() ??
-                          {}));
+
+                  debugPrint("Value==> ${widget.properties[index]}");
+                  Navigator.pushNamed(context, RouteNames.purchaseDetailsScreen,
+                      arguments:
+                          widget.properties[index] is Map<String, dynamic>
+                              ? Properties.fromMap(widget.properties[index])
+                              : Properties.fromJson(
+                                  jsonEncode(widget.properties[index])));
                   // Navigator.pushNamed(
                   //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                 },
@@ -151,30 +157,23 @@ class _seeAllState extends State<SeeAll> {
                         width: 78.93,
                         height: 78.93,
                         image:
-                        "${RemoteUrls.rootUrl}${(widget.properties[index].thumbnailImage ?? "")}",
+                            "${RemoteUrls.rootUrl}${(widget.properties[index].thumbnailImage ?? "")}",
                       ),
                       Padding(
-                        padding:
-                        const EdgeInsets.only(left: 15.0),
+                        padding: const EdgeInsets.only(left: 15.0),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
                               height: 15,
                             ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.properties[
-                                  index]
-                                      .title ??
-                                      "",
+                                  widget.properties[index].title ?? "",
                                   maxLines: 1,
                                   style: const TextStyle(
-
                                     color: Colors.black,
                                     fontSize: 14,
                                     fontFamily: 'DM Sans',
@@ -188,8 +187,7 @@ class _seeAllState extends State<SeeAll> {
                               height: 5,
                             ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 const Icon(
                                   Icons.location_on_sharp,
@@ -198,10 +196,8 @@ class _seeAllState extends State<SeeAll> {
                                 SizedBox(
                                   width: 200,
                                   child: Text(
-                                    removeHtmlTags(widget.properties[
-                                    index]
-                                        .address ??
-                                        ""),
+                                    removeHtmlTags(
+                                        widget.properties[index].address ?? ""),
                                     maxLines: 1,
                                     style: const TextStyle(
                                       color: Colors.black,

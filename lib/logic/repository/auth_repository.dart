@@ -339,10 +339,15 @@ class Repository {
   }
 
   Future<dynamic> deleteMyProperty(String id) async {
-    final uri = Uri.parse("${RemoteUrls.baseUrl}user/property/$id");
+    debugPrint("$id");
+    final uri = Uri.parse("${RemoteUrls.baseUrl}user/delete-property");
     await updateHeader("");
+  var body = {
+    "id": id
+  };
 
-    var response = await client.delete(uri, headers: _mainHeaders);
+  debugPrint("$uri");
+    var response = await client.post(uri, headers: _mainHeaders,body: jsonEncode(body));
     log("${response.body} ", name: "Enquiry Requests");
 
     var data = jsonDecode(response.body);

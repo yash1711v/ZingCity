@@ -1,4 +1,5 @@
 import '../product/aminit_model.dart';
+import '../product/slider_image_model.dart';
 
 class HomeDataModel {
   PropertyType? propertyType;
@@ -127,6 +128,7 @@ class PropertyFeatured {
   int? id;
   int? agentId;
   int? propertyTypeId;
+  String? categoryId;
   int? stateId;
   String? title;
   String? slug;
@@ -170,6 +172,7 @@ class PropertyFeatured {
   int? possessionStatus;
   int? cityId;
   int? totalRating;
+  List<SliderImage>? sliders;
   String? ratingAvarage;
   List<AminityItemDto>? aminityItemDto;
 
@@ -180,6 +183,7 @@ class PropertyFeatured {
         this.stateId,
         this.title,
         this.slug,
+        this.categoryId,
         this.purpose,
         this.rentPeriod,
         this.price,
@@ -220,6 +224,7 @@ class PropertyFeatured {
         this.possessionStatus,
         this.cityId,
         this.totalRating,
+        this.sliders,
         this.aminityItemDto,
         this.ratingAvarage});
 
@@ -231,6 +236,7 @@ class PropertyFeatured {
     title = json['title'];
     slug = json['slug'];
     purpose = json['purpose'];
+    categoryId = json['category_id'].toString();
     rentPeriod = json['rent_period'];
     price = json['price'];
     thumbnailImage = json['thumbnail_image'];
@@ -271,11 +277,18 @@ class PropertyFeatured {
     cityId = json['city_id'];
     totalRating = json['totalRating'];
     ratingAvarage = json['ratingAvarage'];
+    sliders = json['slider_image'] != null
+        ? (json['slider_image'] as List)
+        .map((i) => i is Map<String,dynamic>?SliderImage.fromMap(i):SliderImage.fromJson(i))
+        .toList()
+        : [];
     if (json['aminities'] != null) {
       aminityItemDto = <AminityItemDto>[];
       json['aminities'].forEach((v) {
         aminityItemDto!.add(new AminityItemDto.fromMap(v));
       });
+    } else {
+      aminityItemDto = [];
     }
   }
 
@@ -320,6 +333,7 @@ class PropertyFeatured {
     data['date_from'] = this.dateFrom;
     data['date_to'] = this.dateTo;
     data['time_from'] = this.timeFrom;
+    data['category_id'] =  this.categoryId;
     data['time_to'] = this.timeTo;
     data['country_id'] = this.countryId;
     data['lat'] = this.lat;
@@ -328,6 +342,7 @@ class PropertyFeatured {
     data['city_id'] = this.cityId;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    data["slider_image"] = this.sliders!.map((e) => e.toJson()).toList();
     if (this.aminityItemDto != null) {
       data['aminityItemDto'] =
           this.aminityItemDto!.map((v) => v.toJson()).toList();
@@ -342,6 +357,7 @@ class LatestProperties {
   int? propertyTypeId;
   int? stateId;
   String? title;
+  String? categoryId;
   String? slug;
   String? purpose;
   String? rentPeriod;
@@ -374,6 +390,7 @@ class LatestProperties {
   String? createdAt;
   String? updatedAt;
   String? dateFrom;
+  List<SliderImage>? sliders;
   String? dateTo;
   String? timeFrom;
   String? timeTo;
@@ -392,6 +409,8 @@ class LatestProperties {
         this.propertyTypeId,
         this.stateId,
         this.title,
+        this.sliders,
+        this.categoryId,
         this.slug,
         this.purpose,
         this.rentPeriod,
@@ -482,12 +501,20 @@ class LatestProperties {
     lon = json['lon'];
     possessionStatus = json['possession_status'];
     cityId = json['city_id'];
+    categoryId = json['category_id'].toString();
     totalRating = json['totalRating'];
-     if (json['aminities'] != null) {
+        sliders = json['slider_image'] != null
+        ? (json['slider_image'] as List)
+        .map((i) => i is Map<String,dynamic>?SliderImage.fromMap(i):SliderImage.fromJson(i))
+        .toList()
+        : [];
+    if (json['aminities'] != null) {
       aminityItemDto = <AminityItemDto>[];
       json['aminities'].forEach((v) {
         aminityItemDto!.add(new AminityItemDto.fromMap(v));
       });
+    } else {
+      aminityItemDto = [];
     }
     ratingAvarage = json['ratingAvarage'];
   }
@@ -537,13 +564,15 @@ class LatestProperties {
     data['country_id'] = this.countryId;
     data['lat'] = this.lat;
     data['lon'] = this.lon;
+    data['category_id'] = this.categoryId;
     data['possession_status'] = this.possessionStatus;
     data['city_id'] = this.cityId;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    data["slider_image"] = this.sliders!.map((e) => e.toJson()).toList();
     if (this.aminityItemDto != null) {
       data['aminities'] =
-          this.aminityItemDto!.map((v) => v.toJson()).toList();
+          this.aminityItemDto!.map((v) => (v).toJson()).toList();
     }
     return data;
   }
@@ -552,7 +581,7 @@ class LatestProperties {
 class Properties {
   int? id;
   int? agentId;
-  int? categoryId;
+  String? categoryId;
   int? propertyTypeId;
   int? stateId;
   String? title;
@@ -587,6 +616,7 @@ class Properties {
   String? approveByAdmin;
   String? createdAt;
   String? updatedAt;
+  List<SliderImage>? sliders;
   String? dateFrom;
   String? dateTo;
   String? timeFrom;
@@ -651,6 +681,7 @@ class Properties {
         this.distance,
         this.totalRating,
         this.aminityItemDto,
+        this.sliders,
         this.ratingAvarage});
 
   Properties.fromJson(Map<String, dynamic> json) {
@@ -661,7 +692,7 @@ class Properties {
     title = json['title'];
     slug = json['slug'];
     purpose = json['purpose'];
-    categoryId = json['category_id'];
+    categoryId = json['category_id'].toString();
     rentPeriod = json['rent_period'];
     price = json['price'];
     thumbnailImage = json['thumbnail_image'];
@@ -703,11 +734,18 @@ class Properties {
     distance = json['distance'];
     totalRating = json['totalRating'];
     ratingAvarage = json['ratingAvarage'];
+        sliders = json['slider_image'] != null
+        ? (json['slider_image'] as List)
+        .map((i) => i is Map<String,dynamic>?SliderImage.fromMap(i):SliderImage.fromJson(i))
+        .toList()
+        : [];
     if (json['aminities'] != null) {
       aminityItemDto = <AminityItemDto>[];
       json['aminities'].forEach((v) {
-        aminityItemDto!.add((v is Map<String, dynamic>)? new AminityItemDto.fromMap(v): new AminityItemDto.fromJson(v));
+        aminityItemDto!.add(v is Map<String,dynamic>?new AminityItemDto.fromMap(v):AminityItemDto.fromJson(v));
       });
+    } else {
+      aminityItemDto = [];
     }
   }
 
@@ -762,6 +800,7 @@ class Properties {
     data['distance'] = this.distance;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    data["slider_image"] = this.sliders!.map((e) => e.toJson()).toList();
     if (this.aminityItemDto != null) {
       data['aminities'] =
           this.aminityItemDto!.map((v) => v.toJson()).toList();

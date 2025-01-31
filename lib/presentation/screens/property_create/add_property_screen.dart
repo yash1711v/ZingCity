@@ -62,7 +62,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                  email: "",
                  designation: "",
                  image: "",
-                 userName: ""), categoryId: ''))
+                 userName: ""), categoryId: '', aminityItemDto: []))
          .title}");
     if ((widget.property ??
             const Properties(
@@ -90,10 +90,10 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                     email: "",
                     designation: "",
                     image: "",
-                    userName: ""), categoryId: ''))
+                    userName: ""), categoryId: '', aminityItemDto: []))
         .title
         .isNotEmpty) {
-      context.read<AddPropertyCubit>().editProperty(widget.property);
+      context.read<AddPropertyCubit>().editProperty(widget.property,context);
     }
   }
 
@@ -220,6 +220,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                       padding: const EdgeInsets.only(left: 16.0),
                       child: GestureDetector(
                         onTap: () {
+
+
                           if (pageController.page == 0) {
                             Navigator.pop(context);
                             // context.read<AddPropertyCubit>().resetData();
@@ -228,6 +230,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeIn);
                           }
+
+
                         },
                         child:  Row(
                           children: [
@@ -261,7 +265,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                           email: "",
                                           designation: "",
                                           image: "",
-                                          userName: ""), categoryId: "0"))
+                                          userName: ""), categoryId: "0", aminityItemDto: []))
                                   .title
                                   .isNotEmpty?"Update Property":'Add Property',
                               style: const TextStyle(
@@ -466,18 +470,31 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           }
 
                           if (pageIndex == 3) {
-                            if (state.thumbNailImage.isEmpty) {
+                            if (state.thumbNailImage.isEmpty ||  state.sliderImages.isEmpty) {
                               // debugPrint("This is Empty Field ${state.city}");
                               // debugPrint("This is Empty Field ${state.state}");
                               // debugPrint(
                               //     "This is Empty Field ${state.country}");
                               // debugPrint(
                               //     "This is Empty Field ${state.address}");
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text("Please fill all the fields")));
+                              if(state.thumbNailImage.isEmpty){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                        Text("Please add thumbnail Image")));
+                                return;
+                              }
+                              else if(state.sliderImages.isEmpty){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                        Text("Please add Slider Images")));
+                                return;
+                              }
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //         content:
+                              //             Text("Please fill all the fields")));
                               return;
                             } else {
 // debugPrint("This is Empty Field ${state.city}");
@@ -524,6 +541,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 state.price.isEmpty ||
                                 state.totalArea.isEmpty ||
                                 state.totalUnit.isEmpty) {
+
                               // debugPrint("This is Empty Field ${state.typeId}");
                               // debugPrint("This is Empty Field ${state.title}");
                               // debugPrint("This is Empty Field ${state.description}");
@@ -552,31 +570,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 state.state.isEmpty ||
                                 state.country.isEmpty ||
                                 state.address.isEmpty) {
-                              debugPrint("This is Empty Field ${state.city}");
-                              debugPrint("This is Empty Field ${state.state}");
-                              debugPrint(
-                                  "This is Empty Field ${state.country}");
-                              debugPrint(
-                                  "This is Empty Field ${state.address}");
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text("Please fill all the fields")));
-                              return;
-                            } else {
-// debugPrint("This is Empty Field ${state.city}");
-                              pageController.nextPage(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeIn);
-                              setState(() {
-                                pageIndex = pageController.page!.toInt();
-                              });
-                            }
-                          }
-
-                          if (pageIndex == 2) {
-                            if (state.thumbNailImage.isEmpty) {
                               // debugPrint("This is Empty Field ${state.city}");
                               // debugPrint("This is Empty Field ${state.state}");
                               // debugPrint(
@@ -588,6 +582,41 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                   const SnackBar(
                                       content:
                                           Text("Please fill all the fields")));
+                              return;
+                            } else {
+                         // debugPrint("This is Empty Field ${state.city}");
+                              pageController.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeIn);
+                              setState(() {
+                                pageIndex = pageController.page!.toInt();
+                              });
+                            }
+                          }
+
+                          if (pageIndex == 2) {
+                            if (state.thumbNailImage.isEmpty || state.sliderImages.isEmpty) {
+                              // debugPrint("This is Empty Field ${state.city}");
+                              // debugPrint("This is Empty Field ${state.state}");
+                              // debugPrint(
+                              //     "This is Empty Field ${state.country}");
+                              // debugPrint(
+                              //     "This is Empty Field ${state.address}");
+
+                              if(state.thumbNailImage.isEmpty){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                        Text("Please add thumbnail Image")));
+                                return;
+                              }
+                              else if(state.sliderImages.isEmpty){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                        Text("Please add Slider Images")));
+                                return;
+                              }
                               return;
                             } else {
 // debugPrint("This is Empty Field ${state.city}");

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -206,6 +207,10 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
 
   String PropertyType = "";
 
+
+  List<String> Images = [];
+ String categoryName = '';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -216,14 +221,25 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
         debugPrint("element ==> ${element.id}");
       });
       context.read<AddPropertyCubit>().state.staticInfo?.categories?.forEach((category) {
+        debugPrint("Category Id ${widget.propertyDetails.categoryId.toString()}");
         context.read<AddPropertyCubit>().state.staticInfo?.purpose?.rent?.forEach((rent) {
 
           if(rent.categoryId == category.id){
             categories.add(category);
+            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+              categoryName = category.name ?? "";
+            }
           }
 
           if(rent.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
             context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
+            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+              categoryName = category.name ?? "";
+            }
+            // if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+            //   categoryName = category.name ?? "";
+            // }
+
           }
         });
       });
@@ -268,10 +284,16 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
 
           if(rent.categoryId == category.id){
             categories.add(category);
+            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+              categoryName = category.name ?? "";
+            }
           }
 
           if(rent.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
             context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
+            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+              categoryName = category.name ?? "";
+            }
           }
         });
       });
@@ -327,12 +349,20 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
 
     }
 
-  }
 
+    widget.propertyDetails.sliders.forEach((element) {
+      if((element.image ?? "").isNotEmpty) {
+        Images.add("${RemoteUrls.rootUrl}${element.image}");
+      }
+    });
+    Images.add("${RemoteUrls.rootUrl}${widget.propertyDetails.thumbnailImage}");
+
+  }
+  CarouselSliderController? carouselController = CarouselSliderController();
   @override
   Widget build(BuildContext context) {
     // final user = context.read<OrderCubit>().orders!.user;
-    // log("${propertyDetails.isFeatured}", name: "Home");
+    // log("${ widget.propertyDetails.sliders.length}", name: "Length of Slider Images");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: SingleChildScrollView(
@@ -347,77 +377,102 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
             //   image:
             //   "${RemoteUrls.rootUrl}${propertyDetails.thumbnailImage}",
             // ),
-            Container(
-              width: double.infinity,
-              height: 220,
-              decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    "${RemoteUrls.rootUrl}${widget.propertyDetails.thumbnailImage}",
-                  ),
-                  fit: BoxFit.fill,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      mainAxisAlignment: widget.propertyDetails.isFeatured == "enable"
-                          ? MainAxisAlignment.spaceBetween
-                          : MainAxisAlignment.end,
-                      children: [
-                        Visibility(
-                          visible: widget.propertyDetails.isFeatured == "enable",
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: primaryColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0))),
-                              onPressed: () {},
-                              child: const Text(
-                                'Featured',
-                                style: TextStyle(
-                                  color: Color(0xFFFAFAFA),
-                                  fontSize: 12,
-                                  fontFamily: 'DM Sans',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0.12,
-                                ),
-                              )),
+
+            CarouselSlider(
+              items: Images.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return CustomNetworkImageWidget(
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      image:
+                      i,
+                    );
+
+                      Container(
+                      width: double.infinity,
+                      // height: 220,
+                      decoration: ShapeDecoration(
+                        color: Colors.grey,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            i,
+                          ),
+                          fit: BoxFit.fill,
                         ),
-                        // Container(
-                        //   width: 32,
-                        //   height: 32,
-                        //   decoration: const ShapeDecoration(
-                        //     color: Colors.white,
-                        //     shape: OvalBorder(),
-                        //     shadows: [
-                        //       BoxShadow(
-                        //         color: Color(0x194D5454),
-                        //         blurRadius: 15,
-                        //         offset: Offset(0, 2),
-                        //         spreadRadius: 0,
-                        //       )
-                        //     ],
-                        //   ),
-                        //   child: Center(
-                        //     child: SvgPicture.asset(
-                        //         "assets/Yash/images/heartShape.svg"),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Row(
+                              mainAxisAlignment: widget.propertyDetails.isFeatured == "enable"
+                                  ? MainAxisAlignment.spaceBetween
+                                  : MainAxisAlignment.end,
+                              children: [
+                                Visibility(
+                                  visible: widget.propertyDetails.isFeatured == "enable",
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(10.0))),
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Featured',
+                                        style: TextStyle(
+                                          color: Color(0xFFFAFAFA),
+                                          fontSize: 12,
+                                          fontFamily: 'DM Sans',
+                                          fontWeight: FontWeight.w400,
+                                          height: 0.12,
+                                        ),
+                                      )),
+                                ),
+                                // Container(
+                                //   width: 32,
+                                //   height: 32,
+                                //   decoration: const ShapeDecoration(
+                                //     color: Colors.white,
+                                //     shape: OvalBorder(),
+                                //     shadows: [
+                                //       BoxShadow(
+                                //         color: Color(0x194D5454),
+                                //         blurRadius: 15,
+                                //         offset: Offset(0, 2),
+                                //         spreadRadius: 0,
+                                //       )
+                                //     ],
+                                //   ),
+                                //   child: Center(
+                                //     child: SvgPicture.asset(
+                                //         "assets/Yash/images/heartShape.svg"),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+              carouselController: carouselController,
+              options: CarouselOptions(
+                scrollPhysics: Images.length>1?const BouncingScrollPhysics():const NeverScrollableScrollPhysics(),
+                autoPlay:Images.length>1? true:false,
+                enlargeCenterPage: true,
+                viewportFraction: 1,
+                aspectRatio: 1.4,
+                initialPage: 1,
               ),
             ),
 
@@ -425,67 +480,81 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               height: 20.h,
             ),
 
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // SvgPicture.asset("assets/Yash/images/banglowIcon.svg"),
-                  // const SizedBox(
-                  //   width: 5,
-                  // ),
-                  Expanded(
-                    child: Text(
-                      widget.propertyDetails.purpose.toString() == "1"?"Purpose: For Sell":"Purpose: For Rent",
-                      style: TextStyle(
-                        color: Color(0x7F4D5454),
-                        fontSize: 14,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                        height: 0.10,
-                      ),
-                    ),
-                  ),]),
 
-            Visibility(
-              visible: PropertyType.isNotEmpty,
-              child: SizedBox(
-                height: 15.h,
-              ),
-            ),
-            Visibility(
-              visible: PropertyType.isNotEmpty,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SvgPicture.asset("assets/Yash/images/banglowIcon.svg"),
-                  const SizedBox(
-                    width: 5,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  // margin: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                     // width: ,
+                  // height: 150,
+                  decoration: ShapeDecoration(
+                    color: const Color(0x19087C7C),
+                    // image: DecorationImage(
+                    //   image: NetworkImage(
+                    //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                    //   ),
+                    //   fit: BoxFit.fill,
+                    // ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
                   ),
-                   Expanded(
-                    child: Text(
-                      PropertyType.toString(),
-                      style: TextStyle(
-                        color: Color(0x7F4D5454),
-                        fontSize: 14,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                        height: 0.10,
+                  child: Center(child: Text( widget.propertyDetails.purpose.toString() == "1"?"For Sell":"For Rent")),
+                ),
+
+                Container(
+                  // margin: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                     // width: ,
+                  // height: 150,
+                  decoration: ShapeDecoration(
+                    color: const Color(0x19087C7C),
+                    // image: DecorationImage(
+                    //   image: NetworkImage(
+                    //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                    //   ),
+                    //   fit: BoxFit.fill,
+                    // ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  child: Center(child: Text(categoryName)),
+                ),
+
+                Visibility(
+                  visible: PropertyType.isNotEmpty,
+                  child: Container(
+                    // margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    // width: ,
+                    // height: 150,
+                    decoration: ShapeDecoration(
+                      color: const Color(0x19087C7C),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
                       ),
                     ),
-                  ),]),
+                    child: Center(
+                      child: Text(
+                        "Property Type: ${PropertyType.toString()}",
+                        // style: const TextStyle(
+                        //   // color: Color(0x7F4D5454),
+                        //   fontSize: 14,
+                        //   fontFamily: 'DM Sans',
+                        //   fontWeight: FontWeight.w400,
+                        //   height: 0.10,
+                        // ),
+                      ),
+                    ),
+                  ),
+                ),
+
+              ],
             ),
-            //     // const Spacer(),
-            //     //  Text(
-            //     //   propertyDetails.,
-            //     //   style: TextStyle(
-            //     //     color: Color(0x7F4D5454),
-            //     //     fontSize: 14,
-            //     //     fontFamily: 'DM Sans',
-            //     //     fontWeight: FontWeight.w400,
-            //     //     height: 0.10,
-            //     //   ),
-            //     // ),
-            //   ],
-            // ),
+
             SizedBox(
               height: 15.h,
             ),
@@ -503,16 +572,7 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                 ),
-                // const Text(
-                //   '4 months ago',
-                //   style: TextStyle(
-                //     color: Color(0x7F4D5454),
-                //     fontSize: 10,
-                //     fontFamily: 'Manrope',
-                //     fontWeight: FontWeight.w400,
-                //     height: 0.14,
-                //   ),
-                // )
+
               ],
             ),
             SizedBox(
@@ -804,199 +864,7 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                 ],
               ),
             ),
-            // GridView.builder(
-            //   padding: EdgeInsets.zero,
-            //   shrinkWrap: true,
-            //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            //     crossAxisCount: 2, // 3 columns
-            //     childAspectRatio: 7 / 2, // Adjust as needed to fit your design
-            //     mainAxisSpacing: 10,
-            //     crossAxisSpacing: 50,
-            //   ),
-            //   itemCount: 4,
-            //   // Total items (2 rows * 3 columns)
-            //   itemBuilder: (context, index) {
-            //     return Container(
-            //       decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       child: Row(
-            //         children: [
-            //           Container(
-            //             width: 36,
-            //             height: 36,
-            //             decoration: ShapeDecoration(
-            //               color: const Color(0x19087C7C),
-            //               shape: RoundedRectangleBorder(
-            //                 borderRadius: BorderRadius.circular(10),
-            //               ),
-            //             ),
-            //             child: SvgPicture.asset(
-            //                 "assets/Yash/images/available${index + 1}.svg"),
-            //           ),
-            //           const SizedBox(
-            //             width: 5,
-            //           ),
-            //           const Column(
-            //             mainAxisAlignment: MainAxisAlignment.center,
-            //             children: [
-            //               Text(
-            //                 'Bedrooms',
-            //                 style: TextStyle(
-            //                   color: Color(0x7F4D5454),
-            //                   fontSize: 12,
-            //                   fontFamily: 'DM Sans',
-            //                   fontWeight: FontWeight.w400,
-            //                   height: 0.12,
-            //                 ),
-            //               ),
-            //               SizedBox(
-            //                 height: 15,
-            //               ),
-            //               Text(
-            //                 '4 Rooms',
-            //                 style: TextStyle(
-            //                   color: Color(0xFF4D5454),
-            //                   fontSize: 14,
-            //                   fontFamily: 'DM Sans',
-            //                   fontWeight: FontWeight.w400,
-            //                   height: 0.10,
-            //                 ),
-            //               )
-            //             ],
-            //           ),
-            //         ],
-            //       ),
-            //     );
-            //   },
-            // ),
 
-            // Row(
-            //   children: [
-            //      Expanded(
-            //       child: Text(
-            //         ReadMoreText(text: removeHtmlTags(propertyDetails.description),),
-            //         style: TextStyle(
-            //           color: Color(0x7F4D5454),
-            //           fontSize: 14,
-            //           fontFamily: 'DM Sans',
-            //           fontWeight: FontWeight.w400,
-            //           height: 1,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // const SizedBox(
-            //   height: 16,
-            // ),
-            // const SizedBox(
-            //   width: 339,
-            //   child: Text(
-            //     'Read More',
-            //     style: TextStyle(
-            //       color: Color(0xFF30469A),
-            //       fontSize: 14,
-            //       fontFamily: 'DM Sans',
-            //       fontWeight: FontWeight.w400,
-            //       height: 0.10,
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 25,
-            // ),
-            // const SizedBox(
-            //   width: 339,
-            //   child: Text(
-            //     'Outdoor facilities',
-            //     style: TextStyle(
-            //       color: Color(0xFF4D5454),
-            //       fontSize: 16,
-            //       fontFamily: 'DM Sans',
-            //       fontWeight: FontWeight.w600,
-            //       height: 0.09,
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 25,
-            // ),
-            // SizedBox(
-            //   height: 100,
-            //   child: ListView.builder(
-            //       itemCount: 3,
-            //       shrinkWrap: true,
-            //       scrollDirection: Axis.horizontal,
-            //       itemBuilder: (context, index) {
-            //         return Padding(
-            //           padding: const EdgeInsets.symmetric(horizontal: 15),
-            //           child: Column(
-            //             crossAxisAlignment: CrossAxisAlignment.center,
-            //             children: [
-            //               Container(
-            //                 width: 36,
-            //                 height: 36,
-            //                 decoration: ShapeDecoration(
-            //                   color: const Color(0x19087C7C),
-            //                   shape: RoundedRectangleBorder(
-            //                     borderRadius: BorderRadius.circular(10),
-            //                   ),
-            //                 ),
-            //                 child: SvgPicture.asset(
-            //                     "assets/Yash/images/available${index + 1}.svg"),
-            //               ),
-            //               const SizedBox(
-            //                 height: 10,
-            //               ),
-            //               const Row(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: [
-            //                   SizedBox(
-            //                     width: 100,
-            //                     child: Text(
-            //                       'Swimming Pool',
-            //                       textAlign: TextAlign.center,
-            //                       style: TextStyle(
-            //                         color: Color(0xFF4D5454),
-            //                         fontSize: 14,
-            //                         fontFamily: 'DM Sans',
-            //                         fontWeight: FontWeight.w400,
-            //                         height: 1,
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 ],
-            //               ),
-            //               const SizedBox(
-            //                 height: 8,
-            //               ),
-            //               const Row(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: [
-            //                   SizedBox(
-            //                     width: 104,
-            //                     height: 17,
-            //                     child: Text(
-            //                       '2 KM',
-            //                       textAlign: TextAlign.center,
-            //                       style: TextStyle(
-            //                         color: Color(0x7F4D5454),
-            //                         fontSize: 12,
-            //                         fontFamily: 'DM Sans',
-            //                         fontWeight: FontWeight.w400,
-            //                         height: 0.12,
-            //                       ),
-            //                     ),
-            //                   )
-            //                 ],
-            //               ),
-            //             ],
-            //           ),
-            //         );
-            //       }),
-            // ),
             const SizedBox(
               height: 25,
             ),
@@ -1039,42 +907,55 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                 ),
               ],
             ),
-           SizedBox(
-             height: 10,
+            Visibility(
+              visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+             child: const SizedBox(
+               height: 10,
+             ),
            ),
-           Text("Aminities"),
-            SizedBox(
-              height: 10,
+            Visibility(
+                visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+               child: const Text("Aminities")),
+            Visibility(
+              visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+              child: const SizedBox(
+                height: 10,
+              ),
             ),
-            SizedBox(
-              width: double.infinity,
-              height: 35,
-              child: ListView.builder(
-                itemCount: widget.propertyDetails.aminityItemDto.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context,index){
-                    return Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                      // width: 150,
-                      // height: 150,
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19087C7C),
-                        // image: DecorationImage(
-                        //   image: NetworkImage(
-                        //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
-                        //   ),
-                        //   fit: BoxFit.fill,
-                        // ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
+            Visibility(
+              visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+              child: SizedBox(
+                width: double.infinity,
+                height: 35,
+                child: ListView.builder(
+                  itemCount: widget.propertyDetails.aminityItemDto.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context,index){
+                    // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
+                      return Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                        // width: 150,
+                        // height: 150,
+                        decoration: ShapeDecoration(
+                          color: const Color(0x19087C7C),
+                          // image: DecorationImage(
+                          //   image: NetworkImage(
+                          //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                          //   ),
+                          //   fit: BoxFit.fill,
+                          // ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
                         ),
-                      ),
-                      child: Center(child: Text(widget.propertyDetails.aminityItemDto[index].aminity.aminity)),
-                    );
-                  }),
+                        child: Center(child: Text(widget.propertyDetails.aminityItemDto[index].aminity.aminity)),
+                      );
+                    }),
+              ),
             ),
+
             const SizedBox(height: 80.0),
             // Container(
             //   width: double.infinity,

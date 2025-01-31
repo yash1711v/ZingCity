@@ -56,7 +56,7 @@ class AddPropertyModel extends Equatable {
   final PropertyImageDto propertyImageDto;
   final PropertyVideoDto propertyVideoDto;
   final PropertyLocationDto propertyLocationDto;
-  final List<int> aminities;
+  final List<String> aminities;
   final List<NearestLocationDto> nearestLocationList;
   final List<Properties>? properties;
 
@@ -158,7 +158,7 @@ class AddPropertyModel extends Equatable {
     PropertyImageDto? propertyImageDto,
     PropertyVideoDto? propertyVideoDto,
     PropertyLocationDto? propertyLocationDto,
-    List<int>? aminities,
+    List<String>? aminities,
     List<Properties>? properties,
     List<NearestLocationDto>? nearestLocationList,
     List<NearestLocationModel>? locationModel,
@@ -365,7 +365,7 @@ class AddPropertyModel extends Equatable {
           map['propertyVideoDto'] as Map<String, dynamic>),
       propertyLocationDto: PropertyLocationDto.fromMap(
           map['propertyLocationDto'] as Map<String, dynamic>),
-      aminities: List<int>.from((map['aminities'] as List<int>)),
+      aminities: List<String>.from((map['aminities'] as List<String>)),
       nearestLocationList: List<NearestLocationDto>.from(
         (map['nearestLocationList'] as List<String>).map<NearestLocationDto>(
           (x) => NearestLocationDto.fromMap(x as Map<String, dynamic>),

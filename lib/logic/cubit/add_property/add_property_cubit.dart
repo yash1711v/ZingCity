@@ -45,7 +45,7 @@ class AddPropertyCubit extends Cubit<AddPropertyModel> {
     emit(state.copyWith(city: text, addState: const AddPropertyInitial(),cityId: id));
   }
 
-  void changeAmenities(int text,bool isAdd) {
+  void changeAmenities(String text,bool isAdd) {
 
     if(isAdd){
       emit(state.copyWith(aminities: List.of(state.aminities)..add(text), addState: const AddPropertyInitial()));}
@@ -205,7 +205,7 @@ void changeAddress(String text) {
         addState: const AddPropertyInitial()));
   }
 
-  void addAminities(int id) {
+  void addAminities(String id) {
     final updatedIds = List.of(state.aminities);
     if (updatedIds.contains(id)) {
       updatedIds.remove(id);
@@ -412,7 +412,7 @@ void changeAddress(String text) {
           emit(state.copyWith(galleryImage: <ExistingSlider>[]));
         }
         if (state.aminities.isNotEmpty) {
-          emit(state.copyWith(aminities: <int>[]));
+          emit(state.copyWith(aminities: <String>[]));
         }
         editedInfo = data;
         if (editedInfo != null) {
@@ -444,7 +444,7 @@ void changeAddress(String text) {
           emit(state.copyWith(status: data.property.status));
           emit(state.copyWith(tempImage: data.property.thumbnailImage));
           //emit(state.copyWith(image: data.property.thumbnailImage));
-          List<int> tempAminities = [];
+          List<String> tempAminities = [];
           List<ExistingSlider> tempGallery = [];
           List<NearestLocationDto> tempLocation = [];
           List<AdditionalInfoDto> tempAdditional = [];
@@ -468,7 +468,7 @@ void changeAddress(String text) {
             for (int i = 0; i < data.existingAminities.length; i++) {
               data.aminities.map((e) {
                 if (e.id == data.existingAminities[i].aminityId) {
-                  tempAminities.add(e.id);
+                  tempAminities.add(e.id.toString());
                 }
               }).toList();
             }
@@ -556,7 +556,7 @@ void changeAddress(String text) {
         addtionalInfoList: <AdditionalInfoDto>[],
         nearestLocationList: <NearestLocationDto>[],
         galleryImage: <ExistingSlider>[],
-        aminities: <int>[],
+        aminities: <String>[],
         image: '',
         tempImage: '',
         title: '',
@@ -601,7 +601,7 @@ void changeAddress(String text) {
 
   }
 
-  void editProperty(Properties? property) {
+  void editProperty(Properties? property,BuildContext context) {
     emit(state.copyWith(addState: const AddPropertyLoading()));
 
     // debugPrint("property ${property?.p}");
@@ -650,6 +650,86 @@ void changeAddress(String text) {
     debugPrint('purpose ${property?.categoryId}');
     debugPrint('title ${property?.title}');
     debugPrint('title ${property?.title}');
+
+
+    context.read<AddPropertyCubit>().state.staticInfo?.subcategories!.forEach((key,element) {
+      // debugPrint("key ==> $key");
+
+        if(element.purpose!.contains(2)){
+
+          if(element.parentId.toString() == "1" ){
+
+            // subCategoriesResidential.add(element);
+
+            context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
+            if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
+              context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
+            }
+
+          }
+          else {
+            // debugPrint("Commercial ==> ${element.name}");
+            // subCategoriesCommercial.add(element);
+            if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
+              context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
+              // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
+            }
+            // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
+          }
+        } else {
+          if(element.purpose!.contains(1)){
+
+            if(element.parentId.toString() == "1" ){
+
+              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
+                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
+                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
+              }
+
+            }
+            if(element.parentId.toString() == "2"){
+              // debugPrint("Commercial ==> ${element.name}");
+              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
+                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
+                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
+              }
+              // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
+            }
+            if (element.parentId.toString() == "3"){
+              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
+                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
+                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
+              }
+            }
+            if (element.parentId.toString() == "4"){
+              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
+                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
+                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
+              }
+            }
+          }
+        }
+
+
+
+
+
+    });
+
+    state.staticInfo?.city?.forEach((element){
+
+
+      if(element.id.toString() == property?.cityId){
+        context
+            .read<AddPropertyCubit>()
+            .changeCity(element.name ?? "", element.id.toString());
+      }
+      // context
+      //     .read<AddPropertyCubit>()
+      //     .changeCity(element.name ?? "", element.id.toString());
+    });
+
+
 
     emit(state.copyWith(
       addState: const AddPropertyInitial(),

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate/logic/repository/auth_repository.dart';
 
 import '../../../../data/model/home/home_data_model.dart';
+import '../../../../presentation/router/route_packages_name.dart';
 
 part 'home_state.dart';
 
@@ -37,9 +38,9 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await _repository.getHomeScreenData(lat: lat, long: long);
 
       var data = jsonDecode(result.body);
-      log("${data}", name: "Data");
+      // log("${data}", name: "Data");
       if (data['status']) {
-        // log("${data}", name: "Data");
+        log("${data}", name: "Home");
         homeModel = HomeDataModel.fromJson(data['data']);
 
         List<Properties> rentProperties = [];
@@ -47,16 +48,19 @@ class HomeCubit extends Cubit<HomeState> {
 
         for (Properties property
             in (homeModel ?? HomeDataModel()).properties ?? []) {
+
           if (property.purpose?.toString().toLowerCase() == "2" ||
-              property.categoryId.toString().toLowerCase() == "for rent") {
-            // log("${property.purpose?.toString()}", name: "Data");
+              property.purpose.toString().toLowerCase() == "for rent") {
+            log("${property.purpose?.toString()}", name: "rent");
             rentProperties.add(property);
           } else if (property.purpose?.toString().toLowerCase() == "1" ||
               property.purpose?.toString().toLowerCase() == "buy") {
+
             buyProperties.add(property);
           }
         }
-
+        log("${buyProperties.length?.toString()}", name: "sell");
+        log("${rentProperties.length?.toString()}", name: "rent");
         emit(state.copyWith(
             homeDataLoaded: homeModel,
             isLoading: false,

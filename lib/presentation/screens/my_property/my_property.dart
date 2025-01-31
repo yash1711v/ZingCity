@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:real_estate/logic/cubit/add_property/add_property_state_model.dart';
 
 import '../../../data/data_provider/remote_url.dart';
@@ -182,12 +184,17 @@ class _MyPropertyState extends State<MyProperty> {
                 shrinkWrap: true,
                 itemCount: state.properties?.length,
                 itemBuilder: (context, index) {
+                  log("approveByAdmin: ${state.properties?[index].approveByAdmin?.toString()}");
                   return Padding(
                     padding:
                     const EdgeInsets.only(top: 10.0,),
                     child: GestureDetector(
                       onTap: (){
 
+
+                        state.properties?[index].aminityItemDto?.forEach((element) {
+                          print(element.aminity?.aminity);
+                        });
                         Navigator.pushNamed(context,
                             RouteNames.purchaseDetailsScreen,
                             arguments: state.properties?[index]);
@@ -195,8 +202,11 @@ class _MyPropertyState extends State<MyProperty> {
                         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                       },
                       child: Container(
-                        width: 324,
-                        height: 68,
+                        // width: 324,
+                        // height: 68,
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.only(
+                            bottom: 10),
                         decoration: ShapeDecoration(
                           color: const Color(0x0C398BCB),
                           shape: RoundedRectangleBorder(
@@ -204,230 +214,362 @@ class _MyPropertyState extends State<MyProperty> {
                             BorderRadius.circular(10),
                           ),
                         ),
-                        child: Row(
-                          children: [
-                            // Container(
-                            //   width: 78.93,
-                            //   height: 78.93,
-                            //   decoration: ShapeDecoration(
-                            //     image:
-                            //          DecorationImage(
-                            //       image: NetworkImage(
-                            //         "${RemoteUrls.rootUrl}${homeCubit
-                            //             .homeModel!
-                            //             .latestProperty![index]
-                            //             .thumbnailImage}"),
-                            //       fit: BoxFit.fill,
-                            //     ),
-                            //     shape:
-                            //         RoundedRectangleBorder(
-                            //       borderRadius:
-                            //           BorderRadius.circular(
-                            //               10),
-                            //     ),
-                            //   ),
-                            // ),
-
-                            CustomNetworkImageWidget(
-                              width: 78.93,
-                              height: 78.93,
-                              image:
-                              "${RemoteUrls.rootUrl}${state.properties?[index].thumbnailImage}",
+                        child:  ListTile(
+                          leading: CustomNetworkImageWidget(
+                            width: 78.93,
+                            height: 78.93,
+                            image:
+                            "${RemoteUrls.rootUrl}${state.properties?[index].thumbnailImage}",
+                          ),
+                          title: Text(
+                            state.properties?[index].title ?? "",
+                            maxLines: 1,
+                            style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color:
+                              Colors.black,
+                              fontSize: 14,
+                              fontFamily:
+                              'DM Sans',
+                              fontWeight:
+                              FontWeight
+                                  .w700,
+                              height: 0,
                             ),
-                            Padding(
-                              padding:
-                              const EdgeInsets.only(
-                                  left: 15.0),
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .start,
-                                children: [
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .start,
-                                    children: [
-                                      Text(
-                                        state.properties?[index].title ?? "",
-                                        maxLines: 1,
-                                        style: const TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          color:
-                                          Colors.black,
-                                          fontSize: 14,
-                                          fontFamily:
-                                          'DM Sans',
-                                          fontWeight:
-                                          FontWeight
-                                              .w700,
-                                          height: 0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .start,
-                                    children: [
-                                      const Icon(
-                                        Icons
-                                            .location_on_sharp,
-                                        size: 12,
-                                      ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: Text(
-                                          removeHtmlTags( state.properties?[index].address ?? ""),
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                            color:
-                                            Colors.black,
-                                            fontSize: 14,
-                                            fontFamily:
-                                            'DM Sans',
-                                            fontWeight:
-                                            FontWeight
-                                                .w300,
-                                            height: 0,
-                                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment
+                                            .start,
+                                        children: [
+                                          const Icon(
+                                            Icons
+                                                .location_on_sharp,
+                                            size: 12,
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                          Expanded(
+                                            // width: 150,
+                                            child: Text(
+                                              removeHtmlTags( state.properties?[index].address ?? ""),
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                color:
+                                                Colors.black,
+                                                fontSize: 14,
+                                                fontFamily:
+                                                'DM Sans',
+                                                fontWeight:
+                                                FontWeight
+                                                    .w300,
+                                                height: 0,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                              Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment
+                                            .start,
+                                        children: [
+                                        Text("Status: "),
+                                          Expanded(
+                                            // width: 150,
+                                            child: Text(
+                                              (state.properties ??
+                                              []
+                                              )[index].approveByAdmin.toString().toUpperCase() ,
+                                              maxLines: 1,
+                                              style:  TextStyle(
+                                                color:
+                                                (state.properties ??
+                                                    []
+                                                )[index].approveByAdmin == "approved" ?Colors.green : Colors.orange,
+                                                fontSize: 14,
+                                                fontFamily:
+                                                'DM Sans',
+                                                fontWeight:
+                                                FontWeight
+                                                    .w300,
+                                                height: 0,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Visibility(
+                                visible: state.properties?[index].approveByAdmin == "pending",
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context, MaterialPageRoute(builder: (context) =>  AddPropertyScreen(property: state.properties?[index],)));
+                                  },
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Color(0xFF30469A),
                                   ),
-                                  // const SizedBox(
-                                  //   height: 5,
-                                  // ),
-                                  // Row(
-                                  //   children: [
-                                  //     Image.asset(
-                                  //       "assets/images/iconamoon_profile-light.png",
-                                  //       height: 12,
-                                  //     ),
-                                  //     const SizedBox(
-                                  //       width: 5,
-                                  //     ),
-                                  //      Text(
-                                  //       state.homeDataLoaded?.latestProperties?[index]. ?? "",
-                                  //       style: TextStyle(
-                                  //         color:
-                                  //             Colors.black,
-                                  //         fontSize: 13,
-                                  //         fontFamily:
-                                  //             'DM Sans',
-                                  //         fontWeight:
-                                  //             FontWeight
-                                  //                 .w300,
-                                  //         height: 0,
-                                  //       ),
-                                  //     )
-                                  //   ],
-                                  // ),
-                                ],
+                                ),
                               ),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) =>  AddPropertyScreen(property: state.properties?[index],)));
-                              },
-                              child: const Icon(
-                                Icons.edit,
-                                color: Color(0xFF30469A),
+                              SizedBox(
+                                width: 10,
                               ),
-                            ),
-SizedBox(
-                              width: 10,
-                            ),
-                            GestureDetector(
-                              onTap: () {
+                              GestureDetector(
+                                onTap: () {
 
 
-                                Repository repo = Repository();
+                                  Repository repo = Repository();
 
-                                repo.deleteMyProperty((state.properties?[index].id ?? "").toString()).then((value){
-                                  if(value){
-                                    context.read<AddPropertyCubit>().getProperties();
-                                  }
-                                });
+                                  repo.deleteMyProperty((state.properties?[index].id ?? "").toString()).then((value){
+                                    if(value){
+                                      context.read<AddPropertyCubit>().getProperties();
+                                    }
+                                  });
 
-                                // Navigator.pushNamed(
-                                //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                              },
-                              child: const Icon(
-                                Icons.delete,
-                                color: Color(0xFF30469A),
+                                  // Navigator.pushNamed(
+                                  //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+                                },
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: Color(0xFF30469A),
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            // Column(
-                            //   crossAxisAlignment: CrossAxisAlignment.end,
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     GestureDetector(
-                            //       onTap: () {
-                            //         // Navigator.pushNamed(
-                            //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                            //       },
-                            //       child: const Icon(
-                            //         Icons.edit,
-                            //         color: Color(0xFF30469A),
-                            //       ),
-                            //     ),
-                            //    SizedBox(
-                            //       height: 10,
-                            //    ),
-                            //      GestureDetector(
-                            //       onTap: () {
-                            //         // Navigator.pushNamed(
-                            //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                            //       },
-                            //       child: const Icon(
-                            //         Icons.delete,
-                            //         color: Color(0xFF30469A),
-                            //       ),
-                            //     ),
-                            //
-                            //
-                            //
-                            //     // IconButton(
-                            //     //   onPressed: () {
-                            //     //     // Navigator.pushNamed(
-                            //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                            //     //   },
-                            //     //   icon: const Icon(
-                            //     //     Icons.edit,
-                            //     //     color: Color(0xFF30469A),
-                            //     //   ),
-                            //     // ),
-                            //     // IconButton(
-                            //     //   onPressed: () {
-                            //     //     // Navigator.pushNamed(
-                            //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                            //     //   },
-                            //     //   icon: const Icon(
-                            //     //     Icons.delete,
-                            //     //     color: Color(0xFF30469A),
-                            //     //   ),
-                            //     // ),
-                            //   ],
-                            // )
-                          ],
-                        ),
+
+                            ],
+                        )
+//                         Row(
+//                           children: [
+//                             // Container(
+//                             //   width: 78.93,
+//                             //   height: 78.93,
+//                             //   decoration: ShapeDecoration(
+//                             //     image:
+//                             //          DecorationImage(
+//                             //       image: NetworkImage(
+//                             //         "${RemoteUrls.rootUrl}${homeCubit
+//                             //             .homeModel!
+//                             //             .latestProperty![index]
+//                             //             .thumbnailImage}"),
+//                             //       fit: BoxFit.fill,
+//                             //     ),
+//                             //     shape:
+//                             //         RoundedRectangleBorder(
+//                             //       borderRadius:
+//                             //           BorderRadius.circular(
+//                             //               10),
+//                             //     ),
+//                             //   ),
+//                             // ),
+//
+//                             CustomNetworkImageWidget(
+//                               width: 78.93,
+//                               height: 78.93,
+//                               image:
+//                               "${RemoteUrls.rootUrl}${state.properties?[index].thumbnailImage}",
+//                             ),
+//                             Padding(
+//                               padding:
+//                               const EdgeInsets.only(
+//                                   left: 15.0),
+//                               child: Column(
+//                                 crossAxisAlignment:
+//                                 CrossAxisAlignment
+//                                     .start,
+//                                 children: [
+//                                   const SizedBox(
+//                                     height: 15,
+//                                   ),
+//                                   Row(
+//                                     mainAxisAlignment:
+//                                     MainAxisAlignment
+//                                         .start,
+//                                     children: [
+//                                       Text(
+//                                         state.properties?[index].title ?? "",
+//                                         maxLines: 1,
+//                                         style: const TextStyle(
+//                                           overflow: TextOverflow.ellipsis,
+//                                           color:
+//                                           Colors.black,
+//                                           fontSize: 14,
+//                                           fontFamily:
+//                                           'DM Sans',
+//                                           fontWeight:
+//                                           FontWeight
+//                                               .w700,
+//                                           height: 0,
+//                                         ),
+//                                       ),
+//                                     ],
+//                                   ),
+//                                   const SizedBox(
+//                                     height: 5,
+//                                   ),
+//                                   Row(
+//                                     mainAxisAlignment:
+//                                     MainAxisAlignment
+//                                         .start,
+//                                     children: [
+//                                       const Icon(
+//                                         Icons
+//                                             .location_on_sharp,
+//                                         size: 12,
+//                                       ),
+//                                       SizedBox(
+//                                         width: 150,
+//                                         child: Text(
+//                                           removeHtmlTags( state.properties?[index].address ?? ""),
+//                                           maxLines: 1,
+//                                           style: const TextStyle(
+//                                             color:
+//                                             Colors.black,
+//                                             fontSize: 14,
+//                                             fontFamily:
+//                                             'DM Sans',
+//                                             fontWeight:
+//                                             FontWeight
+//                                                 .w300,
+//                                             height: 0,
+//                                             overflow: TextOverflow.ellipsis,
+//                                           ),
+//                                         ),
+//                                       )
+//                                     ],
+//                                   ),
+//                                   // const SizedBox(
+//                                   //   height: 5,
+//                                   // ),
+//                                   // Row(
+//                                   //   children: [
+//                                   //     Image.asset(
+//                                   //       "assets/images/iconamoon_profile-light.png",
+//                                   //       height: 12,
+//                                   //     ),
+//                                   //     const SizedBox(
+//                                   //       width: 5,
+//                                   //     ),
+//                                   //      Text(
+//                                   //       state.homeDataLoaded?.latestProperties?[index]. ?? "",
+//                                   //       style: TextStyle(
+//                                   //         color:
+//                                   //             Colors.black,
+//                                   //         fontSize: 13,
+//                                   //         fontFamily:
+//                                   //             'DM Sans',
+//                                   //         fontWeight:
+//                                   //             FontWeight
+//                                   //                 .w300,
+//                                   //         height: 0,
+//                                   //       ),
+//                                   //     )
+//                                   //   ],
+//                                   // ),
+//                                 ],
+//                               ),
+//                             ),
+//                             Spacer(),
+//                             GestureDetector(
+//                               onTap: () {
+//                                 Navigator.push(
+//                                     context, MaterialPageRoute(builder: (context) =>  AddPropertyScreen(property: state.properties?[index],)));
+//                               },
+//                               child: const Icon(
+//                                 Icons.edit,
+//                                 color: Color(0xFF30469A),
+//                               ),
+//                             ),
+// SizedBox(
+//                               width: 10,
+//                             ),
+//                             GestureDetector(
+//                               onTap: () {
+//
+//
+//                                 Repository repo = Repository();
+//
+//                                 repo.deleteMyProperty((state.properties?[index].id ?? "").toString()).then((value){
+//                                   if(value){
+//                                     context.read<AddPropertyCubit>().getProperties();
+//                                   }
+//                                 });
+//
+//                                 // Navigator.pushNamed(
+//                                 //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+//                               },
+//                               child: const Icon(
+//                                 Icons.delete,
+//                                 color: Color(0xFF30469A),
+//                               ),
+//                             ),
+//                             SizedBox(
+//                               width: 10,
+//                             ),
+//                             // Column(
+//                             //   crossAxisAlignment: CrossAxisAlignment.end,
+//                             //   mainAxisAlignment: MainAxisAlignment.center,
+//                             //   children: [
+//                             //     GestureDetector(
+//                             //       onTap: () {
+//                             //         // Navigator.pushNamed(
+//                             //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+//                             //       },
+//                             //       child: const Icon(
+//                             //         Icons.edit,
+//                             //         color: Color(0xFF30469A),
+//                             //       ),
+//                             //     ),
+//                             //    SizedBox(
+//                             //       height: 10,
+//                             //    ),
+//                             //      GestureDetector(
+//                             //       onTap: () {
+//                             //         // Navigator.pushNamed(
+//                             //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+//                             //       },
+//                             //       child: const Icon(
+//                             //         Icons.delete,
+//                             //         color: Color(0xFF30469A),
+//                             //       ),
+//                             //     ),
+//                             //
+//                             //
+//                             //
+//                             //     // IconButton(
+//                             //     //   onPressed: () {
+//                             //     //     // Navigator.pushNamed(
+//                             //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+//                             //     //   },
+//                             //     //   icon: const Icon(
+//                             //     //     Icons.edit,
+//                             //     //     color: Color(0xFF30469A),
+//                             //     //   ),
+//                             //     // ),
+//                             //     // IconButton(
+//                             //     //   onPressed: () {
+//                             //     //     // Navigator.pushNamed(
+//                             //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+//                             //     //   },
+//                             //     //   icon: const Icon(
+//                             //     //     Icons.delete,
+//                             //     //     color: Color(0xFF30469A),
+//                             //     //   ),
+//                             //     // ),
+//                             //   ],
+//                             // )
+//                           ],
+//                         ),
                       ),
                     ),
-                  );
+                  ));
                 }):SizedBox(
               height: MediaQuery.of(context).size.height-450,
                   width: MediaQuery.of(context).size.width,

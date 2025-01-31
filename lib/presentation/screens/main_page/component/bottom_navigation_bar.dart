@@ -11,6 +11,7 @@ import '../../../../logic/cubit/home/cubit/home_cubit.dart';
 import '../../../utils/constraints.dart';
 import '../../../utils/k_images.dart';
 import '../../../widget/custom_theme.dart';
+import '../../home/home_screen.dart';
 import 'main_controller.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
@@ -44,6 +45,11 @@ class MyBottomNavigationBar extends StatelessWidget {
                 selectedIndex: selectedIndex,
                 onTap: (int index) {
                   controller.naveListener.sink.add(index);
+
+                  if(index == 0){
+                    setInitialLocation(context);
+                  }
+
                   if(index == 1){
                     List<Properties>? properties = context.read<HomeCubit>().state.rentProperties ;
 
@@ -51,7 +57,7 @@ class MyBottomNavigationBar extends StatelessWidget {
 
                       ( properties ?? []).forEach((element){
                         // element.
-                        if(element.categoryId == 1){
+                        if(element.categoryId == "1"){
                           ResidentialProperties.add(element);
                         }
                         debugPrint(ResidentialProperties.length.toString());
@@ -67,7 +73,7 @@ class MyBottomNavigationBar extends StatelessWidget {
 
                       ( properties ?? []).forEach((element){
                         // element.
-                        if(element.categoryId == 1){
+                        if(element.categoryId == "1"){
                           ResidentialProperties.add(element);
                         }
                         debugPrint(ResidentialProperties.length.toString());

@@ -85,11 +85,11 @@ class _ScreenfourState extends State<Screenfour> {
                                 if (isSelected) {
                                   selectedItems.remove(index);
                                   context.read<AddPropertyCubit>().changeAmenities(
-                                      state.staticInfo?.amenities![index].id ?? 0,false);
+                                      state.staticInfo?.amenities![index].id.toString() ?? "0",false);
                                 } else {
                                   selectedItems.add(index);
                                   context.read<AddPropertyCubit>().changeAmenities(
-                                      state.staticInfo?.amenities![index].id ?? 0,true);
+                                      state.staticInfo?.amenities![index].id.toString() ?? "0",true);
                                 }
                               });
                             },
@@ -120,28 +120,33 @@ class _ScreenfourState extends State<Screenfour> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  SizedBox(
-                                    width: 76,
-                                    child: Text(
-                                      (context
-                                                  .read<AddPropertyCubit>()
-                                                  .state
-                                                  .staticInfo
-                                                  ?.amenities ??
-                                              [])[index]
-                                          .aminity ?? "",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                        color: isSelected
-                                            ? Colors.white
-                                            : const Color(0xFF30469A),
-                                        fontSize: 12,
-                                        fontFamily: 'Manrope',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0.8,
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 100,
+                                        child: Text(
+                                          (context
+                                                      .read<AddPropertyCubit>()
+                                                      .state
+                                                      .staticInfo
+                                                      ?.amenities ??
+                                                  [])[index]
+                                              .aminity ?? "",
+                                          textAlign: TextAlign.center,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            color: isSelected
+                                                ? Colors.white
+                                                : const Color(0xFF30469A),
+                                            fontSize: 12,
+                                            fontFamily: 'Manrope',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0.8,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   )
                                 ],
                               ),

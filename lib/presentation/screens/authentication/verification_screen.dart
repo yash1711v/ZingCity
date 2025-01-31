@@ -33,21 +33,21 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  // timerStart() {
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     setState(() {
-  //       second--;
-  //       if (second < 1) {
-  //         minute--;
-  //         if (minute < 1) {
-  //           minute = 0;
-  //         }
-  //         second = minute == 0 ? 0 : 4;
-  //       }
-  //     });
-  //   });
-  // }
-  bool finishTime = true;
+  // // timerStart() {
+  // //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  // //     setState(() {
+  // //       second--;
+  // //       if (second < 1) {
+  // //         minute--;
+  // //         if (minute < 1) {
+  // //           minute = 0;
+  // //         }
+  // //         second = minute == 0 ? 0 : 4;
+  // //       }
+  // //     });
+  // //   });
+  // // }
+  // bool finishTime = true;
 
   @override
   void initState() {
@@ -68,7 +68,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
       resizeToAvoidBottomInset: true,
       body: BlocBuilder<LoginCubit, LoginModelState>(
         builder: (context, state) {
-
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -108,8 +107,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             Text(
                               'Verify OTP',
                               style: TextStyle(
-                                color:
-                                    Colors.black.withOpacity(0.6000000238418579),
+                                color: Colors.black
+                                    .withOpacity(0.6000000238418579),
                                 fontSize: 22,
                                 fontFamily: 'DM Sans',
                                 fontWeight: FontWeight.w700,
@@ -150,7 +149,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             controller:
                                 context.read<LoginCubit>().verifyOtpController,
                             // bloc.pinController,
-            
+
                             mainAxisAlignment: MainAxisAlignment.center,
                             defaultPinTheme: PinTheme(
                                 width: 80.90,
@@ -189,12 +188,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           children: [
                             // Spacer(),
                             SizedBox(
-                              width: 15,),
+                              width: 15,
+                            ),
                             Text(
                               state.timeLeft ?? "",
                               style: TextStyle(
-                                color:
-                                    Colors.black.withOpacity(0.4000000059604645),
+                                color: Colors.black
+                                    .withOpacity(0.4000000059604645),
                                 fontSize: 13,
                                 fontFamily: 'DM Sans',
                                 fontWeight: FontWeight.w400,
@@ -202,36 +202,43 @@ class _VerificationScreenState extends State<VerificationScreen> {
                               ),
                             ),
                             Spacer(),
-                            Text(
-                              'Didn’t receive an OTP?',
-                              style: TextStyle(
-                                color:
-                                    Colors.black.withOpacity(0.4000000059604645),
-                                fontSize: 13,
-                                fontFamily: 'DM Sans',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            GestureDetector(
-                              onTap: () async {
-                                await context
-                                    .read<LoginCubit>()
-                                    .onPressLogin(context
-                                    .read<LoginCubit>()
-                                    .phoneController
-                                    .text);
-                              },
-                              child: const Text(
-                                'Resend',
+                            Visibility(
+                              visible: state.timeLeft == "Expired!",
+                              child: Text(
+                                'Didn’t receive an OTP?',
                                 style: TextStyle(
-                                  color: Color(0xFF30469A),
+                                  color: Colors.black
+                                      .withOpacity(0.4000000059604645),
                                   fontSize: 13,
                                   fontFamily: 'DM Sans',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w400,
                                   height: 0,
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                                visible: state.timeLeft == "Expired!",
+                                child: const SizedBox(width: 5)),
+                            Visibility(
+                              visible:state.timeLeft == "Expired!",
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await context.read<LoginCubit>().onPressLogin(
+                                      context
+                                          .read<LoginCubit>()
+                                          .phoneController
+                                          .text);
+                                },
+                                child: const Text(
+                                  'Resend',
+                                  style: TextStyle(
+                                    color: Color(0xFF30469A),
+                                    fontSize: 13,
+                                    fontFamily: 'DM Sans',
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                    height: 0,
+                                  ),
                                 ),
                               ),
                             )
@@ -243,29 +250,35 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: (state.isLoading ?? false)
                             ? const CircularProgressIndicator()
-                            :PrimaryButton(
-                          text: 'Verify Otp',
-                          onPressed: () async {
-                            final otp = context.read<LoginCubit>().verifyOtpController.text;
-                            if (otp.length != 6) {
-                              // Show an error message or handle the invalid OTP case
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Please enter a valid 6-digit OTP')),
-                              );
-                              return;
-                            }
+                            : PrimaryButton(
+                                text: 'Verify Otp',
+                                onPressed: () async {
+                                  final otp = context
+                                      .read<LoginCubit>()
+                                      .verifyOtpController
+                                      .text;
+                                  if (otp.length != 6) {
+                                    // Show an error message or handle the invalid OTP case
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Please enter a valid 6-digit OTP')),
+                                    );
+                                    return;
+                                  }
 
-                            await context
-                                .read<LoginCubit>()
-                                .verifyOtp(widget.phoneNumber, otp, context)
-                                .then((value) {
-                              if (value) {
-                                // Navigator.pushReplacementNamed(
-                                //     context, RouteNames.mainPageScreen);
-                              }
-                            });
-                          },
-                        ),
+                                  await context
+                                      .read<LoginCubit>()
+                                      .verifyOtp(
+                                          widget.phoneNumber, otp, context)
+                                      .then((value) {
+                                    if (value) {
+                                      // Navigator.pushReplacementNamed(
+                                      //     context, RouteNames.mainPageScreen);
+                                    }
+                                  });
+                                },
+                              ),
                       ),
                       const SizedBox(height: 150),
                     ],
