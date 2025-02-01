@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:real_estate/data/model/agency/agency_details_model.dart';
+import 'package:real_estate/data/model/product/aminit_model.dart';
 
 import '../../../data/data_provider/remote_url.dart';
 import '../../../data/model/add_property_model.dart' as room;
+import '../../../data/model/home/home_data_model.dart';
 import '../../../logic/cubit/add_property/add_property_cubit.dart';
 import '../../router/route_names.dart';
 import '../../widget/custom_theme.dart';
@@ -482,71 +484,84 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
 
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  // margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                     // width: ,
-                  // height: 150,
-                  decoration: ShapeDecoration(
-                    color: const Color(0x19087C7C),
-                    // image: DecorationImage(
-                    //   image: NetworkImage(
-                    //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
-                    //   ),
-                    //   fit: BoxFit.fill,
-                    // ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                  child: Center(child: Text( widget.propertyDetails.purpose.toString() == "1"?"For Sell":"For Rent")),
-                ),
-
-                Container(
-                  // margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                     // width: ,
-                  // height: 150,
-                  decoration: ShapeDecoration(
-                    color: const Color(0x19087C7C),
-                    // image: DecorationImage(
-                    //   image: NetworkImage(
-                    //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
-                    //   ),
-                    //   fit: BoxFit.fill,
-                    // ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                  child: Center(child: Text(categoryName)),
-                ),
-
-                Visibility(
-                  visible: PropertyType.isNotEmpty,
+                Expanded(
                   child: Container(
                     // margin: const EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                    // width: ,
+                       // width: ,
                     // height: 150,
                     decoration: ShapeDecoration(
                       color: const Color(0x19087C7C),
+                      // image: DecorationImage(
+                      //   image: NetworkImage(
+                      //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                      //   ),
+                      //   fit: BoxFit.fill,
+                      // ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
                     ),
-                    child: Center(
-                      child: Text(
-                        "Property Type: ${PropertyType.toString()}",
-                        // style: const TextStyle(
-                        //   // color: Color(0x7F4D5454),
-                        //   fontSize: 14,
-                        //   fontFamily: 'DM Sans',
-                        //   fontWeight: FontWeight.w400,
-                        //   height: 0.10,
-                        // ),
+                    child: Center(child: Text( widget.propertyDetails.purpose.toString() == "1"?"For Sell":"For Rent",textAlign: TextAlign.center,),),
+                  ),
+                ),
+              SizedBox(
+                width: 5,
+              ),
+                Expanded(
+                  child: Container(
+                    // margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                       // width: ,
+                    // height: 150,
+                    decoration: ShapeDecoration(
+                      color: const Color(0x19087C7C),
+                      // image: DecorationImage(
+                      //   image: NetworkImage(
+                      //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                      //   ),
+                      //   fit: BoxFit.fill,
+                      // ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    child: Center(child: Text(categoryName,textAlign: TextAlign.center,)),
+                  ),
+                ),
+                Visibility(
+                  visible: PropertyType.isNotEmpty,
+                  child: SizedBox(
+                    width: 5,
+                  ),
+                ),
+                Expanded(
+                  child: Visibility(
+                    visible: PropertyType.isNotEmpty,
+                    child: Container(
+                      // margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                      // width: ,
+                      // height: 150,
+                      decoration: ShapeDecoration(
+                        color: const Color(0x19087C7C),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "${PropertyType.toString()}",
+                          // style: const TextStyle(
+                          //   // color: Color(0x7F4D5454),
+                          //   fontSize: 14,
+                          //   fontFamily: 'DM Sans',
+                          //   fontWeight: FontWeight.w400,
+                          //   height: 0.10,
+                          // ),
+                        ),
                       ),
                     ),
                   ),
@@ -576,27 +591,58 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               ],
             ),
             SizedBox(
-              height: 25.h,
+              height: 25,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
                   child: Text(
-                    '₹${widget.propertyDetails.price}',
+                    'Price: ₹${widget.propertyDetails.price}',
                     style: const TextStyle(
                       color: Color(0xFF30469A),
                       fontSize: 16,
                       fontFamily: 'DM Sans',
                       fontWeight: FontWeight.w600,
-                      height: 0.09,
+                      // height: 0.09,
+                    ),
+                  ),
+                ),
+                // SizedBox(
+                //   width: 25,
+                // ),
+                Expanded(
+                  child: Text(
+                    'Area: ${widget.propertyDetails.totalArea} sqft',
+                    style: const TextStyle(
+                      color: Color(0xFF30469A),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w600,
+                      // height: 0.09,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                Expanded(
+                  child: Text(
+                    'Unit: ${widget.propertyDetails.totalUnit}',
+                    style: const TextStyle(
+                      color: Color(0xFF30469A),
+                      fontSize: 16,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w600,
+                      // height: 0.09,
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(
-              height: 35,
+              height: 20,
             ),
             const Row(
               children: [
@@ -908,22 +954,22 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               ],
             ),
             Visibility(
-              visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+              visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
              child: const SizedBox(
                height: 10,
              ),
            ),
             Visibility(
-                visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+                visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
                child: const Text("Aminities")),
             Visibility(
-              visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+              visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
               child: const SizedBox(
                 height: 10,
               ),
             ),
             Visibility(
-              visible: widget.propertyDetails.aminityItemDto.length != 0 || widget.propertyDetails.aminityItemDto.isNotEmpty,
+              visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
               child: SizedBox(
                 width: double.infinity,
                 height: 35,
@@ -933,24 +979,135 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context,index){
                     // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
-                      return Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                        // width: 150,
-                        // height: 150,
-                        decoration: ShapeDecoration(
-                          color: const Color(0x19087C7C),
-                          // image: DecorationImage(
-                          //   image: NetworkImage(
-                          //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
-                          //   ),
-                          //   fit: BoxFit.fill,
-                          // ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
+                      return Visibility(
+                        visible: widget.propertyDetails.aminityItemDto[index].aminity != null,
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          // width: 150,
+                          // height: 150,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19087C7C),
+                            // image: DecorationImage(
+                            //   image: NetworkImage(
+                            //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                            //   ),
+                            //   fit: BoxFit.fill,
+                            // ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                          ),
+                          child: Center(child: Text((widget.propertyDetails.aminityItemDto[index].aminity ?? const AminityModel(id: 0, aminity: '')).aminity)),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+            Visibility(
+              visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+             child: const SizedBox(
+               height: 10,
+             ),
+           ),
+            Visibility(
+                visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+               child: const Text("Nearest Locations")),
+            Visibility(
+              visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+              child: const SizedBox(
+                height: 10,
+              ),
+            ),
+            Visibility(
+              visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ListView.builder(
+                  itemCount: widget.propertyDetails.propertyLocation.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context,index){
+                    // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
+                      return Visibility(
+                        visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          // width: 150,
+                          // height: 150,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19087C7C),
+                            // image: DecorationImage(
+                            //   image: NetworkImage(
+                            //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                            //   ),
+                            //   fit: BoxFit.fill,
+                            // ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(child: Text((widget.propertyDetails.propertyLocation[index].location ?? Location(id: '', location: '', status: '')).location)),
+                              Center(child: Text("Distance:"+widget.propertyDetails.propertyLocation[index].distance)),
+                            ],
                           ),
                         ),
-                        child: Center(child: Text(widget.propertyDetails.aminityItemDto[index].aminity.aminity)),
+                      );
+                    }),
+              ),
+            ),
+            Visibility(
+              visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+             child: const SizedBox(
+               height: 10,
+             ),
+           ),
+            Visibility(
+                visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+               child: const Text("Additional Information")),
+            Visibility(
+              visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+              child: const SizedBox(
+                height: 10,
+              ),
+            ),
+            Visibility(
+              visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+              child: SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: ListView.builder(
+                  itemCount: widget.propertyDetails.propertyAdditionInfo.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context,index){
+                    // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
+                      return Visibility(
+                        visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          // width: 150,
+                          // height: 150,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19087C7C),
+                            // image: DecorationImage(
+                            //   image: NetworkImage(
+                            //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
+                            //   ),
+                            //   fit: BoxFit.fill,
+                            // ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Center(child: Text((widget.propertyDetails.propertyAdditionInfo[index].addKey ?? "")+": "+ widget.propertyDetails.propertyAdditionInfo[index].addValue)),
+                        ),
                       );
                     }),
               ),
@@ -1141,33 +1298,52 @@ class ReadMoreText extends StatefulWidget {
 }
 
 class _ReadMoreTextState extends State<ReadMoreText> {
-  bool _isExpanded = false;
+  int _currentMaxLines = 3;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.text,
-          style: widget.style,
-          maxLines: _isExpanded ? null : widget.maxLines,
-          overflow: TextOverflow.ellipsis,
-        ),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _isExpanded = !_isExpanded;
-            });
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final span = TextSpan(text: widget.text, style: widget.style);
+            final tp = TextPainter(
+              text: span,
+              maxLines: widget.maxLines,
+              textDirection: TextDirection.ltr,
+            );
+            tp.layout(maxWidth: constraints.maxWidth);
+            final textExceedsMaxLines = tp.didExceedMaxLines;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.text,
+                  style: widget.style,
+                  maxLines: _currentMaxLines,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (textExceedsMaxLines || _currentMaxLines > widget.maxLines)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _currentMaxLines += 3;
+                      });
+                    },
+                    child: Text(
+                      'Read More',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: widget.style.fontSize ?? 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+              ],
+            );
           },
-          child: Text(
-            _isExpanded ? 'Read Less' : 'Read More',
-            style: TextStyle(
-              color: Colors.blue,
-              fontSize: widget.style.fontSize ?? 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
         ),
       ],
     );

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../data/model/add_property_model.dart';
 import '../../data/model/agency/agency_details_model.dart';
+import '../../data/model/home/home_data_model.dart';
 import '../../state_inject_package_names.dart';
 import '/data/model/create_property/create_property_model.dart';
 import '../../data/data_provider/local_data_source.dart';

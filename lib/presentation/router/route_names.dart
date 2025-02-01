@@ -358,11 +358,11 @@ class RouteNames {
         String id = settings.arguments as String;
         return MaterialPageRoute(
             settings: settings, builder: (_) =>  CreateAgentScreen(id: id,));
-
-      case RouteNames.agencyDetailsScreen:
-        final id = settings.arguments as String;
-        return MaterialPageRoute(
-            settings: settings, builder: (_) =>  AgencyProfileScreen(id: id,));
+      //
+      // case RouteNames.agencyDetailsScreen:
+      //   final id = settings.arguments as String;
+      //   return MaterialPageRoute(
+      //       settings: settings, builder: (_) =>  AgencyProfileScreen(id: id,));
 
       default:
         return MaterialPageRoute(

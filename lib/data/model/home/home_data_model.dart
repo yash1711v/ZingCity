@@ -1,3 +1,5 @@
+import 'package:real_estate/data/model/agency/agency_details_model.dart';
+
 import '../product/aminit_model.dart';
 import '../product/slider_image_model.dart';
 
@@ -8,12 +10,11 @@ class HomeDataModel {
   List<LatestProperties>? latestProperties;
   List<Properties>? properties;
 
-  HomeDataModel(
-      {this.propertyType,
-        this.bannerImage,
-        this.propertyFeatured,
-        this.latestProperties,
-        this.properties});
+  HomeDataModel({this.propertyType,
+    this.bannerImage,
+    this.propertyFeatured,
+    this.latestProperties,
+    this.properties});
 
   HomeDataModel.fromJson(Map<String, dynamic> json) {
     propertyType = json['property_type'] != null
@@ -95,13 +96,12 @@ class BannerImage {
   String? createdAt;
   String? updatedAt;
 
-  BannerImage(
-      {this.id,
-        this.location,
-        this.imageType,
-        this.image,
-        this.createdAt,
-        this.updatedAt});
+  BannerImage({this.id,
+    this.location,
+    this.imageType,
+    this.image,
+    this.createdAt,
+    this.updatedAt});
 
   BannerImage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -175,58 +175,61 @@ class PropertyFeatured {
   List<SliderImage>? sliders;
   String? ratingAvarage;
   List<AminityItemDto>? aminityItemDto;
+  List<PropertyLocation>? propertyLocation;
+  List<PropertyAdditionInfo>? propertyAdditionInfo;
 
-  PropertyFeatured(
-      {this.id,
-        this.agentId,
-        this.propertyTypeId,
-        this.stateId,
-        this.title,
-        this.slug,
-        this.categoryId,
-        this.purpose,
-        this.rentPeriod,
-        this.price,
-        this.thumbnailImage,
-        this.description,
-        this.videoDescription,
-        this.videoThumbnail,
-        this.videoId,
-        this.address,
-        this.addressDescription,
-        this.googleMap,
-        this.totalArea,
-        this.totalUnit,
-        this.totalBedroom,
-        this.totalBathroom,
-        this.totalGarage,
-        this.totalKitchen,
-        this.isFeatured,
-        this.isTop,
-        this.isUrgent,
-        this.status,
-        this.bhkType,
-        this.expiredDate,
-        this.seoTitle,
-        this.seoMetaDescription,
-        this.serial,
-        this.showSlider,
-        this.approveByAdmin,
-        this.createdAt,
-        this.updatedAt,
-        this.dateFrom,
-        this.dateTo,
-        this.timeFrom,
-        this.timeTo,
-        this.countryId,
-        this.lat,
-        this.lon,
-        this.possessionStatus,
-        this.cityId,
-        this.totalRating,
-        this.sliders,
-        this.aminityItemDto,
-        this.ratingAvarage});
+  PropertyFeatured({this.id,
+    this.agentId,
+    this.propertyTypeId,
+    this.stateId,
+    this.title,
+    this.slug,
+    this.categoryId,
+    this.purpose,
+    this.rentPeriod,
+    this.price,
+    this.thumbnailImage,
+    this.description,
+    this.videoDescription,
+    this.videoThumbnail,
+    this.videoId,
+    this.address,
+    this.addressDescription,
+    this.googleMap,
+    this.totalArea,
+    this.totalUnit,
+    this.totalBedroom,
+    this.totalBathroom,
+    this.totalGarage,
+    this.totalKitchen,
+    this.isFeatured,
+    this.isTop,
+    this.isUrgent,
+    this.status,
+    this.bhkType,
+    this.expiredDate,
+    this.seoTitle,
+    this.seoMetaDescription,
+    this.serial,
+    this.showSlider,
+    this.approveByAdmin,
+    this.createdAt,
+    this.updatedAt,
+    this.dateFrom,
+    this.dateTo,
+    this.timeFrom,
+    this.timeTo,
+    this.countryId,
+    this.lat,
+    this.lon,
+    this.possessionStatus,
+    this.cityId,
+    this.totalRating,
+    this.sliders,
+    this.aminityItemDto,
+    this.propertyLocation,
+    this.propertyAdditionInfo,
+    this.ratingAvarage});
 
   PropertyFeatured.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -279,8 +282,25 @@ class PropertyFeatured {
     ratingAvarage = json['ratingAvarage'];
     sliders = json['slider_image'] != null
         ? (json['slider_image'] as List)
-        .map((i) => i is Map<String,dynamic>?SliderImage.fromMap(i):SliderImage.fromJson(i))
+        .map((i) =>
+    i is Map<String, dynamic>
+        ? SliderImage.fromMap(i)
+        : SliderImage.fromJson(i))
         .toList()
+        : [];
+    propertyLocation =
+    json['propertynearest'] != null && json['propertynearest'] != []
+        ? (json['propertynearest'] as List).map((i) =>
+    i is Map<String, dynamic>
+        ? PropertyLocation.fromJson(i)
+        : PropertyLocation.fromJson(i)).toList()
+        : [];
+    propertyAdditionInfo =
+    json['propertyadditioninfo'] != null && json['propertyadditioninfo'] != []
+        ? (json['propertyadditioninfo'] as List).map((i) =>
+    i is Map<String, dynamic>
+        ? PropertyAdditionInfo.fromJson(i)
+        : PropertyAdditionInfo.fromJson(i)).toList()
         : [];
     if (json['aminities'] != null) {
       aminityItemDto = <AminityItemDto>[];
@@ -333,7 +353,7 @@ class PropertyFeatured {
     data['date_from'] = this.dateFrom;
     data['date_to'] = this.dateTo;
     data['time_from'] = this.timeFrom;
-    data['category_id'] =  this.categoryId;
+    data['category_id'] = this.categoryId;
     data['time_to'] = this.timeTo;
     data['country_id'] = this.countryId;
     data['lat'] = this.lat;
@@ -343,6 +363,10 @@ class PropertyFeatured {
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
     data["slider_image"] = this.sliders!.map((e) => e.toJson()).toList();
+    data["propertynearest"] =
+        this.propertyLocation!.map((e) => e.toJson()).toList();
+    data["propertyadditioninfo"] =
+        this.propertyAdditionInfo!.map((e) => e.toJson()).toList();
     if (this.aminityItemDto != null) {
       data['aminityItemDto'] =
           this.aminityItemDto!.map((v) => v.toJson()).toList();
@@ -402,58 +426,61 @@ class LatestProperties {
   int? totalRating;
   String? ratingAvarage;
   List<AminityItemDto>? aminityItemDto;
+  List<PropertyLocation>? propertyLocation;
+  List<PropertyAdditionInfo>? propertyAdditionInfo;
 
-  LatestProperties(
-      {this.id,
-        this.agentId,
-        this.propertyTypeId,
-        this.stateId,
-        this.title,
-        this.sliders,
-        this.categoryId,
-        this.slug,
-        this.purpose,
-        this.rentPeriod,
-        this.price,
-        this.thumbnailImage,
-        this.description,
-        this.videoDescription,
-        this.videoThumbnail,
-        this.videoId,
-        this.address,
-        this.addressDescription,
-        this.googleMap,
-        this.totalArea,
-        this.totalUnit,
-        this.totalBedroom,
-        this.totalBathroom,
-        this.totalGarage,
-        this.totalKitchen,
-        this.isFeatured,
-        this.isTop,
-        this.isUrgent,
-        this.status,
-        this.bhkType,
-        this.expiredDate,
-        this.seoTitle,
-        this.seoMetaDescription,
-        this.serial,
-        this.showSlider,
-        this.approveByAdmin,
-        this.createdAt,
-        this.updatedAt,
-        this.dateFrom,
-        this.dateTo,
-        this.timeFrom,
-        this.timeTo,
-        this.countryId,
-        this.lat,
-        this.lon,
-        this.possessionStatus,
-        this.cityId,
-        this.totalRating,
-        this.aminityItemDto,
-        this.ratingAvarage});
+  LatestProperties({this.id,
+    this.agentId,
+    this.propertyTypeId,
+    this.stateId,
+    this.title,
+    this.sliders,
+    this.categoryId,
+    this.slug,
+    this.purpose,
+    this.rentPeriod,
+    this.price,
+    this.thumbnailImage,
+    this.description,
+    this.videoDescription,
+    this.videoThumbnail,
+    this.videoId,
+    this.address,
+    this.addressDescription,
+    this.googleMap,
+    this.totalArea,
+    this.totalUnit,
+    this.totalBedroom,
+    this.totalBathroom,
+    this.totalGarage,
+    this.totalKitchen,
+    this.isFeatured,
+    this.isTop,
+    this.isUrgent,
+    this.status,
+    this.bhkType,
+    this.expiredDate,
+    this.seoTitle,
+    this.seoMetaDescription,
+    this.serial,
+    this.showSlider,
+    this.approveByAdmin,
+    this.createdAt,
+    this.updatedAt,
+    this.dateFrom,
+    this.dateTo,
+    this.timeFrom,
+    this.timeTo,
+    this.countryId,
+    this.lat,
+    this.lon,
+    this.possessionStatus,
+    this.cityId,
+    this.totalRating,
+    this.aminityItemDto,
+    this.propertyLocation,
+    this.propertyAdditionInfo,
+    this.ratingAvarage});
 
   LatestProperties.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -502,10 +529,27 @@ class LatestProperties {
     possessionStatus = json['possession_status'];
     cityId = json['city_id'];
     categoryId = json['category_id'].toString();
+    propertyLocation =
+    json['propertynearest'] != null && json['propertynearest'] != []
+        ? (json['propertynearest'] as List).map((i) =>
+    i is Map<String, dynamic>
+        ? PropertyLocation.fromJson(i)
+        : PropertyLocation.fromJson(i)).toList()
+        : [];
+    propertyAdditionInfo =
+    json['propertyadditioninfo'] != null && json['propertyadditioninfo'] != []
+        ? (json['propertyadditioninfo'] as List).map((i) =>
+    i is Map<String, dynamic>
+        ? PropertyAdditionInfo.fromJson(i)
+        : PropertyAdditionInfo.fromJson(i)).toList()
+        : [];
     totalRating = json['totalRating'];
-        sliders = json['slider_image'] != null
+    sliders = json['slider_image'] != null
         ? (json['slider_image'] as List)
-        .map((i) => i is Map<String,dynamic>?SliderImage.fromMap(i):SliderImage.fromJson(i))
+        .map((i) =>
+    i is Map<String, dynamic>
+        ? SliderImage.fromMap(i)
+        : SliderImage.fromJson(i))
         .toList()
         : [];
     if (json['aminities'] != null) {
@@ -569,6 +613,10 @@ class LatestProperties {
     data['city_id'] = this.cityId;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    data["propertynearest"] =
+        this.propertyLocation!.map((e) => e.toJson()).toList();
+    data["propertyadditioninfo"] =
+        this.propertyAdditionInfo!.map((e) => e.toJson()).toList();
     data["slider_image"] = this.sliders!.map((e) => e.toJson()).toList();
     if (this.aminityItemDto != null) {
       data['aminities'] =
@@ -630,59 +678,62 @@ class Properties {
   int? totalRating;
   String? ratingAvarage;
   List<AminityItemDto>? aminityItemDto;
+  List<PropertyLocation>? propertyLocation;
+  List<PropertyAdditionInfo>? propertyAdditionInfo;
 
-  Properties(
-      {this.id,
-        this.agentId,
-        this.propertyTypeId,
-        this.stateId,
-        this.title,
-        this.slug,
-        this.purpose,
-        this.categoryId,
-        this.rentPeriod,
-        this.price,
-        this.thumbnailImage,
-        this.description,
-        this.videoDescription,
-        this.videoThumbnail,
-        this.videoId,
-        this.address,
-        this.addressDescription,
-        this.googleMap,
-        this.totalArea,
-        this.totalUnit,
-        this.totalBedroom,
-        this.totalBathroom,
-        this.totalGarage,
-        this.totalKitchen,
-        this.isFeatured,
-        this.isTop,
-        this.isUrgent,
-        this.status,
-        this.bhkType,
-        this.expiredDate,
-        this.seoTitle,
-        this.seoMetaDescription,
-        this.serial,
-        this.showSlider,
-        this.approveByAdmin,
-        this.createdAt,
-        this.updatedAt,
-        this.dateFrom,
-        this.dateTo,
-        this.timeFrom,
-        this.timeTo,
-        this.countryId,
-        this.lat,
-        this.lon,
-        this.possessionStatus,
-        this.cityId,
-        this.distance,
-        this.totalRating,
-        this.aminityItemDto,
-        this.sliders,
-        this.ratingAvarage});
+  Properties({this.id,
+    this.agentId,
+    this.propertyTypeId,
+    this.stateId,
+    this.title,
+    this.slug,
+    this.purpose,
+    this.categoryId,
+    this.rentPeriod,
+    this.price,
+    this.thumbnailImage,
+    this.description,
+    this.videoDescription,
+    this.videoThumbnail,
+    this.videoId,
+    this.address,
+    this.addressDescription,
+    this.googleMap,
+    this.totalArea,
+    this.totalUnit,
+    this.totalBedroom,
+    this.totalBathroom,
+    this.totalGarage,
+    this.totalKitchen,
+    this.isFeatured,
+    this.isTop,
+    this.isUrgent,
+    this.status,
+    this.bhkType,
+    this.expiredDate,
+    this.seoTitle,
+    this.seoMetaDescription,
+    this.serial,
+    this.showSlider,
+    this.approveByAdmin,
+    this.createdAt,
+    this.updatedAt,
+    this.dateFrom,
+    this.dateTo,
+    this.timeFrom,
+    this.timeTo,
+    this.countryId,
+    this.lat,
+    this.lon,
+    this.possessionStatus,
+    this.cityId,
+    this.distance,
+    this.totalRating,
+    this.aminityItemDto,
+    this.sliders,
+    this.propertyLocation,
+    this.propertyAdditionInfo,
+    this.ratingAvarage});
 
   Properties.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -734,15 +785,34 @@ class Properties {
     distance = json['distance'];
     totalRating = json['totalRating'];
     ratingAvarage = json['ratingAvarage'];
-        sliders = json['slider_image'] != null
+    propertyLocation =
+    json['propertynearest'] != null && json['propertynearest'] != []
+        ? (json['propertynearest'] as List).map((i) =>
+    i is Map<String, dynamic>
+        ? PropertyLocation.fromJson(i)
+        : PropertyLocation.fromJson(i)).toList()
+        : [];
+    propertyAdditionInfo =
+    json['propertyadditioninfo'] != null && json['propertyadditioninfo'] != []
+        ? (json['propertyadditioninfo'] as List).map((i) =>
+    i is Map<String, dynamic>
+        ? PropertyAdditionInfo.fromJson(i)
+        : PropertyAdditionInfo.fromJson(i)).toList()
+        : [];
+    sliders = json['slider_image'] != null
         ? (json['slider_image'] as List)
-        .map((i) => i is Map<String,dynamic>?SliderImage.fromMap(i):SliderImage.fromJson(i))
+        .map((i) =>
+    i is Map<String, dynamic>
+        ? SliderImage.fromMap(i)
+        : SliderImage.fromJson(i))
         .toList()
         : [];
     if (json['aminities'] != null) {
       aminityItemDto = <AminityItemDto>[];
       json['aminities'].forEach((v) {
-        aminityItemDto!.add(v is Map<String,dynamic>?new AminityItemDto.fromMap(v):AminityItemDto.fromJson(v));
+        aminityItemDto!.add(v is Map<String, dynamic>
+            ? new AminityItemDto.fromMap(v)
+            : AminityItemDto.fromJson(v));
       });
     } else {
       aminityItemDto = [];
@@ -800,6 +870,8 @@ class Properties {
     data['distance'] = this.distance;
     data['totalRating'] = this.totalRating;
     data['ratingAvarage'] = this.ratingAvarage;
+    data["propertynearest"] = propertyLocation!.map((e) => e.toJson()).toList();
+    data["propertyadditioninfo"] = propertyAdditionInfo!.map((e) => e.toJson()).toList();
     data["slider_image"] = this.sliders!.map((e) => e.toJson()).toList();
     if (this.aminityItemDto != null) {
       data['aminities'] =
@@ -807,4 +879,307 @@ class Properties {
     }
     return data;
   }
+
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'agent_id': agentId,
+      'property_type_id': propertyTypeId,
+      'state_id': stateId,
+      'title': title,
+      'slug': slug,
+      'purpose': purpose,
+      'category_id': categoryId,
+      'rent_period': rentPeriod,
+      'price': price,
+      'thumbnail_image': thumbnailImage,
+      'description': description,
+      'video_description': videoDescription,
+      'video_thumbnail': videoThumbnail,
+      'video_id': videoId,
+      'address': address,
+      'address_description': addressDescription,
+      'google_map': googleMap,
+      'total_area': totalArea,
+      'total_unit': totalUnit,
+      'total_bedroom': totalBedroom,
+      'total_bathroom': totalBathroom,
+      'total_garage': totalGarage,
+      'total_kitchen': totalKitchen,
+      'is_featured': isFeatured,
+      'is_top': isTop,
+      'is_urgent': isUrgent,
+      'status': status,
+      'bhk_type': bhkType,
+      'expired_date': expiredDate,
+      'seo_title': seoTitle,
+      'seo_meta_description': seoMetaDescription,
+      'serial': serial,
+      'show_slider': showSlider,
+      'approve_by_admin': approveByAdmin,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'date_from': dateFrom,
+      'date_to': dateTo,
+      'time_from': timeFrom,
+      'time_to': timeTo,
+      'country_id': countryId,
+      'lat': lat,
+      'lon': lon,
+      'possession_status': possessionStatus,
+      'city_id': cityId,
+      'distance': distance,
+      'totalRating': totalRating,
+      'ratingAvarage': ratingAvarage,
+      'slider_image': sliders?.map((e) => e.toMap()).toList(),
+      'propertynearest': propertyLocation?.map((e) => e.toMap()).toList(),
+      'propertyadditioninfo': propertyAdditionInfo?.map((e) => e.toMap()).toList(),
+      'aminities': aminityItemDto?.map((e) => e.toMap()).toList(),
+    };
+  }
+
+
+
+  factory Properties.fromMap(Map<String, dynamic> map) {
+    return Properties(
+      id: map['id'],
+      agentId: map['agent_id'],
+      propertyTypeId: map['property_type_id'],
+      stateId: map['state_id'],
+      title: map['title'],
+      slug: map['slug'],
+      purpose: map['purpose'],
+      categoryId: map['category_id'].toString(),
+      rentPeriod: map['rent_period'],
+      price: map['price'],
+      thumbnailImage: map['thumbnail_image'],
+      description: map['description'],
+      videoDescription: map['video_description'],
+      videoThumbnail: map['video_thumbnail'],
+      videoId: map['video_id'],
+      address: map['address'],
+      addressDescription: map['address_description'],
+      googleMap: map['google_map'],
+      totalArea: map['total_area'],
+      totalUnit: map['total_unit'],
+      totalBedroom: map['total_bedroom'],
+      totalBathroom: map['total_bathroom'],
+      totalGarage: map['total_garage'],
+      totalKitchen: map['total_kitchen'],
+      isFeatured: map['is_featured'],
+      isTop: map['is_top'],
+      isUrgent: map['is_urgent'],
+      status: map['status'],
+      bhkType: map['bhk_type'],
+      expiredDate: map['expired_date'],
+      seoTitle: map['seo_title'],
+      seoMetaDescription: map['seo_meta_description'],
+      serial: map['serial'],
+      showSlider: map['show_slider'],
+      approveByAdmin: map['approve_by_admin'],
+      createdAt: map['created_at'],
+      updatedAt: map['updated_at'],
+      dateFrom: map['date_from'],
+      dateTo: map['date_to'],
+      timeFrom: map['time_from'],
+      timeTo: map['time_to'],
+      countryId: map['country_id'],
+      lat: map['lat'],
+      lon: map['lon'],
+      possessionStatus: map['possession_status'],
+      cityId: map['city_id'],
+      distance: map['distance'],
+      totalRating: map['totalRating'],
+      ratingAvarage: map['ratingAvarage'],
+      sliders: map['slider_image'] != null
+          ? List<SliderImage>.from(
+        (map['slider_image'] as List<dynamic>).map<SliderImage>(
+              (x) => SliderImage.fromMap(x as Map<String, dynamic>),
+        ),
+      )
+          : [],
+      propertyLocation: map['propertynearest'] != null
+          ? List<PropertyLocation>.from(
+        (map['propertynearest'] as List<dynamic>).map<PropertyLocation>(
+              (x) => PropertyLocation.fromMap(x as Map<String, dynamic>),
+        ),
+      )
+          : [],
+      propertyAdditionInfo: map['propertyadditioninfo'] != null
+          ? List<PropertyAdditionInfo>.from(
+        (map['propertyadditioninfo'] as List<dynamic>).map<PropertyAdditionInfo>(
+              (x) => PropertyAdditionInfo.fromMap(x as Map<String, dynamic>),
+        ),
+      )
+          : [],
+      aminityItemDto: map['aminities'] != null
+          ? List<AminityItemDto>.from(
+        (map['aminities'] as List<dynamic>).map<AminityItemDto>(
+              (x) => AminityItemDto.fromMap(x as Map<String, dynamic>),
+        ),
+      )
+          : [],
+    );
+  }
+
+
+}
+
+
+class PropertyLocation {
+  final String id;
+  final String propertyId;
+  final String nearestLocationId;
+  final String distance;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final Location? location;
+
+  PropertyLocation({
+    required this.id,
+    required this.propertyId,
+    required this.nearestLocationId,
+    required this.distance,
+    required this.createdAt,
+    required this.updatedAt,
+    this.location,
+  });
+
+  factory PropertyLocation.fromJson(Map<String, dynamic> json) {
+    return PropertyLocation(
+      id: json['id'].toString(),
+      propertyId: json['property_id'].toString(),
+      nearestLocationId: json['nearest_location_id'].toString(),
+      distance: json['distance'].toString(),
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
+      location: json['location'] != null
+          ? Location.fromJson(json['location'])
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'property_id': propertyId,
+      'nearest_location_id': nearestLocationId,
+      'distance': distance,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+      'location': location?.toJson(),
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'property_id': propertyId,
+      'nearest_location_id': nearestLocationId,
+      'distance': distance,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+      'location': location?.toMap(),
+    };
+  }
+
+  static PropertyLocation fromMap(Map<String, dynamic> x) {
+    return PropertyLocation(id: x['id'].toString(),
+        propertyId: x['property_id'].toString(),
+        nearestLocationId: x['nearest_location_id'].toString(),
+        distance: x['distance'].toString(),
+        createdAt: DateTime.parse(x['created_at']),
+        updatedAt: DateTime.parse(x['updated_at']));
+  }
+
+
+}
+
+class Location {
+  final String id;
+  final String location;
+  final String status;
+
+  Location({
+    required this.id,
+    required this.location,
+    required this.status,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      id: json['id'].toString(),
+      location: json['location'],
+      status: json['status'].toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'location': location,
+      'status': status,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'location': location,
+      'status': status,
+    };
+  }
+}
+
+
+class PropertyAdditionInfo {
+  final String id;
+  final String propertyId;
+  final String addKey;
+  final String addValue;
+
+  PropertyAdditionInfo({
+    required this.id,
+    required this.propertyId,
+    required this.addKey,
+    required this.addValue,
+  });
+
+  factory PropertyAdditionInfo.fromJson(Map<String, dynamic> json) {
+    return PropertyAdditionInfo(
+      id: json['id'].toString(),
+      propertyId: json['property_id'].toString(),
+      addKey: json['add_key'],
+      addValue: json['add_value'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'property_id': propertyId,
+      'add_key': addKey,
+      'add_value': addValue,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'property_id': propertyId,
+      'add_key': addKey,
+      'add_value': addValue,
+    };
+  }
+
+  static PropertyAdditionInfo fromMap(Map<String, dynamic> x) {
+    return PropertyAdditionInfo(id: x['id'].toString(),
+        propertyId: x['property_id'].toString(),
+        addKey: x['add_key'],
+        addValue: x['add_value']);
+
+  }
+
+
 }

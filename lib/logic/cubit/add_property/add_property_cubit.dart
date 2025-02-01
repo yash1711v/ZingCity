@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -15,8 +16,10 @@ import '../../../data/model/create_property/nearest_location_dto.dart';
 import '../../../data/model/create_property/property_location.dart';
 import '../../../data/model/create_property/property_plan_dto.dart';
 import '../../../data/model/create_property/property_video_dto.dart';
+import '../../../data/model/home/home_data_model.dart';
 import '../../../data/model/product/nearest_location_model.dart';
 import '../../../presentation/error/failure.dart';
+import '../../../presentation/screens/property_details/component/property_images_slider.dart';
 import '../../bloc/login/login_bloc.dart';
 import '../../repository/property_repository.dart';
 import 'add_property_state_model.dart';
@@ -52,6 +55,11 @@ class AddPropertyCubit extends Cubit<AddPropertyModel> {
     else{
       emit(state.copyWith(aminities: List.of(state.aminities)..remove(text), addState: const AddPropertyInitial()));
     }
+  }
+  void addAminitiesValue(List<String>? text,bool isAdd) {
+
+      emit(state.copyWith(aminities: text, addState: const AddPropertyInitial()));
+
   }
 
   void changeCountry(String text) {
@@ -147,6 +155,15 @@ void changeAddress(String text) {
     emit(state.copyWith(
         totalBathroom: text, addState: const AddPropertyInitial()));
   }
+  void addAdditionalKey(List<String>? keys,) {
+    emit(state.copyWith(
+        additionalKeys: keys, addState: const AddPropertyInitial()));
+  }
+
+  void addAdditionalValue(List<String>? keys,) {
+    emit(state.copyWith(
+        additionalValues: keys, addState: const AddPropertyInitial()));
+  }
 
   void changeTotalKitchen(String text) {
     emit(state.copyWith(
@@ -179,6 +196,7 @@ void changeAddress(String text) {
 
   void addSliders(List<File> images) {
     // final updatedImg = List.of(state.galleryImage)..add(slider);
+    log('slider-images ${images.length}');
     emit(state.copyWith(
         sliderImages: images, addState: const AddPropertyInitial()));
   }
@@ -604,7 +622,7 @@ void changeAddress(String text) {
   void editProperty(Properties? property,BuildContext context) {
     emit(state.copyWith(addState: const AddPropertyLoading()));
 
-    // debugPrint("property ${property?.p}");
+    debugPrint("property Images ${(property?.sliders ?? []).length}");
     // changeAddress(property?.address ?? '');
     // changeDescription(property?.description ?? '');
     // changeRentPeriod(property?.rentPeriod ?? '');
@@ -719,7 +737,7 @@ void changeAddress(String text) {
     state.staticInfo?.city?.forEach((element){
 
 
-      if(element.id.toString() == property?.cityId){
+      if(element.id.toString() == property?.cityId.toString()){
         context
             .read<AddPropertyCubit>()
             .changeCity(element.name ?? "", element.id.toString());
@@ -728,14 +746,27 @@ void changeAddress(String text) {
       //     .read<AddPropertyCubit>()
       //     .changeCity(element.name ?? "", element.id.toString());
     });
+    List<File> sliderImages = [];
+    (property?.sliders ?? []).skip(1).forEach((element) {
+      sliderImages.add(File(element.image));
+    });
 
 
+
+    context.read<AddPropertyCubit>().addSliders(sliderImages);
+
+    List<String> aminities = [];
+    property?.aminityItemDto?.forEach((element){
+      aminities.add(element.aminityId.toString());
+    });
+    context.read<AddPropertyCubit>().addAminitiesValue(
+        aminities,false);
 
     emit(state.copyWith(
       addState: const AddPropertyInitial(),
       purpose: (property?.purpose ?? '').toString() == "1"? "buy" : "rent",
       title: property?.title ?? '',
-      price: property?.price ?? '',
+      price: property?.price.toString() ?? '',
       totalArea: property?.totalArea ?? '',
       totalUnit: property?.totalUnit ?? '',
       totalBedroom: property?.totalBedroom ?? '',
@@ -743,13 +774,14 @@ void changeAddress(String text) {
       totalKitchen: property?.totalKitchen ?? '',
       totalGarage: property?.totalGarage ?? '',
       description: property?.description ?? '',
-      cityId: property?.cityId?? '',
-      stateId: property?.stateId?? '',
+      cityId: property?.cityId.toString()?? '',
+      stateId: property?.stateId.toString()?? '',
       rentPeriod: property?.rentPeriod ?? '',
       address: property?.address ?? '',
       thumbNailImage: property?.thumbnailImage ?? '',
-      sliderImagesApi: property?.images ?? [],
+      // sliderImagesApi: property?.images ?? [],
       categoryId: property?.categoryId ?? '',
+      // sliderImages: (property?.sliders ?? []).forEach((element)=>),
       // seoTitle: property?.seoTitle ?? '',
       // seoMetaDescription: property?.seoMetaDescription ?? '',
       // propertyLocationDto: PropertyLocationDto(

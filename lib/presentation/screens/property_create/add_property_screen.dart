@@ -1,6 +1,7 @@
 import 'package:real_estate/data/model/agency/agency_details_model.dart';
 import 'package:real_estate/presentation/screens/property_create/ScreenFour.dart';
 
+import '../../../data/model/home/home_data_model.dart' as home;
 import '../../../logic/cubit/add_property/add_property_state_model.dart';
 import '../../../state_inject_package_names.dart';
 import '../../utils/constraints.dart';
@@ -12,7 +13,7 @@ import 'add_scren1.dart';
 import 'image_adding_screen.dart';
 
 class AddPropertyScreen extends StatefulWidget {
-  final Properties? property;
+  final home.Properties? property;
 
   const AddPropertyScreen({
     super.key,
@@ -36,8 +37,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       //   debugPrint("element==> ${ context.read<AddPropertyCubit>().state.staticInfo?.}");
       // });
     });
-     debugPrint("TitlE: ${(widget.property ??
-         const Properties(
+     debugPrint("Slider Images: ${(widget.property ??
+          home.Properties(
              id: 0,
              agentId: 0,
              propertyTypeId: 0,
@@ -45,7 +46,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
              slug: "",
              purpose: "",
              rentPeriod: "",
-             price: "",
+             price: 0,
              thumbnailImage: "",
              address: "",
              totalBedroom: "",
@@ -54,18 +55,10 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
              status: "",
              isFeatured: "",
              totalRating: 5,
-             ratingAvarage: "",
-             agent: Agent(
-                 id: 0,
-                 name: "",
-                 phone: "",
-                 email: "",
-                 designation: "",
-                 image: "",
-                 userName: ""), categoryId: '', aminityItemDto: []))
-         .title}");
-    if ((widget.property ??
-            const Properties(
+             ratingAvarage: "", categoryId: '', aminityItemDto: []))
+         .thumbnailImage}");
+    if (((widget.property ??
+        home. Properties(
                 id: 0,
                 agentId: 0,
                 propertyTypeId: 0,
@@ -73,7 +66,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                 slug: "",
                 purpose: "",
                 rentPeriod: "",
-                price: "",
+                price: 0,
                 thumbnailImage: "",
                 address: "",
                 totalBedroom: "",
@@ -83,15 +76,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                 isFeatured: "",
                 totalRating: 5,
                 ratingAvarage: "",
-                agent: Agent(
-                    id: 0,
-                    name: "",
-                    phone: "",
-                    email: "",
-                    designation: "",
-                    image: "",
-                    userName: ""), categoryId: '', aminityItemDto: []))
-        .title
+             categoryId: '', aminityItemDto: []))
+        .title ?? "")
         .isNotEmpty) {
       context.read<AddPropertyCubit>().editProperty(widget.property,context);
     }
@@ -239,8 +225,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                               Icons.arrow_back_ios,
                             ),
                             Text(
-                              (widget.property ??
-                                  const Properties(
+                              ((widget.property ??
+                                   home.Properties(
                                       id: 0,
                                       agentId: 0,
                                       propertyTypeId: 0,
@@ -248,7 +234,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                       slug: "",
                                       purpose: "",
                                       rentPeriod: "",
-                                      price: "",
+                                      price: 0,
                                       thumbnailImage: "",
                                       address: "",
                                       totalBedroom: "",
@@ -258,15 +244,8 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                       isFeatured: "",
                                       totalRating: 5,
                                       ratingAvarage: "",
-                                      agent: Agent(
-                                          id: 0,
-                                          name: "",
-                                          phone: "",
-                                          email: "",
-                                          designation: "",
-                                          image: "",
-                                          userName: ""), categoryId: "0", aminityItemDto: []))
-                                  .title
+                                 categoryId: "0", aminityItemDto: []))
+                                  .title ?? "")
                                   .isNotEmpty?"Update Property":'Add Property',
                               style: const TextStyle(
                                 color: Color(0xFF30469A),
@@ -677,7 +656,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       },
     );
   }
-  String _getButtonText(AddPropertyModel state, int pageIndex, Properties? property) {
+  String _getButtonText(AddPropertyModel state, int pageIndex, home.Properties? property) {
 
     final isResidentialOrCommercial =
         state.typeId == "Residential" || state.typeId == "Commercial Space";

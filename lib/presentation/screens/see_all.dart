@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../../data/data_provider/remote_url.dart';
 import '../../data/model/agency/agency_details_model.dart';
+import '../../data/model/home/home_data_model.dart';
 import '../../state_inject_package_names.dart';
 import '../router/route_names.dart';
 import '../widget/customnetwork_widget.dart';
@@ -116,7 +117,7 @@ class _seeAllState extends State<SeeAll> {
                           widget.properties[index] is Map<String, dynamic>
                               ? Properties.fromMap(widget.properties[index])
                               : Properties.fromJson(
-                                  jsonEncode(widget.properties[index])));
+                                  jsonEncode(widget.properties[index]) as Map<String, dynamic>));
                   // Navigator.pushNamed(
                   //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                 },

@@ -40,17 +40,17 @@ class SearchComponent extends StatelessWidget {
                     width: 140.0,
                     fit: BoxFit.cover,
                   ),
-                  Positioned(
-                    top: 8.0,
-                    left: 8.0,
-                    child:Row(
-                      children: [
-                        FavoriteButton(id: property.id.toString()),
-                        Utils.horizontalSpace(10.0),
-                        AddToCompare(id:property.id.toString()),
-                      ],
-                    ),
-                  )
+                  // Positioned(
+                  //   top: 8.0,
+                  //   left: 8.0,
+                  //   child:Row(
+                  //     children: [
+                  //       FavoriteButton(id: property.id.toString()),
+                  //       Utils.horizontalSpace(10.0),
+                  //       AddToCompare(id:property.id.toString()),
+                  //     ],
+                  //   ),
+                  // )
                 ],
               ),
             ),

@@ -57,14 +57,17 @@ class _BuyScreenState extends State<BuyScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
-                      Text(
-                        '${(state.searchedProperties ?? []).isNotEmpty ? (state.searchedProperties ?? []).length : (state.data ?? []).length ?? 0} results found ${(state.searchedProperties ?? []).isNotEmpty ? "from Search" : ""}',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'DM Sans',
-                          fontWeight: FontWeight.w300,
-                          height: 0,
+                      Visibility(
+                        visible: (state.searchedProperties ?? []).isNotEmpty,
+                        child: Text(
+                          '${(state.searchedProperties ?? []).length} results found ${(state.searchedProperties ?? []).isNotEmpty?"from Search":""}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.w300,
+                            height: 0,
+                          ),
                         ),
                       ),
                       const Spacer(),
@@ -133,959 +136,2042 @@ class _BuyScreenState extends State<BuyScreen> {
                       TabBarView(
                           physics: const NeverScrollableScrollPhysics(),
                           controller: widget.tabController, children: [
-                    (state.isLoading ?? true)
-                        ? const Center(child: CircularProgressIndicator())
-                        : (state.searchedProperties ?? []).isNotEmpty
-                            ? ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    (state.searchedProperties ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.searchedProperties ??
-                                                                  [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags(
-                                                              (state.searchedProperties ??
-                                                                              [])[
-                                                                          index]
-                                                                      .address ??
-                                                                  ""),
-                                                          maxLines: 2,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
+                        (state.isLoading ?? true) ?const Center(child: CircularProgressIndicator()):
+                        (state.searchedProperties ?? []).isNotEmpty?ListView.builder(
+                            itemCount: (state.searchedProperties ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                })
-                            : ListView.builder(
-                                itemCount: (state.data ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.searchedProperties ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
                                           ),
                                         ),
-                                        child: Row(
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.data ?? [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.searchedProperties ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags((state
-                                                                          .data ??
-                                                                      [])[index]
-                                                                  .address ??
-                                                              ""),
-                                                          maxLines: 2,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.searchedProperties ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
                                               ),
-                                            )
+                                            ),
+
+
                                           ],
                                         ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }):
+                        ListView.builder(
+                            itemCount: (state.data ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                    (state.isLoading ?? true)
-                        ? const Center(child: CircularProgressIndicator())
-                        : (state.searchedProperties ?? []).isNotEmpty
-                            ? ListView.builder(
-                                itemCount:
-                                    (state.searchedProperties ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.data ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
                                           ),
                                         ),
-                                        child: Row(
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.searchedProperties ??
-                                                                  [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags(
-                                                              (state.searchedProperties ??
-                                                                              [])[
-                                                                          index]
-                                                                      .address ??
-                                                                  ""),
-                                                          maxLines: 2,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.data ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
                                               ),
-                                            )
+                                            ),
+
+
                                           ],
                                         ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }),
+                        (state.isLoading ?? true) ?const Center(child: CircularProgressIndicator()):
+                        (state.searchedProperties ?? []).isNotEmpty?ListView.builder(
+                            itemCount: (state.searchedProperties ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                })
-                            : ListView.builder(
-                                itemCount: (state.data ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.searchedProperties ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
                                           ),
                                         ),
-                                        child: Row(
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.data ?? [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.searchedProperties ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags((state
-                                                                          .data ??
-                                                                      [])[index]
-                                                                  .description ??
-                                                              ""),
-                                                          maxLines: 3,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.searchedProperties ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
                                               ),
-                                            )
+                                            ),
+
+
                                           ],
                                         ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }):
+                        ListView.builder(
+                            itemCount: (state.data ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                    (state.isLoading ?? true)
-                        ? const Center(child: CircularProgressIndicator())
-                        : (state.searchedProperties ?? []).isNotEmpty
-                            ? ListView.builder(
-                                itemCount:
-                                    (state.searchedProperties ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.data ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
                                           ),
                                         ),
-                                        child: Row(
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.searchedProperties ??
-                                                                  [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags(
-                                                              (state.searchedProperties ??
-                                                                              [])[
-                                                                          index]
-                                                                      .address ??
-                                                                  ""),
-                                                          maxLines: 2,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.data ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
                                               ),
-                                            )
+                                            ),
+
+
                                           ],
                                         ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }),
+                        (state.isLoading ?? true) ?const Center(child: CircularProgressIndicator()):
+                        (state.searchedProperties ?? []).isNotEmpty?ListView.builder(
+                            itemCount: (state.searchedProperties ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                })
-                            : ListView.builder(
-                                itemCount: (state.data ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.searchedProperties ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
                                           ),
                                         ),
-                                        child: Row(
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.data ?? [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.searchedProperties ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags((state
-                                                                          .data ??
-                                                                      [])[index]
-                                                                  .description ??
-                                                              ""),
-                                                          maxLines: 3,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.searchedProperties ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
                                               ),
-                                            )
+                                            ),
+
+
                                           ],
                                         ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }):
+                        ListView.builder(
+                            itemCount: (state.data ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                    (state.isLoading ?? true)
-                        ? const Center(child: CircularProgressIndicator())
-                        : (state.searchedProperties ?? []).isNotEmpty
-                            ? ListView.builder(
-                                itemCount:
-                                    (state.searchedProperties ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.data ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
                                           ),
                                         ),
-                                        child: Row(
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.searchedProperties ??
-                                                                  [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags(
-                                                              (state.searchedProperties ??
-                                                                              [])[
-                                                                          index]
-                                                                      .address ??
-                                                                  ""),
-                                                          maxLines: 2,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.data ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
                                               ),
-                                            )
+                                            ),
+
+
                                           ],
                                         ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }),
+                        (state.isLoading ?? true) ?const Center(child: CircularProgressIndicator()):
+                        (state.searchedProperties ?? []).isNotEmpty?ListView.builder(
+                            itemCount: (state.searchedProperties ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                })
-                            : ListView.builder(
-                                itemCount: (state.data ?? []).length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17.0, vertical: 17.0),
-                                itemBuilder: (context, index) {
-                                  debugPrint((state.data ?? [])[index].title);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RouteNames.purchaseDetailsScreen,
-                                          arguments: (state.data ?? [])[index]);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Container(
-                                        width: size.width,
-                                        height: 85,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0x0C398BCB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.searchedProperties ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.searchedProperties ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
                                           ),
                                         ),
-                                        child: Row(
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CustomNetworkImageWidget(
-                                              width: 94.83,
-                                              height: 94.83,
-                                              image:
-                                                  "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            300,
-                                                    child: Text(
-                                                      (state.data ?? [])[index]
-                                                              .title ??
-                                                          "",
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontFamily: 'DM Sans',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0,
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.searchedProperties ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.location_on_sharp,
-                                                        size: 12,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            180,
-                                                        child: Text(
-                                                          removeHtmlTags((state
-                                                                          .data ??
-                                                                      [])[index]
-                                                                  .description ??
-                                                              ""),
-                                                          maxLines: 3,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            height: 0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.searchedProperties ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
                                               ),
-                                            )
+                                            ),
+
+
                                           ],
                                         ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }):
+                        ListView.builder(
+                            itemCount: (state.data ?? []).length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 17.0),
+                            itemBuilder: (context, index) {
+                              debugPrint((state.data ?? [])[index].title);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context,
+                                      RouteNames
+                                          .purchaseDetailsScreen,
+                                      arguments: (state.data ?? [])[index]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0),
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 5),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0x0C398BCB),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
+                                      child:  ListTile(
+
+                                        leading: CustomNetworkImageWidget(
+                                          width: 94.83,
+                                          height: 94.83,
+                                          image:
+                                          "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                        ),
+                                        title: Text(
+                                          (state.data ?? [])[index].title ?? "",
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily:
+                                              'DM Sans',
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              height: 0,
+                                              overflow: TextOverflow.ellipsis
+                                          ),
+                                        ),
+
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                                    maxLines: 2,
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                      'DM Sans',
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w300,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber((state.data ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
+                                              ),
+                                            ),
+
+
+                                          ],
+                                        ),
+
+                                      )
+
+
+                                    // Row(
+                                    //   children: [
+                                    //
+                                    //     CustomNetworkImageWidget(
+                                    //    width: 94.83,
+                                    //      height: 94.83,
+                                    //       image:
+                                    //       "${RemoteUrls.rootUrl}${(state.data ?? [])[index].thumbnailImage}",
+                                    //     ),
+                                    //     // Container(
+                                    //     //   width: 94.83,
+                                    //     //   height: 94.83,
+                                    //     //   decoration: ShapeDecoration(
+                                    //     //     image:
+                                    //     //         const DecorationImage(
+                                    //     //       image: AssetImage(
+                                    //     //           "assets/Yash/images/property_1.png"),
+                                    //     //       fit: BoxFit.fill,
+                                    //     //     ),
+                                    //     //     shape:
+                                    //     //         RoundedRectangleBorder(
+                                    //     //       borderRadius:
+                                    //     //           BorderRadius
+                                    //     //               .circular(10),
+                                    //     //     ),
+                                    //     //   ),
+                                    //     // ),
+                                    //     const SizedBox(
+                                    //       width: 10,
+                                    //     ),
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(
+                                    //               top: 5.0),
+                                    //       child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment
+                                    //                 .start,
+                                    //         children: [
+                                    //           const SizedBox(
+                                    //             height: 13,
+                                    //           ),
+                                    //           // Row(
+                                    //           //   children: [
+                                    //           //     Image.asset(
+                                    //           //       "assets/images/iconamoon_profile-light.png",
+                                    //           //       height: 12,
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       'Villa',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Colors
+                                    //           //             .black,
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w300,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     SizedBox(
+                                    //           //       width:
+                                    //           //           size.width -
+                                    //           //               250,
+                                    //           //     ),
+                                    //           //     const Text(
+                                    //           //       '₹ 80 Lac',
+                                    //           //       style: TextStyle(
+                                    //           //         color: Color(
+                                    //           //             0xFF30469A),
+                                    //           //         fontSize: 14,
+                                    //           //         fontFamily:
+                                    //           //             'DM Sans',
+                                    //           //         fontWeight:
+                                    //           //             FontWeight
+                                    //           //                 .w800,
+                                    //           //         height: 0,
+                                    //           //       ),
+                                    //           //     ),
+                                    //           //     const SizedBox(
+                                    //           //       width: 5,
+                                    //           //     ),
+                                    //           //   ],
+                                    //           // ),
+                                    //           // const SizedBox(
+                                    //           //   height: 3,
+                                    //           // ),
+                                    //            SizedBox(
+                                    //              width: MediaQuery.of(context).size.width - 300,
+                                    //              child: Text(
+                                    //               (state.data ?? [])[index].title ?? "",
+                                    //               maxLines: 1,
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 16,
+                                    //                 fontFamily:
+                                    //                     'DM Sans',
+                                    //                 fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                 height: 0,
+                                    //                 overflow: TextOverflow.ellipsis
+                                    //               ),
+                                    //                                                                      ),
+                                    //            ),
+                                    //            Row(
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment
+                                    //                     .start,
+                                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                                    //             children: [
+                                    //
+                                    //               const Icon(
+                                    //                 Icons
+                                    //                     .location_on_sharp,
+                                    //                 size: 12,
+                                    //               ),
+                                    //               SizedBox(
+                                    //                 width: MediaQuery.of(context).size.width - 180,
+                                    //                 child: Text(
+                                    //                   removeHtmlTags((state.data ?? [])[index].address ?? ""),
+                                    //                   maxLines: 2,
+                                    //                   style: const TextStyle(
+                                    //                     color: Colors
+                                    //                         .black,
+                                    //                     fontSize: 14,
+                                    //                     fontFamily:
+                                    //                         'DM Sans',
+                                    //                     fontWeight:
+                                    //                         FontWeight
+                                    //                             .w300,
+                                    //                     height: 0,
+                                    //                   ),
+                                    //                 ),
+                                    //               )
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                  ),
+                                ),
+                              );
+                            }),
                   ]),
                 ),
                 SizedBox(

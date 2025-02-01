@@ -707,6 +707,11 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                         minArea: selectedMinValue.toString(),
                                         possessionStatus:
                                             possessionId.toString()).then((value){
+                                              if((context.read<HomeCubit>().state.searchedProperties ?? []).isEmpty){
+                                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                  content: Text("No Properties Found"),
+                                                ));
+                                              }
                                               Navigator.of(context).pop();
                                     });
                                   },

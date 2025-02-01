@@ -78,257 +78,270 @@ class AgencyDetailsModel extends Equatable {
   List<Object> get props => [agency!, agents!, properties!, totalProperty];
 }
 
-class Properties extends Equatable {
-  final int id;
-  final int agentId;
-  final String title;
-  final String slug;
-  final String purpose;
-  final String categoryId;
-  final int? propertyTypeId;
-  final String rentPeriod;
-  final String price;
-  final String thumbnailImage;
-  final String address;
-  final String description;
-  final String totalBedroom;
-  final String totalBathroom;
-  final String totalGarage;
-  final String totalKitchen;
-  final String totalArea;
-  final String status;
-  final String isFeatured;
-  final int totalRating;
-  final String ratingAvarage;
-  final String cityId;
-  final String stateId;
-  final String? approveByAdmin;
-  final Agent agent;
-  final List<String> images;
-  final String totalUnit;
-  final List<SliderImage>? sliders;
-  final List<AminityItemDto>? aminityItemDto;
-
-  const Properties({
-    this.images = const [],
-    required this.id,
-    required this.agentId,
-    required this.aminityItemDto,
-    this.approveByAdmin,
-    required this.propertyTypeId,
-    required this.title,
-    required this.slug,
-    required this.purpose,
-    required this.categoryId,
-    required this.rentPeriod,
-    required this.price,
-    required this.thumbnailImage,
-    required this.address,
-    required this.totalBedroom,
-    required this.totalBathroom,
-    this.totalGarage = '',
-    required this.totalArea,
-    required this.status,
-    required this.isFeatured,
-    required this.totalRating,
-    required this.ratingAvarage,
-    required this.agent,
-    this.description = '',
-    this.totalKitchen = '',
-    this.sliders = const [],
-    this.cityId = '',
-    this.stateId = '',
-    this.totalUnit = '',
-  });
-
-  Properties copyWith({
-    int? id,
-    int? agentId,
-    String? title,
-    String? slug,
-    String? categoryId,
-    String? purpose,
-    String? rentPeriod,
-    String? price,
-    String? thumbnailImage,
-    String? address,
-    String? totalBedroom,
-    String? totalBathroom,
-    String? totalGarage,
-    String? totalArea,
-    String? status,
-    String? isFeatured,
-    int? totalRating,
-    String? ratingAvarage,
-    Agent? agent,
-    int? propertyTypeId,
-    String? approveByAdmin,
-    String? description,
-    String? totalKitchen,
-    String? totalUnit,
-    String? cityId,
-    String? stateId,
-    List<String>? images,
-    final List<SliderImage>? sliders,
-    List<AminityItemDto>? aminityItemDto,
-  }) {
-    return Properties(
-      id: id ?? this.id,
-      agentId: agentId ?? this.agentId,
-      title: title ?? this.title,
-      slug: slug ?? this.slug,
-      approveByAdmin: approveByAdmin ?? this.approveByAdmin,
-      purpose: purpose ?? this.purpose,
-      rentPeriod: rentPeriod ?? this.rentPeriod,
-      price: price ?? this.price,
-      thumbnailImage: thumbnailImage ?? this.thumbnailImage,
-      address: address ?? this.address,
-      totalBedroom: totalBedroom ?? this.totalBedroom,
-      totalBathroom: totalBathroom ?? this.totalBathroom,
-      totalArea: totalArea ?? this.totalArea,
-      status: status ?? this.status,
-      isFeatured: isFeatured ?? this.isFeatured,
-      totalRating: totalRating ?? this.totalRating,
-      ratingAvarage: ratingAvarage ?? this.ratingAvarage,
-      agent: agent ?? this.agent,
-      propertyTypeId: propertyTypeId ?? this.propertyTypeId,
-      description: description ?? this.description,
-      totalGarage: totalGarage ?? this.totalGarage,
-      totalKitchen: totalKitchen ?? this.totalKitchen,
-      totalUnit: totalUnit ?? this.totalUnit,
-      cityId: cityId ?? this.cityId,
-      stateId: stateId ?? this.stateId,
-      images: images ?? this.images,
-      sliders: sliders ?? this.sliders,
-      categoryId: categoryId ?? this.categoryId,
-      aminityItemDto: aminityItemDto ?? this.aminityItemDto,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'agentId': agentId,
-      'title': title,
-      'slug': slug,
-      'purpose': purpose,
-      'rentPeriod': rentPeriod,
-      'price': price,
-      'thumbnailImage': thumbnailImage,
-      'address': address,
-      'totalBedroom': totalBedroom,
-      'totalBathroom': totalBathroom,
-      'totalArea': totalArea,
-      'status': status,
-      'isFeatured': isFeatured,
-      'totalRating': totalRating,
-      'ratingAvarage': ratingAvarage,
-      'agent': agent.toMap(),
-      "property_type_id": propertyTypeId,
-      'description': description,
-      'totalGarage': totalGarage,
-      'totalKitchen': totalKitchen,
-      'totalUnit': totalUnit,
-      'cityId': cityId,
-      'stateId': stateId,
-      "images": images,
-      "category_id": categoryId,
-      "slider_images": sliders!.map((x) => x.toMap()).toList(),
-      "aminities": aminityItemDto!.map((x) => x.toMap()).toList(),
-      "approve_by_admin": approveByAdmin.toString(),
-    };
-  }
-
-  factory Properties.fromMap(Map<String, dynamic> map) {
-    return Properties(
-      id: map['id'] ?? 0,
-      agentId: map['agent_id'] ?? 0,
-      title: map['title'] ?? '',
-      slug: map['slug'] ?? '',
-      purpose: map['purpose'] ?? '',
-      rentPeriod: map['rent_period'] ?? '',
-      price: map['price'].toString() ?? '',
-      thumbnailImage: map['thumbnail_image'] ?? '',
-      address: map['address'] ?? '',
-      totalBedroom: map['total_bedroom'] ?? '',
-      totalBathroom: map['total_bathroom'] ?? '',
-      totalGarage: map['total_garage'] ?? '',
-      totalArea: map['total_area'] ?? '',
-      status: map['status'] ?? '',
-      isFeatured: map['is_featured'] ?? '',
-      totalRating: map['totalRating'] ?? 0,
-      ratingAvarage: map['ratingAvarage'] ?? '',
-      approveByAdmin: map['approve_by_admin'] ?? '',
-      agent: Agent.fromMap((map['agent'] ??
-          Agent(
-                  id: 0,
-                  name: '',
-                  phone: '',
-                  email: '',
-                  designation: '',
-                  image: '',
-                  userName: '')
-              .toMap()) as Map<String, dynamic>),
-      propertyTypeId: map['property_type_id'],
-      description: map['description'] ?? '',
-      totalKitchen: map['total_kitchen'] ?? '',
-      totalUnit: map['total_unit'] ?? '',
-      cityId: map['city_id'].toString() ?? '',
-      stateId: map['state_id'].toString() ?? '',
-      images: List<String>.from(map['slider_images'] ?? []),
-      categoryId: map['category_id'].toString(),
-      sliders: map['slider_images'] != null
-          ? List<SliderImage>.from(
-              (map['slider_images'] as List<dynamic>).map<SliderImage>(
-                (x) => SliderImage.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : [],
-      aminityItemDto: map['aminities'] != null
-          ? List<AminityItemDto>.from(
-              (map['aminities'] as List<dynamic>).map<AminityItemDto>(
-                (x) => (x is Map<String, dynamic> )?AminityItemDto.fromMap(x):AminityItemDto.fromJson(x ),
-              ),
-            )
-          : [],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Properties.fromJson(String source) =>
-      Properties.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  bool get stringify => true;
-
-  @override
-  List<Object?> get props {
-    return [
-      id,
-      agentId,
-      title,
-      slug,
-      purpose,
-      rentPeriod,
-      price,
-      thumbnailImage,
-      address,
-      totalBedroom,
-      totalBathroom,
-      totalArea,
-      status,
-      isFeatured,
-      totalRating,
-      ratingAvarage,
-      agent,
-      description,
-      categoryId,
-      aminityItemDto,
-      approveByAdmin
-    ];
-  }
-}
+// class Properties extends Equatable {
+//   final int id;
+//   final int agentId;
+//   final String title;
+//   final String slug;
+//   final String purpose;
+//   final String categoryId;
+//   final int? propertyTypeId;
+//   final String rentPeriod;
+//   final String price;
+//   final String thumbnailImage;
+//   final String address;
+//   final String description;
+//   final String totalBedroom;
+//   final String totalBathroom;
+//   final String totalGarage;
+//   final String totalKitchen;
+//   final String totalArea;
+//   final String status;
+//   final String isFeatured;
+//   final int totalRating;
+//   final String ratingAvarage;
+//   final String cityId;
+//   final String stateId;
+//   final String? approveByAdmin;
+//   final Agent agent;
+//   final List<String> images;
+//   final String totalUnit;
+//   final List<SliderImage>? sliders;
+//   final List<AminityItemDto>? aminityItemDto;
+//  final List<PropertyLocation>? propertyLocation;
+//
+//   const Properties({
+//     this.images = const [],
+//     required this.id,
+//     required this.agentId,
+//     required this.aminityItemDto,
+//     this.approveByAdmin,
+//     this.propertyLocation,
+//     required this.propertyTypeId,
+//     required this.title,
+//     required this.slug,
+//     required this.purpose,
+//     required this.categoryId,
+//     required this.rentPeriod,
+//     required this.price,
+//     required this.thumbnailImage,
+//     required this.address,
+//     required this.totalBedroom,
+//     required this.totalBathroom,
+//     this.totalGarage = '',
+//     required this.totalArea,
+//     required this.status,
+//     required this.isFeatured,
+//     required this.totalRating,
+//     required this.ratingAvarage,
+//     required this.agent,
+//     this.description = '',
+//     this.totalKitchen = '',
+//     this.sliders = const [],
+//     this.cityId = '',
+//     this.stateId = '',
+//     this.totalUnit = '',
+//   });
+//
+//   Properties copyWith({
+//     int? id,
+//     int? agentId,
+//     String? title,
+//     String? slug,
+//     String? categoryId,
+//     String? purpose,
+//     String? rentPeriod,
+//     String? price,
+//     String? thumbnailImage,
+//     String? address,
+//     String? totalBedroom,
+//     String? totalBathroom,
+//
+//     String? totalGarage,
+//     String? totalArea,
+//     String? status,
+//     String? isFeatured,
+//     int? totalRating,
+//     String? ratingAvarage,
+//     Agent? agent,
+//     int? propertyTypeId,
+//     String? approveByAdmin,
+//     String? description,
+//     String? totalKitchen,
+//     String? totalUnit,
+//     String? cityId,
+//     String? stateId,
+//     List<String>? images,
+//     final List<SliderImage>? sliders,
+//     List<PropertyLocation>? propertyLocation,
+//     List<AminityItemDto>? aminityItemDto,
+//   }) {
+//     return Properties(
+//       id: id ?? this.id,
+//       agentId: agentId ?? this.agentId,
+//       title: title ?? this.title,
+//       slug: slug ?? this.slug,
+//       approveByAdmin: approveByAdmin ?? this.approveByAdmin,
+//       purpose: purpose ?? this.purpose,
+//       rentPeriod: rentPeriod ?? this.rentPeriod,
+//       price: price ?? this.price,
+//       thumbnailImage: thumbnailImage ?? this.thumbnailImage,
+//       address: address ?? this.address,
+//       totalBedroom: totalBedroom ?? this.totalBedroom,
+//       totalBathroom: totalBathroom ?? this.totalBathroom,
+//       totalArea: totalArea ?? this.totalArea,
+//       status: status ?? this.status,
+//       isFeatured: isFeatured ?? this.isFeatured,
+//       totalRating: totalRating ?? this.totalRating,
+//       ratingAvarage: ratingAvarage ?? this.ratingAvarage,
+//       agent: agent ?? this.agent,
+//       propertyTypeId: propertyTypeId ?? this.propertyTypeId,
+//       description: description ?? this.description,
+//       totalGarage: totalGarage ?? this.totalGarage,
+//       totalKitchen: totalKitchen ?? this.totalKitchen,
+//       totalUnit: totalUnit ?? this.totalUnit,
+//       cityId: cityId ?? this.cityId,
+//       stateId: stateId ?? this.stateId,
+//       images: images ?? this.images,
+//       sliders: sliders ?? this.sliders,
+//       categoryId: categoryId ?? this.categoryId,
+//       propertyLocation: propertyLocation ?? this.propertyLocation,
+//       aminityItemDto: aminityItemDto ?? this.aminityItemDto,
+//     );
+//   }
+//
+//   Map<String, dynamic> toMap() {
+//     return <String, dynamic>{
+//       'id': id,
+//       'agentId': agentId,
+//       'title': title,
+//       'slug': slug,
+//       'purpose': purpose,
+//       'rentPeriod': rentPeriod,
+//       'price': price,
+//       'thumbnailImage': thumbnailImage,
+//       'address': address,
+//       'totalBedroom': totalBedroom,
+//       'totalBathroom': totalBathroom,
+//       'totalArea': totalArea,
+//       'status': status,
+//       'isFeatured': isFeatured,
+//       'totalRating': totalRating,
+//       'ratingAvarage': ratingAvarage,
+//       'agent': agent.toMap(),
+//       "property_type_id": propertyTypeId,
+//       'description': description,
+//       'totalGarage': totalGarage,
+//       'totalKitchen': totalKitchen,
+//       'totalUnit': totalUnit,
+//       'cityId': cityId,
+//       'stateId': stateId,
+//       "images": images,
+//       "category_id": categoryId,
+//       "slider_images": sliders!.map((x) => x.toMap()).toList(),
+//       "aminities": aminityItemDto!.map((x) => x.toMap()).toList(),
+//       "approve_by_admin": approveByAdmin.toString(),
+//       "propertynearest": propertyLocation!.map((x) => x.toMap()).toList(),
+//     };
+//   }
+//
+//   factory Properties.fromMap(Map<String, dynamic> map) {
+//     return Properties(
+//       id: map['id'] ?? 0,
+//       agentId: map['agent_id'] ?? 0,
+//       title: map['title'] ?? '',
+//       slug: map['slug'] ?? '',
+//       purpose: map['purpose'] ?? '',
+//       rentPeriod: map['rent_period'] ?? '',
+//       price: map['price'].toString() ?? '',
+//       thumbnailImage: map['thumbnail_image'] ?? '',
+//       address: map['address'] ?? '',
+//       totalBedroom: map['total_bedroom'] ?? '',
+//       totalBathroom: map['total_bathroom'] ?? '',
+//       totalGarage: map['total_garage'] ?? '',
+//       totalArea: map['total_area'] ?? '',
+//       status: map['status'] ?? '',
+//       isFeatured: map['is_featured'] ?? '',
+//       totalRating: map['totalRating'] ?? 0,
+//       ratingAvarage: map['ratingAvarage'] ?? '',
+//       approveByAdmin: map['approve_by_admin'] ?? '',
+//       agent: Agent.fromMap((map['agent'] ??
+//           Agent(
+//                   id: 0,
+//                   name: '',
+//                   phone: '',
+//                   email: '',
+//                   designation: '',
+//                   image: '',
+//                   userName: '')
+//               .toMap()) as Map<String, dynamic>),
+//       propertyTypeId: map['property_type_id'],
+//       description: map['description'] ?? '',
+//       totalKitchen: map['total_kitchen'] ?? '',
+//       totalUnit: map['total_unit'] ?? '',
+//       cityId: map['city_id'].toString() ?? '',
+//       stateId: map['state_id'].toString() ?? '',
+//       images: List<String>.from(map['slider_images'] ?? []),
+//       categoryId: map['category_id'].toString(),
+//       sliders: map['slider_images'] != null
+//           ? List<SliderImage>.from(
+//               (map['slider_images'] as List<dynamic>).map<SliderImage>(
+//                 (x) => SliderImage.fromMap(x as Map<String, dynamic>),
+//               ),
+//             )
+//           : [],
+//       propertyLocation: map['propertynearest'] != null
+//           ? List<PropertyLocation>.from(
+//               (map['propertynearest'] as List<dynamic>).map<PropertyLocation>(
+//                 (x) => PropertyLocation.fromMap(x as Map<String, dynamic>),
+//               ),
+//             )
+//           : [],
+//       aminityItemDto: map['aminities'] != null
+//           ? List<AminityItemDto>.from(
+//               (map['aminities'] as List<dynamic>).map<AminityItemDto>(
+//                 (x) => (x is Map<String, dynamic> )?AminityItemDto.fromMap(x):AminityItemDto.fromJson(x ),
+//               ),
+//             )
+//           : [],
+//     );
+//   }
+//
+//   String toJson() => json.encode(toMap());
+//
+//   factory Properties.fromJson(String source) =>
+//       Properties.fromMap(json.decode(source) as Map<String, dynamic>);
+//
+//   @override
+//   bool get stringify => true;
+//
+//   @override
+//   List<Object?> get props {
+//     return [
+//       id,
+//       agentId,
+//       title,
+//       slug,
+//       purpose,
+//       rentPeriod,
+//       price,
+//       thumbnailImage,
+//       address,
+//       totalBedroom,
+//       totalBathroom,
+//       totalArea,
+//       status,
+//       isFeatured,
+//       totalRating,
+//       ratingAvarage,
+//       agent,
+//       description,
+//       categoryId,
+//       aminityItemDto,
+//       approveByAdmin
+//     ];
+//   }
+// }
 
 class Agent extends Equatable {
   final int id;

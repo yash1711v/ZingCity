@@ -12,6 +12,7 @@ import '../../../data/model/create_property/property_images_dto.dart';
 import '../../../data/model/create_property/property_location.dart';
 import '../../../data/model/create_property/property_plan_dto.dart';
 import '../../../data/model/create_property/property_video_dto.dart';
+import '../../../data/model/home/home_data_model.dart';
 import '../../../data/model/product/nearest_location_model.dart';
 import '../../../state_inject_package_names.dart';
 import 'add_property_cubit.dart';
@@ -69,15 +70,20 @@ class AddPropertyModel extends Equatable {
   final PropertyTypeResponse? staticInfo;
   final List<String>? sliderImagesApi;
   final String? thumbNailImageApi;
+  final List<String>? additionalKeys;
+  final List<String>? additionalValues;
 
   final String? furnished;
   final String? roomTypeId;
   final String? elevator;
-  const AddPropertyModel( {
+
+  const AddPropertyModel({
     this.title = '',
     this.elevator = '',
     this.slug = '',
     this.typeId = '',
+    this.additionalKeys = const [],
+    this.additionalValues = const [],
     this.furnished = '',
     this.roomType = '',
     this.roomTypeId = '',
@@ -112,7 +118,8 @@ class AddPropertyModel extends Equatable {
     this.thumbNailImage = '',
     this.properties = const [],
     this.nearestLocation = const [],
-    this.propertyType, this.propertyTypeId,
+    this.propertyType,
+    this.propertyTypeId,
     this.propertyImageDto =
         const PropertyImageDto(sliderImages: [], thumbnailImage: ''),
     this.propertyVideoDto = const PropertyVideoDto(
@@ -148,6 +155,8 @@ class AddPropertyModel extends Equatable {
     String? totalUnit,
     String? totalBedroom,
     String? totalBathroom,
+    List<String>? additionalKeys,
+    List<String>? additionalValues,
     String? totalGarage,
     String? totalKitchen,
     String? description,
@@ -242,7 +251,9 @@ class AddPropertyModel extends Equatable {
       thumbNailImageApi: thumbNailImageApi ?? this.thumbNailImageApi,
       propertyType: propertyType ?? this.propertyType,
       propertyTypeId: propertyTypeId ?? this.propertyTypeId,
-        totalBalcony: totalBalcony ?? this.totalBalcony,
+      totalBalcony: totalBalcony ?? this.totalBalcony,
+      additionalKeys: additionalKeys ?? this.additionalKeys,
+      additionalValues: additionalValues ?? this.additionalValues,
     );
   }
 
@@ -266,8 +277,7 @@ class AddPropertyModel extends Equatable {
     result['elevator'] = elevator ?? "";
     result['status'] = status;
     result['totalBalcony'] = isFeatured;
-    result['roomTypeId'] = roomTypeId  ?? "";
-
+    result['roomTypeId'] = roomTypeId ?? "";
 
     // Property images and videos
     result['video_id'] = propertyVideoDto.videoId;
@@ -290,9 +300,11 @@ class AddPropertyModel extends Equatable {
       if (location.id > 0) {
         // Existing nearest locations
         result['existing_nearest_ids[$i]'] = location.id.toString();
-        result['existing_nearest_locations[$i]'] = location.locationId.toString();
+        result['existing_nearest_locations[$i]'] =
+            location.locationId.toString();
         result['existing_distances[$i]'] = location.distances;
-      } else if (location.locationId.toString().isNotEmpty && location.distances.isNotEmpty) {
+      } else if (location.locationId.toString().isNotEmpty &&
+          location.distances.isNotEmpty) {
         // New nearest locations
         result['nearest_locations[$i]'] = location.locationId.toString();
         result['distances[$i]'] = location.distances;
@@ -322,7 +334,8 @@ class AddPropertyModel extends Equatable {
         result['existing_plan_ids[$i]'] = plan.id.toString();
         result['existing_plan_titles[$i]'] = plan.planTitles;
         result['existing_plan_descriptions[$i]'] = plan.planDescriptions;
-      } else if (plan.planTitles.isNotEmpty && plan.planDescriptions.isNotEmpty) {
+      } else if (plan.planTitles.isNotEmpty &&
+          plan.planDescriptions.isNotEmpty) {
         // New property plans
         result['plan_titles[$i]'] = plan.planTitles;
         result['plan_descriptions[$i]'] = plan.planDescriptions;
@@ -335,7 +348,6 @@ class AddPropertyModel extends Equatable {
 
     return result;
   }
-
 
   factory AddPropertyModel.fromMap(Map<String, dynamic> map) {
     return AddPropertyModel(
@@ -387,6 +399,8 @@ class AddPropertyModel extends Equatable {
       propertyType: map['propertyType'] as String,
       propertyTypeId: map['propertyTypeId'] as String,
       elevator: map['elevator'] as String,
+      additionalKeys: List<String>.from(map['add_keys'] as List<String>),
+      additionalValues: List<String>.from(map['add_values'] as List<String>),
     );
   }
 
@@ -453,7 +467,9 @@ class AddPropertyModel extends Equatable {
       totalBalcony,
       furnished,
       elevator,
-      roomTypeId
+      roomTypeId,
+      additionalKeys,
+      additionalValues,
     ];
   }
 }

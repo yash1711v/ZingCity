@@ -25,11 +25,32 @@ class _ScreenfourState extends State<Screenfour> {
   void initState() {
     super.initState();
     totalElements =
-        (context.read<AddPropertyCubit>().state.staticInfo?.amenities ?? [])
+        (context
+            .read<AddPropertyCubit>()
+            .state
+            .staticInfo
+            ?.amenities ?? [])
             .length;
     totalPages = (totalElements / elementsPerPage).ceil();
+    if (context
+        .read<AddPropertyCubit>()
+        .state
+        .aminities != []) {
+      for (int i = 0; i < totalElements; i++) {
+        if (context
+            .read<AddPropertyCubit>()
+            .state
+            .aminities
+            .contains((context
+            .read<AddPropertyCubit>()
+            .state
+            .staticInfo
+            ?.amenities![i].id.toString() ?? "0"))) {
+          selectedItems.add(i);
+        }
+      }
+    }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(

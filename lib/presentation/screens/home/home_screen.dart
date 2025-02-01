@@ -379,7 +379,7 @@ class HomeScreen extends StatelessWidget {
                                                   ),
                                                   // const Spacer(),
                                                   Text(
-                                                    '₹ ${state.homeDataLoaded?.propertyFeatured?[index].price ?? 0} Lac',
+                                                    '₹ ${Utils.convertNumber(state.homeDataLoaded?.propertyFeatured?[index].price ?? 0)}',
                                                     style: TextStyle(
                                                       color: Color(0xFF30469A),
                                                       fontSize: 16,
@@ -459,8 +459,8 @@ class HomeScreen extends StatelessWidget {
                                 //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                               },
                               child: Container(
-                                width: 324,
-                                height: 68,
+                                // width: 324,
+                                // height: 68,
                                 decoration: ShapeDecoration(
                                   color: const Color(0x0C398BCB),
                                   shape: RoundedRectangleBorder(
@@ -560,9 +560,20 @@ class HomeScreen extends StatelessWidget {
                                               )
                                             ],
                                           ),
-                                          // const SizedBox(
-                                          //   height: 5,
-                                          // ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+
+                                          Text(
+                                            '₹ ${Utils.convertNumber(state.homeDataLoaded?.latestProperties?[index].price ?? 0)}',
+                                            style: TextStyle(
+                                              color: Color(0xFF30469A),
+                                              fontSize: 16,
+                                              fontFamily: 'DM Sans',
+                                              fontWeight: FontWeight.w800,
+                                              height: 0,
+                                            ),
+                                          ),
                                           // Row(
                                           //   children: [
                                           //     Image.asset(

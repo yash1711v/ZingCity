@@ -10,6 +10,7 @@ import '../../data/data_provider/remote_data_source.dart';
 import '../../data/data_provider/remote_url.dart';
 import '../../data/model/auth/set_password_model.dart';
 import '../../data/model/auth/user_login_response_model.dart';
+import '../../data/model/home/home_data_model.dart';
 import '../../data/model/kyc/kyc_model.dart';
 import '../../presentation/error/exception.dart';
 import '../../presentation/error/failure.dart';

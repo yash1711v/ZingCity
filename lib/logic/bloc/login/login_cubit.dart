@@ -30,6 +30,7 @@ class LoginCubit extends Cubit<LoginModelState> {
       emit(state.copyWith(
         time: data["time"].toString(),
       ));
+      startTimer();
       emit(state.copyWith(isLoading: false));
       return true;
     }
@@ -61,6 +62,15 @@ class LoginCubit extends Cubit<LoginModelState> {
       }
 
       return true;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(data["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      emit(state.copyWith(isLoading: false));
     }
   }
 
@@ -91,7 +101,7 @@ class LoginCubit extends Cubit<LoginModelState> {
 
         // Update the state with time left in "X mins Y secs left" format
         emit(state.copyWith(
-          timeLeft: '${remainingMinutes} min${remainingMinutes != 1 ? "s" : ""} '
+          timeLeft: remainingMinutes>0? '${remainingMinutes} min${remainingMinutes != 1 ? "s" : ""} ':""
               '${remainingSeconds} sec${remainingSeconds != 1 ? "s" : ""} left',
         ));
       } else {

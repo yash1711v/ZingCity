@@ -77,7 +77,7 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
     thumbnailImage = cubitState.thumbNailImage.isNotEmpty
         ? File(cubitState.thumbNailImage)
         : null;
-
+     debugPrint("Length of slider images: ${cubitState.sliderImages.length}");
     sliderImages = List<File>.from(cubitState.sliderImages);
     debugPrint('https://lab6.invoidea.in/zingcity/${thumbnailImage?.path.toString()}');
   }
@@ -207,7 +207,17 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.file(
+                                      child: image?.path is String &&
+                                          (image?.path as String).startsWith('uploads/')
+                                          ? Image.network(
+                                        'https://lab6.invoidea.in/zingcity/${image?.path.toString()}',
+                                        width: screenWidth,
+                                        fit: BoxFit.cover,
+                                      )
+                                          :
+
+
+                                      Image.file(
                                         image,
                                         width: screenWidth / 3 - 16,
                                         height: screenWidth / 3 - 16,

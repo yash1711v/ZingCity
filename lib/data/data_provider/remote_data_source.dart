@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -927,6 +928,8 @@ class RemoteDataSourceImp extends RemoteDataSource {
       // "thumbnail_image": data.thumbNailImage,// File upload (use Postman to upload the file)
       "video_thumbnail": "", // File upload (use Postman to upload the file)
       for (var i = 0; i < data.aminities.length; i++) 'aminities[$i]': data.aminities[i],
+      for (var i = 0; i < data.additionalKeys!.length; i++) 'add_keys[$i]': data.additionalKeys![i],
+      for (var i = 0; i < data.additionalValues!.length; i++) 'add_values[$i]': data.additionalValues![i],
 
       // "1,2,3,4",
       // "slider_images": , // File upload (use Postman to upload the files)
@@ -935,8 +938,8 @@ class RemoteDataSourceImp extends RemoteDataSource {
       // "distances": jsonEncode(data.distance),
       for (var i = 0; i < data.nearestLocation.length; i++) 'nearest_locations[$i]': data.nearestLocation[i],
       // "nearest_locations": jsonEncode(data.nearestLocation),
-      "add_keys": "",
-      "add_values": "",
+      // "add_keys": "",
+      // "add_values": "",
       "date_form": "",
       "date_to": "",
       "time_form": "",
@@ -963,12 +966,21 @@ class RemoteDataSourceImp extends RemoteDataSource {
     //   }
     // }
     if (data.sliderImages.isNotEmpty) {
-      for (var i = 0; i < data.sliderImages.length; i++) {
-        final file = await http.MultipartFile.fromPath(
-            'slider_images[$i]', data.sliderImages[i].path);
-        request.files.add(file);
+      for (File image in data.sliderImages) {
+        debugPrint("Image Path: ${image.path}");
+        request.files.add(await http.MultipartFile.fromPath(
+          'slider_images[]',
+          image.path,
+        ));
       }
+      // for (var i = 0; i < data.sliderImages.length; i++) {
+      //   final file = await http.MultipartFile.fromPath(
+      //       'slider_images[$i]', data.sliderImages[i].path);
+      //   request.files.add(file);
+      // }
     }
+
+
 
 
 
@@ -993,7 +1005,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
     }
 
   log(request.fields.toString(),name: "Data");
-  log(request.files.contains("Sliders").toString(),name: "Sliders");
+  log(request.files.contains("slider_images[]").toString(),name: "Sliders");
 
     http.StreamedResponse response = await request.send();
     final clientMethod = http.Response.fromStream(response);

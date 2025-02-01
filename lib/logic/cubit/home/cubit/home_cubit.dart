@@ -51,7 +51,7 @@ class HomeCubit extends Cubit<HomeState> {
 
           if (property.purpose?.toString().toLowerCase() == "2" ||
               property.purpose.toString().toLowerCase() == "for rent") {
-            log("${property.purpose?.toString()}", name: "rent");
+            // log("${property.purpose?.toString()}", name: "rent");
             rentProperties.add(property);
           } else if (property.purpose?.toString().toLowerCase() == "1" ||
               property.purpose?.toString().toLowerCase() == "buy") {
@@ -59,8 +59,8 @@ class HomeCubit extends Cubit<HomeState> {
             buyProperties.add(property);
           }
         }
-        log("${buyProperties.length?.toString()}", name: "sell");
-        log("${rentProperties.length?.toString()}", name: "rent");
+        // log("${buyProperties.length?.toString()}", name: "sell");
+        // log("${rentProperties.length?.toString()}", name: "rent");
         emit(state.copyWith(
             homeDataLoaded: homeModel,
             isLoading: false,
@@ -136,6 +136,11 @@ class HomeCubit extends Cubit<HomeState> {
           isLoading: false,
         ));
       } else {
+        ScaffoldMessenger.of(state.context).showSnackBar(
+          SnackBar(
+            content: Text(data['message']),
+          ),
+        );
         emit(state.copyWith(
           searchedProperties: [],
           isLoading: false,
@@ -148,4 +153,8 @@ class HomeCubit extends Cubit<HomeState> {
       log('Error: $e', name: 'searchData');
     }
   }
+}
+
+extension on HomeState {
+  BuildContext get context => this.context;
 }
