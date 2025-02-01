@@ -34,6 +34,14 @@ class _Screen3State extends State<Screen3> {
     _balconies.text = context.read<AddPropertyCubit>().state.totalBalcony;
     _kitchens.text = context.read<AddPropertyCubit>().state.totalKitchen;
     _carParking.text = context.read<AddPropertyCubit>().state.totalGarage;
+
+    context.read<AddPropertyCubit>().state.staticInfo?.roomType?.forEach((element) {
+      if(context.read<AddPropertyCubit>().state.roomTypeId == element.id.toString()){
+        _bedrooms.text = element.name.toString().replaceAll("BHK", "").replaceAll("& MORE", "");
+        // _bedrooms.text = element.name.toString().replaceAll("& MORE", "");
+        context.read<AddPropertyCubit>().changeTotalBedroom(element.name.toString());
+      }
+    });
     titles = [
       "No. of Bedrooms",
       "No. of Bathrooms",
@@ -154,6 +162,8 @@ class _Screen3State extends State<Screen3> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: TextField(
+
+                              readOnly:  index == 0 && (context.read<AddPropertyCubit>().state.roomTypeId ?? "").isNotEmpty && int.parse(_bedrooms.text) != 6,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                               ],
@@ -340,12 +350,33 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
   }
 
   void _addNewField() {
-    setState(() {
-      keyControllers.add(TextEditingController());
-      valueControllers.add(TextEditingController());
-      keys.add("");
-      values.add("");
-    });
+    if((context.read<AddPropertyCubit>().state.additionalKeys ?? []).isNotEmpty && (context.read<AddPropertyCubit>().state.additionalValues ?? []).isNotEmpty){
+      if ((context.read<AddPropertyCubit>().state.additionalKeys ?? [])
+          .isNotEmpty) {
+        (context.read<AddPropertyCubit>().state.additionalKeys ?? [])
+            .forEach((element) {
+          keyControllers.add(TextEditingController(text: element));
+        });
+        // keyControllers.add(TextEditingController(text: context.read<AddPropertyCubit>().state.additionalKeys.last));
+      }
+
+      if ((context.read<AddPropertyCubit>().state.additionalValues ?? [])
+          .isNotEmpty) {
+        (context.read<AddPropertyCubit>().state.additionalValues ?? [])
+            .forEach((element) {
+          valueControllers.add(TextEditingController(text: element));
+        });
+        // valueControllers.add(TextEditingController(text: context.read<AddPropertyCubit>().state.additionalValues.last));
+      }
+    }
+    else{
+      setState(() {
+        keyControllers.add(TextEditingController());
+        valueControllers.add(TextEditingController());
+        keys.add("");
+        values.add("");
+      });
+    }
   }
 
   void _removeField(int index) {

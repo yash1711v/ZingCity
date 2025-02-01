@@ -34,7 +34,7 @@ abstract class RemoteDataSource {
   Future<String> createPropertyRequest(AddPropertyModel data);
 
   Future<String> updatePropertyRequest(
-      String id, AddPropertyModel data, String token);
+      String id, AddPropertyModel data,);
 
   Future<String> removeSliderImageApi(String id, String token);
 
@@ -1017,15 +1017,67 @@ class RemoteDataSourceImp extends RemoteDataSource {
 
   @override
   Future<String> updatePropertyRequest(
-      String id, AddPropertyModel data, String token) async {
+      String id, AddPropertyModel data,) async {
     final headers = postDeleteHeader;
-    final uri = Uri.parse(RemoteUrls.updatePropertyUrl(id, token));
+    final uri = Uri.parse(RemoteUrls.updatePropertyUrl(id, ""));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? token = await prefs.getString("token");
+    final _mainHeaders = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token ?? token}'
+    };
 
     log('update property map data:', name: '${data.toMap()}');
     final request = http.MultipartRequest('POST', uri);
-    request.fields.addAll(data.toMap());
+    request.fields.addAll({
+      "title": data.title,
+      "slug": data.title.trim().replaceAll(" ", "-"),
+      "category_id": data.categoryId.toString(),
+      "property_type_id": data.propertyTypeId.toString(),
+      "purpose": data.purpose == "rent" ? "2" :  "1",
+      "bhk_type": data.roomTypeId.toString(),
+      "rent_period": data.rentPeriod.toLowerCase(),
+      "price": data.price,
+      "description": data.description,
+      "total_area": data.totalArea,
+      "total_unit": data.totalUnit,
+      "total_bedroom": data.totalBedroom,
+      "total_bathroom": data.totalBathroom,
+      "total_garage": data.totalGarage,
+      "total_kitchen": data.totalKitchen,
+      "city_id": data.cityId,
+      "state_id": data.stateId,
+      "country_id": "0",
+      "address": data.address,
+      "address_description": "",
+      "google_map": "",
+      "lat": "",
+      "lng": "",
+      // "thumbnail_image": data.thumbNailImage,// File upload (use Postman to upload the file)
+      "video_thumbnail": "", // File upload (use Postman to upload the file)
+      for (var i = 0; i < data.aminities.length; i++) 'aminities[$i]': data.aminities[i],
+      for (var i = 0; i < data.additionalKeys!.length; i++) 'add_keys[$i]': data.additionalKeys![i],
+      for (var i = 0; i < data.additionalValues!.length; i++) 'add_values[$i]': data.additionalValues![i],
 
-    request.headers.addAll(headers);
+      // "1,2,3,4",
+      // "slider_images": , // File upload (use Postman to upload the files)
+      // "nearest_locations": [1, 2],
+      for (var i = 0; i < data.distance.length; i++) 'distances[$i]': data.distance[i],
+      // "distances": jsonEncode(data.distance),
+      for (var i = 0; i < data.nearestLocation.length; i++) 'nearest_locations[$i]': data.nearestLocation[i],
+      // "nearest_locations": jsonEncode(data.nearestLocation),
+      // "add_keys": "",
+      // "add_values": "",
+      "date_form": "",
+      "date_to": "",
+      "time_form": "",
+      "time_to": "",
+      "possession_status": "2"
+    });
+
+    request.headers.addAll(_mainHeaders);
 
     if (data.image.isNotEmpty && !data.image.contains('https://')) {
       final thumbImage =
@@ -1036,7 +1088,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
       final element = data.galleryImage[i];
       if (element.image.isNotEmpty && !element.image.contains('https://')) {
         final file = await http.MultipartFile.fromPath(
-            'slider_images[$i]', element.image);
+            'slider_images[]', element.image);
         request.files.add(file);
       }
     }

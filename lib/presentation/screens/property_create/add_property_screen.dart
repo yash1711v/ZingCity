@@ -487,7 +487,55 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           }
 
                           if (pageIndex == 4) {
-                            context.read<AddPropertyCubit>().addProperty();
+                            if (((widget.property ??
+                                home. Properties(
+                                    id: 0,
+                                    agentId: 0,
+                                    propertyTypeId: 0,
+                                    title: "",
+                                    slug: "",
+                                    purpose: "",
+                                    rentPeriod: "",
+                                    price: 0,
+                                    thumbnailImage: "",
+                                    address: "",
+                                    totalBedroom: "",
+                                    totalBathroom: "",
+                                    totalArea: "",
+                                    status: "",
+                                    isFeatured: "",
+                                    totalRating: 5,
+                                    ratingAvarage: "",
+                                    categoryId: '', aminityItemDto: []))
+                                .title ?? "")
+                                .isNotEmpty) {
+                              context.read<AddPropertyCubit>().updateProperty(((widget.property ??
+                                  home. Properties(
+                                      id: 0,
+                                      agentId: 0,
+                                      propertyTypeId: 0,
+                                      title: "",
+                                      slug: "",
+                                      purpose: "",
+                                      rentPeriod: "",
+                                      price: 0,
+                                      thumbnailImage: "",
+                                      address: "",
+                                      totalBedroom: "",
+                                      totalBathroom: "",
+                                      totalArea: "",
+                                      status: "",
+                                      isFeatured: "",
+                                      totalRating: 5,
+                                      ratingAvarage: "",
+                                      categoryId: '', aminityItemDto: []))
+                                  .id ?? 0).toString());
+                            } else {
+                              context.read<AddPropertyCubit>().addProperty();
+                            }
+                            setState(() {
+                              pageIndex = pageController.page!.toInt();
+                            });
 //                             if (state.thumbNailImage.isEmpty ) {
 //                               // debugPrint("This is Empty Field ${state.city}");
 //                               // debugPrint("This is Empty Field ${state.state}");
@@ -598,7 +646,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                               }
                               return;
                             } else {
-// debugPrint("This is Empty Field ${state.city}");
+
                               pageController.nextPage(
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeIn);
@@ -609,33 +657,56 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                           }
 
                           if (pageIndex == 3) {
-                            context.read<AddPropertyCubit>().addProperty();
-//                             if (state.thumbNailImage.isEmpty ) {
-//                               // debugPrint("This is Empty Field ${state.city}");
-//                               // debugPrint("This is Empty Field ${state.state}");
-//                               // debugPrint(
-//                               //     "This is Empty Field ${state.country}");
-//                               // debugPrint(
-//                               //     "This is Empty Field ${state.address}");
-//
-//                               ScaffoldMessenger.of(context).showSnackBar(
-//                                   const SnackBar(
-//                                       content:
-//                                       Text("Please fill all the fields")));
-//                               return;
-//                             } else {
-// // debugPrint("This is Empty Field ${state.city}");
-//                               pageController.nextPage(
-//                                   duration: const Duration(milliseconds: 300),
-//                                   curve: Curves.easeIn);
-//                               setState(() {
-//                                 pageIndex = pageController.page!.toInt();
-//                               });
-//                             }
+                            if (((widget.property ??
+                                home. Properties(
+                                    id: 0,
+                                    agentId: 0,
+                                    propertyTypeId: 0,
+                                    title: "",
+                                    slug: "",
+                                    purpose: "",
+                                    rentPeriod: "",
+                                    price: 0,
+                                    thumbnailImage: "",
+                                    address: "",
+                                    totalBedroom: "",
+                                    totalBathroom: "",
+                                    totalArea: "",
+                                    status: "",
+                                    isFeatured: "",
+                                    totalRating: 5,
+                                    ratingAvarage: "",
+                                    categoryId: '', aminityItemDto: []))
+                                .title ?? "")
+                                .isNotEmpty) {
+                              context.read<AddPropertyCubit>().updateProperty(((widget.property ??
+                                  home. Properties(
+                                      id: 0,
+                                      agentId: 0,
+                                      propertyTypeId: 0,
+                                      title: "",
+                                      slug: "",
+                                      purpose: "",
+                                      rentPeriod: "",
+                                      price: 0,
+                                      thumbnailImage: "",
+                                      address: "",
+                                      totalBedroom: "",
+                                      totalBathroom: "",
+                                      totalArea: "",
+                                      status: "",
+                                      isFeatured: "",
+                                      totalRating: 5,
+                                      ratingAvarage: "",
+                                      categoryId: '', aminityItemDto: []))
+                                  .id ?? 0).toString());
+                            } else {
+                              context.read<AddPropertyCubit>().addProperty();
+                            }
+                            setState(() {
+                              pageIndex = pageController.page!.toInt();
+                            });
                           }
-                          // pageController.nextPage(
-                          //   duration: const Duration(milliseconds: 300),
-                          //   curve: Curves.easeIn);
                         }
                       },
                       child: Text(
@@ -660,18 +731,25 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
 
     final isResidentialOrCommercial =
         state.typeId == "Residential" || state.typeId == "Commercial Space";
+debugPrint("This is the Type ${isResidentialOrCommercial}");
 
     final isLastPage = (isResidentialOrCommercial
-        ? dataScreens1.length
-        : dataScreens2.length) ==
+        ? dataScreens1.length - 1
+        : dataScreens2.length -1) ==
         pageIndex;
+    debugPrint("This is the Type ${isLastPage}");
+    debugPrint("data 1 length ${dataScreens1.length}");
+    debugPrint("data 2 length ${dataScreens2.length}");
+    debugPrint("page index ${pageIndex}");
 
     if (isLastPage) {
       final propertyTitle = property?.title ?? "";
       return propertyTitle.isNotEmpty ? "Update Property" : "Add Property";
+    } else {
+      return "Next";
     }
 
-    return "Next";
+
   }
 }
 

@@ -55,7 +55,7 @@ class _ScreenfourState extends State<Screenfour> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
       builder: (context, state) {
-        debugPrint("Amenities: ${totalElements}");
+        // debugPrint("Amenities: ${totalElements}");
         return Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
@@ -365,6 +365,30 @@ class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
   void initState() {
     super.initState();
     checkBoxStates.addAll(List.generate(widget.nearestLocations.length, (_) => false));
+    if(context.read<AddPropertyCubit>().state.nearestLocation != []){
+      // checkBoxStates.addAll(List.generate(widget.nearestLocations.length, (_) => context.read<AddPropertyCubit>().state.nearestLocation.contains(widget.nearestLocations[_].id.toString())));
+      context.read<AddPropertyCubit>().state.nearestLocation.forEach((loc) {
+        widget.nearestLocations.forEach((element) {
+          if(loc == element.id.toString()){
+            checkBoxStates.add(true);
+          }
+          else{
+            checkBoxStates.add(false);
+          }
+        });
+
+       context.read<AddPropertyCubit>().state.distance.forEach((dis) {
+         data.add({
+           "id": loc,
+           "value": dis, // Default value for the text field
+         });
+       });
+      });
+    }
+   else {
+      checkBoxStates.addAll(List.generate(widget.nearestLocations.length, (_) => false));
+    }
+
   }
 
   void toggleCheckbox(int index, bool? value) {

@@ -27,7 +27,7 @@ abstract class PropertyRepository {
       AddPropertyModel data);
 
   Future<Either<dynamic, String>> updateProperty(
-      String id, AddPropertyModel data, String token);
+      String id, AddPropertyModel data, );
 
   Future<Either<dynamic, String>> deleteSliderImage(String id, String token);
 
@@ -99,10 +99,10 @@ class PropertyRepositoryImp extends PropertyRepository {
 
   @override
   Future<Either<dynamic, String>> updateProperty(
-      String id, AddPropertyModel data, String token) async {
+      String id, AddPropertyModel data, ) async {
     try {
       final result =
-          await remoteDataSource.updatePropertyRequest(id, data, token);
+          await remoteDataSource.updatePropertyRequest(id, data);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message, e.statusCode));

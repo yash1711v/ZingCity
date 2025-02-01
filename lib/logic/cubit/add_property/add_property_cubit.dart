@@ -389,7 +389,7 @@ void changeAddress(String text) {
     debugPrint('add-thumbnail ${state.image}');
     emit(state.copyWith(addState: const AddPropertyLoading()));
     final result = await _repository.updateProperty(
-        id, state, _loginBloc.userInfo!.accessToken);
+        id, state);
     result.fold(
       (failure) {
         if (failure is InvalidAuthData) {
@@ -727,11 +727,6 @@ void changeAddress(String text) {
             }
           }
         }
-
-
-
-
-
     });
 
     state.staticInfo?.city?.forEach((element){
@@ -762,6 +757,22 @@ void changeAddress(String text) {
     context.read<AddPropertyCubit>().addAminitiesValue(
         aminities,false);
 
+    List<String> keys = [];
+    List<String> values = [];
+    property?.propertyAdditionInfo?.forEach((element){
+     keys.add(element.addKey);
+     values.add(element.addValue);
+    });
+
+    context.read<AddPropertyCubit>().addAdditionalKey(keys);
+    context.read<AddPropertyCubit>().addAdditionalValue(values);
+
+    List<Map<String, dynamic>> nearestLocation = [];
+    property?.propertyLocation?.forEach((element){
+      nearestLocation.add({"id":element.location?.id,"value":element.distance});
+
+    });
+    context.read<AddPropertyCubit>().changeNearestLocation(nearestLocation);
     emit(state.copyWith(
       addState: const AddPropertyInitial(),
       purpose: (property?.purpose ?? '').toString() == "1"? "buy" : "rent",
@@ -771,6 +782,7 @@ void changeAddress(String text) {
       totalUnit: property?.totalUnit ?? '',
       totalBedroom: property?.totalBedroom ?? '',
       totalBathroom: property?.totalBathroom ?? '',
+      // totalBalcony: property?.totalBalcony ?? '',
       totalKitchen: property?.totalKitchen ?? '',
       totalGarage: property?.totalGarage ?? '',
       description: property?.description ?? '',

@@ -42,7 +42,7 @@ class RemoteUrls {
       '${baseUrl}user/delete-account?token=$token';
 
   static String updatePropertyUrl(String id, String token) =>
-      '${baseUrl}user/update-property/$id?token=$token';
+      '${baseUrl}user/update-property/$id';
 
   static String removeSliderImageUrl(String id, String token) =>
       '${baseUrl}user/remove-property-slider/$id?token=$token';
