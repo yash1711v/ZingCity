@@ -1453,6 +1453,8 @@ class RemoteDataSourceImp extends RemoteDataSource {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token ?? token}'
     };
+
+    debugPrint('Token: $token');
     final uri = Uri.parse(RemoteUrls.getMyPropertiesApi());
 
     final clientMethod = client.get(uri, headers: _mainHeaders);

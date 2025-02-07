@@ -16,8 +16,8 @@ class NetworkParser {
       CallClientMethod callClientMethod) async {
     try {
       final response = await callClientMethod();
-      log(response.statusCode.toString(), name: _className);
-      log(response.body, name: _className);
+      // log(response.statusCode.toString(), name: _className);
+      // log(response.body, name: _className);
       return _responseParser(response);
     } on SocketException {
       log('SocketException', name: _className);

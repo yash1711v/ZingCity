@@ -32,6 +32,13 @@ class _RentScreenOneState extends State<RentScreenOne> {
         ?.roomType
         ?.forEach((element) {
       debugPrint("element ==> ${element.id}");
+
+      context.read<AddPropertyCubit>().changeRoomType(
+          element.name ?? "",
+          context
+              .read<AddPropertyCubit>()
+              .state.roomTypeId.toString());
+
     });
     context
         .read<AddPropertyCubit>()
@@ -49,15 +56,20 @@ class _RentScreenOneState extends State<RentScreenOne> {
         if (rent.categoryId == category.id) {
           categories.add(category);
         }
+        //
 
-        if (rent.categoryId.toString() ==
-                context.read<AddPropertyCubit>().state.categoryId &&
-            context.read<AddPropertyCubit>().state.categoryId.isNotEmpty) {
-          context.read<AddPropertyCubit>().changeTypeId(
-              category.name ?? "", (category.id ?? "").toString());
-        }
       });
     });
+
+
+    for (var element in categories) {
+      if (element.id.toString() ==
+          context.read<AddPropertyCubit>().state.categoryId &&
+          context.read<AddPropertyCubit>().state.categoryId.isNotEmpty) {
+        context.read<AddPropertyCubit>().changeTypeId(
+            element.name ?? "", (element.id ?? "").toString());
+      }
+    }
 
     context
         .read<AddPropertyCubit>()
@@ -80,6 +92,30 @@ class _RentScreenOneState extends State<RentScreenOne> {
       });
     });
 
+
+    if( context.read<AddPropertyCubit>().state.categoryId.toString() == "1"){
+
+      for (var element in subCategoriesResidential) {
+
+        debugPrint("element.id.toString() ==> ${element.id.toString()}");
+
+        if(element.id.toString() == context.read<AddPropertyCubit>().state.propertyTypeId.toString()){
+          context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "", context.read<AddPropertyCubit>().state.propertyTypeId.toString());
+        }
+      }
+
+    } else {
+
+      for (var element in subCategoriesCommercial) {
+        debugPrint("element.id.toString() ==> ${element.id.toString()}");
+        if(element.id.toString() == context.read<AddPropertyCubit>().state.propertyTypeId.toString()){
+          context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "", context.read<AddPropertyCubit>().state.propertyTypeId.toString());
+        }
+      }
+
+    }
+
+
     _discriptionController.text =
         removeHtmlTags(context.read<AddPropertyCubit>().state.description);
     _title.text = context.read<AddPropertyCubit>().state.title;
@@ -98,11 +134,6 @@ class _RentScreenOneState extends State<RentScreenOne> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
       builder: (context, state) {
-        // debugPrint("state==> ${state.typeId}");
-        // debugPrint("state==> ${categories[1].name}");
-
-        debugPrint("subCategoriesResidential==> $subCategoriesResidential");
-        debugPrint("subCategoriesCommercial==> $subCategoriesCommercial");
         return Column(
           children: [
             const SizedBox(
@@ -622,7 +653,7 @@ class _SellScreenOneState extends State<SellScreenOne> {
         .staticInfo
         ?.roomType
         ?.forEach((element) {
-      debugPrint("element ==> ${element.id}");
+
     });
 
     context
@@ -641,17 +672,24 @@ class _SellScreenOneState extends State<SellScreenOne> {
         if (sell.categoryId == category.id) {
           categories.add(category);
           debugPrint("category ==> ${category.name}");
-
-          if (sell.categoryId.toString() ==
-                  context.read<AddPropertyCubit>().state.categoryId &&
-              context.read<AddPropertyCubit>().state.categoryId.isNotEmpty) {
-            context.read<AddPropertyCubit>().changeTypeId(
-                category.name ?? "", (category.id ?? "").toString());
-          }
+          // if (sell.categoryId.toString() ==
+          //         context.read<AddPropertyCubit>().state.categoryId &&
+          //     context.read<AddPropertyCubit>().state.categoryId.isNotEmpty) {
+          //   context.read<AddPropertyCubit>().changeTypeId(
+          //       category.name ?? "", (category.id ?? "").toString());
+          // }
         }
       });
     });
 
+    for (var element in categories) {
+      if (element.id.toString() ==
+          context.read<AddPropertyCubit>().state.categoryId &&
+          context.read<AddPropertyCubit>().state.categoryId.isNotEmpty) {
+        context.read<AddPropertyCubit>().changeTypeId(
+            element.name ?? "", (element.id ?? "").toString());
+      }
+    }
     context
         .read<AddPropertyCubit>()
         .state
@@ -681,6 +719,54 @@ class _SellScreenOneState extends State<SellScreenOne> {
         }
       });
     });
+
+
+
+    if( context.read<AddPropertyCubit>().state.categoryId.toString() == "1"){
+
+      for (var element in subCategoriesResidential) {
+
+        debugPrint("element.id.toString() ==> ${element.id.toString()}");
+
+        if(element.id.toString() == context.read<AddPropertyCubit>().state.propertyTypeId.toString()){
+          context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "", context.read<AddPropertyCubit>().state.propertyTypeId.toString());
+        }
+      }
+
+    }
+    if( context.read<AddPropertyCubit>().state.categoryId.toString() == "2") {
+
+      for (var element in subCategoriesCommercial) {
+        debugPrint("element.id.toString() ==> ${element.id.toString()}");
+        if(element.id.toString() == context.read<AddPropertyCubit>().state.propertyTypeId.toString()){
+          context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "", context.read<AddPropertyCubit>().state.propertyTypeId.toString());
+        }
+      }
+
+    }
+
+    if( context.read<AddPropertyCubit>().state.categoryId.toString() == "3") {
+
+      for (var element in subCategoriesAgricultural) {
+        debugPrint("element.id.toString() ==> ${element.id.toString()}");
+        if(element.id.toString() == context.read<AddPropertyCubit>().state.propertyTypeId.toString()){
+          context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "", context.read<AddPropertyCubit>().state.propertyTypeId.toString());
+        }
+      }
+
+    }
+    if( context.read<AddPropertyCubit>().state.categoryId.toString() == "4") {
+
+      for (var element in subCategoriesAgricultural) {
+        debugPrint("element.id.toString() ==> ${element.id.toString()}");
+        if(element.id.toString() == context.read<AddPropertyCubit>().state.propertyTypeId.toString()){
+          context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "", context.read<AddPropertyCubit>().state.propertyTypeId.toString());
+        }
+      }
+
+    }
+
+
 
     _discriptionController.text =
         removeHtmlTags(context.read<AddPropertyCubit>().state.description);
@@ -1165,7 +1251,7 @@ class _SellScreenOneState extends State<SellScreenOne> {
                   Expanded(
                     // width: 339,
                     child: Text(
-                      'Total ${state.typeId == "Agriculture Land" ? "ACRE/ KANAL //MARLA" : state.typeId == "Plot/Land" ? "MARLA" : "Unit"}',
+                      'Total ${state.typeId == "Agriculture Land" ? "ACRE/ KANAL /MARLA" : state.typeId == "Plot/Land" ? "MARLA" : "Unit"}',
                       style: TextStyle(
                         color: Color(0xFF4D5454),
                         fontSize: 14,

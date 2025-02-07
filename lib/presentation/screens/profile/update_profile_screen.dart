@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:real_estate/data/model/auth/user_login_response_model.dart';
 import 'package:real_estate/presentation/router/route_names.dart';
 
@@ -355,6 +356,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 Token: widget.profile.verifyToken ?? "").then((value) async {
                                   if(value){
                                     if( widget.profile.name !=null) await setInitialLocation(context);
+
+                                    Fluttertoast.showToast(
+                                        msg: "Profile Updated Successfully",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.TOP,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.green,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
 
                                     Navigator.pushReplacementNamed(
                                         context, RouteNames.mainPageScreen);

@@ -36,65 +36,6 @@ class _MyPropertyState extends State<MyProperty> {
   builder: (context, state) {
 
     final update = state.addState;
-    // if (update is ProfileUpdateLoading) {
-    //   log(_className, name: update.toString());
-    // } else if (update is ProfileUpdateError) {
-    //   Utils.errorSnackBar(context, update.message);
-    // } else if (update is ProfileUpdateLoaded) {
-    //   Navigator.of(context).pop();
-    //   //Utils.showSnackBar(context, update.message);
-    // }
-
-
-    // if (update is AddPropertyLoaded) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     ScaffoldMessenger.of(context).clearSnackBars();
-    //     Navigator.of(context).pop();
-    //     // ScaffoldMessenger.of(context).showSnackBar(
-    //     //     SnackBar(content: Text(update.message)));
-    //   });
-    //
-    //   // return CircularProgressIndicator();
-    // }
-    //
-    // if (update is AddPropertyLoading) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     ScaffoldMessenger.of(context).clearSnackBars();
-    //     Utils.loadingDialog(context);
-    //     // ScaffoldMessenger.of(context).showSnackBar(
-    //     //     SnackBar(content: Text(update.message)));
-    //   });
-    //
-    //   // return CircularProgressIndicator();
-    // } else {
-    //   Utils.closeDialog(context);
-    //   if (update is AddPropertyError) {
-    //
-    //     if (update.statusCode == 401) {
-    //       Utils.logout(context);
-    //     } else {
-    //
-    //       debugPrint("This is the Error ${update.message}");
-    //       WidgetsBinding.instance.addPostFrameCallback((_) {
-    //         ScaffoldMessenger.of(context).clearSnackBars();
-    //         ScaffoldMessenger.of(context).showSnackBar(
-    //             SnackBar(content: Text(update.message)));
-    //       });
-    //
-    //       // Utils.errorSnackBar(context, update.message);
-    //     }
-    //
-    //   } else if (update is AddPropertyLoaded) {
-    //     // Navigator.of(context).pop();
-    //     ScaffoldMessenger.of(context).clearSnackBars();
-    //     WidgetsBinding.instance.addPostFrameCallback((_) {
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //           SnackBar(content: Text(update.message)));
-    //     });
-    //
-    //   }
-    // }
-
 
     return Scaffold(
       extendBody: true,
@@ -192,12 +133,12 @@ class _MyPropertyState extends State<MyProperty> {
                       onTap: (){
 
 
-                        state.properties?[index].aminityItemDto?.forEach((element) {
-                          print(element.aminity?.aminity);
+                        state.properties?[index].propertyLocation?.forEach((element) {
+                          print(element.location);
                         });
                         Navigator.pushNamed(context,
                             RouteNames.purchaseDetailsScreen,
-                            arguments: state.properties?[index]);
+                            arguments: [state.properties?[index],true]);
                         // Navigator.pushNamed(
                         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                       },
@@ -282,14 +223,16 @@ class _MyPropertyState extends State<MyProperty> {
                                             child: Text(
                                               (state.properties ??
                                               []
-                                              )[index].approveByAdmin.toString().toUpperCase() ,
+                                              )[index].approveByAdmin.toString()[0].toUpperCase() + (state.properties ??
+                                              []
+                                              )[index].approveByAdmin.toString().substring(1),
                                               maxLines: 1,
                                               style:  TextStyle(
                                                 color:
                                                 (state.properties ??
                                                     []
                                                 )[index].approveByAdmin == "approved" ?Colors.green : Colors.orange,
-                                                fontSize: 14,
+                                                // fontSize: 12,
                                                 fontFamily:
                                                 'DM Sans',
                                                 fontWeight:
@@ -346,227 +289,6 @@ class _MyPropertyState extends State<MyProperty> {
 
                             ],
                         )
-//                         Row(
-//                           children: [
-//                             // Container(
-//                             //   width: 78.93,
-//                             //   height: 78.93,
-//                             //   decoration: ShapeDecoration(
-//                             //     image:
-//                             //          DecorationImage(
-//                             //       image: NetworkImage(
-//                             //         "${RemoteUrls.rootUrl}${homeCubit
-//                             //             .homeModel!
-//                             //             .latestProperty![index]
-//                             //             .thumbnailImage}"),
-//                             //       fit: BoxFit.fill,
-//                             //     ),
-//                             //     shape:
-//                             //         RoundedRectangleBorder(
-//                             //       borderRadius:
-//                             //           BorderRadius.circular(
-//                             //               10),
-//                             //     ),
-//                             //   ),
-//                             // ),
-//
-//                             CustomNetworkImageWidget(
-//                               width: 78.93,
-//                               height: 78.93,
-//                               image:
-//                               "${RemoteUrls.rootUrl}${state.properties?[index].thumbnailImage}",
-//                             ),
-//                             Padding(
-//                               padding:
-//                               const EdgeInsets.only(
-//                                   left: 15.0),
-//                               child: Column(
-//                                 crossAxisAlignment:
-//                                 CrossAxisAlignment
-//                                     .start,
-//                                 children: [
-//                                   const SizedBox(
-//                                     height: 15,
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment
-//                                         .start,
-//                                     children: [
-//                                       Text(
-//                                         state.properties?[index].title ?? "",
-//                                         maxLines: 1,
-//                                         style: const TextStyle(
-//                                           overflow: TextOverflow.ellipsis,
-//                                           color:
-//                                           Colors.black,
-//                                           fontSize: 14,
-//                                           fontFamily:
-//                                           'DM Sans',
-//                                           fontWeight:
-//                                           FontWeight
-//                                               .w700,
-//                                           height: 0,
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   const SizedBox(
-//                                     height: 5,
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment
-//                                         .start,
-//                                     children: [
-//                                       const Icon(
-//                                         Icons
-//                                             .location_on_sharp,
-//                                         size: 12,
-//                                       ),
-//                                       SizedBox(
-//                                         width: 150,
-//                                         child: Text(
-//                                           removeHtmlTags( state.properties?[index].address ?? ""),
-//                                           maxLines: 1,
-//                                           style: const TextStyle(
-//                                             color:
-//                                             Colors.black,
-//                                             fontSize: 14,
-//                                             fontFamily:
-//                                             'DM Sans',
-//                                             fontWeight:
-//                                             FontWeight
-//                                                 .w300,
-//                                             height: 0,
-//                                             overflow: TextOverflow.ellipsis,
-//                                           ),
-//                                         ),
-//                                       )
-//                                     ],
-//                                   ),
-//                                   // const SizedBox(
-//                                   //   height: 5,
-//                                   // ),
-//                                   // Row(
-//                                   //   children: [
-//                                   //     Image.asset(
-//                                   //       "assets/images/iconamoon_profile-light.png",
-//                                   //       height: 12,
-//                                   //     ),
-//                                   //     const SizedBox(
-//                                   //       width: 5,
-//                                   //     ),
-//                                   //      Text(
-//                                   //       state.homeDataLoaded?.latestProperties?[index]. ?? "",
-//                                   //       style: TextStyle(
-//                                   //         color:
-//                                   //             Colors.black,
-//                                   //         fontSize: 13,
-//                                   //         fontFamily:
-//                                   //             'DM Sans',
-//                                   //         fontWeight:
-//                                   //             FontWeight
-//                                   //                 .w300,
-//                                   //         height: 0,
-//                                   //       ),
-//                                   //     )
-//                                   //   ],
-//                                   // ),
-//                                 ],
-//                               ),
-//                             ),
-//                             Spacer(),
-//                             GestureDetector(
-//                               onTap: () {
-//                                 Navigator.push(
-//                                     context, MaterialPageRoute(builder: (context) =>  AddPropertyScreen(property: state.properties?[index],)));
-//                               },
-//                               child: const Icon(
-//                                 Icons.edit,
-//                                 color: Color(0xFF30469A),
-//                               ),
-//                             ),
-// SizedBox(
-//                               width: 10,
-//                             ),
-//                             GestureDetector(
-//                               onTap: () {
-//
-//
-//                                 Repository repo = Repository();
-//
-//                                 repo.deleteMyProperty((state.properties?[index].id ?? "").toString()).then((value){
-//                                   if(value){
-//                                     context.read<AddPropertyCubit>().getProperties();
-//                                   }
-//                                 });
-//
-//                                 // Navigator.pushNamed(
-//                                 //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-//                               },
-//                               child: const Icon(
-//                                 Icons.delete,
-//                                 color: Color(0xFF30469A),
-//                               ),
-//                             ),
-//                             SizedBox(
-//                               width: 10,
-//                             ),
-//                             // Column(
-//                             //   crossAxisAlignment: CrossAxisAlignment.end,
-//                             //   mainAxisAlignment: MainAxisAlignment.center,
-//                             //   children: [
-//                             //     GestureDetector(
-//                             //       onTap: () {
-//                             //         // Navigator.pushNamed(
-//                             //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-//                             //       },
-//                             //       child: const Icon(
-//                             //         Icons.edit,
-//                             //         color: Color(0xFF30469A),
-//                             //       ),
-//                             //     ),
-//                             //    SizedBox(
-//                             //       height: 10,
-//                             //    ),
-//                             //      GestureDetector(
-//                             //       onTap: () {
-//                             //         // Navigator.pushNamed(
-//                             //         //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-//                             //       },
-//                             //       child: const Icon(
-//                             //         Icons.delete,
-//                             //         color: Color(0xFF30469A),
-//                             //       ),
-//                             //     ),
-//                             //
-//                             //
-//                             //
-//                             //     // IconButton(
-//                             //     //   onPressed: () {
-//                             //     //     // Navigator.pushNamed(
-//                             //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-//                             //     //   },
-//                             //     //   icon: const Icon(
-//                             //     //     Icons.edit,
-//                             //     //     color: Color(0xFF30469A),
-//                             //     //   ),
-//                             //     // ),
-//                             //     // IconButton(
-//                             //     //   onPressed: () {
-//                             //     //     // Navigator.pushNamed(
-//                             //     //     //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-//                             //     //   },
-//                             //     //   icon: const Icon(
-//                             //     //     Icons.delete,
-//                             //     //     color: Color(0xFF30469A),
-//                             //     //   ),
-//                             //     // ),
-//                             //   ],
-//                             // )
-//                           ],
-//                         ),
                       ),
                     ),
                   ));

@@ -26,7 +26,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _searchProperty(
       SearchEventProperty event, Emitter<SearchState> emit) async {
     emit(SearchLoading());
-    final uri = Uri.parse("https://lab6.invoidea.in/zingcity/api/user/property-search?search=${event.name}");
+    final uri = Uri.parse("https://lab7.invoidea.in/zingcity/api/user/property-search?search=${event.name}");
     final result = await _searchRepository.getSearchProperty(uri);
     result.fold((failure) {
       emit(SearchError(failure.message, failure.statusCode));

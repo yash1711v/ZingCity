@@ -61,6 +61,7 @@ dependencies:
   google_places_flutter: ^2.0.9
   geocoding: ^3.0.0
   shimmer: ^2.0.0
+  fluttertoast: ^8.2.11
 
 dev_dependencies:
   flutter_test:

@@ -621,128 +621,18 @@ void changeAddress(String text) {
 
   void editProperty(Properties? property,BuildContext context) {
     emit(state.copyWith(addState: const AddPropertyLoading()));
-
-    debugPrint("property Images ${(property?.sliders ?? []).length}");
-    // changeAddress(property?.address ?? '');
-    // changeDescription(property?.description ?? '');
-    // changeRentPeriod(property?.rentPeriod ?? '');
-    // changeTotalPrice(property?.price ?? '');
-    // changeType(property?.purpose ?? '');
-    // changeTotalArea(property?.totalArea ?? '');
-    // changeTotalUnit(property?.totalUnit ?? '');
-    // changeTotalBedroom(property?.totalBedroom ?? '');
-    // changeTotalBathroom(property?.totalBathroom ?? '');
-    // changeTotalKitchen(property?.totalKitchen ?? '');
-    // changeTotalGarage(property?.totalGarage ?? '');
-    // addThumbNails(property?.seoTitle ?? '');
-    // state.staticInfo?.city.forEach((element){
-    //   if(element.id.toString() == property?.cityId){
-    //     changeCity(element.name, element.id.toString());
-    //   }
-    // });
-
-    // state.staticInfo?.state.forEach((element){
-    //   if(element.id.toString() == property?.stateId){
-    //     changeState(element.name, element.id.toString());
-    //   }
-    // });
-
-
-    // if(property?.purpose == 'rent'){
-    //   state.staticInfo?.rent.forEach((element){
-    //     if(element.id == property?.propertyTypeId){
-    //      changeTypeId(element.name, element.id.toString());
-    //     }
-    //     // changeTypeId(text, categoryId)
-    //   });
-    //
-    // } else {
-    //   state.staticInfo?.sale.forEach((element){
-    //     if(element.id == property?.propertyTypeId){
-    //       changeTypeId(element.name, element.id.toString());
-    //     }
-    //     // changeTypeId(text, categoryId)
-    //   });
-    // }
-
-    debugPrint('purpose ${property?.categoryId}');
-    debugPrint('title ${property?.title}');
-    debugPrint('title ${property?.title}');
-
-
-    context.read<AddPropertyCubit>().state.staticInfo?.subcategories!.forEach((key,element) {
-      // debugPrint("key ==> $key");
-
-        if(element.purpose!.contains(2)){
-
-          if(element.parentId.toString() == "1" ){
-
-            // subCategoriesResidential.add(element);
-
-            context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
-            if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
-              context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
-            }
-
-          }
-          else {
-            // debugPrint("Commercial ==> ${element.name}");
-            // subCategoriesCommercial.add(element);
-            if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
-              context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
-              // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
-            }
-            // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
-          }
-        } else {
-          if(element.purpose!.contains(1)){
-
-            if(element.parentId.toString() == "1" ){
-
-              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
-                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
-                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
-              }
-
-            }
-            if(element.parentId.toString() == "2"){
-              // debugPrint("Commercial ==> ${element.name}");
-              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
-                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
-                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
-              }
-              // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
-            }
-            if (element.parentId.toString() == "3"){
-              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
-                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
-                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
-              }
-            }
-            if (element.parentId.toString() == "4"){
-              if(element.id.toString() == context.read<AddPropertyCubit>().state.typeId && context.read<AddPropertyCubit>().state.typeId.isNotEmpty){
-                context.read<AddPropertyCubit>().changePropertyTypeId(element.name ?? "",(element.id ?? "").toString());
-                // context.read<AddPropertyCubit>().changeTypeId(element.id.toString() ?? "",(element.name.toString() ?? "").toString());
-              }
-            }
-          }
-        }
-    });
-
+    debugPrint("Property Type Id: ${property!.bhkType.toString()}");
     state.staticInfo?.city?.forEach((element){
 
 
-      if(element.id.toString() == property?.cityId.toString()){
+      if(element.id.toString() == property.cityId.toString()){
         context
             .read<AddPropertyCubit>()
             .changeCity(element.name ?? "", element.id.toString());
       }
-      // context
-      //     .read<AddPropertyCubit>()
-      //     .changeCity(element.name ?? "", element.id.toString());
     });
     List<File> sliderImages = [];
-    (property?.sliders ?? []).skip(1).forEach((element) {
+    (property.sliders ?? []).skip(1).forEach((element) {
       sliderImages.add(File(element.image));
     });
 
@@ -751,7 +641,7 @@ void changeAddress(String text) {
     context.read<AddPropertyCubit>().addSliders(sliderImages);
 
     List<String> aminities = [];
-    property?.aminityItemDto?.forEach((element){
+    property.aminityItemDto?.forEach((element){
       aminities.add(element.aminityId.toString());
     });
     context.read<AddPropertyCubit>().addAminitiesValue(
@@ -759,7 +649,7 @@ void changeAddress(String text) {
 
     List<String> keys = [];
     List<String> values = [];
-    property?.propertyAdditionInfo?.forEach((element){
+    property.propertyAdditionInfo?.forEach((element){
      keys.add(element.addKey);
      values.add(element.addValue);
     });
@@ -768,45 +658,34 @@ void changeAddress(String text) {
     context.read<AddPropertyCubit>().addAdditionalValue(values);
 
     List<Map<String, dynamic>> nearestLocation = [];
-    property?.propertyLocation?.forEach((element){
+    property.propertyLocation?.forEach((element){
       nearestLocation.add({"id":element.location?.id,"value":element.distance});
 
     });
     context.read<AddPropertyCubit>().changeNearestLocation(nearestLocation);
     emit(state.copyWith(
       addState: const AddPropertyInitial(),
-      purpose: (property?.purpose ?? '').toString() == "1"? "buy" : "rent",
-      title: property?.title ?? '',
-      price: property?.price.toString() ?? '',
-      totalArea: property?.totalArea ?? '',
-      totalUnit: property?.totalUnit ?? '',
-      totalBedroom: property?.totalBedroom ?? '',
-      totalBathroom: property?.totalBathroom ?? '',
+      purpose: (property.purpose ?? '').toString() == "1"? "buy" : "rent",
+      title: property.title ?? '',
+      price: property.price.toString() ?? '',
+      totalArea: property.totalArea ?? '',
+      totalUnit: property.totalUnit ?? '',
+      totalBedroom: property.totalBedroom ?? '',
+      totalBathroom: property.totalBathroom ?? '',
       // totalBalcony: property?.totalBalcony ?? '',
-      totalKitchen: property?.totalKitchen ?? '',
-      totalGarage: property?.totalGarage ?? '',
-      description: property?.description ?? '',
-      cityId: property?.cityId.toString()?? '',
-      stateId: property?.stateId.toString()?? '',
-      rentPeriod: property?.rentPeriod ?? '',
-      address: property?.address ?? '',
-      thumbNailImage: property?.thumbnailImage ?? '',
-      // sliderImagesApi: property?.images ?? [],
-      categoryId: property?.categoryId ?? '',
-      // sliderImages: (property?.sliders ?? []).forEach((element)=>),
-      // seoTitle: property?.seoTitle ?? '',
-      // seoMetaDescription: property?.seoMetaDescription ?? '',
-      // propertyLocationDto: PropertyLocationDto(
-      //   cityId: property?.cityId ?? 0,
-      //   address: property?.address ?? '',
-      //   addressDescription: property?.addressDescription ?? '',
-      //   googleMap: property?.googleMap ?? '',
-      // ),
-      // propertyVideoDto: PropertyVideoDto(
-      //   videoThumbnail: property?.videoThumbnail ?? '',
-      //   videoId: property?.videoId ?? '',
-      //   videoDescription: property?.videoDescription ?? '',
-      // ),
+      totalKitchen: property.totalKitchen ?? '',
+      totalGarage: property.totalGarage ?? '',
+      description: property.description ?? '',
+      cityId: property.cityId.toString()?? '',
+      stateId: property.stateId.toString()?? '',
+      rentPeriod: capitalizeFirstLetter(property.rentPeriod ?? ''),
+      address: property.address ?? '',
+      thumbNailImage: property.thumbnailImage ?? '',
+      categoryId: property.categoryId ?? '',
+      propertyTypeId: property.propertyTypeId.toString(),
+      roomTypeId: property.bhkType.toString(),
+
+      // categoryId: property?.categoryId ?? '',
     ));
 
 
@@ -824,6 +703,9 @@ void changeAddress(String text) {
     emit(state.copyWith(elevator: value, addState: const AddPropertyInitial()));
   }
 
-
+  String capitalizeFirstLetter(String input) {
+    if (input.isEmpty) return input;
+    return input[0].toUpperCase() + input.substring(1);
+  }
 
 }

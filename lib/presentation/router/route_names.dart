@@ -312,7 +312,7 @@ class RouteNames {
         final dynamic  properties = settings.arguments;
         return MaterialPageRoute(
             settings: settings,
-            builder: (_) => PurchaseDetailScreen(propertiesDetails: properties));
+            builder: (_) => PurchaseDetailScreen(propertiesDetails: properties is List?properties[0]:properties, isSelf: properties is List?properties[1]:null,));
 
       case RouteNames.searchScreen:
         return MaterialPageRoute(

@@ -16,7 +16,7 @@ class _Screen3State extends State<Screen3> {
 
   TextEditingController _bedrooms = TextEditingController();
   TextEditingController _bathrooms = TextEditingController();
-  TextEditingController _balconies = TextEditingController();
+  // TextEditingController _balconies = TextEditingController();
   TextEditingController _kitchens = TextEditingController();
   TextEditingController _carParking = TextEditingController();
 
@@ -31,7 +31,7 @@ class _Screen3State extends State<Screen3> {
     super.initState();
     _bedrooms.text = context.read<AddPropertyCubit>().state.totalBedroom;
     _bathrooms.text = context.read<AddPropertyCubit>().state.totalBathroom;
-    _balconies.text = context.read<AddPropertyCubit>().state.totalBalcony;
+    // _balconies.text = context.read<AddPropertyCubit>().state.totalBalcony;
     _kitchens.text = context.read<AddPropertyCubit>().state.totalKitchen;
     _carParking.text = context.read<AddPropertyCubit>().state.totalGarage;
 
@@ -45,7 +45,7 @@ class _Screen3State extends State<Screen3> {
     titles = [
       "No. of Bedrooms",
       "No. of Bathrooms",
-      "No. of Balconies",
+      // "No. of Balconies",
       "No. of Kitchens",
       "No. of Car Parking",
       // "No. of Floors",
@@ -65,7 +65,7 @@ class _Screen3State extends State<Screen3> {
     controllers = [
       _bedrooms,
       _bathrooms,
-      _balconies,
+      // _balconies,
       _kitchens,
       _carParking,
       // _Floors,
@@ -174,9 +174,10 @@ class _Screen3State extends State<Screen3> {
                                       ? controllers[1]
                                       : index == 2
                                           ? controllers[2]
-                                          : index == 3
-                                              ? controllers[3]
-                                              : controllers[4],
+                                          : controllers[3],
+                      // index == 3
+                      //                         ? controllers[3]
+                                              // : controllers[4],
                               onChanged: (value) {
                                 if (index == 0) {
                                   context
@@ -346,36 +347,32 @@ class _AdditionalInfoWidgetState extends State<AdditionalInfoWidget> {
   @override
   void initState() {
     super.initState();
+    if((context.read<AddPropertyCubit>().state.additionalKeys ?? []).isNotEmpty && (context.read<AddPropertyCubit>().state.additionalValues ?? []).isNotEmpty){
+      alreadyAdded();
+    } else {
     _addNewField(); // Start with one field
+
+    }
+
   }
 
   void _addNewField() {
-    if((context.read<AddPropertyCubit>().state.additionalKeys ?? []).isNotEmpty && (context.read<AddPropertyCubit>().state.additionalValues ?? []).isNotEmpty){
-      if ((context.read<AddPropertyCubit>().state.additionalKeys ?? [])
-          .isNotEmpty) {
-        (context.read<AddPropertyCubit>().state.additionalKeys ?? [])
-            .forEach((element) {
-          keyControllers.add(TextEditingController(text: element));
-        });
-        // keyControllers.add(TextEditingController(text: context.read<AddPropertyCubit>().state.additionalKeys.last));
-      }
-
-      if ((context.read<AddPropertyCubit>().state.additionalValues ?? [])
-          .isNotEmpty) {
-        (context.read<AddPropertyCubit>().state.additionalValues ?? [])
-            .forEach((element) {
-          valueControllers.add(TextEditingController(text: element));
-        });
-        // valueControllers.add(TextEditingController(text: context.read<AddPropertyCubit>().state.additionalValues.last));
-      }
-    }
-    else{
       setState(() {
         keyControllers.add(TextEditingController());
         valueControllers.add(TextEditingController());
         keys.add("");
         values.add("");
       });
+  }
+
+  void alreadyAdded(){
+    if((context.read<AddPropertyCubit>().state.additionalKeys ?? []).isNotEmpty && (context.read<AddPropertyCubit>().state.additionalValues ?? []).isNotEmpty){
+      for (var i = 0; i < (context.read<AddPropertyCubit>().state.additionalKeys ?? []).length; i++) {
+        keyControllers.add(TextEditingController(text: (context.read<AddPropertyCubit>().state.additionalKeys ?? [])[i]));
+        valueControllers.add(TextEditingController(text: (context.read<AddPropertyCubit>().state.additionalValues ?? [])[i]));
+        keys.add((context.read<AddPropertyCubit>().state.additionalKeys ?? [])[i]);
+        values.add((context.read<AddPropertyCubit>().state.additionalValues ?? [])[i]);
+      }
     }
   }
 

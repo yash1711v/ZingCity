@@ -207,7 +207,7 @@ class PropertyRepositoryImp extends PropertyRepository {
     try {
       final result = await remoteDataSource.getMyProperties();
      List<dynamic> values = result['data'];
-     log('Data === >: $values');
+     // log('Data === >: $values');
 
      // values.forEach((element) {
      //   debugPrint('value === >: $element');

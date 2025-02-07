@@ -26,9 +26,11 @@ import '../../widget/custom_test_style.dart';
 import '../../widget/loading_widget.dart';
 
 class PurchaseDetailScreen extends StatelessWidget {
-  const PurchaseDetailScreen({super.key, required this.propertiesDetails});
+  const PurchaseDetailScreen(
+      {super.key, required this.propertiesDetails, this.isSelf});
 
   final dynamic propertiesDetails;
+  final bool? isSelf;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,8 @@ class PurchaseDetailScreen extends StatelessWidget {
                             ],
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -155,34 +158,39 @@ class PurchaseDetailScreen extends StatelessWidget {
       body: propertyDetailsLoaded(
           propertyDetails: propertiesDetails //orderCubit.singleOrder!
           ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0))),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ContactUs(isSendingEnquiry: true,propertyId: propertiesDetails.id.toString())),
-                      );
-
-                    },
-                    child: const Text(
-                      'Send Eqnuiry',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w600,
-                        height: 0,
-                      ),
-                    )))
-          ],
+      bottomNavigationBar: Visibility(
+        visible: !(isSelf ?? false),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Expanded(
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0))),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactUs(
+                                  isSendingEnquiry: true,
+                                  propertyId: propertiesDetails.id.toString())),
+                        );
+                      },
+                      child: const Text(
+                        'Send Enquiry',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
+                      )))
+            ],
+          ),
         ),
       ),
     );
@@ -199,8 +207,6 @@ class propertyDetailsLoaded extends StatefulWidget {
 }
 
 class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
-
-
   List<room.Category> categories = [];
   Set<room.Category> subCategoriesResidential = {};
   Set<room.Category> subCategoriesCommercial = {};
@@ -209,158 +215,189 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
 
   String PropertyType = "";
 
-
   List<String> Images = [];
- String categoryName = '';
+  String categoryName = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.propertyDetails.purpose == "2"){
-
-      context.read<AddPropertyCubit>().state.staticInfo?.roomType?.forEach((element) {
+    if (widget.propertyDetails.purpose == "2") {
+      context
+          .read<AddPropertyCubit>()
+          .state
+          .staticInfo
+          ?.roomType
+          ?.forEach((element) {
         debugPrint("element ==> ${element.id}");
       });
-      context.read<AddPropertyCubit>().state.staticInfo?.categories?.forEach((category) {
-        debugPrint("Category Id ${widget.propertyDetails.categoryId.toString()}");
-        context.read<AddPropertyCubit>().state.staticInfo?.purpose?.rent?.forEach((rent) {
-
-          if(rent.categoryId == category.id){
+      context
+          .read<AddPropertyCubit>()
+          .state
+          .staticInfo
+          ?.categories
+          ?.forEach((category) {
+        debugPrint(
+            "Category Id ${widget.propertyDetails.categoryId.toString()}");
+        context
+            .read<AddPropertyCubit>()
+            .state
+            .staticInfo
+            ?.purpose
+            ?.rent
+            ?.forEach((rent) {
+          if (rent.categoryId == category.id) {
             categories.add(category);
-            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+            if (category.id.toString() ==
+                widget.propertyDetails.categoryId.toString()) {
               categoryName = category.name ?? "";
             }
           }
 
-          if(rent.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
-            context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
-            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+          if (rent.categoryId.toString() ==
+                  context.read<AddPropertyCubit>().state.categoryId &&
+              context.read<AddPropertyCubit>().state.categoryId.isNotEmpty) {
+            context.read<AddPropertyCubit>().changeTypeId(
+                category.name ?? "", (category.id ?? "").toString());
+            if (category.id.toString() ==
+                widget.propertyDetails.categoryId.toString()) {
               categoryName = category.name ?? "";
             }
             // if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
             //   categoryName = category.name ?? "";
             // }
-
           }
         });
       });
 
-
-      context.read<AddPropertyCubit>().state.staticInfo?.subcategories!.forEach((key,element) {
+      context
+          .read<AddPropertyCubit>()
+          .state
+          .staticInfo
+          ?.subcategories!
+          .forEach((key, element) {
         // debugPrint("key ==> $key");
 
-        categories.forEach((categories){
-          if(element.purpose!.contains(2)){
-
-            if(element.parentId.toString() == "1" ){
-
+        categories.forEach((categories) {
+          if (element.purpose!.contains(2)) {
+            if (element.parentId.toString() == "1") {
               subCategoriesResidential.add(element);
-              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+              if (element.id.toString() ==
+                  widget.propertyDetails.propertyTypeId.toString()) {
                 PropertyType = element.name ?? "";
               }
-
-            }
-            else {
+            } else {
               // debugPrint("Commercial ==> ${element.name}");
               subCategoriesCommercial.add(element);
-              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+              if (element.id.toString() ==
+                  widget.propertyDetails.propertyTypeId.toString()) {
                 PropertyType = element.name ?? "";
               }
               // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
             }
           }
-
         });
-
-
-
       });
     } else {
-
-      context.read<AddPropertyCubit>().state.staticInfo?.roomType?.forEach((element) {
+      context
+          .read<AddPropertyCubit>()
+          .state
+          .staticInfo
+          ?.roomType
+          ?.forEach((element) {
         debugPrint("element ==> ${element.id}");
       });
-      context.read<AddPropertyCubit>().state.staticInfo?.categories?.forEach((category) {
-        context.read<AddPropertyCubit>().state.staticInfo?.purpose?.sell?.forEach((rent) {
-
-          if(rent.categoryId == category.id){
+      context
+          .read<AddPropertyCubit>()
+          .state
+          .staticInfo
+          ?.categories
+          ?.forEach((category) {
+        context
+            .read<AddPropertyCubit>()
+            .state
+            .staticInfo
+            ?.purpose
+            ?.sell
+            ?.forEach((rent) {
+          if (rent.categoryId == category.id) {
             categories.add(category);
-            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+            if (category.id.toString() ==
+                widget.propertyDetails.categoryId.toString()) {
               categoryName = category.name ?? "";
             }
           }
 
-          if(rent.categoryId.toString() == context.read<AddPropertyCubit>().state.categoryId && context.read<AddPropertyCubit>().state.categoryId.isNotEmpty){
-            context.read<AddPropertyCubit>().changeTypeId(category.name ?? "",(category.id ?? "").toString());
-            if(category.id.toString() ==  widget.propertyDetails.categoryId.toString()){
+          if (rent.categoryId.toString() ==
+                  context.read<AddPropertyCubit>().state.categoryId &&
+              context.read<AddPropertyCubit>().state.categoryId.isNotEmpty) {
+            context.read<AddPropertyCubit>().changeTypeId(
+                category.name ?? "", (category.id ?? "").toString());
+            if (category.id.toString() ==
+                widget.propertyDetails.categoryId.toString()) {
               categoryName = category.name ?? "";
             }
           }
         });
       });
 
-
-      context.read<AddPropertyCubit>().state.staticInfo?.subcategories!.forEach((key,element) {
+      context
+          .read<AddPropertyCubit>()
+          .state
+          .staticInfo
+          ?.subcategories!
+          .forEach((key, element) {
         // debugPrint("key ==> $key");
 
-        categories.forEach((categories){
-          if(element.purpose!.contains(1)){
-
-            if(element.parentId.toString() == "1" ){
-
+        categories.forEach((categories) {
+          if (element.purpose!.contains(1)) {
+            if (element.parentId.toString() == "1") {
               subCategoriesResidential.add(element);
-              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+              if (element.id.toString() ==
+                  widget.propertyDetails.propertyTypeId.toString()) {
                 PropertyType = element.name ?? "";
               }
-
             }
-            if(element.parentId.toString() == "2"){
+            if (element.parentId.toString() == "2") {
               // debugPrint("Commercial ==> ${element.name}");
               subCategoriesCommercial.add(element);
-              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+              if (element.id.toString() ==
+                  widget.propertyDetails.propertyTypeId.toString()) {
                 PropertyType = element.name ?? "";
               }
               // debugPrint("Else commercial ==> ${subCategoriesCommercial}");
             }
-            if (element.parentId.toString() == "3"){
+            if (element.parentId.toString() == "3") {
               subCategoriesAgricultural.add(element);
-              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+              if (element.id.toString() ==
+                  widget.propertyDetails.propertyTypeId.toString()) {
                 PropertyType = element.name ?? "";
               }
               // debugPrint("Agricultural ==> ${element.name}");
               // debugPrint("Agricultural ==> ${element.name}");
             }
-            if (element.parentId.toString() == "4"){
+            if (element.parentId.toString() == "4") {
               subCategoriesPlotLand.add(element);
-              if(element.id.toString() ==  widget.propertyDetails.propertyTypeId.toString()){
+              if (element.id.toString() ==
+                  widget.propertyDetails.propertyTypeId.toString()) {
                 PropertyType = element.name ?? "";
               }
             }
           }
-
         });
-
-
-
       });
-
-
-
-
-
     }
 
-
     widget.propertyDetails.sliders.forEach((element) {
-      if((element.image ?? "").isNotEmpty) {
+      if ((element.image ?? "").isNotEmpty) {
         Images.add("${RemoteUrls.rootUrl}${element.image}");
       }
     });
     Images.add("${RemoteUrls.rootUrl}${widget.propertyDetails.thumbnailImage}");
-
   }
+
   CarouselSliderController? carouselController = CarouselSliderController();
+
   @override
   Widget build(BuildContext context) {
     // final user = context.read<OrderCubit>().orders!.user;
@@ -386,91 +423,17 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                   builder: (BuildContext context) {
                     return CustomNetworkImageWidget(
                       width: MediaQuery.of(context).size.width * 0.95,
-                      image:
-                      i,
-                    );
-
-                      Container(
-                      width: double.infinity,
-                      // height: 220,
-                      decoration: ShapeDecoration(
-                        color: Colors.grey,
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            i,
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Row(
-                              mainAxisAlignment: widget.propertyDetails.isFeatured == "enable"
-                                  ? MainAxisAlignment.spaceBetween
-                                  : MainAxisAlignment.end,
-                              children: [
-                                Visibility(
-                                  visible: widget.propertyDetails.isFeatured == "enable",
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: primaryColor,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(10.0))),
-                                      onPressed: () {},
-                                      child: const Text(
-                                        'Featured',
-                                        style: TextStyle(
-                                          color: Color(0xFFFAFAFA),
-                                          fontSize: 12,
-                                          fontFamily: 'DM Sans',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0.12,
-                                        ),
-                                      )),
-                                ),
-                                // Container(
-                                //   width: 32,
-                                //   height: 32,
-                                //   decoration: const ShapeDecoration(
-                                //     color: Colors.white,
-                                //     shape: OvalBorder(),
-                                //     shadows: [
-                                //       BoxShadow(
-                                //         color: Color(0x194D5454),
-                                //         blurRadius: 15,
-                                //         offset: Offset(0, 2),
-                                //         spreadRadius: 0,
-                                //       )
-                                //     ],
-                                //   ),
-                                //   child: Center(
-                                //     child: SvgPicture.asset(
-                                //         "assets/Yash/images/heartShape.svg"),
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                      image: i,
                     );
                   },
                 );
               }).toList(),
               carouselController: carouselController,
               options: CarouselOptions(
-                scrollPhysics: Images.length>1?const BouncingScrollPhysics():const NeverScrollableScrollPhysics(),
-                autoPlay:Images.length>1? true:false,
+                scrollPhysics: Images.length > 1
+                    ? const BouncingScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
+                autoPlay: Images.length > 1 ? true : false,
                 enlargeCenterPage: true,
                 viewportFraction: 1,
                 aspectRatio: 1.4,
@@ -482,53 +445,53 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               height: 20.h,
             ),
 
-
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Container(
                     // margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                       // width: ,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    // width: ,
                     // height: 150,
                     decoration: ShapeDecoration(
                       color: const Color(0x19087C7C),
-                      // image: DecorationImage(
-                      //   image: NetworkImage(
-                      //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
-                      //   ),
-                      //   fit: BoxFit.fill,
-                      // ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
                     ),
-                    child: Center(child: Text( widget.propertyDetails.purpose.toString() == "1"?"For Sell":"For Rent",textAlign: TextAlign.center,),),
+                    child: Center(
+                      child: Text(
+                        widget.propertyDetails.purpose.toString() == "1"
+                            ? "For Sell"
+                            : "For Rent",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ),
-              SizedBox(
-                width: 5,
-              ),
+                SizedBox(
+                  width: 5,
+                ),
                 Expanded(
                   child: Container(
                     // margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                       // width: ,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    // width: ,
                     // height: 150,
                     decoration: ShapeDecoration(
                       color: const Color(0x19087C7C),
-                      // image: DecorationImage(
-                      //   image: NetworkImage(
-                      //     "${RemoteUrls.rootUrl}${widget.propertyDetails.images![int].image}",
-                      //   ),
-                      //   fit: BoxFit.fill,
-                      // ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
                     ),
-                    child: Center(child: Text(categoryName,textAlign: TextAlign.center,)),
+                    child: Center(
+                        child: Text(
+                      categoryName,
+                      textAlign: TextAlign.center,
+                    )),
                   ),
                 ),
                 Visibility(
@@ -542,7 +505,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     visible: PropertyType.isNotEmpty,
                     child: Container(
                       // margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
                       // width: ,
                       // height: 150,
                       decoration: ShapeDecoration(
@@ -554,19 +518,11 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                       child: Center(
                         child: Text(
                           "${PropertyType.toString()}",
-                          // style: const TextStyle(
-                          //   // color: Color(0x7F4D5454),
-                          //   fontSize: 14,
-                          //   fontFamily: 'DM Sans',
-                          //   fontWeight: FontWeight.w400,
-                          //   height: 0.10,
-                          // ),
                         ),
                       ),
                     ),
                   ),
                 ),
-
               ],
             ),
 
@@ -587,7 +543,6 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                 ),
-
               ],
             ),
             SizedBox(
@@ -595,7 +550,7 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
                   child: Text(
@@ -609,9 +564,7 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   width: 25,
-                // ),
+                Spacer(),
                 Expanded(
                   child: Text(
                     'Area: ${widget.propertyDetails.totalArea} sqft',
@@ -624,18 +577,86 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 25,
+                // SizedBox(
+                //   width: 25,
+                // ),
+                // Expanded(
+                //   child: Text(
+                //     'Unit: ${widget.propertyDetails.totalUnit}',
+                //     style: const TextStyle(
+                //       color: Color(0xFF30469A),
+                //       fontSize: 16,
+                //       fontFamily: 'DM Sans',
+                //       fontWeight: FontWeight.w600,
+                //       // height: 0.09,
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Visibility(
+                  visible: (widget.propertyDetails.totalUnit ?? "").isNotEmpty,
+                  child: Flexible(
+                    child: Text(
+                      'Unit: ${widget.propertyDetails.totalUnit.toString().trim()}',
+                      style: const TextStyle(
+                        color: Color(0xFF30469A),
+                        fontSize: 16,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w600,
+                        // height: 0.09,
+                      ),
+                    ),
+                  ),
                 ),
-                Expanded(
-                  child: Text(
-                    'Unit: ${widget.propertyDetails.totalUnit}',
-                    style: const TextStyle(
-                      color: Color(0xFF30469A),
-                      fontSize: 16,
-                      fontFamily: 'DM Sans',
-                      fontWeight: FontWeight.w600,
-                      // height: 0.09,
+                // Visibility(
+                //     visible: (widget.propertyDetails.totalUnit ?? "").isNotEmpty,
+                //     child: Spacer()),
+                Visibility(
+                  visible: (widget.propertyDetails.bhkType ?? "").isNotEmpty,
+                  child: Flexible(
+                    child: Text(
+                      'BHK Type: ${widget.propertyDetails.bhkType.toString().trim()} BHK',
+                      style: const TextStyle(
+                        color: Color(0xFF30469A),
+                        fontSize: 16,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w600,
+                        // height: 0.09,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // SizedBox(
+                //   width: 25,
+                // ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                Visibility(
+                  visible: (widget.propertyDetails.rentPeriod ?? "").isNotEmpty,
+                  child: Flexible(
+                    child: Text(
+                      'Rent Period: ${widget.propertyDetails.rentPeriod.toString().trim()}',
+                      style: const TextStyle(
+                        color: Color(0xFF30469A),
+                        fontSize: 16,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w600,
+                        // height: 0.09,
+                      ),
                     ),
                   ),
                 ),
@@ -675,19 +696,22 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               ),
             ),
             Visibility(
-              visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty || (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty ||
+                  (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
               child: const SizedBox(
                 height: 15,
               ),
             ),
 
             Visibility(
-              visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty || (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty ||
+                  (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Visibility(
-                    visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty,
+                    visible:
+                        (widget.propertyDetails.totalBedroom ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -699,7 +723,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: SvgPicture.asset("assets/Yash/images/BedRoom.svg"),
+                          child: SvgPicture.asset(
+                              "assets/Yash/images/BedRoom.svg"),
                         ),
                         const SizedBox(
                           width: 5,
@@ -722,7 +747,7 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                               height: 15,
                             ),
                             Text(
-                              '${widget.propertyDetails.totalBedroom} Rooms',
+                              '${widget.propertyDetails.totalBedroom.toString().replaceAll("BHK", "")} Rooms',
                               style: const TextStyle(
                                 color: Color(0xFF4D5454),
                                 fontSize: 14,
@@ -737,7 +762,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                   Visibility(
-                    visible: (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
+                    visible:
+                        (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -749,8 +775,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child:
-                              SvgPicture.asset("assets/Yash/images/Bathroom.svg"),
+                          child: SvgPicture.asset(
+                              "assets/Yash/images/Bathroom.svg"),
                         ),
                         const SizedBox(
                           width: 5,
@@ -794,18 +820,21 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               ),
             ),
             Visibility(
-              visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty || (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty ||
+                  (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
               child: const SizedBox(
                 height: 15,
               ),
             ),
             Visibility(
-              visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty || (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
+              visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty ||
+                  (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Visibility(
-                    visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty,
+                    visible:
+                        (widget.propertyDetails.totalGarage ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -817,7 +846,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: SvgPicture.asset("assets/Yash/images/Garage.svg"),
+                          child:
+                              SvgPicture.asset("assets/Yash/images/Garage.svg"),
                         ),
                         const SizedBox(
                           width: 5,
@@ -855,7 +885,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                   Visibility(
-                    visible: (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
+                    visible:
+                        (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
                     child: Row(
                       children: [
                         Container(
@@ -867,7 +898,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: SvgPicture.asset("assets/Yash/images/kitchen.svg"),
+                          child: SvgPicture.asset(
+                              "assets/Yash/images/kitchen.svg"),
                         ),
                         const SizedBox(
                           width: 5,
@@ -954,36 +986,43 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               ],
             ),
             Visibility(
-              visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
-             child: const SizedBox(
-               height: 10,
-             ),
-           ),
-            Visibility(
-                visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
-               child: const Text("Aminities")),
-            Visibility(
-              visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
+              visible: widget.propertyDetails.aminityItemDto
+                  .any((element) => element.aminity != null),
               child: const SizedBox(
                 height: 10,
               ),
             ),
             Visibility(
-              visible: widget.propertyDetails.aminityItemDto.any((element) => element.aminity != null),
+                visible: widget.propertyDetails.aminityItemDto
+                    .any((element) => element.aminity != null),
+                child: const Text("Aminities")),
+            Visibility(
+              visible: widget.propertyDetails.aminityItemDto
+                  .any((element) => element.aminity != null),
+              child: const SizedBox(
+                height: 10,
+              ),
+            ),
+            Visibility(
+              visible: widget.propertyDetails.aminityItemDto
+                  .any((element) => element.aminity != null),
               child: SizedBox(
                 width: double.infinity,
                 height: 35,
                 child: ListView.builder(
-                  itemCount: widget.propertyDetails.aminityItemDto.length,
+                    itemCount: widget.propertyDetails.aminityItemDto.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index){
-                    // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
+                    itemBuilder: (context, index) {
+                      // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
                       return Visibility(
-                        visible: widget.propertyDetails.aminityItemDto[index].aminity != null,
+                        visible: widget.propertyDetails.aminityItemDto[index]
+                                .aminity !=
+                            null,
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
-                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
                           // width: 150,
                           // height: 150,
                           decoration: ShapeDecoration(
@@ -998,43 +1037,53 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                               borderRadius: BorderRadius.circular(18),
                             ),
                           ),
-                          child: Center(child: Text((widget.propertyDetails.aminityItemDto[index].aminity ?? const AminityModel(id: 0, aminity: '')).aminity)),
+                          child: Center(
+                              child: Text((widget.propertyDetails
+                                          .aminityItemDto[index].aminity ??
+                                      const AminityModel(id: 0, aminity: ''))
+                                  .aminity)),
                         ),
                       );
                     }),
               ),
             ),
             Visibility(
-              visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
-             child: const SizedBox(
-               height: 10,
-             ),
-           ),
-            Visibility(
-                visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
-               child: const Text("Nearest Locations")),
-            Visibility(
-              visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+              visible: widget.propertyDetails.propertyLocation
+                  .any((element) => element.location != null),
               child: const SizedBox(
                 height: 10,
               ),
             ),
             Visibility(
-              visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+                visible: widget.propertyDetails.propertyLocation
+                    .any((element) => element.location != null),
+                child: const Text("Nearest Locations")),
+            Visibility(
+              visible: widget.propertyDetails.propertyLocation
+                  .any((element) => element.location != null),
+              child: const SizedBox(
+                height: 10,
+              ),
+            ),
+            Visibility(
+              visible: widget.propertyDetails.propertyLocation
+                  .any((element) => element.location != null),
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ListView.builder(
-                  itemCount: widget.propertyDetails.propertyLocation.length,
+                    itemCount: widget.propertyDetails.propertyLocation.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index){
-                    // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
+                    itemBuilder: (context, index) {
+                      // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
                       return Visibility(
-                        visible: widget.propertyDetails.propertyLocation.any((element) => element.location != null),
+                        visible: widget.propertyDetails.propertyLocation
+                            .any((element) => element.location != null),
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
-                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
                           // width: 150,
                           // height: 150,
                           decoration: ShapeDecoration(
@@ -1052,8 +1101,18 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Center(child: Text((widget.propertyDetails.propertyLocation[index].location ?? Location(id: '', location: '', status: '')).location)),
-                              Center(child: Text("Distance:"+widget.propertyDetails.propertyLocation[index].distance)),
+                              Center(
+                                  child: Text((widget
+                                              .propertyDetails
+                                              .propertyLocation[index]
+                                              .location ??
+                                          Location(
+                                              id: '', location: '', status: ''))
+                                      .location)),
+                              Center(
+                                  child: Text("Distance:" +
+                                      widget.propertyDetails
+                                          .propertyLocation[index].distance)),
                             ],
                           ),
                         ),
@@ -1062,36 +1121,49 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               ),
             ),
             Visibility(
-              visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
-             child: const SizedBox(
-               height: 10,
-             ),
-           ),
-            Visibility(
-                visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
-               child: const Text("Additional Information")),
-            Visibility(
-              visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+              visible: widget.propertyDetails.propertyAdditionInfo.any(
+                  (element) =>
+                      element.addKey != null || element.addValue != null),
               child: const SizedBox(
                 height: 10,
               ),
             ),
             Visibility(
-              visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+                visible: widget.propertyDetails.propertyAdditionInfo.any(
+                    (element) =>
+                        element.addKey != null || element.addValue != null),
+                child: const Text("Additional Information")),
+            Visibility(
+              visible: widget.propertyDetails.propertyAdditionInfo.any(
+                  (element) =>
+                      element.addKey != null || element.addValue != null),
+              child: const SizedBox(
+                height: 10,
+              ),
+            ),
+            Visibility(
+              visible: widget.propertyDetails.propertyAdditionInfo.any(
+                  (element) =>
+                      element.addKey != null || element.addValue != null),
               child: SizedBox(
                 width: double.infinity,
                 height: 40,
                 child: ListView.builder(
-                  itemCount: widget.propertyDetails.propertyAdditionInfo.length,
+                    itemCount:
+                        widget.propertyDetails.propertyAdditionInfo.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index){
-                    // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
+                    itemBuilder: (context, index) {
+                      // log("aminity ==> ${widget.propertyDetails.aminityItemDto[index].aminity.aminity}",name: "Aminity");
                       return Visibility(
-                        visible: widget.propertyDetails.propertyAdditionInfo.any((element) => element.addKey != null || element.addValue != null),
+                        visible: widget.propertyDetails.propertyAdditionInfo
+                            .any((element) =>
+                                element.addKey != null ||
+                                element.addValue != null),
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
-                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
                           // width: 150,
                           // height: 150,
                           decoration: ShapeDecoration(
@@ -1106,7 +1178,13 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
-                          child: Center(child: Text((widget.propertyDetails.propertyAdditionInfo[index].addKey ?? "")+": "+ widget.propertyDetails.propertyAdditionInfo[index].addValue)),
+                          child: Center(
+                              child: Text((widget.propertyDetails
+                                          .propertyAdditionInfo[index].addKey ??
+                                      "") +
+                                  ": " +
+                                  widget.propertyDetails
+                                      .propertyAdditionInfo[index].addValue)),
                         ),
                       );
                     }),

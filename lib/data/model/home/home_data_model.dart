@@ -1090,7 +1090,11 @@ class PropertyLocation {
         nearestLocationId: x['nearest_location_id'].toString(),
         distance: x['distance'].toString(),
         createdAt: DateTime.parse(x['created_at']),
+        location: x['location'] != null
+            ? Location.fromJson(x['location'])
+            : null,
         updatedAt: DateTime.parse(x['updated_at']));
+
   }
 
 

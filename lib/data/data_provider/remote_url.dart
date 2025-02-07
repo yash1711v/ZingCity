@@ -1,7 +1,7 @@
 class RemoteUrls {
   // static const String rootUrl = "https://mamunuiux.com/homeco/"; //test url
   //static const String rootUrl = "https://homeco.mamunuiux.com/"; //test url
-  static const String rootUrl = "https://lab6.invoidea.in/zingcity/"; //test url
+  static const String rootUrl = "https://lab7.invoidea.in/zingcity/"; //test url
   //static const String rootUrl = "https://casasemangola.com/"; //test url
   static const String baseUrl = '${rootUrl}api/';
   static const String homeUrl = '${baseUrl}user/dashboard';
