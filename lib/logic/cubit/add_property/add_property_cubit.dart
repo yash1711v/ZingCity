@@ -391,7 +391,7 @@ void changeAddress(String text) {
     final result = await _repository.updateProperty(
         id, state);
     result.fold(
-      (failure) {
+          (failure) {
         if (failure is InvalidAuthData) {
           final errorState = AddPropertyFormError(failure.errors);
           emit(state.copyWith(addState: errorState));
@@ -400,7 +400,7 @@ void changeAddress(String text) {
           emit(state.copyWith(addState: errors));
         }
       },
-      (success) {
+          (success) {
         emit(state.copyWith(addState: AddPropertyLoaded(success)));
       },
     );
@@ -636,7 +636,19 @@ void changeAddress(String text) {
       sliderImages.add(File(element.image));
     });
 
+    context
+        .read<AddPropertyCubit>()
+        .state
+        .staticInfo
+        ?.roomType
+        ?.forEach((element) {
+      debugPrint("element ==> ${element.id}");
 
+      context.read<AddPropertyCubit>().changeRoomType(
+          element.name ?? "",
+          property!.bhkType.toString());
+
+    });
 
     context.read<AddPropertyCubit>().addSliders(sliderImages);
 

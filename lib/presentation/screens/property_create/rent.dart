@@ -25,21 +25,7 @@ class _RentScreenOneState extends State<RentScreenOne> {
     // TODO: implement initState
     super.initState();
 
-    context
-        .read<AddPropertyCubit>()
-        .state
-        .staticInfo
-        ?.roomType
-        ?.forEach((element) {
-      debugPrint("element ==> ${element.id}");
 
-      context.read<AddPropertyCubit>().changeRoomType(
-          element.name ?? "",
-          context
-              .read<AddPropertyCubit>()
-              .state.roomTypeId.toString());
-
-    });
     context
         .read<AddPropertyCubit>()
         .state
@@ -342,14 +328,20 @@ class _RentScreenOneState extends State<RentScreenOne> {
                       //"Punjab",
                       state.roomType.isNotEmpty ? state.roomType : null,
                   onChanged: (value) {
-                    // debugPrint("value==> $value");
-                    context.read<AddPropertyCubit>().changeRoomType(
-                        value ?? "",
-                        state.staticInfo?.roomType
-                                ?.firstWhere((element) => element.name == value)
-                                .id
-                                .toString() ??
-                            "");
+
+                    state.staticInfo?.roomType?.forEach((element){
+                      if(element.name == value){
+                        debugPrint("element.id.toString() ==> ${element.id.toString()}");
+                        context.read<AddPropertyCubit>().changeRoomType(value ?? "", element.id.toString());
+                      }
+                    });
+                    // context.read<AddPropertyCubit>().changeRoomType(
+                    //     value ?? "",
+                    //     state.staticInfo?.roomType
+                    //             ?.firstWhere((element) => element.name == value)
+                    //             .id
+                    //             .toString() ??
+                    //         "");
                     // if(value != "Punjab"){
                     //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     //     content: Text("Currently we are only available for Punjab state"),));
@@ -646,15 +638,6 @@ class _SellScreenOneState extends State<SellScreenOne> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    context
-        .read<AddPropertyCubit>()
-        .state
-        .staticInfo
-        ?.roomType
-        ?.forEach((element) {
-
-    });
 
     context
         .read<AddPropertyCubit>()

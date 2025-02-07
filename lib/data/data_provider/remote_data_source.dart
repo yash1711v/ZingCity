@@ -1018,9 +1018,14 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<String> updatePropertyRequest(
       String id, AddPropertyModel data,) async {
+
+    // debugPrint('updatePropertyRequest id: $id');
+
     final headers = postDeleteHeader;
     final uri = Uri.parse(RemoteUrls.updatePropertyUrl(id, ""));
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // debugPrint('updatePropertyRequest id: $uri');
 
     String? token = await prefs.getString("token");
     final _mainHeaders = {
@@ -1030,6 +1035,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
     };
 
     log('update property map data:', name: '${data.toMap()}');
+
+    final result = <String, String>{};
+
+
     final request = http.MultipartRequest('POST', uri);
     request.fields.addAll({
       "title": data.title,
@@ -1077,7 +1086,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
       "possession_status": "2"
     });
 
+    // log('create property map data:', name: '${data.toMap()}');
+
     request.headers.addAll(_mainHeaders);
+
 
     if (data.image.isNotEmpty && !data.image.contains('https://')) {
       final thumbImage =
@@ -1108,63 +1120,17 @@ class RemoteDataSourceImp extends RemoteDataSource {
               await http.MultipartFile.fromPath('plan_images[$i]', element);
           request.files.add(file);
         }
-        // else if (element.isNotEmpty) {
-        //   //final imgPath = element.split(RemoteUrls.rootUrl).last;
-        //   final file = await http.MultipartFile.fromPath(
-        //       'existing_plan_image_$id', element);
-        //   // final file = await http.MultipartFile.fromString('existing_plan_image_$id', imgPath);
-        //   request.files.add(file);
-        // }
+
       }
     }
-
-    // else {
-    //   final imgPath = data.image.split(RemoteUrls.rootUrl).last;
-    //   print("imgPath $imgPath");
-    //   print('http-not-available image ${data.image}');
-    // }
-
-    // for (var i = 0; i < data.galleryImage.length; i++) {
-    //   final element = data.galleryImage[i];
-    //   if (element.contains('https://') == false) {
-    //     final file =
-    //         await http.MultipartFile.fromPath('slider_images[$i]', element);
-    //     request.files.add(file);
-    //   }
-    // }
-    //
-    // if (data.propertyVideoDto.videoThumbnail.contains('https://') == false) {
-    //   if (data.propertyVideoDto.videoThumbnail.isNotEmpty) {
-    //     final file = await http.MultipartFile.fromPath(
-    //         'video_thumbnail', data.propertyVideoDto.videoThumbnail);
-    //     request.files.add(file);
-    //   }
-    // }
-    //
-    // if (data.propertyPlanDto.isNotEmpty) {
-    //   for (var i = 0; i < data.propertyPlanDto.length; i++) {
-    //     final element = data.propertyPlanDto[i].planImages;
-    //     final id = data.propertyPlanDto[i].id;
-    //     print("pln img $element");
-    //     if (element.isNotEmpty && element.contains('https://') == false) {
-    //       final file =
-    //           await http.MultipartFile.fromPath('plan_images[$i]', element);
-    //       request.files.add(file);
-    //     } else if (element.isNotEmpty) {
-    //       final imgPath = element.split(RemoteUrls.rootUrl).last;
-    //       print("imgPath $imgPath");
-    //       final file =
-    //           http.MultipartFile.fromString('existing_plan_image_$id', imgPath);
-    //       request.files.add(file);
-    //     }
-    //   }
-    // }
+    log(request.fields.toString(),name: "Data");
+    log(request.files.contains("slider_images[]").toString(),name: "Sliders");
 
     http.StreamedResponse response = await request.send();
     final clientMethod = http.Response.fromStream(response);
 
     final responseJsonBody =
-        await NetworkParser.callClientWithCatchException(() => clientMethod);
+    await NetworkParser.callClientWithCatchException(() => clientMethod);
     return responseJsonBody['message'] as String;
   }
 

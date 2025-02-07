@@ -97,19 +97,7 @@ class PropertyRepositoryImp extends PropertyRepository {
     }
   }
 
-  @override
-  Future<Either<dynamic, String>> updateProperty(
-      String id, AddPropertyModel data, ) async {
-    try {
-      final result =
-          await remoteDataSource.updatePropertyRequest(id, data);
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message, e.statusCode));
-    } on InvalidAuthData catch (e) {
-      return Left(InvalidAuthData(e.errors));
-    }
-  }
+
 
   @override
   Future<Either<dynamic, String>> deleteSingleAddInfo(
@@ -201,6 +189,29 @@ class PropertyRepositoryImp extends PropertyRepository {
     return Left(ServerFailure(e.message, e.statusCode));
     }
   }
+
+
+  @override
+  Future<Either<dynamic, String>> updateProperty(
+      String id, AddPropertyModel data, ) async {
+
+
+
+    try {
+      final result = await remoteDataSource.updatePropertyRequest(id,data);
+      debugPrint('result === >: $result');
+      return Right(result);
+    } on ServerException catch (e) {
+      debugPrint('resultServer === >: ${e.message}');
+      return Left(ServerFailure(e.message, e.statusCode));
+    } on InvalidAuthData catch (e) {
+      debugPrint('resultAuth === >: ${e.message}');
+      return Left(InvalidAuthData(e.errors));
+    }
+
+
+  }
+
 
   @override
   Future<Either<Failure, List<Properties>>> getMyProperties() async {

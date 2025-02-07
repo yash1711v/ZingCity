@@ -386,7 +386,7 @@ class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
       });
     }
    else {
-      checkBoxStates.addAll(List.generate(widget.nearestLocations.length, (_) => false));
+      // checkBoxStates.addAll(List.generate(widget.nearestLocations.length, (_) => false));
     }
 
   }
