@@ -394,9 +394,27 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
       }
     });
     Images.add("${RemoteUrls.rootUrl}${widget.propertyDetails.thumbnailImage}");
+    Unit =  whatUnit();
   }
+  String Unit = "Unit";
 
   CarouselSliderController? carouselController = CarouselSliderController();
+
+  String whatUnit(){
+    if(widget.propertyDetails.purpose.toString() == "2"){
+      return "Security/Advance Amount";
+    } else {
+      if(categoryName == "Agriculture Land") {
+        return "Acre/Kanal/Marla";
+      }
+      else  if(categoryName == "Plot/Land"){
+        return "Marla";
+      } else {
+        return "Unit";
+      }
+    }
+    return "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -550,11 +568,11 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
+                Flexible(
                   child: Text(
-                    'Price: ₹${widget.propertyDetails.price}',
+                    '${widget.propertyDetails.purpose.toString() == "2"?"Rent":"Price"}: ₹${widget.propertyDetails.price}',
                     style: const TextStyle(
                       color: Color(0xFF30469A),
                       fontSize: 16,
@@ -564,8 +582,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                 ),
-                Spacer(),
-                Expanded(
+                // Spacer(),
+                Flexible(
                   child: Text(
                     'Area: ${widget.propertyDetails.totalArea} sqft',
                     style: const TextStyle(
@@ -599,13 +617,13 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: (widget.propertyDetails.totalUnit ?? "").isNotEmpty?MainAxisAlignment.spaceBetween:MainAxisAlignment.start,
               children: [
                 Visibility(
                   visible: (widget.propertyDetails.totalUnit ?? "").isNotEmpty,
                   child: Flexible(
                     child: Text(
-                      'Unit: ${widget.propertyDetails.totalUnit.toString().trim()}',
+                      '$Unit: ${widget.propertyDetails.totalUnit.toString().trim()}',
                       style: const TextStyle(
                         color: Color(0xFF30469A),
                         fontSize: 16,
@@ -707,7 +725,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               visible: (widget.propertyDetails.totalBedroom ?? "").isNotEmpty ||
                   (widget.propertyDetails.totalBathroom ?? "").isNotEmpty,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:(widget.propertyDetails.totalBedroom ?? "").isNotEmpty &&
+                    (widget.propertyDetails.totalBathroom ?? "").isNotEmpty? MainAxisAlignment.spaceBetween:MainAxisAlignment.start,
                 children: [
                   Visibility(
                     visible:
@@ -830,7 +849,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               visible: (widget.propertyDetails.totalGarage ?? "").isNotEmpty ||
                   (widget.propertyDetails.totalKitchen ?? "").isNotEmpty,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: (widget.propertyDetails.totalGarage ?? "").isNotEmpty &&
+                    (widget.propertyDetails.totalKitchen ?? "").isNotEmpty ?MainAxisAlignment.spaceBetween: MainAxisAlignment.start,
                 children: [
                   Visibility(
                     visible:

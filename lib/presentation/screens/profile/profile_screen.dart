@@ -13,6 +13,7 @@ import '../../../data/data_provider/remote_url.dart';
 import '../../../logic/cubit/privacy_policy/privacy_policy_cubit.dart';
 import '../../../logic/repository/auth_repository.dart';
 import '../../widget/custom_theme.dart';
+import '../../widget/customnetwork_widget.dart';
 import '../EnquireScreens/enquires.dart';
 import '../home/component/agent_search.dart';
 import '../my_property/my_property.dart';
@@ -210,11 +211,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             Navigator.pushReplacementNamed(
                                                 context, RouteNames.updateProfileScreen,arguments: state.user);
                                           },
-                                          child:  Stack(
+                                          child:
+
+                                          Stack(
                                             children: [
-                                              CircleAvatar(
-                                                radius: 30,
-                                                backgroundImage: NetworkImage(RemoteUrls.rootUrl+"/${state.user?.image ?? ""}"),
+                                              CustomRoundNetworkImage(
+                                                height: 60,
+                                                width: 60,
+                                                image: RemoteUrls.rootUrl+"/${state.user?.image ?? ""}",
                                               ),
                                               Positioned(
                                                   top: 35,

@@ -1,10 +1,9 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:real_estate/logic/cubit/add_property/add_property_cubit.dart';
 import 'package:real_estate/logic/cubit/add_property/add_property_state_model.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../state_inject_package_names.dart';
-import '../../router/route_packages_name.dart';
+
 
 class Screenfour extends StatefulWidget {
   const Screenfour({super.key});
@@ -359,30 +358,33 @@ class ListViewWithCheckbox extends StatefulWidget {
 
 class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
   final List<bool> checkBoxStates = [];
+  final List<TextEditingController> controllers = [];
   final List<Map<String, dynamic>> data = [];
 
   @override
   void initState() {
     super.initState();
     checkBoxStates.addAll(List.generate(widget.nearestLocations.length, (_) => false));
+    controllers.addAll(List.generate(widget.nearestLocations.length, (_) => TextEditingController()));
+    debugPrint("Nearest Locations: ${context.read<AddPropertyCubit>().state.nearestLocation}");
     if(context.read<AddPropertyCubit>().state.nearestLocation != []){
       // checkBoxStates.addAll(List.generate(widget.nearestLocations.length, (_) => context.read<AddPropertyCubit>().state.nearestLocation.contains(widget.nearestLocations[_].id.toString())));
       context.read<AddPropertyCubit>().state.nearestLocation.forEach((loc) {
-        widget.nearestLocations.forEach((element) {
-          if(loc == element.id.toString()){
-            checkBoxStates.add(true);
-          }
-          else{
-            checkBoxStates.add(false);
-          }
-        });
 
-       context.read<AddPropertyCubit>().state.distance.forEach((dis) {
-         data.add({
-           "id": loc,
-           "value": dis, // Default value for the text field
-         });
-       });
+        for(int i = 0; i < widget.nearestLocations.length; i++){
+          if(loc.toString() == widget.nearestLocations[i].id.toString()){
+            checkBoxStates[i] = true;
+            // debugPrint("Distance:==> ${ checkBoxStates[i]}");
+              debugPrint("Distance:==> ${context.read<AddPropertyCubit>().state.distance[i]}");
+                data.add({
+                  "id": loc.toString(),
+                  "value": context.read<AddPropertyCubit>().state.distance[i],
+                });
+            controllers[i].text = context.read<AddPropertyCubit>().state.distance[i];
+          }
+        }
+
+
       });
     }
    else {
@@ -513,6 +515,8 @@ class _ListViewWithCheckboxState extends State<ListViewWithCheckbox> {
                       width: 77,
                       height: 25,
                       child: TextField(
+                        controller:
+                        controllers[index], // Assign controller to text field
                         onTap: () {
                           if (!checkBoxStates[index]) {
                             // Show Snackbar if checkbox is not checked
