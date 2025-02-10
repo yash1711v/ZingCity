@@ -8,6 +8,7 @@ import '../../../../presentation/widget/custom_app_bar.dart';
 import '../../../data/data_provider/remote_url.dart';
 import '../../../data/model/home/home_data_model.dart';
 import '../../../data/model/product/property_item_model.dart';
+import '../../../logic/cubit/add_property/add_property_cubit.dart';
 import '../../../logic/cubit/wishlist/wishlist_cubit.dart';
 import '../../router/route_names.dart';
 import '../../utils/k_images.dart';
@@ -138,12 +139,32 @@ class _RentScreenState extends State<RentScreen> {
                         //  visible: (state.isLoading ?? true),
                         // child: CircularProgressIndicator()),
                         (state.isLoading ?? true) ?const Center(child: CircularProgressIndicator()):
-                        (state.searchedProperties ?? []).isNotEmpty?ListView.builder(
+                        (state.searchedProperties ?? []).isNotEmpty?
+                        ListView.builder(
                             itemCount: (state.searchedProperties ?? []).length,
                             shrinkWrap: true,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 17.0, vertical: 17.0),
                             itemBuilder: (context, index) {
+
+
+                              String PropertyType = "";
+
+                              context
+                                  .read<AddPropertyCubit>()
+                                  .state
+                                  .staticInfo
+                                  ?.subcategories!
+                                  .forEach((key, element) {
+                                // debugPrint("key ==> $key");
+
+                                if (element.id.toString() ==
+                                    (state.searchedProperties ?? [])[index]
+                                        .propertyTypeId.toString()) {
+                                  PropertyType = element.name ?? "";
+                                }
+                              });
+
                               debugPrint((state.data ?? [])[index].title);
                               return GestureDetector(
                                 onTap: () {
@@ -226,6 +247,20 @@ class _RentScreenState extends State<RentScreen> {
 
                                             Text(
                                               '₹ ${Utils.convertNumber((state.searchedProperties ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+
+                                            Text(
+                                              '$PropertyType',
                                               style: TextStyle(
                                                 color: Color(0xFF30469A),
                                                 fontSize: 16,
@@ -398,6 +433,23 @@ class _RentScreenState extends State<RentScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 17.0, vertical: 17.0),
                               itemBuilder: (context, index) {
+
+                                String propertyType = "";
+                                context
+                                    .read<AddPropertyCubit>()
+                                    .state
+                                    .staticInfo
+                                    ?.subcategories!
+                                    .forEach((key, element) {
+                                  // debugPrint("key ==> $key");
+
+                                  if (element.id.toString() ==
+                                      (state.data ?? [])[index]
+                                          .propertyTypeId.toString()) {
+                                    propertyType = element.name ?? "";
+                                  }
+                                });
+
                                 debugPrint((state.data ?? [])[index].title);
                                 return GestureDetector(
                                   onTap: () {
@@ -480,6 +532,18 @@ class _RentScreenState extends State<RentScreen> {
 
                                             Text(
                                               '₹ ${Utils.convertNumber((state.data ?? [])[index].price ?? "")}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
+                                              ),
+                                            ),
+
+
+                                            Text(
+                                              propertyType,
                                               style: TextStyle(
                                                 color: Color(0xFF30469A),
                                                 fontSize: 16,
@@ -656,6 +720,25 @@ class _RentScreenState extends State<RentScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 17.0, vertical: 17.0),
                               itemBuilder: (context, index) {
+
+
+                                String PropertyType = "";
+
+                                context
+                                    .read<AddPropertyCubit>()
+                                    .state
+                                    .staticInfo
+                                    ?.subcategories!
+                                    .forEach((key, element) {
+                                  // debugPrint("key ==> $key");
+
+                                  if (element.id.toString() ==
+                                      (state.searchedProperties ?? [])[index]
+                                          .propertyTypeId.toString()) {
+                                    PropertyType = element.name ?? "";
+                                  }
+                                });
+
                                 debugPrint((state.data ?? [])[index].title);
                                 return GestureDetector(
                                   onTap: () {
@@ -738,6 +821,20 @@ class _RentScreenState extends State<RentScreen> {
 
                                               Text(
                                                 '₹ ${Utils.convertNumber((state.searchedProperties ?? [])[index].price ?? "")}',
+                                                style: TextStyle(
+                                                  color: Color(0xFF30469A),
+                                                  fontSize: 16,
+                                                  fontFamily: 'DM Sans',
+                                                  fontWeight: FontWeight.w800,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+
+                                              Text(
+                                                '$PropertyType',
                                                 style: TextStyle(
                                                   color: Color(0xFF30469A),
                                                   fontSize: 16,
@@ -910,6 +1007,23 @@ class _RentScreenState extends State<RentScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 17.0, vertical: 17.0),
                               itemBuilder: (context, index) {
+
+                                String propertyType = "";
+                                context
+                                    .read<AddPropertyCubit>()
+                                    .state
+                                    .staticInfo
+                                    ?.subcategories!
+                                    .forEach((key, element) {
+                                  // debugPrint("key ==> $key");
+
+                                  if (element.id.toString() ==
+                                      (state.data ?? [])[index]
+                                          .propertyTypeId.toString()) {
+                                    propertyType = element.name ?? "";
+                                  }
+                                });
+
                                 debugPrint((state.data ?? [])[index].title);
                                 return GestureDetector(
                                   onTap: () {
@@ -992,6 +1106,18 @@ class _RentScreenState extends State<RentScreen> {
 
                                               Text(
                                                 '₹ ${Utils.convertNumber((state.data ?? [])[index].price ?? "")}',
+                                                style: TextStyle(
+                                                  color: Color(0xFF30469A),
+                                                  fontSize: 16,
+                                                  fontFamily: 'DM Sans',
+                                                  fontWeight: FontWeight.w800,
+                                                  height: 0,
+                                                ),
+                                              ),
+
+
+                                              Text(
+                                                propertyType,
                                                 style: TextStyle(
                                                   color: Color(0xFF30469A),
                                                   fontSize: 16,

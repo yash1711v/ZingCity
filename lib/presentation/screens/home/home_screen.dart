@@ -255,7 +255,7 @@ class HomeScreen extends StatelessWidget {
                         builder: (context, state) {
                           return SizedBox(
                             width: double.infinity,
-                            height: 250,
+                            height: 270,
                             child: ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
@@ -269,6 +269,27 @@ class HomeScreen extends StatelessWidget {
                                         0,
                                 // state.homeDataLoaded?.propertyFeatured?.length ?? 0,
                                 itemBuilder: (context, index) {
+
+                                  String PropertyType = "";
+
+                                  context
+                                      .read<AddPropertyCubit>()
+                                      .state
+                                      .staticInfo
+                                      ?.subcategories!
+                                      .forEach((key, element) {
+                                    // debugPrint("key ==> $key");
+
+                                    if (element.id.toString() ==
+                                        state
+                                            .homeDataLoaded
+                                            ?.propertyFeatured?[
+                                        index]
+                                            .propertyTypeId.toString()) {
+                                      PropertyType = element.name ?? "";
+                                    }
+                                  });
+
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                         right: 16.0,
@@ -287,7 +308,7 @@ class HomeScreen extends StatelessWidget {
                                       },
                                       child: Container(
                                         width: 299.52,
-                                        height: 240,
+                                        // height: 240,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -391,8 +412,33 @@ class HomeScreen extends StatelessWidget {
                                                   const SizedBox(
                                                     width: 10,
                                                   ),
+
                                                 ],
                                               ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    PropertyType,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontFamily: 'DM Sans',
+                                                      fontWeight: FontWeight.w700,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
                                             ),
                                           ],
                                         ),
@@ -427,187 +473,224 @@ class HomeScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                    ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        shrinkWrap: true,
-                        itemCount: ((homeCubit.homeModel ?? HomeDataModel())
-                                        .latestProperties
-                                        ?.length ??
-                                    0) >
-                                5
-                            ? 5
-                            : ((homeCubit.homeModel ?? HomeDataModel())
-                                    .latestProperties
-                                    ?.length ??
-                                0),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10.0,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, RouteNames.purchaseDetailsScreen,
-                                    arguments: Properties.fromJson(state
-                                            .homeDataLoaded
-                                            ?.latestProperties?[index]
-                                            .toJson() ??
-                                        {}));
-                                // Navigator.pushNamed(
-                                //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
-                              },
-                              child: Container(
-                                // width: 324,
-                                // height: 68,
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x0C398BCB),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    // Container(
-                                    //   width: 78.93,
-                                    //   height: 78.93,
-                                    //   decoration: ShapeDecoration(
-                                    //     image:
-                                    //          DecorationImage(
-                                    //       image: NetworkImage(
-                                    //         "${RemoteUrls.rootUrl}${homeCubit
-                                    //             .homeModel!
-                                    //             .latestProperty![index]
-                                    //             .thumbnailImage}"),
-                                    //       fit: BoxFit.fill,
-                                    //     ),
-                                    //     shape:
-                                    //         RoundedRectangleBorder(
-                                    //       borderRadius:
-                                    //           BorderRadius.circular(
-                                    //               10),
-                                    //     ),
-                                    //   ),
-                                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          shrinkWrap: true,
+                          itemCount: ((homeCubit.homeModel ?? HomeDataModel())
+                                          .latestProperties
+                                          ?.length ??
+                                      0) >
+                                  5
+                              ? 5
+                              : ((homeCubit.homeModel ?? HomeDataModel())
+                                      .latestProperties
+                                      ?.length ??
+                                  0),
+                          itemBuilder: (context, index) {
 
-                                    CustomNetworkImageWidget(
-                                      width: 78.93,
-                                      height: 78.93,
-                                      image:
-                                          "${RemoteUrls.rootUrl}${(((state.homeDataLoaded ?? HomeDataModel()).latestProperties ?? [])[index].thumbnailImage ?? "")}",
+                            String PropertyType = "";
+
+                            context
+                                .read<AddPropertyCubit>()
+                                .state
+                                .staticInfo
+                                ?.subcategories!
+                                .forEach((key, element) {
+                              // debugPrint("key ==> $key");
+
+                              if (element.id.toString() ==
+                                  state
+                                      .homeDataLoaded
+                                      ?.latestProperties?[
+                                  index]
+                                      .propertyTypeId.toString()) {
+                                PropertyType = element.name ?? "";
+                              }
+                            });
+
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10.0,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, RouteNames.purchaseDetailsScreen,
+                                      arguments: Properties.fromJson(state
+                                              .homeDataLoaded
+                                              ?.latestProperties?[index]
+                                              .toJson() ??
+                                          {}));
+                                  // Navigator.pushNamed(
+                                  //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+                                },
+                                child: Container(
+                                  // width: 324,
+                                  // height: 68,
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0x0C398BCB),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 15.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                state
-                                                        .homeDataLoaded
-                                                        ?.latestProperties?[
-                                                            index]
-                                                        .title ??
-                                                    "",
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  fontFamily: 'DM Sans',
-                                                  fontWeight: FontWeight.w700,
-                                                  height: 0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                Icons.location_on_sharp,
-                                                size: 12,
-                                              ),
-                                              SizedBox(
-                                                width: 200,
-                                                child: Text(
-                                                  removeHtmlTags(state
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      // Container(
+                                      //   width: 78.93,
+                                      //   height: 78.93,
+                                      //   decoration: ShapeDecoration(
+                                      //     image:
+                                      //          DecorationImage(
+                                      //       image: NetworkImage(
+                                      //         "${RemoteUrls.rootUrl}${homeCubit
+                                      //             .homeModel!
+                                      //             .latestProperty![index]
+                                      //             .thumbnailImage}"),
+                                      //       fit: BoxFit.fill,
+                                      //     ),
+                                      //     shape:
+                                      //         RoundedRectangleBorder(
+                                      //       borderRadius:
+                                      //           BorderRadius.circular(
+                                      //               10),
+                                      //     ),
+                                      //   ),
+                                      // ),
+
+                                      CustomNetworkImageWidget(
+                                        width: 78.93,
+                                        height: 78.93,
+                                        image:
+                                            "${RemoteUrls.rootUrl}${(((state.homeDataLoaded ?? HomeDataModel()).latestProperties ?? [])[index].thumbnailImage ?? "")}",
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  state
                                                           .homeDataLoaded
                                                           ?.latestProperties?[
                                                               index]
-                                                          .address ??
-                                                      ""),
-                                                  maxLines: 1,
+                                                          .title ??
+                                                      "",
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 14,
                                                     fontFamily: 'DM Sans',
-                                                    fontWeight: FontWeight.w300,
+                                                    fontWeight: FontWeight.w700,
                                                     height: 0,
                                                   ),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-
-                                          Text(
-                                            '₹ ${Utils.convertNumber(state.homeDataLoaded?.latestProperties?[index].price ?? 0)}',
-                                            style: TextStyle(
-                                              color: Color(0xFF30469A),
-                                              fontSize: 16,
-                                              fontFamily: 'DM Sans',
-                                              fontWeight: FontWeight.w800,
-                                              height: 0,
+                                              ],
                                             ),
-                                          ),
-                                          // Row(
-                                          //   children: [
-                                          //     Image.asset(
-                                          //       "assets/images/iconamoon_profile-light.png",
-                                          //       height: 12,
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       width: 5,
-                                          //     ),
-                                          //      Text(
-                                          //       state.homeDataLoaded?.latestProperties?[index]. ?? "",
-                                          //       style: TextStyle(
-                                          //         color:
-                                          //             Colors.black,
-                                          //         fontSize: 13,
-                                          //         fontFamily:
-                                          //             'DM Sans',
-                                          //         fontWeight:
-                                          //             FontWeight
-                                          //                 .w300,
-                                          //         height: 0,
-                                          //       ),
-                                          //     )
-                                          //   ],
-                                          // ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Icon(
+                                                  Icons.location_on_sharp,
+                                                  size: 12,
+                                                ),
+                                                SizedBox(
+                                                  width: 200,
+                                                  child: Text(
+                                                    removeHtmlTags(state
+                                                            .homeDataLoaded
+                                                            ?.latestProperties?[
+                                                                index]
+                                                            .address ??
+                                                        ""),
+                                                    maxLines: 1,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontFamily: 'DM Sans',
+                                                      fontWeight: FontWeight.w300,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+
+                                            Text(
+                                              '₹ ${Utils.convertNumber(state.homeDataLoaded?.latestProperties?[index].price ?? 0)}',
+                                              style: TextStyle(
+                                                color: Color(0xFF30469A),
+                                                fontSize: 16,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w800,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              PropertyType,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                                fontFamily: 'DM Sans',
+                                                fontWeight: FontWeight.w700,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            // Row(
+                                            //   children: [
+                                            //     Image.asset(
+                                            //       "assets/images/iconamoon_profile-light.png",
+                                            //       height: 12,
+                                            //     ),
+                                            //     const SizedBox(
+                                            //       width: 5,
+                                            //     ),
+                                            //      Text(
+                                            //       state.homeDataLoaded?.latestProperties?[index]. ?? "",
+                                            //       style: TextStyle(
+                                            //         color:
+                                            //             Colors.black,
+                                            //         fontSize: 13,
+                                            //         fontFamily:
+                                            //             'DM Sans',
+                                            //         fontWeight:
+                                            //             FontWeight
+                                            //                 .w300,
+                                            //         height: 0,
+                                            //       ),
+                                            //     )
+                                            //   ],
+                                            // ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          }),
+                    ),
                     const SizedBox(
                       height: 80,
                     )

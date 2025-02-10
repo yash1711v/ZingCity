@@ -67,78 +67,90 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 151.98,
-                    height: 140.41,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            "assets/Yash/images/OnboardingImageIcon.png"),
-                        fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RouteNames.loginScreen, (route) => false);
+                    },
+                    child: Container(
+                      width: 151.98,
+                      height: 140.41,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              "assets/Yash/images/OnboardingImageIcon.png"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 25.0),
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Buy',
-                            style: TextStyle(
-                              color: Color(0xFF30469A),
-                              fontSize: 20,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
+                      child: const Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                        child: Center(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Buy',
+                              style: TextStyle(
+                                color: Color(0xFF30469A),
+                                fontSize: 20,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 0.0),
-                            child: ImageIcon(
-                              AssetImage("assets/Yash/images/arrowIcon.png"),
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      )),
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 0.0),
+                            //   child: ImageIcon(
+                            //     AssetImage("assets/Yash/images/arrowIcon.png"),
+                            //     size: 20,
+                            //   ),
+                            // ),
+                          ],
+                        )),
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 151.98,
-                    height: 140.41,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            "assets/Yash/images/OnboardingImageIcon.png"),
-                        fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RouteNames.loginScreen, (route) => false);
+                    },
+                    child: Container(
+                      width: 151.98,
+                      height: 140.41,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              "assets/Yash/images/OnboardingImageIcon.png"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 25.0),
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Sell',
-                            style: TextStyle(
-                              color: Color(0xFF30469A),
-                              fontSize: 20,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
+                      child: const Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                        child: Center(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Sell',
+                              style: TextStyle(
+                                color: Color(0xFF30469A),
+                                fontSize: 20,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 0.0),
-                            child: ImageIcon(
-                              AssetImage("assets/Yash/images/arrowIcon.png"),
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      )),
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 0.0),
+                            //   child: ImageIcon(
+                            //     AssetImage("assets/Yash/images/arrowIcon.png"),
+                            //     size: 20,
+                            //   ),
+                            // ),
+                          ],
+                        )),
+                      ),
                     ),
                   ),
                 ],
@@ -147,78 +159,90 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 151.98,
-                    height: 140.41,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            "assets/Yash/images/OnboardingImageIcon.png"),
-                        fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RouteNames.loginScreen, (route) => false);
+                    },
+                    child: Container(
+                      width: 151.98,
+                      height: 140.41,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              "assets/Yash/images/OnboardingImageIcon.png"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 25.0),
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Rent',
-                            style: TextStyle(
-                              color: Color(0xFF30469A),
-                              fontSize: 20,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
+                      child: const Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                        child: Center(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Rent',
+                              style: TextStyle(
+                                color: Color(0xFF30469A),
+                                fontSize: 20,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 0.0),
-                            child: ImageIcon(
-                              AssetImage("assets/Yash/images/arrowIcon.png"),
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      )),
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 0.0),
+                            //   child: ImageIcon(
+                            //     AssetImage("assets/Yash/images/arrowIcon.png"),
+                            //     size: 20,
+                            //   ),
+                            // ),
+                          ],
+                        )),
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 151.98,
-                    height: 140.41,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            "assets/Yash/images/OnboardingImageIcon.png"),
-                        fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RouteNames.loginScreen, (route) => false);
+                    },
+                    child: Container(
+                      width: 151.98,
+                      height: 140.41,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              "assets/Yash/images/OnboardingImageIcon.png"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 25.0),
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Your Wish',
-                            style: TextStyle(
-                              color: Color(0xFF30469A),
-                              fontSize: 20,
-                              fontFamily: 'DM Sans',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
+                      child: const Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                        child: Center(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Your Wish',
+                              style: TextStyle(
+                                color: Color(0xFF30469A),
+                                fontSize: 20,
+                                fontFamily: 'DM Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 0.0),
-                            child: ImageIcon(
-                              AssetImage("assets/Yash/images/arrowIcon.png"),
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      )),
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 0.0),
+                            //   child: ImageIcon(
+                            //     AssetImage("assets/Yash/images/arrowIcon.png"),
+                            //     size: 20,
+                            //   ),
+                            // ),
+                          ],
+                        )),
+                      ),
                     ),
                   ),
                 ],
@@ -226,78 +250,113 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              SizedBox(
-                width: 322.98,
-                height: 74.02,
-                child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      side: const BorderSide(color: Color(0xfff30469a), width: 3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child:  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("assets/Yash/images/giftIcon.svg"),
-                        const SizedBox(width: 10,),
-                        const Text(
-                          'ZINGCITY Gift',
-                          style: TextStyle(
-                            color: Color(0xFF30469A),
-                            fontSize: 18,
-                            fontFamily: 'DM Sans',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
+              // SizedBox(
+              //   width: 322.98,
+              //   height: 74.02,
+              //   child: OutlinedButton(
+              //       style: OutlinedButton.styleFrom(
+              //         backgroundColor: Colors.transparent,
+              //         side: const BorderSide(color: Color(0xfff30469a), width: 3),
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(10),
+              //         ),
+              //       ),
+              //       onPressed: () {},
+              //       child:  Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           SvgPicture.asset("assets/Yash/images/giftIcon.svg"),
+              //           const SizedBox(width: 10,),
+              //           const Text(
+              //             'ZINGCITY Gift',
+              //             style: TextStyle(
+              //               color: Color(0xFF30469A),
+              //               fontSize: 18,
+              //               fontFamily: 'DM Sans',
+              //               fontWeight: FontWeight.w600,
+              //               height: 0,
+              //             ),
+              //           ),
+              //         ],
+              //       )),
+              // ),
               SizedBox(
                 height: size.height * 0.02,
               ),
-              GestureDetector(
-                onTap: () {
-                  // context.read<AppSettingCubit>().cachOnBoarding();
+
+
+              Container(
+
+                decoration: const BoxDecoration(
+                  color: Color(0x23398BCB),
+                  // image: DecorationImage(
+                  //   // image: AssetImage(
+                  //   //     "assets/Yash/images/OnboardingImageIcon.png"),
+                  //   fit: BoxFit.cover,
+                  // ),
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    // primary: Colors.transparent,
+                    // onPrimary: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                  ),
+
+                  onPressed: (){
                   Navigator.pushNamedAndRemoveUntil(
                       context, RouteNames.loginScreen, (route) => false);
-                },
-                child: Text(
+                }, child: Text(
                   'Login/ Sign up',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.5),
                     fontSize: 18,
                     fontFamily: 'DM Sans',
                     fontWeight: FontWeight.w400,
-                    decoration: TextDecoration.underline,
+                    // decoration: TextDecoration.underline,
                     height: 0,
                   ),
-                ),
+                ),),
               ),
+              // GestureDetector(
+              //   onTap: () {
+              //     // context.read<AppSettingCubit>().cachOnBoarding();
+              //     Navigator.pushNamedAndRemoveUntil(
+              //         context, RouteNames.loginScreen, (route) => false);
+              //   },
+              //   child: Text(
+              //     'Login/ Sign up',
+              //     style: TextStyle(
+              //       color: Colors.black.withOpacity(0.5),
+              //       fontSize: 18,
+              //       fontFamily: 'DM Sans',
+              //       fontWeight: FontWeight.w400,
+              //       decoration: TextDecoration.underline,
+              //       height: 0,
+              //     ),
+              //   ),
+              // ),
               SizedBox(
                 height: size.height * 0.01,
               ),
-              GestureDetector(
-                onTap: (){},
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Login as Guest',
-                      style: TextStyle(
-                        color: Color(0xFF30469A),
-                        fontSize: 16,
-                        fontFamily: 'DM Sans',
-                        fontWeight: FontWeight.w400,
-                        height: 0,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: (){},
+              //   child: const Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         'Login as Guest',
+              //         style: TextStyle(
+              //           color: Color(0xFF30469A),
+              //           fontSize: 16,
+              //           fontFamily: 'DM Sans',
+              //           fontWeight: FontWeight.w400,
+              //           height: 0,
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

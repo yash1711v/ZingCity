@@ -298,7 +298,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
           }
         });
       });
-    } else {
+    }
+    else {
       context
           .read<AddPropertyCubit>()
           .state

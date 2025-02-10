@@ -186,7 +186,10 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                     onTap: (){
                       Navigator.pushNamed(context,
                           RouteNames.purchaseDetailsScreen,
-                          arguments: widget.isRequest?widget.properties[index]:widget.properties[index].property);
+                          arguments: [widget.isRequest?widget.properties[index]:widget.properties[index].property,true]);
+                      // Navigator.pushNamed(context,
+                      //     RouteNames.purchaseDetailsScreen,
+                      //     arguments: widget.isRequest?widget.properties[index]:widget.properties[index].property);
                       // Navigator.pushNamed(
                       //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
                     },

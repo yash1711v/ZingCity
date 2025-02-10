@@ -125,6 +125,24 @@ class _MyPropertyState extends State<MyProperty> {
                 shrinkWrap: true,
                 itemCount: state.properties?.length,
                 itemBuilder: (context, index) {
+                  String PropertyType = "";
+
+                  context
+                      .read<AddPropertyCubit>()
+                      .state
+                      .staticInfo
+                      ?.subcategories!
+                      .forEach((key, element) {
+                    // debugPrint("key ==> $key");
+
+                    if (element.id.toString() ==
+                        (state.properties ?? [])[index]
+                            .propertyTypeId.toString()) {
+                      PropertyType = element.name ?? "";
+                    }
+                  });
+
+
                   log("approveByAdmin: ${state.properties?[index].approveByAdmin?.toString()}");
                   return Padding(
                     padding:
@@ -195,6 +213,37 @@ class _MyPropertyState extends State<MyProperty> {
                                             // width: 150,
                                             child: Text(
                                               removeHtmlTags( state.properties?[index].address ?? ""),
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                color:
+                                                Colors.black,
+                                                fontSize: 14,
+                                                fontFamily:
+                                                'DM Sans',
+                                                fontWeight:
+                                                FontWeight
+                                                    .w300,
+                                                height: 0,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                              Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment
+                                            .start,
+                                        children: [
+                                          // const Icon(
+                                          //   Icons
+                                          //       .location_on_sharp,
+                                          //   size: 12,
+                                          // ),
+                                          Expanded(
+                                            // width: 150,
+                                            child: Text(
+                                              PropertyType,
                                               maxLines: 1,
                                               style: const TextStyle(
                                                 color:
