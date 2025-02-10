@@ -194,20 +194,15 @@ class _Screen3State extends State<Screen3> {
                                 if (index == 2) {
                                   context
                                       .read<AddPropertyCubit>()
-                                      .changeTotalBalconies(value);
+                                      .changeTotalKitchen(value);
                                 }
 
                                 if (index == 3) {
                                   context
                                       .read<AddPropertyCubit>()
-                                      .changeTotalKitchen(value);
-                                }
-
-                                if (index == 4) {
-                                  context
-                                      .read<AddPropertyCubit>()
                                       .changeTotalGarage(value);
                                 }
+
                               },
                               decoration: InputDecoration(
                                 fillColor: const Color(0xFFF5F5F5),

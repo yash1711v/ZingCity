@@ -37,26 +37,26 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       //   debugPrint("element==> ${ context.read<AddPropertyCubit>().state.staticInfo?.}");
       // });
     });
-     debugPrint("Slider Images: ${(widget.property ??
-          home.Properties(
-             id: 0,
-             agentId: 0,
-             propertyTypeId: 0,
-             title: "",
-             slug: "",
-             purpose: "",
-             rentPeriod: "",
-             price: 0,
-             thumbnailImage: "",
-             address: "",
-             totalBedroom: "",
-             totalBathroom: "",
-             totalArea: "",
-             status: "",
-             isFeatured: "",
-             totalRating: 5,
-             ratingAvarage: "", categoryId: '', aminityItemDto: []))
-         .thumbnailImage}");
+     // debugPrint("Slider Images: ${(widget.property ??
+     //      home.Properties(
+     //         id: 0,
+     //         agentId: 0,
+     //         propertyTypeId: 0,
+     //         title: "",
+     //         slug: "",
+     //         purpose: "",
+     //         rentPeriod: "",
+     //         price: 0,
+     //         thumbnailImage: "",
+     //         address: "",
+     //         totalBedroom: "",
+     //         totalBathroom: "",
+     //         totalArea: "",
+     //         status: "",
+     //         isFeatured: "",
+     //         totalRating: 5,
+     //         ratingAvarage: "", categoryId: '', aminityItemDto: []))
+     //     .thumbnailImage}");
     if (((widget.property ??
         home. Properties(
                 id: 0,
@@ -280,9 +280,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                 borderRadius: BorderRadius.circular(10.0))),
                         onPressed: () {
                           if (state.typeId == "Residential" ||
-                              state.typeId == "Commercial Space" ||
-                              state.typeId != "Agriculture Land" ||
-                              state.typeId.isEmpty) {
+                              state.typeId == "Commercial Space") {
                             // debugPrint("pageIndex ${pageIndex}");
                             if (pageIndex == 0) {
                               if (state.purpose == "rent") {
@@ -670,6 +668,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                                       categoryId: '', aminityItemDto: []))
                                   .title ?? "")
                                   .isNotEmpty) {
+
                                 context.read<AddPropertyCubit>().updateProperty(((widget.property ??
                                     home. Properties(
                                         id: 0,
@@ -694,9 +693,9 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                               } else {
                                 context.read<AddPropertyCubit>().addProperty();
                               }
-                              setState(() {
-                                pageIndex = pageController.page!.toInt();
-                              });
+                              // setState(() {
+                              //   pageIndex = pageController.page!.toInt();
+                              // });
                             }
                           }
                         },

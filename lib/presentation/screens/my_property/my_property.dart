@@ -317,24 +317,40 @@ class _MyPropertyState extends State<MyProperty> {
                               ),
                               GestureDetector(
                                 onTap: () {
-
-
-                                  Repository repo = Repository();
-
-                                  repo.deleteMyProperty((state.properties?[index].id ?? "").toString()).then((value){
-                                    if(value){
-                                      context.read<AddPropertyCubit>().getProperties();
-                                    }
-                                  });
-
-                                  // Navigator.pushNamed(
-                                  //     context, RouteNames.purchaseDetailsScreen,arguments: index.toString());
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text("Confirm Delete"),
+                                        content: const Text("Are you sure you want to delete this property?"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context), // Close the dialog
+                                            child: const Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Repository repo = Repository();
+                                              repo.deleteMyProperty((state.properties?[index].id ?? "").toString()).then((value) {
+                                                if (value) {
+                                                  context.read<AddPropertyCubit>().getProperties();
+                                                }
+                                                Navigator.pop(context);
+                                              });
+                                            },
+                                            child: const Text("Delete", style: TextStyle(color: Colors.red)),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 child: const Icon(
                                   Icons.delete,
                                   color: Color(0xFF30469A),
                                 ),
                               ),
+
 
                             ],
                         )

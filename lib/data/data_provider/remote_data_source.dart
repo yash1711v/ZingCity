@@ -1096,11 +1096,11 @@ class RemoteDataSourceImp extends RemoteDataSource {
           await http.MultipartFile.fromPath('thumbnail_image', data.image);
       request.files.add(thumbImage);
     }
-    for (int i = 0; i < data.galleryImage.length; i++) {
-      final element = data.galleryImage[i];
-      if (element.image.isNotEmpty && !element.image.contains('https://')) {
+    for (int i = 0; i < data.sliderImages.length; i++) {
+      final element = data.sliderImages[i];
+      if (element.path.isNotEmpty && !element.path.contains('https://')) {
         final file = await http.MultipartFile.fromPath(
-            'slider_images[]', element.image);
+            'slider_images[]', element.path);
         request.files.add(file);
       }
     }
@@ -1115,14 +1115,15 @@ class RemoteDataSourceImp extends RemoteDataSource {
       for (int i = 0; i < data.propertyPlanDto.length; i++) {
         final element = data.propertyPlanDto[i].planImages;
         final id = data.propertyPlanDto[i].id;
-        if (element.isNotEmpty && !element.contains('https://')) {
+        if (element.isNotEmpty && !element.contains('uploads/')) {
           final file =
               await http.MultipartFile.fromPath('plan_images[$i]', element);
           request.files.add(file);
         }
-
       }
     }
+
+
     log(request.fields.toString(),name: "Data");
     log(request.files.contains("slider_images[]").toString(),name: "Sliders");
 

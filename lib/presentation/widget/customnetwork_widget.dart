@@ -51,7 +51,8 @@ class CustomRoundNetworkImage extends StatelessWidget {
     return  Container(
       height: height, width: width,
       decoration: BoxDecoration(
-          shape: BoxShape.circle
+          shape: BoxShape.circle,
+              // borderRadius: BorderRadius.circular(1000)
       ),
       child: CachedNetworkImage(
         imageUrl: image, fit: BoxFit.cover,
