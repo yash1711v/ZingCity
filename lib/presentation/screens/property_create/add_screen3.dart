@@ -13,6 +13,7 @@ class Screen3 extends StatefulWidget {
 class _Screen3State extends State<Screen3> {
   List<String> titles = [];
   List<String> images = [];
+  String bedRooms = "";
 
   TextEditingController _bedrooms = TextEditingController();
   TextEditingController _bathrooms = TextEditingController();
@@ -38,6 +39,7 @@ class _Screen3State extends State<Screen3> {
     context.read<AddPropertyCubit>().state.staticInfo?.roomType?.forEach((element) {
       if(context.read<AddPropertyCubit>().state.roomTypeId == element.id.toString()){
         _bedrooms.text = element.name.toString().replaceAll("BHK", "").replaceAll("& MORE", "");
+        bedRooms = element.name.toString().replaceAll("BHK", "").replaceAll("& MORE", "");
         // _bedrooms.text = element.name.toString().replaceAll("& MORE", "");
         context.read<AddPropertyCubit>().changeTotalBedroom(element.name.toString());
       }
@@ -47,7 +49,7 @@ class _Screen3State extends State<Screen3> {
       "No. of Bathrooms",
       // "No. of Balconies",
       "No. of Kitchens",
-      "No. of Car Parking",
+      "No. of Car Parking/Garage",
       // "No. of Floors",
       // "Front Road Width"
     ];
@@ -163,7 +165,7 @@ class _Screen3State extends State<Screen3> {
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: TextField(
 
-                              readOnly:  index == 0 && (context.read<AddPropertyCubit>().state.roomTypeId ?? "").isNotEmpty && int.parse(_bedrooms.text) != 6,
+                              readOnly:  index == 0 && (context.read<AddPropertyCubit>().state.roomTypeId ?? "").isNotEmpty && int.parse(bedRooms) != 6,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                               ],

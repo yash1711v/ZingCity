@@ -1098,7 +1098,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
     }
     for (int i = 0; i < data.sliderImages.length; i++) {
       final element = data.sliderImages[i];
-      if (element.path.isNotEmpty && !element.path.contains('https://')) {
+      if (element.path.isNotEmpty && !element.path.contains('uploads/')) {
         final file = await http.MultipartFile.fromPath(
             'slider_images[]', element.path);
         request.files.add(file);

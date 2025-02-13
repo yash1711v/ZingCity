@@ -50,12 +50,16 @@ class _ScreenOneState extends State<ScreenOne> {
       child: Text("Plot/Land"),
     ),
   ];
+
+
+
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
+
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddPropertyCubit, AddPropertyModel>(
