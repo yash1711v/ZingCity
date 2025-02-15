@@ -62,18 +62,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   List<addProperty.RoomType> possessionStatus = [
     addProperty.RoomType(
-        name: "Ready to Move", id: 0, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+        name: "Ready to Move", id: 1, createdAt: DateTime.now(), updatedAt: DateTime.now()),
     addProperty.RoomType(
-        name: "Within 3 Months", id: 1, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+        name: "Within 3 Months", id: 2, createdAt: DateTime.now(), updatedAt: DateTime.now()),
     addProperty.RoomType(
-        name: "Within 6 Months", id: 1, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+        name: "Within 6 Months", id: 3, createdAt: DateTime.now(), updatedAt: DateTime.now()),
     addProperty.RoomType(
-        name: "Within 12 Months", id: 1, createdAt: DateTime.now(), updatedAt: DateTime.now()),
-    // addProperty.RoomType(),
-    // {"name":"Ready to Move"},
-    // {"name":"Within 3 Months"},
-    // {"name":"Within 6 Months"},
-    // {"name":"Within 12 Months"},
+        name: "Within 12 Months", id: 4, createdAt: DateTime.now(), updatedAt: DateTime.now()),
   ];
 
   @override
@@ -694,6 +689,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    context.read<HomeCubit>().emptySearchProperty();
                                     context.read<HomeCubit>().getFilterList(
                                       categoryId: "",
                                         maxPrice: maxPriceController.text,

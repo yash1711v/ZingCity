@@ -21,6 +21,7 @@ class AddPropertyModel extends Equatable {
   final String title;
   final String slug;
   final String typeId;
+  final String? possessionStatus;
   final String? propertyType;
   final String? propertyTypeId;
   final String type;
@@ -82,6 +83,7 @@ class AddPropertyModel extends Equatable {
     this.elevator = '',
     this.slug = '',
     this.typeId = '',
+    this.possessionStatus = '',
     this.additionalKeys = const [],
     this.additionalValues = const [],
     this.furnished = '',
@@ -143,6 +145,7 @@ class AddPropertyModel extends Equatable {
     String? title,
     String? slug,
     String? typeId,
+    String? possessionStatus,
     String? type,
     String? purpose,
     String? furnished,
@@ -201,6 +204,7 @@ class AddPropertyModel extends Equatable {
       title: title ?? this.title,
       slug: slug ?? this.slug,
       typeId: typeId ?? this.typeId,
+      possessionStatus: possessionStatus ?? this.possessionStatus,
       roomTypeId: roomTypeId ?? this.roomTypeId,
       type: type ?? this.type,
       purpose: purpose ?? this.purpose,
@@ -345,6 +349,7 @@ class AddPropertyModel extends Equatable {
     // SEO metadata
     result['seo_title'] = seoTitle;
     result['seo_meta_description'] = seoMetaDescription;
+    result["possession_status"] = possessionStatus ?? "";
 
     return result;
   }
@@ -354,6 +359,7 @@ class AddPropertyModel extends Equatable {
       title: map['title'] ?? "",
       slug: map['slug'] ?? "",
       typeId: map['typeId'] as String,
+      possessionStatus: map['possession_status'].toString(),
       type: map['type'] as String,
       purpose: map['purpose'] ?? "",
       rentPeriod: map['rentPeriod'] ?? "",
@@ -470,6 +476,7 @@ class AddPropertyModel extends Equatable {
       roomTypeId,
       additionalKeys,
       additionalValues,
+      possessionStatus
     ];
   }
 }

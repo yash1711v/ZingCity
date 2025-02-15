@@ -217,6 +217,9 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
 
   List<String> Images = [];
   String categoryName = '';
+  String city = '';
+  String state = '';
+  String possessionStatus = '';
 
   @override
   void initState() {
@@ -394,6 +397,32 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
         Images.add("${RemoteUrls.rootUrl}${element.image}");
       }
     });
+
+    context
+        .read<AddPropertyCubit>()
+        .state
+        .staticInfo?.city?.forEach((element) {
+          if(element.id.toString() == widget.propertyDetails.cityId.toString()){
+            city = element.name ?? "";
+          }
+    });
+    context
+        .read<AddPropertyCubit>()
+        .state
+        .staticInfo?.
+        state?.forEach((element) {
+          if(element.id.toString() == widget.propertyDetails.stateId.toString()){
+            state = element.name ?? "";
+          }
+    });
+
+    possessionStatusList.forEach((element) {
+      if(element.id.toString() == widget.propertyDetails.possessionStatus.toString()){
+        possessionStatus = element.name ?? "";
+      }
+    });
+
+
     Images.add("${RemoteUrls.rootUrl}${widget.propertyDetails.thumbnailImage}");
     Unit =  whatUnit();
   }
@@ -416,6 +445,17 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
     }
     return "";
   }
+
+  List<room.RoomType> possessionStatusList = [
+    room.RoomType(
+        name: "Ready to Move", id: 1, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+    room.RoomType(
+        name: "Within 3 Months", id: 2, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+    room.RoomType(
+        name: "Within 6 Months", id: 3, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+    room.RoomType(
+        name: "Within 12 Months", id: 4, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -663,6 +703,8 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
               height: 5,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: (widget.propertyDetails.rentPeriod ?? "").isNotEmpty?MainAxisAlignment.spaceBetween:MainAxisAlignment.start,
               children: [
                 Visibility(
                   visible: (widget.propertyDetails.rentPeriod ?? "").isNotEmpty,
@@ -679,8 +721,45 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                     ),
                   ),
                 ),
+                Visibility(
+                  visible: possessionStatus.isNotEmpty,
+                  child: Flexible(
+                    child: Text(
+                      'Possession: ${possessionStatus.trim()}',
+                      style: const TextStyle(
+                        color: Color(0xFF30469A),
+                        fontSize: 16,
+                        fontFamily: 'DM Sans',
+                        fontWeight: FontWeight.w600,
+                        // height: 0.09,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            // Row(
+            //   children: [
+            //     Visibility(
+            //       visible: possessionStatus.isNotEmpty,
+            //       child: Flexible(
+            //         child: Text(
+            //           'Possession Status: ${possessionStatus.trim()}',
+            //           style: const TextStyle(
+            //             color: Color(0xFF30469A),
+            //             fontSize: 16,
+            //             fontFamily: 'DM Sans',
+            //             fontWeight: FontWeight.w600,
+            //             // height: 0.09,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             const SizedBox(
               height: 20,
             ),
@@ -994,6 +1073,25 @@ class _propertyDetailsLoadedState extends State<propertyDetailsLoaded> {
                 Expanded(
                   child: Text(
                     "${widget.propertyDetails.address}",
+                    maxLines: 2,
+                    style: const TextStyle(
+                      color: Color(0x7F4D5454),
+                      fontSize: 14,
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w400,
+                      height: 1,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15.0),
+            Row(
+              children: [
+
+                Expanded(
+                  child: Text(
+                    "${city}, ${state} India",
                     maxLines: 2,
                     style: const TextStyle(
                       color: Color(0x7F4D5454),

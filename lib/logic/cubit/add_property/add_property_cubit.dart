@@ -101,6 +101,13 @@ void changeAddress(String text) {
     // debugPrint('type-id $text');
     emit(state.copyWith(typeId: text, addState: const AddPropertyInitial(),categoryId: categoryId));
   }
+
+  void changePossessionStatus(String possession) {
+    // debugPrint('category-id $categoryId');
+    // debugPrint('type-id $text');
+    emit(state.copyWith(possessionStatus: possession, addState: const AddPropertyInitial()));
+  }
+
   void changePropertyTypeId(String text,String categoryId) {
     // debugPrint('category-id $categoryId');
     // debugPrint('type-id $text');
@@ -674,6 +681,16 @@ void changeAddress(String text) {
       nearestLocation.add({"id":element.location?.id,"value":element.distance});
 
     });
+
+
+    String roomType = "";
+    String roomTypeId = "";
+    context.read<AddPropertyCubit>().state.staticInfo?.roomType?.forEach((element) {
+      if(element.id.toString() == property.bhkType.toString()){
+        roomType = element.name ?? "";
+        roomTypeId = element.id.toString();
+      }
+    });
     context.read<AddPropertyCubit>().changeNearestLocation(nearestLocation);
     emit(state.copyWith(
       addState: const AddPropertyInitial(),
@@ -683,6 +700,8 @@ void changeAddress(String text) {
       totalArea: property.totalArea ?? '',
       totalUnit: property.totalUnit ?? '',
       totalBedroom: property.totalBedroom ?? '',
+      roomType: roomType,
+      roomTypeId: roomTypeId,
       totalBathroom: property.totalBathroom ?? '',
       // totalBalcony: property?.totalBalcony ?? '',
       totalKitchen: property.totalKitchen ?? '',
@@ -695,7 +714,7 @@ void changeAddress(String text) {
       thumbNailImage: property.thumbnailImage ?? '',
       categoryId: property.categoryId ?? '',
       propertyTypeId: property.propertyTypeId.toString(),
-      roomTypeId: property.bhkType.toString(),
+      // roomTypeId: property.bhkType.toString(),
 
       // categoryId: property?.categoryId ?? '',
     ));

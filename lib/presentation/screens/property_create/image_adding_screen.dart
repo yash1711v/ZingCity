@@ -79,7 +79,7 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
         : null;
      debugPrint("Length of slider images: ${cubitState.sliderImages.length}");
     sliderImages = List<File>.from(cubitState.sliderImages);
-    debugPrint('https://lab7.invoidea.in/zingcity/${thumbnailImage?.path.toString()}');
+    debugPrint('https://zingcity.in/${thumbnailImage?.path.toString()}');
   }
 
   @override
@@ -122,7 +122,7 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
                                 thumbnailImage?.path is String &&
                                     (thumbnailImage?.path as String).startsWith('uploads/')
                                     ? Image.network(
-                                  'https://lab7.invoidea.in/zingcity/${thumbnailImage?.path.toString()}',
+                                  'https://zingcity.in/${thumbnailImage?.path.toString()}',
                                   width: screenWidth,
                                   fit: BoxFit.cover,
                                 )
@@ -210,7 +210,7 @@ class _ImageAddingScreenState extends State<ImageAddingScreen> {
                                       child: image?.path is String &&
                                           (image?.path as String).startsWith('uploads/')
                                           ? Image.network(
-                                        'https://lab7.invoidea.in/zingcity/${image?.path.toString()}',
+                                        'https://zingcity.in/${image?.path.toString()}',
                                         width: screenWidth,
                                         fit: BoxFit.cover,
                                       )

@@ -885,135 +885,153 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<String> createPropertyRequest(
-      AddPropertyModel data,) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = await prefs.getString("token");
-    final _mainHeaders = {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${token ?? token}'
-    };
-    final uri = Uri.parse(RemoteUrls.createPropertyUrl(token!));
-    // debugPrint('create-url $uri');
+  Future<String> createPropertyRequest(AddPropertyModel data) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString("token");
 
-    final result = <String, String>{};
-
-
-    final request = http.MultipartRequest('POST', uri);
-    request.fields.addAll({
-      "title": data.title,
-      "slug": data.title.trim().replaceAll(" ", "-"),
-      "category_id": data.categoryId.toString(),
-      "property_type_id": data.propertyTypeId.toString(),
-      "purpose": data.purpose == "rent" ? "2" :  "1",
-      "bhk_type": data.roomTypeId.toString(),
-      "rent_period": data.rentPeriod.toLowerCase(),
-      "price": data.price,
-      "description": data.description,
-      "total_area": data.totalArea,
-      "total_unit": data.totalUnit,
-      "total_bedroom": data.totalBedroom,
-      "total_bathroom": data.totalBathroom,
-      "total_garage": data.totalGarage,
-      "total_kitchen": data.totalKitchen,
-      "city_id": data.cityId,
-      "state_id": data.stateId,
-      "country_id": "0",
-      "address": data.address,
-      "address_description": "",
-      "google_map": "",
-      "lat": "",
-      "lng": "",
-      // "thumbnail_image": data.thumbNailImage,// File upload (use Postman to upload the file)
-      "video_thumbnail": "", // File upload (use Postman to upload the file)
-      for (var i = 0; i < data.aminities.length; i++) 'aminities[$i]': data.aminities[i],
-      for (var i = 0; i < data.additionalKeys!.length; i++) 'add_keys[$i]': data.additionalKeys![i],
-      for (var i = 0; i < data.additionalValues!.length; i++) 'add_values[$i]': data.additionalValues![i],
-
-      // "1,2,3,4",
-      // "slider_images": , // File upload (use Postman to upload the files)
-      // "nearest_locations": [1, 2],
-      for (var i = 0; i < data.distance.length; i++) 'distances[$i]': data.distance[i],
-      // "distances": jsonEncode(data.distance),
-      for (var i = 0; i < data.nearestLocation.length; i++) 'nearest_locations[$i]': data.nearestLocation[i],
-      // "nearest_locations": jsonEncode(data.nearestLocation),
-      // "add_keys": "",
-      // "add_values": "",
-      "date_form": "",
-      "date_to": "",
-      "time_form": "",
-      "time_to": "",
-      "possession_status": "2"
-    });
-
-    // log('create property map data:', name: '${data.toMap()}');
-
-    request.headers.addAll(_mainHeaders);
-
-    if (data.thumbNailImage.isNotEmpty) {
-      print('thumbnailImage ${data.thumbNailImage}');
-      final thumbImage =
-          await http.MultipartFile.fromPath('thumbnail_image', data.thumbNailImage);
-      request.files.add(thumbImage);
-    }
-
-    // if (data.propertyImageDto.sliderImages.isNotEmpty) {
-    //   for (var i = 0; i < data.propertyImageDto.sliderImages.length; i++) {
-    //     final file = await http.MultipartFile.fromPath(
-    //         'slider_images[$i]', data.propertyImageDto.sliderImages[i].image);
-    //     request.files.add(file);
-    //   }
-    // }
-    if (data.sliderImages.isNotEmpty) {
-      for (File image in data.sliderImages) {
-        debugPrint("Image Path: ${image.path}");
-        request.files.add(await http.MultipartFile.fromPath(
-          'slider_images[]',
-          image.path,
-        ));
+      if (token == null || token.isEmpty) {
+        debugPrint("⚠️ Token is missing!");
+        return "Authorization token missing";
       }
-      // for (var i = 0; i < data.sliderImages.length; i++) {
-      //   final file = await http.MultipartFile.fromPath(
-      //       'slider_images[$i]', data.sliderImages[i].path);
-      //   request.files.add(file);
-      // }
-    }
 
+      final uri = Uri.parse(RemoteUrls.createPropertyUrl(token));
 
+      final request = http.MultipartRequest('POST', uri);
 
+      // **Set Headers**
+      request.headers.addAll({
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
 
+      // **Add Form Fields**
+      request.fields.addAll({
+        "title": data.title,
+        "slug": data.title.trim().replaceAll(" ", "-"),
+        "category_id": data.categoryId.toString(),
+        "property_type_id": data.propertyTypeId.toString(),
+        "purpose": data.purpose == "rent" ? "2" : "1",
+        if(data.roomTypeId.toString().isNotEmpty)
+        "bhk_type": data.roomTypeId.toString().replaceAll("BHK", "").replaceAll("& MORE", "").trim(),
+        if(data.rentPeriod.toString().isNotEmpty)
+        "rent_period": data.rentPeriod.toLowerCase(),
+        "price": data.price,
+        "description": data.description,
+        "total_area": data.totalArea,
+        "total_unit": data.totalUnit,
+        if(data.totalBedroom.toString().isNotEmpty)
+        "total_bedroom": data.totalBedroom.replaceAll("BHK", "").replaceAll("& MORE", "").trim(),
+        if(data.totalBathroom.toString().isNotEmpty)
+        "total_bathroom": data.totalBathroom.toString().trim(),
+        if(data.totalGarage.toString().isNotEmpty)
+        "total_garage": data.totalGarage.toString().trim(),
+        if(data.totalKitchen.toString().isNotEmpty)
+        "total_kitchen": data.totalKitchen.toString().trim(),
+        "city_id": data.cityId.toString().trim(),
+        "state_id": data.stateId.toString().trim(),
+        "country_id": "0",
+        "address": data.address.toString().trim(),
+        // "address_description": "",
+        // "google_map": "",
+        // "lat": "",
+        // "lng": "",
+        // "date_form": "",
+        // "date_to": "",
+        // "time_form": "",
+        // "time_to": "",
+        "possession_status": data.possessionStatus.toString().trim(),
+      });
 
+      // **Attach Lists**
+      for (var i = 0; i < data.aminities.length; i++) {
+        request.fields["aminities[$i]"] = data.aminities[i];
+      }
 
-
-
-    if (data.propertyVideoDto.videoThumbnail.isNotEmpty) {
-      final file = await http.MultipartFile.fromPath(
-          'video_thumbnail', data.propertyVideoDto.videoThumbnail);
-      request.files.add(file);
-    }
-
-    if (data.propertyPlanDto.isNotEmpty) {
-      for (var i = 0; i < data.propertyPlanDto.length; i++) {
-        print("Path ${data.propertyPlanDto[i].planImages}");
-        if (data.propertyPlanDto[i].planImages.isNotEmpty) {
-          final file = await http.MultipartFile.fromPath(
-              'plan_images[$i]', data.propertyPlanDto[i].planImages);
-          request.files.add(file);
+      if (data.additionalKeys != null) {
+        for (var i = 0; i < data.additionalKeys!.length; i++) {
+          request.fields["add_keys[$i]"] = data.additionalKeys![i];
         }
       }
+
+      if (data.additionalValues != null) {
+        for (var i = 0; i < data.additionalValues!.length; i++) {
+          request.fields["add_values[$i]"] = data.additionalValues![i];
+        }
+      }
+
+      for (var i = 0; i < data.distance.length; i++) {
+        request.fields["distances[$i]"] = data.distance[i];
+      }
+
+      for (var i = 0; i < data.nearestLocation.length; i++) {
+        request.fields["nearest_locations[$i]"] = data.nearestLocation[i];
+      }
+
+      // **Attach Thumbnail Image**
+      if (data.thumbNailImage.isNotEmpty) {
+        debugPrint('📷 Thumbnail Image: ${data.thumbNailImage}');
+        request.files.add(await http.MultipartFile.fromPath('thumbnail_image', data.thumbNailImage));
+      }
+
+      // **Attach Slider Images**
+      if (data.sliderImages.isNotEmpty) {
+        for (int i = 0; i < data.sliderImages.length; i++) {
+          debugPrint("📸 Slider Image [$i]: ${data.sliderImages[i].path}");
+          request.files.add(await http.MultipartFile.fromPath('slider_images[$i]', data.sliderImages[i].path));
+        }
+      }
+
+      // **Attach Video Thumbnail**
+      if (data.propertyVideoDto.videoThumbnail.isNotEmpty) {
+        debugPrint("🎥 Video Thumbnail: ${data.propertyVideoDto.videoThumbnail}");
+        request.files.add(await http.MultipartFile.fromPath('video_thumbnail', data.propertyVideoDto.videoThumbnail));
+      }
+
+      // **Attach Property Plan Images**
+      if (data.propertyPlanDto.isNotEmpty) {
+        for (var i = 0; i < data.propertyPlanDto.length; i++) {
+          if (data.propertyPlanDto[i].planImages.isNotEmpty) {
+            debugPrint("🏗️ Property Plan [$i]: ${data.propertyPlanDto[i].planImages}");
+            request.files.add(await http.MultipartFile.fromPath('plan_images[$i]', data.propertyPlanDto[i].planImages));
+          }
+        }
+      }
+
+      // **Logging for Debugging**
+      debugPrint("========== 📝 REQUEST FIELDS ==========");
+      request.fields.forEach((key, value) => debugPrint("$key: $value"));
+
+      debugPrint("========== 🏷️ REQUEST HEADERS ==========");
+      request.headers.forEach((key, value) => debugPrint("$key: $value"));
+
+      debugPrint("========== 📂 REQUEST FILES ==========");
+      for (var file in request.files) {
+        debugPrint("File Field: ${file.field}, Filename: ${file.filename}");
+      }
+
+      // **Send Request**
+      http.StreamedResponse response = await request.send();
+      final clientMethod =  http.Response.fromStream(response);
+
+      debugPrint("========== 📡 RESPONSE STATUS ==========");
+      debugPrint("Status Code: ${response.statusCode}");
+
+      debugPrint("========== 🔍 RESPONSE HEADERS ==========");
+      response.headers.forEach((key, value) => debugPrint("$key: $value"));
+
+      final responseJsonBody = await NetworkParser.callClientWithCatchException(() => clientMethod);
+
+      debugPrint("========== 📜 RESPONSE BODY ==========");
+      debugPrint(responseJsonBody.toString());
+
+      return responseJsonBody['message'] as String;
+    } catch (e) {
+      debugPrint("❌ Error: $e");
+      return "Error: $e";
     }
-
-  log(request.fields.toString(),name: "Data");
-  log(request.files.contains("slider_images[]").toString(),name: "Sliders");
-
-    http.StreamedResponse response = await request.send();
-    final clientMethod = http.Response.fromStream(response);
-
-    final responseJsonBody =
-        await NetworkParser.callClientWithCatchException(() => clientMethod);
-    return responseJsonBody['message'] as String;
   }
+
 
   @override
   Future<String> updatePropertyRequest(
@@ -1045,45 +1063,36 @@ class RemoteDataSourceImp extends RemoteDataSource {
       "slug": data.title.trim().replaceAll(" ", "-"),
       "category_id": data.categoryId.toString(),
       "property_type_id": data.propertyTypeId.toString(),
-      "purpose": data.purpose == "rent" ? "2" :  "1",
-      "bhk_type": data.roomTypeId.toString(),
-      "rent_period": data.rentPeriod.toLowerCase(),
+      "purpose": data.purpose == "rent" ? "2" : "1",
+      if(data.roomTypeId.toString().isNotEmpty)
+        "bhk_type": data.roomTypeId.toString().replaceAll("BHK", "").replaceAll("& MORE", "").trim(),
+      if(data.rentPeriod.toString().isNotEmpty)
+        "rent_period": data.rentPeriod.toLowerCase(),
       "price": data.price,
       "description": data.description,
       "total_area": data.totalArea,
       "total_unit": data.totalUnit,
-      "total_bedroom": data.totalBedroom,
-      "total_bathroom": data.totalBathroom,
-      "total_garage": data.totalGarage,
-      "total_kitchen": data.totalKitchen,
-      "city_id": data.cityId,
-      "state_id": data.stateId,
+      if(data.totalBedroom.toString().isNotEmpty)
+        "total_bedroom": data.totalBedroom.replaceAll("BHK", "").replaceAll("& MORE", "").trim(),
+      if(data.totalBathroom.toString().isNotEmpty)
+        "total_bathroom": data.totalBathroom.toString().trim(),
+      if(data.totalGarage.toString().isNotEmpty)
+        "total_garage": data.totalGarage.toString().trim(),
+      if(data.totalKitchen.toString().isNotEmpty)
+        "total_kitchen": data.totalKitchen.toString().trim(),
+      "city_id": data.cityId.toString().trim(),
+      "state_id": data.stateId.toString().trim(),
       "country_id": "0",
-      "address": data.address,
-      "address_description": "",
-      "google_map": "",
-      "lat": "",
-      "lng": "",
-      // "thumbnail_image": data.thumbNailImage,// File upload (use Postman to upload the file)
-      "video_thumbnail": "", // File upload (use Postman to upload the file)
-      for (var i = 0; i < data.aminities.length; i++) 'aminities[$i]': data.aminities[i],
-      for (var i = 0; i < data.additionalKeys!.length; i++) 'add_keys[$i]': data.additionalKeys![i],
-      for (var i = 0; i < data.additionalValues!.length; i++) 'add_values[$i]': data.additionalValues![i],
-
-      // "1,2,3,4",
-      // "slider_images": , // File upload (use Postman to upload the files)
-      // "nearest_locations": [1, 2],
-      for (var i = 0; i < data.distance.length; i++) 'distances[$i]': data.distance[i],
-      // "distances": jsonEncode(data.distance),
-      for (var i = 0; i < data.nearestLocation.length; i++) 'nearest_locations[$i]': data.nearestLocation[i],
-      // "nearest_locations": jsonEncode(data.nearestLocation),
-      // "add_keys": "",
-      // "add_values": "",
-      "date_form": "",
-      "date_to": "",
-      "time_form": "",
-      "time_to": "",
-      "possession_status": "2"
+      "address": data.address.toString().trim(),
+      // "address_description": "",
+      // "google_map": "",
+      // "lat": "",
+      // "lng": "",
+      // "date_form": "",
+      // "date_to": "",
+      // "time_form": "",
+      // "time_to": "",
+      "possession_status": data.possessionStatus.toString().trim(),
     });
 
     // log('create property map data:', name: '${data.toMap()}');

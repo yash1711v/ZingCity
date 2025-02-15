@@ -260,7 +260,7 @@ class PropertyFeatured {
     isTop = json['is_top'];
     isUrgent = json['is_urgent'];
     status = json['status'];
-    bhkType = json['bhk_type'];
+    bhkType = json['bhk_type'].toString();
     expiredDate = json['expired_date'];
     seoTitle = json['seo_title'];
     seoMetaDescription = json['seo_meta_description'];
@@ -510,7 +510,7 @@ class LatestProperties {
     isTop = json['is_top'];
     isUrgent = json['is_urgent'];
     status = json['status'];
-    bhkType = json['bhk_type'];
+    bhkType = json['bhk_type'].toString();
     expiredDate = json['expired_date'];
     seoTitle = json['seo_title'];
     seoMetaDescription = json['seo_meta_description'];
@@ -764,7 +764,7 @@ class Properties {
     isTop = json['is_top'];
     isUrgent = json['is_urgent'];
     status = json['status'];
-    bhkType = json['bhk_type'];
+    bhkType = json['bhk_type'].toString();
     expiredDate = json['expired_date'];
     seoTitle = json['seo_title'];
     seoMetaDescription = json['seo_meta_description'];
@@ -971,7 +971,7 @@ class Properties {
       isTop: map['is_top'],
       isUrgent: map['is_urgent'],
       status: map['status'],
-      bhkType: map['bhk_type'],
+      bhkType: map['bhk_type'].toString(),
       expiredDate: map['expired_date'],
       seoTitle: map['seo_title'],
       seoMetaDescription: map['seo_meta_description'],

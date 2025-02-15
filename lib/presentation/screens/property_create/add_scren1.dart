@@ -2,10 +2,12 @@
 
 import 'package:chips_choice/chips_choice.dart';
 import 'package:real_estate/presentation/screens/property_create/rent.dart';
+import '../../../data/model/add_property_model.dart' as addProperty;
 import '../../../logic/cubit/add_property/add_property_cubit.dart';
 import '../../../logic/cubit/add_property/add_property_state_model.dart';
 import '../../../state_inject_package_names.dart';
 import '../../router/route_packages_name.dart';
+import 'add_screen2.dart';
 
 class ScreenOne extends StatefulWidget {
   const ScreenOne({super.key});
@@ -51,12 +53,36 @@ class _ScreenOneState extends State<ScreenOne> {
     ),
   ];
 
+  List<addProperty.RoomType> possessionStatus = [
+    addProperty.RoomType(
+        name: "Ready to Move", id: 1, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+    addProperty.RoomType(
+        name: "Within 3 Months", id: 2, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+    addProperty.RoomType(
+        name: "Within 6 Months", id: 3, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+    addProperty.RoomType(
+        name: "Within 12 Months", id: 4, createdAt: DateTime.now(), updatedAt: DateTime.now()),
+  ];
+
+  String possession = "";
+  int? possessionId;
 
 
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if((context.read<AddPropertyCubit>().state.possessionStatus??"").isNotEmpty){
+      possessionStatus.forEach((element) {
+        if(element.id == int.parse(context.read<AddPropertyCubit>().state.possessionStatus??"")){
+          setState(() {
+            possession = element.name ?? "";
+            possessionId = int.parse((context.read<AddPropertyCubit>().state.possessionStatus ?? "").trim());
+          });
+        }
+      });
+    }
   }
 
   
@@ -121,7 +147,62 @@ class _ScreenOneState extends State<ScreenOne> {
                         )),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Possession',
+                        style: TextStyle(
+                          color:
+                          Colors.black.withOpacity(0.699999988079071),
+                          fontSize: 16,
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w300,
+                          height: 0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //
+                const SizedBox(
+                  height: 10,
+                ),
 
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: CustomDropdown(
+                    title: 'Select Possession',
+                    states: possessionStatus,
+                    selectedState: possession.isEmpty ? null : possession,
+                    onChanged: (value) {
+                      setState(() {
+                        possession = value ?? "";
+                        if (value == "Ready to Move") {
+                          possessionId = 1;
+                          context.read<AddPropertyCubit>().changePossessionStatus(possessionId.toString());
+                        }
+                        ;
+                        if (value == "Within 3 Months") {
+                          possessionId = 2;
+                          context.read<AddPropertyCubit>().changePossessionStatus(possessionId.toString());
+                        }
+                        if (value == "Within 6 Months") {
+                          possessionId = 3;
+                          context.read<AddPropertyCubit>().changePossessionStatus(possessionId.toString());
+                        }
+                        if (value == "Within 12 Months") {
+                          possessionId = 4;
+                          context.read<AddPropertyCubit>().changePossessionStatus(possessionId.toString());
+                        }
+                        // cityID = state.staticInfo?.city.indexWhere((element) => element.name == city) ?? 0;
+                      });
+                    },
+                    isRoomType: false,
+                  ),
+                ),
                 state.purpose == "buy"?const SellScreenOne(): const RentScreenOne(),
 
               ],

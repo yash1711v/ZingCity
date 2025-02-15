@@ -31,6 +31,9 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> startLoader()async {
     emit(state.copyWith(isLoading: true));
   }
+  Future<void> emptySearchProperty()async {
+    emit(state.copyWith(searchedProperties: []));
+  }
   Future<void> getHomeData({required String lat, required String long}) async {
     try {
       emit(state.copyWith(isLoading: true)); // Set loading to true
